@@ -34,8 +34,8 @@ import (
 	"github.com/ethereumproject/go-ethereum/core"
 	"github.com/ethereumproject/go-ethereum/core/state"
 	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/eth"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/ed"
+	"github.com/ethereumproject/go-ethereum/eddb"
 	"github.com/ethereumproject/go-ethereum/event"
 	"github.com/ethereumproject/go-ethereum/logger"
 	"github.com/ethereumproject/go-ethereum/logger/glog"
@@ -527,7 +527,7 @@ func MakeWSRpcHost(ctx *cli.Context) string {
 }
 
 // MakeDatabaseHandles raises out the number of allowed file handles per process
-// for Geth and returns half of the allowance to assign to the database.
+// for Ged and returns half of the allowance to assign to the database.
 func MakeDatabaseHandles() int {
 	if err := raiseFdLimit(2048); err != nil {
 		Fatalf("Failed to raise file descriptor allowance: %v", err)
@@ -749,11 +749,11 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		return release.NewReleaseService(ctx, relconf)
 	}); err != nil {
-		Fatalf("Failed to register the Geth release oracle service: %v", err)
+		Fatalf("Failed to register the Ged release oracle service: %v", err)
 	}
 
 	if ctx.GlobalBool(Unused1.Name) {
-		glog.V(logger.Info).Infoln(fmt.Sprintf("Geth started with --%s flag, which is unused by Geth Classic and can be omitted", Unused1.Name))
+		glog.V(logger.Info).Infoln(fmt.Sprintf("Geth started with --%s flag, which is unused by Ged  and can be omitted", Unused1.Name))
 	}
 
 	return stack
@@ -805,7 +805,7 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 
 	separator := strings.Repeat("-", 110)
 	glog.V(logger.Warn).Info(separator)
-	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Geth Classic \x1b[32m%s\x1b[39m", ctx.App.Version))
+	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Ged  \x1b[32m%s\x1b[39m", ctx.App.Version))
 	genesisHash := ""
 	if genesis != nil {
 		genesisHash = genesis.Hash().Hex()
@@ -826,7 +826,7 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 	if ctx.GlobalBool(TestNetFlag.Name) {
 		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[33mEthereum (ETC) Testnet\x1b[39m blockchain!")
 	} else {
-		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[32mEthereum (ETC) Classic\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[32mEthereum (ETC) \x1b[39m blockchain!")
 	}
 	glog.V(logger.Warn).Info(separator)
 	return c

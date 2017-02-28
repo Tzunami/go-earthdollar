@@ -20,7 +20,7 @@ import (
 	"container/list"
 
 	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/eddb"
 	"github.com/ethereumproject/go-ethereum/event"
 )
 

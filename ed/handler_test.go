@@ -26,8 +26,8 @@ import (
 	"github.com/ethereumproject/go-ethereum/core/state"
 	"github.com/ethereumproject/go-ethereum/core/types"
 	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/eth/downloader"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/ed/downloader"
+	"github.com/ethereumproject/go-ethereum/eddb"
 	"github.com/ethereumproject/go-ethereum/p2p"
 	"github.com/ethereumproject/go-ethereum/params"
 )

@@ -25,7 +25,7 @@ import (
 	"gopkg.in/urfave/cli.v1"
 )
 
-// NewRemoteRPCClient returns a RPC client which connects to a running geth instance.
+// NewRemoteRPCClient returns a RPC client which connects to a running ged instance.
 // Depending on the given context this can either be a IPC or a HTTP client.
 func NewRemoteRPCClient(ctx *cli.Context) (rpc.Client, error) {
 	if ctx.Args().Present() {

@@ -31,7 +31,7 @@ var (
 		Name:   "console",
 		Usage:  `Geth Console: interactive JavaScript environment`,
 		Description: `
-The Geth console is an interactive shell for the JavaScript runtime environment
+The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
 See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
 `,
@@ -41,16 +41,16 @@ See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
 		Name:   "attach",
 		Usage:  `Geth Console: interactive JavaScript environment (connect to node)`,
 		Description: `
-The Geth console is an interactive shell for the JavaScript runtime environment
+The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
 See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console.
-This command allows to open a console on a running geth node.
+This command allows to open a console on a running ged node.
 	`,
 	}
 	javascriptCommand = cli.Command{
 		Action: ephemeralConsole,
 		Name:   "js",
-		Usage:  `executes the given JavaScript files in the Geth JavaScript VM`,
+		Usage:  `executes the given JavaScript files in the Ged JavaScript VM`,
 		Description: `
 The JavaScript VM exposes a node admin interface as well as the Ðapp
 JavaScript API. See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
@@ -58,7 +58,7 @@ JavaScript API. See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Conso
 	}
 )
 
-// localConsole starts a new geth node, attaching a JavaScript console to it at the
+// localConsole starts a new ged node, attaching a JavaScript console to it at the
 // same time.
 func localConsole(ctx *cli.Context) error {
 	// Create and start the node based on the CLI flags
@@ -69,7 +69,7 @@ func localConsole(ctx *cli.Context) error {
 	// Attach to the newly started node and start the JavaScript console
 	client, err := node.Attach()
 	if err != nil {
-		utils.Fatalf("Failed to attach to the inproc geth: %v", err)
+		utils.Fatalf("Failed to attach to the inproc ged: %v", err)
 	}
 	config := console.Config{
 		DataDir: node.DataDir(),
@@ -95,13 +95,13 @@ func localConsole(ctx *cli.Context) error {
 	return nil
 }
 
-// remoteConsole will connect to a remote geth instance, attaching a JavaScript
+// remoteConsole will connect to a remote ged instance, attaching a JavaScript
 // console to it.
 func remoteConsole(ctx *cli.Context) error {
-	// Attach to a remotely running geth instance and start the JavaScript console
+	// Attach to a remotely running ged instance and start the JavaScript console
 	client, err := utils.NewRemoteRPCClient(ctx)
 	if err != nil {
-		utils.Fatalf("Unable to attach to remote geth: %v", err)
+		utils.Fatalf("Unable to attach to remote ged: %v", err)
 	}
 	config := console.Config{
 		DataDir: utils.MustMakeDataDir(ctx),
@@ -127,7 +127,7 @@ func remoteConsole(ctx *cli.Context) error {
 	return nil
 }
 
-// ephemeralConsole starts a new geth node, attaches an ephemeral JavaScript
+// ephemeralConsole starts a new ged node, attaches an ephemeral JavaScript
 // console to it, and each of the files specified as arguments and tears the
 // everything down.
 func ephemeralConsole(ctx *cli.Context) error {
@@ -139,7 +139,7 @@ func ephemeralConsole(ctx *cli.Context) error {
 	// Attach to the newly started node and start the JavaScript console
 	client, err := node.Attach()
 	if err != nil {
-		utils.Fatalf("Failed to attach to the inproc geth: %v", err)
+		utils.Fatalf("Failed to attach to the inproc ged: %v", err)
 	}
 	config := console.Config{
 		DataDir: node.DataDir(),

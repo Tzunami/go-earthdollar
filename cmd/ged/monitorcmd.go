@@ -54,7 +54,7 @@ var (
 		Name:   "monitor",
 		Usage:  `Geth Monitor: node metrics monitoring and visualization`,
 		Description: `
-The Geth monitor is a tool to collect and visualize various internal metrics
+The Ged monitor is a tool to collect and visualize various internal metrics
 gathered by the node, supporting different chart types as well as the capacity
 to display multiple metrics simultaneously.
 `,
@@ -75,7 +75,7 @@ func monitor(ctx *cli.Context) error {
 	// Attach to an Ethereum node over IPC or RPC
 	endpoint := ctx.String(monitorCommandAttachFlag.Name)
 	if client, err = utils.NewRemoteRPCClientFromString(endpoint); err != nil {
-		utils.Fatalf("Unable to attach to geth node: %v", err)
+		utils.Fatalf("Unable to attach to ged node: %v", err)
 	}
 	defer client.Close()
 
@@ -92,7 +92,7 @@ func monitor(ctx *cli.Context) error {
 		if len(list) > 0 {
 			utils.Fatalf("No metrics specified.\n\nAvailable:\n - %s", strings.Join(list, "\n - "))
 		} else {
-			utils.Fatalf("No metrics collected by geth (--metrics).\n")
+			utils.Fatalf("No metrics collected by ged (--metrics).\n")
 		}
 	}
 	sort.Strings(monitored)
@@ -157,7 +157,7 @@ func monitor(ctx *cli.Context) error {
 	return nil
 }
 
-// retrieveMetrics contacts the attached geth node and retrieves the entire set
+// retrieveMetrics contacts the attached ged node and retrieves the entire set
 // of collected system metrics.
 func retrieveMetrics(client rpc.Client) (map[string]interface{}, error) {
 	req := map[string]interface{}{

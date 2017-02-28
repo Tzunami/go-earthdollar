@@ -187,8 +187,8 @@ func PrintDevices() {
 				idsFormat += ","
 			}
 		}
-		fmt.Printf("Found %v devices. Benchmark first GPU:       geth gpubench 0\n", len(found))
-		fmt.Printf("Mine using all GPUs:                        geth --minegpu %v\n", idsFormat)
+		fmt.Printf("Found %v devices. Benchmark first GPU:       ged gpubench 0\n", len(found))
+		fmt.Printf("Mine using all GPUs:                        ged --minegpu %v\n", idsFormat)
 	}
 }
 
@@ -197,14 +197,14 @@ func PrintDevices() {
 func InitCL(blockNum uint64, c *OpenCLMiner) error {
 	platforms, err := cl.GetPlatforms()
 	if err != nil {
-		return fmt.Errorf("Plaform error: %v\nCheck your OpenCL installation and then run geth gpuinfo", err)
+		return fmt.Errorf("Plaform error: %v\nCheck your OpenCL installation and then run ged gpuinfo", err)
 	}
 
 	var devices []*cl.Device
 	for _, p := range platforms {
 		ds, err := cl.GetDevices(p, cl.DeviceTypeGPU)
 		if err != nil {
-			return fmt.Errorf("Devices error: %v\nCheck your GPU drivers and then run geth gpuinfo", err)
+			return fmt.Errorf("Devices error: %v\nCheck your GPU drivers and then run ged gpuinfo", err)
 		}
 		for _, d := range ds {
 			devices = append(devices, d)
@@ -221,7 +221,7 @@ func InitCL(blockNum uint64, c *OpenCLMiner) error {
 
 	for _, id := range c.deviceIds {
 		if id > len(devices)-1 {
-			return fmt.Errorf("Device id not found. See available device ids with: geth gpuinfo")
+			return fmt.Errorf("Device id not found. See available device ids with: ged gpuinfo")
 		} else {
 			err := initCLDevice(id, devices[id], c)
 			if err != nil {

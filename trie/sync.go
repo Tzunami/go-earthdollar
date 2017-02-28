@@ -21,7 +21,7 @@ import (
 	"fmt"
 
 	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/eddb"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 

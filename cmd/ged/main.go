@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
-// geth is the official command-line client for Ethereum.
+// ged is the official command-line client for Ethereum.
 package main
 
 import (
@@ -32,8 +32,8 @@ import (
 	"github.com/ethereumproject/go-ethereum/common"
 	"github.com/ethereumproject/go-ethereum/console"
 	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/eth"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/ed"
+	"github.com/ethereumproject/go-ethereum/eddb"
 	"github.com/ethereumproject/go-ethereum/internal/debug"
 	"github.com/ethereumproject/go-ethereum/logger"
 	"github.com/ethereumproject/go-ethereum/logger/glog"
@@ -53,7 +53,7 @@ const (
 	versionMeta      = "unstable" // Version metadata to append to the version string
 
 	// !EPROJECT Replace Oracle or remove point of centralization
-	versionOracle = "0xfa7b9770ca4cb04296cac84f37736d4041251cdf" // Ethereum address of the Geth release oracle
+	versionOracle = "0xfa7b9770ca4cb04296cac84f37736d4041251cdf" // Ethereum address of the Ged release oracle
 )
 
 var (
@@ -82,9 +82,9 @@ func init() {
 	commit, _ := hex.DecodeString(gitCommit)
 	copy(relConfig.Commit[:], commit)
 
-	// Initialize the CLI app and start Geth
+	// Initialize the CLI app and start Ged
 	app = utils.NewApp(verString, "the go-ethereum command line interface")
-	app.Action = geth
+	app.Action = ged
 	app.HideVersion = true // we have a command to print the version
 	app.Commands = []cli.Command{
 		importCommand,
@@ -264,10 +264,10 @@ func makeDefaultExtra() []byte {
 	return extra
 }
 
-// geth is the main entry point into the system if no special subcommand is ran.
+// ged is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
-func geth(ctx *cli.Context) error {
+func ged(ctx *cli.Context) error {
 	node := utils.MakeSystemNode(clientIdentifier, verString, relConfig, makeDefaultExtra(), ctx)
 	startNode(ctx, node)
 	node.Wait()
@@ -333,7 +333,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 func makedag(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
-		utils.Fatalf(`Usage: geth makedag <block number> <outputdir>`)
+		utils.Fatalf(`Usage: ged makedag <block number> <outputdir>`)
 	}
 	switch {
 	case len(args) == 2:
@@ -368,7 +368,7 @@ func gpuinfo(ctx *cli.Context) error {
 func gpubench(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
-		utils.Fatalf(`Usage: geth gpubench <gpu number>`)
+		utils.Fatalf(`Usage: ged gpubench <gpu number>`)
 	}
 	switch {
 	case len(args) == 1:

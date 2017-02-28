@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/eddb"
 )
 
 func TestIterator(t *testing.T) {

@@ -30,7 +30,7 @@ import (
 	"github.com/ethereumproject/go-ethereum/accounts"
 	"github.com/ethereumproject/go-ethereum/common"
 	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/eth"
+	"github.com/ethereumproject/go-ethereum/ed"
 	"github.com/ethereumproject/go-ethereum/node"
 )
 
