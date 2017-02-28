@@ -17,7 +17,7 @@
 // Package bind generates Earthdollar contract Go bindings.
 //
 // Detailed usage document and tutorial available on the go-earthdollar Wiki page:
-// https://github.com/ethereum/go-earthdollar/wiki/Native-DApps:-Go-bindings-to-Earthdollar-contracts
+// https://github.com/Earthdollar/go-earthdollar/wiki/Native-DApps:-Go-bindings-to-Earthdollar-contracts
 package bind
 
 import (

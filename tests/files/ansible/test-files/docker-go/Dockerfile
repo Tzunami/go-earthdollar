@@ -1,4 +1,4 @@
-# Adjusted from https://github.com/ethereum/go-earthdollar/blob/develop/Dockerfile
+# Adjusted from https://github.com/Earthdollar/go-earthdollar/blob/develop/Dockerfile
 FROM ubuntu:14.04
 
 ## Environment setup

@@ -1,4 +1,4 @@
-# adjusted from https://github.com/ethereum/cpp-ethereum/blob/develop/docker/Dockerfile
+# adjusted from https://github.com/Earthdollar/cpp-ethereum/blob/develop/docker/Dockerfile
 FROM ubuntu:14.04
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -10,7 +10,7 @@ RUN apt-get install -qy build-essential g++-4.8 git cmake libboost-all-dev libcu
 RUN apt-get install -qy automake unzip libgmp-dev libtool libleveldb-dev yasm libminiupnpc-dev libreadline-dev scons
 RUN apt-get install -qy libjsoncpp-dev libargtable2-dev
 
-# NCurses based GUI (not optional though for a succesful compilation, see https://github.com/ethereum/cpp-ethereum/issues/452 )
+# NCurses based GUI (not optional though for a succesful compilation, see https://github.com/Earthdollar/cpp-ethereum/issues/452 )
 RUN apt-get install -qy libncurses5-dev
 
 # Qt-based GUI

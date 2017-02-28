@@ -15,7 +15,7 @@
 // along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains the Whisper protocol Envelope element. For formal details please see
-// the specs at https://github.com/ethereum/wiki/wiki/Whisper-PoC-1-Protocol-Spec#envelopes.
+// the specs at https://github.com/Earthdollar/wiki/wiki/Whisper-PoC-1-Protocol-Spec#envelopes.
 
 package whisper
 

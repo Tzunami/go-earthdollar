@@ -4,11 +4,11 @@
 # Ethash
 
 For details on this project, please see the Earthdollar wiki:
-https://github.com/ethereum/wiki/wiki/Ethash
+https://github.com/Earthdollar/wiki/wiki/Ethash
 
 ### Coding Style for C++ code:
 
-Follow the same exact style as in [cpp-ethereum](https://github.com/ethereum/cpp-ethereum/blob/develop/CodingStandards.txt)
+Follow the same exact style as in [cpp-ethereum](https://github.com/Earthdollar/cpp-ethereum/blob/develop/CodingStandards.txt)
 
 ### Coding Style for C code:
 

@@ -9,7 +9,7 @@ before_install:
   # Set up go-earthdollar
   - sudo apt-get update -y -qq
   - sudo apt-get install -yqq libgmp3-dev 
-  - git clone --depth=10 https://github.com/Tzunami/go-earthdollar ${GOPATH}/src/github.com/ethereum/go-earthdollar
+  - git clone --depth=10 https://github.com/Tzunami/go-earthdollar ${GOPATH}/src/github.com/Earthdollar/go-earthdollar
   # use canned dependencies from the go-earthdollar repository
   - export GOPATH=$GOPATH:$GOPATH/src/github.com/Tzunami/go-earthdollar/Godeps/_workspace/
   - echo $GOPATH
