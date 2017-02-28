@@ -1,20 +1,20 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of go-ethereum.
+// Copyright 2014 The go-earthdollar Authors
+// This file is part of go-earthdollar.
 //
-// go-ethereum is free software: you can redistribute it and/or modify
+// go-earthdollar is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-ethereum is distributed in the hope that it will be useful,
+// go-earthdollar is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
-// ethtest executes Ethereum JSON tests.
+// ethtest executes Earthdollar JSON tests.
 package main
 
 import (
@@ -25,9 +25,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/params"
-	"github.com/ethereumproject/go-ethereum/tests"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/params"
+	"github.com/Tzunami/go-earthdollar/tests"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -205,10 +205,10 @@ func main() {
 
 	app := cli.NewApp()
 	app.Name = "ethtest"
-	app.Usage = "go-ethereum test interface"
+	app.Usage = "go-earthdollar test interface"
 	app.Action = setupApp
 	app.Version = "0.2.0"
-	app.Author = "go-ethereum team"
+	app.Author = "go-earthdollar team"
 
 	app.Flags = []cli.Flag{
 		TestFlag,

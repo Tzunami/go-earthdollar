@@ -1,18 +1,18 @@
-// Copyright 2016 The go-ethereum Authors
-// This file is part of go-ethereum.
+// Copyright 2016 The go-earthdollar Authors
+// This file is part of go-earthdollar.
 //
-// go-ethereum is free software: you can redistribute it and/or modify
+// go-earthdollar is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-ethereum is distributed in the hope that it will be useful,
+// go-earthdollar is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -20,8 +20,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/ethereumproject/go-ethereum/cmd/utils"
-	"github.com/ethereumproject/go-ethereum/console"
+	"github.com/Tzunami/go-earthdollar/cmd/utils"
+	"github.com/Tzunami/go-earthdollar/console"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -33,7 +33,7 @@ var (
 		Description: `
 The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
+See https://github.com/ethereum/go-earthdollar/wiki/Javascipt-Console
 `,
 	}
 	attachCommand = cli.Command{
@@ -43,7 +43,7 @@ See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
 		Description: `
 The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console.
+See https://github.com/ethereum/go-earthdollar/wiki/Javascipt-Console.
 This command allows to open a console on a running ged node.
 	`,
 	}
@@ -53,7 +53,7 @@ This command allows to open a console on a running ged node.
 		Usage:  `executes the given JavaScript files in the Ged JavaScript VM`,
 		Description: `
 The JavaScript VM exposes a node admin interface as well as the Ðapp
-JavaScript API. See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
+JavaScript API. See https://github.com/ethereum/go-earthdollar/wiki/Javascipt-Console
 `,
 	}
 )

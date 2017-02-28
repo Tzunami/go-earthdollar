@@ -1,20 +1,20 @@
 # common
 
 [![Build
-Status](https://travis-ci.org/ethereumproject/go-ethereum.png?branch=master)](https://travis-ci.org/ethereum/go-ethereum)
+Status](https://travis-ci.org/Tzunami/go-earthdollar.png?branch=master)](https://travis-ci.org/ethereum/go-earthdollar)
 
 The common package contains the ethereum utility library.
 
 # Installation
 
-As a subdirectory the main go-ethereum repository, you get it with
-`go get github.com/ethereumproject/go-ethereum`.
+As a subdirectory the main go-earthdollar repository, you get it with
+`go get github.com/Tzunami/go-earthdollar`.
 
 # Usage
 
 ## RLP (Recursive Linear Prefix) Encoding
 
-RLP Encoding is an encoding scheme used by the Ethereum project. It
+RLP Encoding is an encoding scheme used by the Earthdollar. It
 encodes any native value or list to a string.
 
 More in depth information about the encoding scheme see the
@@ -32,7 +32,7 @@ fmt.Println(decoded) // => ["dog" "cat"]
 
 ## Patricia Trie
 
-Patricie Tree is a merkle trie used by the Ethereum project.
+Patricie Tree is a merkle trie used by the Earthdollar.
 
 More in depth information about the (modified) Patricia Trie can be
 found on the [Wiki](http://wiki.ethereum.org/index.php/Patricia_Tree).

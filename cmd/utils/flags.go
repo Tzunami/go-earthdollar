@@ -1,18 +1,18 @@
-// Copyright 2015 The go-ethereum Authors
-// This file is part of go-ethereum.
+// Copyright 2015 The go-earthdollar Authors
+// This file is part of go-earthdollar.
 //
-// go-ethereum is free software: you can redistribute it and/or modify
+// go-earthdollar is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-ethereum is distributed in the hope that it will be useful,
+// go-earthdollar is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
 package utils
 
@@ -28,25 +28,25 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ethereumproject/ethash"
-	"github.com/ethereumproject/go-ethereum/accounts"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/ed"
-	"github.com/ethereumproject/go-ethereum/eddb"
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/node"
-	"github.com/ethereumproject/go-ethereum/p2p/discover"
-	"github.com/ethereumproject/go-ethereum/p2p/nat"
-	"github.com/ethereumproject/go-ethereum/params"
-	"github.com/ethereumproject/go-ethereum/pow"
-	"github.com/ethereumproject/go-ethereum/release"
-	"github.com/ethereumproject/go-ethereum/rpc"
-	"github.com/ethereumproject/go-ethereum/whisper"
+	"github.com/Tzunami/ethash"
+	"github.com/Tzunami/go-earthdollar/accounts"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/core/state"
+	"github.com/Tzunami/go-earthdollar/crypto"
+	"github.com/Tzunami/go-earthdollar/ed"
+	"github.com/Tzunami/go-earthdollar/eddb"
+	"github.com/Tzunami/go-earthdollar/event"
+	"github.com/Tzunami/go-earthdollar/logger"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/node"
+	"github.com/Tzunami/go-earthdollar/p2p/discover"
+	"github.com/Tzunami/go-earthdollar/p2p/nat"
+	"github.com/Tzunami/go-earthdollar/params"
+	"github.com/Tzunami/go-earthdollar/pow"
+	"github.com/Tzunami/go-earthdollar/release"
+	"github.com/Tzunami/go-earthdollar/rpc"
+	"github.com/Tzunami/go-earthdollar/whisper"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -661,7 +661,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 		WSOrigins:       ctx.GlobalString(WSAllowedOriginsFlag.Name),
 		WSModules:       MakeRPCModules(ctx.GlobalString(WSApiFlag.Name)),
 	}
-	// Configure the Ethereum service
+	// Configure the Earthdollar service
 	accman := MakeAccountManager(ctx)
 
 	// get enabled jit flag
@@ -721,7 +721,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 		if !ctx.GlobalIsSet(ListenPortFlag.Name) {
 			stackConf.ListenAddr = ":0"
 		}
-		// Override the Ethereum protocol configs
+		// Override the Earthdollar protocol configs
 		ethConf.Genesis = core.OlympicGenesisBlock()
 		if !ctx.GlobalIsSet(GasPriceFlag.Name) {
 			ethConf.GasPrice = new(big.Int)
@@ -739,7 +739,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		return eth.New(ctx, ethConf)
 	}); err != nil {
-		Fatalf("Failed to register the Ethereum service: %v", err)
+		Fatalf("Failed to register the Earthdollar service: %v", err)
 	}
 	if shhEnable {
 		if err := stack.Register(func(*node.ServiceContext) (node.Service, error) { return whisper.New(), nil }); err != nil {
@@ -824,9 +824,9 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 	}
 
 	if ctx.GlobalBool(TestNetFlag.Name) {
-		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[33mEthereum (ETC) Testnet\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[33mEarthdollar (ETC) Testnet\x1b[39m blockchain!")
 	} else {
-		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[32mEthereum (ETC) \x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[32mEarthdollar (ETC) \x1b[39m blockchain!")
 	}
 	glog.V(logger.Warn).Info(separator)
 	return c

@@ -1,5 +1,5 @@
 language: go
-go_import_path: github.com/ethereumproject/go-ethereum
+go_import_path: github.com/Tzunami/go-earthdollar
 
 go:
   - 1.7
@@ -15,5 +15,5 @@ install:
 
 script:
   - godep go test ./...
-  - godep go build -o cmd/geth/geth ./cmd/geth
-  - cd cmd/geth && bats .
+  - godep go build -o cmd/ged/gd ./cmd/ged
+  - cd cmd/ged && bats .

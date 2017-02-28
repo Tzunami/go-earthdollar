@@ -1,18 +1,18 @@
-// Copyright 2015 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright 2015 The go-earthdollar Authors
+// This file is part of the go-earthdollar library.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// The go-earthdollar library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The go-earthdollar library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
 package eth
 
@@ -31,23 +31,23 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereumproject/ethash"
-	"github.com/ethereumproject/go-ethereum/accounts"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/common/compiler"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/eddb"
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/miner"
-	"github.com/ethereumproject/go-ethereum/p2p"
-	"github.com/ethereumproject/go-ethereum/rlp"
-	"github.com/ethereumproject/go-ethereum/rpc"
+	"github.com/Tzunami/ethash"
+	"github.com/Tzunami/go-earthdollar/accounts"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/common/compiler"
+	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/core/state"
+	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/core/vm"
+	"github.com/Tzunami/go-earthdollar/crypto"
+	"github.com/Tzunami/go-earthdollar/eddb"
+	"github.com/Tzunami/go-earthdollar/event"
+	"github.com/Tzunami/go-earthdollar/logger"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/miner"
+	"github.com/Tzunami/go-earthdollar/p2p"
+	"github.com/Tzunami/go-earthdollar/rlp"
+	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/syndtr/goleveldb/leveldb"
 	"golang.org/x/net/context"
 )
@@ -90,28 +90,28 @@ func stateAndBlockByNumber(m *miner.Miner, bc *core.BlockChain, blockNr rpc.Bloc
 	return stateDb, block, err
 }
 
-// PublicEthereumAPI provides an API to access Ethereum related information.
+// PublicEarthdollarAPI provides an API to access Earthdollar related information.
 // It offers only methods that operate on public data that is freely available to anyone.
-type PublicEthereumAPI struct {
-	e   *Ethereum
+type PublicEarthdollarAPI struct {
+	e   *Earthdollar
 	gpo *GasPriceOracle
 }
 
-// NewPublicEthereumAPI creates a new Ethereum protocol API.
-func NewPublicEthereumAPI(e *Ethereum) *PublicEthereumAPI {
-	return &PublicEthereumAPI{
+// NewPublicEarthdollarAPI creates a new Earthdollar protocol API.
+func NewPublicEarthdollarAPI(e *Earthdollar) *PublicEarthdollarAPI {
+	return &PublicEarthdollarAPI{
 		e:   e,
 		gpo: e.gpo,
 	}
 }
 
 // GasPrice returns a suggestion for a gas price.
-func (s *PublicEthereumAPI) GasPrice() *big.Int {
+func (s *PublicEarthdollarAPI) GasPrice() *big.Int {
 	return s.gpo.SuggestPrice()
 }
 
 // GetCompilers returns the collection of available smart contract compilers
-func (s *PublicEthereumAPI) GetCompilers() ([]string, error) {
+func (s *PublicEarthdollarAPI) GetCompilers() ([]string, error) {
 	solc, err := s.e.Solc()
 	if err == nil && solc != nil {
 		return []string{"Solidity"}, nil
@@ -121,7 +121,7 @@ func (s *PublicEthereumAPI) GetCompilers() ([]string, error) {
 }
 
 // CompileSolidity compiles the given solidity source
-func (s *PublicEthereumAPI) CompileSolidity(source string) (map[string]*compiler.Contract, error) {
+func (s *PublicEarthdollarAPI) CompileSolidity(source string) (map[string]*compiler.Contract, error) {
 	solc, err := s.e.Solc()
 	if err != nil {
 		return nil, err
@@ -135,22 +135,22 @@ func (s *PublicEthereumAPI) CompileSolidity(source string) (map[string]*compiler
 }
 
 // Etherbase is the address that mining rewards will be send to
-func (s *PublicEthereumAPI) Etherbase() (common.Address, error) {
+func (s *PublicEarthdollarAPI) Etherbase() (common.Address, error) {
 	return s.e.Etherbase()
 }
 
 // Coinbase is the address that mining rewards will be send to (alias for Etherbase)
-func (s *PublicEthereumAPI) Coinbase() (common.Address, error) {
+func (s *PublicEarthdollarAPI) Coinbase() (common.Address, error) {
 	return s.Etherbase()
 }
 
-// ProtocolVersion returns the current Ethereum protocol version this node supports
-func (s *PublicEthereumAPI) ProtocolVersion() *rpc.HexNumber {
+// ProtocolVersion returns the current Earthdollar protocol version this node supports
+func (s *PublicEarthdollarAPI) ProtocolVersion() *rpc.HexNumber {
 	return rpc.NewHexNumber(s.e.EthVersion())
 }
 
 // Hashrate returns the POW hashrate
-func (s *PublicEthereumAPI) Hashrate() *rpc.HexNumber {
+func (s *PublicEarthdollarAPI) Hashrate() *rpc.HexNumber {
 	return rpc.NewHexNumber(s.e.Miner().HashRate())
 }
 
@@ -161,7 +161,7 @@ func (s *PublicEthereumAPI) Hashrate() *rpc.HexNumber {
 // - highestBlock:  block number of the highest block header this node has received from peers
 // - pulledStates:  number of state entries processed until now
 // - knownStates:   number of known state entries that still need to be pulled
-func (s *PublicEthereumAPI) Syncing() (interface{}, error) {
+func (s *PublicEarthdollarAPI) Syncing() (interface{}, error) {
 	origin, current, height, pulled, known := s.e.Downloader().Progress()
 
 	// Return not syncing if the synchronisation already completed
@@ -181,12 +181,12 @@ func (s *PublicEthereumAPI) Syncing() (interface{}, error) {
 // PublicMinerAPI provides an API to control the miner.
 // It offers only methods that operate on data that pose no security risk when it is publicly accessible.
 type PublicMinerAPI struct {
-	e     *Ethereum
+	e     *Earthdollar
 	agent *miner.RemoteAgent
 }
 
 // NewPublicMinerAPI create a new PublicMinerAPI instance.
-func NewPublicMinerAPI(e *Ethereum) *PublicMinerAPI {
+func NewPublicMinerAPI(e *Earthdollar) *PublicMinerAPI {
 	agent := miner.NewRemoteAgent()
 	e.Miner().Register(agent)
 
@@ -232,11 +232,11 @@ func (s *PublicMinerAPI) SubmitHashrate(hashrate rpc.HexNumber, id common.Hash) 
 // PrivateMinerAPI provides private RPC methods to control the miner.
 // These methods can be abused by external users and must be considered insecure for use by untrusted users.
 type PrivateMinerAPI struct {
-	e *Ethereum
+	e *Earthdollar
 }
 
 // NewPrivateMinerAPI create a new RPC service which controls the miner of this node.
-func NewPrivateMinerAPI(e *Ethereum) *PrivateMinerAPI {
+func NewPrivateMinerAPI(e *Earthdollar) *PrivateMinerAPI {
 	return &PrivateMinerAPI{e: e}
 }
 
@@ -305,11 +305,11 @@ func (s *PrivateMinerAPI) MakeDAG(blockNr rpc.BlockNumber) (bool, error) {
 
 // PublicTxPoolAPI offers and API for the transaction pool. It only operates on data that is non confidential.
 type PublicTxPoolAPI struct {
-	e *Ethereum
+	e *Earthdollar
 }
 
 // NewPublicTxPoolAPI creates a new tx pool service that gives information about the transaction pool.
-func NewPublicTxPoolAPI(e *Ethereum) *PublicTxPoolAPI {
+func NewPublicTxPoolAPI(e *Earthdollar) *PublicTxPoolAPI {
 	return &PublicTxPoolAPI{e}
 }
 
@@ -424,7 +424,7 @@ type PrivateAccountAPI struct {
 }
 
 // NewPrivateAccountAPI create a new PrivateAccountAPI.
-func NewPrivateAccountAPI(e *Ethereum) *PrivateAccountAPI {
+func NewPrivateAccountAPI(e *Earthdollar) *PrivateAccountAPI {
 	return &PrivateAccountAPI{
 		bc:     e.blockchain,
 		am:     e.accountManager,
@@ -515,7 +515,7 @@ func (s *PrivateAccountAPI) SignAndSendTransaction(args SendTxArgs, passwd strin
 	return submitTransaction(s.bc, s.txPool, tx, signature)
 }
 
-// PublicBlockChainAPI provides an API to access the Ethereum blockchain.
+// PublicBlockChainAPI provides an API to access the Earthdollar blockchain.
 // It offers only methods that operate on public data that is freely available to anyone.
 type PublicBlockChainAPI struct {
 	config                  *core.ChainConfig
@@ -948,7 +948,7 @@ type PublicTransactionPoolAPI struct {
 }
 
 // NewPublicTransactionPoolAPI creates a new RPC service with methods specific for the transaction pool.
-func NewPublicTransactionPoolAPI(e *Ethereum) *PublicTransactionPoolAPI {
+func NewPublicTransactionPoolAPI(e *Earthdollar) *PublicTransactionPoolAPI {
 	api := &PublicTransactionPoolAPI{
 		eventMux:      e.eventMux,
 		gpo:           e.gpo,
@@ -1504,12 +1504,12 @@ func (s *PublicTransactionPoolAPI) Resend(tx Tx, gasPrice, gasLimit *rpc.HexNumb
 // PrivateAdminAPI is the collection of Etheruem APIs exposed over the private
 // admin endpoint.
 type PrivateAdminAPI struct {
-	eth *Ethereum
+	eth *Earthdollar
 }
 
 // NewPrivateAdminAPI creates a new API definition for the private admin methods
-// of the Ethereum service.
-func NewPrivateAdminAPI(eth *Ethereum) *PrivateAdminAPI {
+// of the Earthdollar service.
+func NewPrivateAdminAPI(eth *Earthdollar) *PrivateAdminAPI {
 	return &PrivateAdminAPI{eth: eth}
 }
 
@@ -1593,12 +1593,12 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 // PublicDebugAPI is the collection of Etheruem APIs exposed over the public
 // debugging endpoint.
 type PublicDebugAPI struct {
-	eth *Ethereum
+	eth *Earthdollar
 }
 
 // NewPublicDebugAPI creates a new API definition for the public debug methods
-// of the Ethereum service.
-func NewPublicDebugAPI(eth *Ethereum) *PublicDebugAPI {
+// of the Earthdollar service.
+func NewPublicDebugAPI(eth *Earthdollar) *PublicDebugAPI {
 	return &PublicDebugAPI{eth: eth}
 }
 
@@ -1654,12 +1654,12 @@ func (api *PublicDebugAPI) SeedHash(number uint64) (string, error) {
 // debugging endpoint.
 type PrivateDebugAPI struct {
 	config *core.ChainConfig
-	eth    *Ethereum
+	eth    *Earthdollar
 }
 
 // NewPrivateDebugAPI creates a new API definition for the private debug methods
-// of the Ethereum service.
-func NewPrivateDebugAPI(config *core.ChainConfig, eth *Ethereum) *PrivateDebugAPI {
+// of the Earthdollar service.
+func NewPrivateDebugAPI(config *core.ChainConfig, eth *Earthdollar) *PrivateDebugAPI {
 	return &PrivateDebugAPI{config: config, eth: eth}
 }
 

@@ -3,8 +3,8 @@ package core
 import (
 	"math/big"
 
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/params"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/params"
 )
 
 type Fork struct {
@@ -13,7 +13,7 @@ type Fork struct {
 	Support      bool
 	NetworkSplit bool
 	// Block is the block number where the hard-fork commences on
-	// the Ethereum network.
+	// the Earthdollar network.
 	Block *big.Int
 	// Length of fork, if limited
 	Length *big.Int

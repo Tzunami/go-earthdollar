@@ -1,20 +1,20 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright 2014 The go-earthdollar Authors
+// This file is part of the go-earthdollar library.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// The go-earthdollar library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The go-earthdollar library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package eth implements the Ethereum protocol.
+// Package eth implements the Earthdollar protocol.
 package eth
 
 import (
@@ -28,26 +28,26 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereumproject/ethash"
-	"github.com/ethereumproject/go-ethereum/accounts"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/common/compiler"
-	"github.com/ethereumproject/go-ethereum/common/httpclient"
-	"github.com/ethereumproject/go-ethereum/common/registrar/ethreg"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/ed/downloader"
-	"github.com/ethereumproject/go-ethereum/ed/filters"
-	"github.com/ethereumproject/go-ethereum/eddb"
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/miner"
-	"github.com/ethereumproject/go-ethereum/node"
-	"github.com/ethereumproject/go-ethereum/p2p"
-	"github.com/ethereumproject/go-ethereum/rlp"
-	"github.com/ethereumproject/go-ethereum/rpc"
+	"github.com/Tzunami/ethash"
+	"github.com/Tzunami/go-earthdollar/accounts"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/common/compiler"
+	"github.com/Tzunami/go-earthdollar/common/httpclient"
+	"github.com/Tzunami/go-earthdollar/common/registrar/ethreg"
+	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/core/vm"
+	"github.com/Tzunami/go-earthdollar/ed/downloader"
+	"github.com/Tzunami/go-earthdollar/ed/filters"
+	"github.com/Tzunami/go-earthdollar/eddb"
+	"github.com/Tzunami/go-earthdollar/event"
+	"github.com/Tzunami/go-earthdollar/logger"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/miner"
+	"github.com/Tzunami/go-earthdollar/node"
+	"github.com/Tzunami/go-earthdollar/p2p"
+	"github.com/Tzunami/go-earthdollar/rlp"
+	"github.com/Tzunami/go-earthdollar/rpc"
 )
 
 const (
@@ -97,7 +97,7 @@ type Config struct {
 	TestGenesisState ethdb.Database // Genesis state to seed the database with (testing only!)
 }
 
-type Ethereum struct {
+type Earthdollar struct {
 	chainConfig *core.ChainConfig
 	// Channel for shutting down the ethereum
 	shutdownChan chan bool
@@ -140,7 +140,7 @@ type Ethereum struct {
 	netRPCService *PublicNetAPI
 }
 
-func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
+func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	// Open the chain database and perform any upgrades needed
 	chainDb, err := ctx.OpenDatabase("chaindata", config.DatabaseCache, config.DatabaseHandles)
 	if err != nil {
@@ -188,7 +188,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 	}
 	glog.V(logger.Info).Infof("Blockchain DB Version: %d", config.BlockChainVersion)
 
-	eth := &Ethereum{
+	eth := &Earthdollar{
 		shutdownChan:            make(chan bool),
 		chainDb:                 chainDb,
 		dappDb:                  dappDb,
@@ -269,12 +269,12 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 
 // APIs returns the collection of RPC services the ethereum package offers.
 // NOTE, some of these services probably need to be moved to somewhere else.
-func (s *Ethereum) APIs() []rpc.API {
+func (s *Earthdollar) APIs() []rpc.API {
 	return []rpc.API{
 		{
 			Namespace: "eth",
 			Version:   "1.0",
-			Service:   NewPublicEthereumAPI(s),
+			Service:   NewPublicEarthdollarAPI(s),
 			Public:    true,
 		}, {
 			Namespace: "eth",
@@ -347,11 +347,11 @@ func (s *Ethereum) APIs() []rpc.API {
 	}
 }
 
-func (s *Ethereum) ResetWithGenesisBlock(gb *types.Block) {
+func (s *Earthdollar) ResetWithGenesisBlock(gb *types.Block) {
 	s.blockchain.ResetWithGenesisBlock(gb)
 }
 
-func (s *Ethereum) Etherbase() (eb common.Address, err error) {
+func (s *Earthdollar) Etherbase() (eb common.Address, err error) {
 	eb = s.etherbase
 	if (eb == common.Address{}) {
 		firstAccount, err := s.AccountManager().AccountByIndex(0)
@@ -364,35 +364,35 @@ func (s *Ethereum) Etherbase() (eb common.Address, err error) {
 }
 
 // set in js console via admin interface or wrapper from cli flags
-func (self *Ethereum) SetEtherbase(etherbase common.Address) {
+func (self *Earthdollar) SetEtherbase(etherbase common.Address) {
 	self.etherbase = etherbase
 	self.miner.SetEtherbase(etherbase)
 }
 
-func (s *Ethereum) StopMining()         { s.miner.Stop() }
-func (s *Ethereum) IsMining() bool      { return s.miner.Mining() }
-func (s *Ethereum) Miner() *miner.Miner { return s.miner }
+func (s *Earthdollar) StopMining()         { s.miner.Stop() }
+func (s *Earthdollar) IsMining() bool      { return s.miner.Mining() }
+func (s *Earthdollar) Miner() *miner.Miner { return s.miner }
 
-func (s *Ethereum) AccountManager() *accounts.Manager  { return s.accountManager }
-func (s *Ethereum) BlockChain() *core.BlockChain       { return s.blockchain }
-func (s *Ethereum) TxPool() *core.TxPool               { return s.txPool }
-func (s *Ethereum) EventMux() *event.TypeMux           { return s.eventMux }
-func (s *Ethereum) ChainDb() ethdb.Database            { return s.chainDb }
-func (s *Ethereum) DappDb() ethdb.Database             { return s.dappDb }
-func (s *Ethereum) IsListening() bool                  { return true } // Always listening
-func (s *Ethereum) EthVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
-func (s *Ethereum) NetVersion() int                    { return s.netVersionId }
-func (s *Ethereum) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
+func (s *Earthdollar) AccountManager() *accounts.Manager  { return s.accountManager }
+func (s *Earthdollar) BlockChain() *core.BlockChain       { return s.blockchain }
+func (s *Earthdollar) TxPool() *core.TxPool               { return s.txPool }
+func (s *Earthdollar) EventMux() *event.TypeMux           { return s.eventMux }
+func (s *Earthdollar) ChainDb() ethdb.Database            { return s.chainDb }
+func (s *Earthdollar) DappDb() ethdb.Database             { return s.dappDb }
+func (s *Earthdollar) IsListening() bool                  { return true } // Always listening
+func (s *Earthdollar) EthVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
+func (s *Earthdollar) NetVersion() int                    { return s.netVersionId }
+func (s *Earthdollar) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
 
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
-func (s *Ethereum) Protocols() []p2p.Protocol {
+func (s *Earthdollar) Protocols() []p2p.Protocol {
 	return s.protocolManager.SubProtocols
 }
 
 // Start implements node.Service, starting all internal goroutines needed by the
-// Ethereum protocol implementation.
-func (s *Ethereum) Start(srvr *p2p.Server) error {
+// Earthdollar protocol implementation.
+func (s *Earthdollar) Start(srvr *p2p.Server) error {
 	if s.AutoDAG {
 		s.StartAutoDAG()
 	}
@@ -402,8 +402,8 @@ func (s *Ethereum) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines used by the
-// Ethereum protocol.
-func (s *Ethereum) Stop() error {
+// Earthdollar protocol.
+func (s *Earthdollar) Stop() error {
 	s.blockchain.Stop()
 	s.protocolManager.Stop()
 	s.txPool.Stop()
@@ -420,7 +420,7 @@ func (s *Ethereum) Stop() error {
 }
 
 // This function will wait for a shutdown and resumes main thread execution
-func (s *Ethereum) WaitForShutdown() {
+func (s *Earthdollar) WaitForShutdown() {
 	<-s.shutdownChan
 }
 
@@ -433,7 +433,7 @@ func (s *Ethereum) WaitForShutdown() {
 // stop any number of times.
 // For any more sophisticated pattern of DAG generation, use CLI subcommand
 // makedag
-func (self *Ethereum) StartAutoDAG() {
+func (self *Earthdollar) StartAutoDAG() {
 	if self.autodagquit != nil {
 		return // already started
 	}
@@ -479,7 +479,7 @@ func (self *Ethereum) StartAutoDAG() {
 }
 
 // stopAutoDAG stops automatic DAG pregeneration by quitting the loop
-func (self *Ethereum) StopAutoDAG() {
+func (self *Earthdollar) StopAutoDAG() {
 	if self.autodagquit != nil {
 		close(self.autodagquit)
 		self.autodagquit = nil
@@ -489,11 +489,11 @@ func (self *Ethereum) StopAutoDAG() {
 
 // HTTPClient returns the light http client used for fetching offchain docs
 // (natspec, source for verification)
-func (self *Ethereum) HTTPClient() *httpclient.HTTPClient {
+func (self *Earthdollar) HTTPClient() *httpclient.HTTPClient {
 	return self.httpclient
 }
 
-func (self *Ethereum) Solc() (*compiler.Solidity, error) {
+func (self *Earthdollar) Solc() (*compiler.Solidity, error) {
 	var err error
 	if self.solc == nil {
 		self.solc, err = compiler.New(self.SolcPath)
@@ -502,7 +502,7 @@ func (self *Ethereum) Solc() (*compiler.Solidity, error) {
 }
 
 // set in js console via admin interface or wrapper from cli flags
-func (self *Ethereum) SetSolc(solcPath string) (*compiler.Solidity, error) {
+func (self *Earthdollar) SetSolc(solcPath string) (*compiler.Solidity, error) {
 	self.SolcPath = solcPath
 	self.solc = nil
 	return self.Solc()

@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"bytes"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/crypto"
 )
 
 func TestChainId(t *testing.T) {

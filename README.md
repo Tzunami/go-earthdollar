@@ -1,16 +1,16 @@
-[![Build Status](https://travis-ci.org/ethereumproject/go-ethereum.svg?branch=master)](https://travis-ci.org/ethereumproject/go-ethereum)
+[![Build Status](https://travis-ci.org/Tzunami/go-earthdollar.svg?branch=master)](https://travis-ci.org/Tzunami/go-earthdollar)
 [![API Reference](https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
-)](https://godoc.org/github.com/ethereumproject/go-ethereum)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ethereumproject/go-ethereum?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Download](https://api.bintray.com/packages/ethereumproject/GoEthereum/go-ethereum/images/download.svg)](https://bintray.com/ethereumproject/GoEthereum/go-ethereum/_latestVersion)
+)](https://godoc.org/github.com/Tzunami/go-earthdollar)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Tzunami/go-earthdollar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Download](https://api.bintray.com/packages/ethereumproject/GoEarthdollar/go-earthdollar/images/download.svg)](https://bintray.com/ethereumproject/GoEarthdollar/go-earthdollar/_latestVersion)
 
-## Ethereum Go (Ethereum  Blockchain)
+## Earthdollar Go (Earthdollar  Blockchain)
 
-Official golang implementation of the Ethereum protocol supporting the
+Official golang implementation of the Earthdollar protocol supporting the
 original chain. A version which can **honestly** offer both a censorship
 resistant and unstoppable application platform for developers.
 
-This is a project migrated from the now hard forked Ethereum (ETHF) github project, we
+This is a project migrated from the now hard forked Earthdollar (ETHF) github project, we
 will need to slowly migrate pieces of the infrastructure required to
 maintain the project. We will apply all upstream patches unrelated to the DAO HF while organizing
 development.
@@ -26,28 +26,28 @@ To install the full suite of utilities run `godep go install ./cmd/...`.
 
 ## Executables
 
-The go-ethereum project comes with several wrappers/executables found in the `cmd` directory.
+The go-earthdollar project comes with several wrappers/executables found in the `cmd` directory.
 
 | Command    | Description |
 |:----------:|-------------|
-| **`geth`** | Our main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as an gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. Please see our [Command Line Options](https://github.com/ethereumproject/go-ethereum/wiki/Command-Line-Options) wiki page for details. |
-| `abigen` | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com/ethereumproject/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/ethereumproject/go-ethereum/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts) wiki page for details. |
-| `bootnode` | Stripped down version of our Ethereum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
-| `disasm` | Bytecode disassembler to convert EVM (Ethereum Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Ethereum Yellow Paper](http://gavwood.com/paper.pdf). |
-| `evm` | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gethrpctest` | Developer utility tool to support our [ethereum/rpc-test](https://github.com/ethereumproject/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com/ethereumproject/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/ethereumproject/rpc-tests/blob/master/README.md) for details. |
-| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/ethereumproject/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
+| **`ged`** | Our main Earthdollar CLI client. It is the entry point into the Earthdollar network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as an gateway into the Earthdollar network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. Please see our [Command Line Options](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options) wiki page for details. |
+| `abigen` | Source code generator to convert Earthdollar contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Earthdollar contract ABIs](https://github.com/Tzunami/wiki/wiki/Earthdollar-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps:-Go-bindings-to-Earthdollar-contracts) wiki page for details. |
+| `bootnode` | Stripped down version of our Earthdollar client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
+| `disasm` | Bytecode disassembler to convert EVM (Earthdollar Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Earthdollar Yellow Paper](http://gavwood.com/paper.pdf). |
+| `evm` | Developer utility version of the EVM (Earthdollar Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
+| `gethrpctest` | Developer utility tool to support our [ethereum/rpc-test](https://github.com/Tzunami/rpc-tests) test suite which validates baseline conformity to the [Earthdollar JSON RPC](https://github.com/Tzunami/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/Tzunami/rpc-tests/blob/master/README.md) for details. |
+| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/Tzunami/wiki/wiki/RLP)) dumps (data encoding used by the Earthdollar protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 
 ## Running ged
 
 Going through all the possible command line flags is out of scope here (please consult our
-[CLI Wiki page](https://github.com/ethereumproject/go-ethereum/wiki/Command-Line-Options)), but we've
+[CLI Wiki page](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options)), but we've
 enumerated a few common parameter combos to get you up to speed quickly on how you can run your
 own Ged instance.
 
-### Full node on the main Ethereum network
+### Full node on the main Earthdollar network
 
-By far the most common scenario is people wanting to simply interact with the Ethereum network:
+By far the most common scenario is people wanting to simply interact with the Earthdollar network:
 create accounts; transfer funds; deploy and interact with contracts. For this particular use-case
 the user doesn't care about years-old historical data, so we can fast-sync quickly to the current
 state of the network. To do so:
@@ -59,19 +59,19 @@ $ ged --fast --cache=512 console
 This command will:
 
  * Start ged in fast sync mode (`--fast`), causing it to download more data in exchange for avoiding
-   processing the entire history of the Ethereum network, which is very CPU intensive.
+   processing the entire history of the Earthdollar network, which is very CPU intensive.
  * Bump the memory allowance of the database to 512MB (`--cache=512`), which can help significantly in
    sync times especially for HDD users. This flag is optional and you can set it as high or as low as
    you'd like, though we'd recommend the 512MB - 2GB range.
- * Start up Ged's built-in interactive [JavaScript console](https://github.com/ethereumproject/go-ethereum/wiki/JavaScript-Console),
-   (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/ethereumproject/wiki/wiki/JavaScript-API)
-   as well as Ged's own [management APIs](https://github.com/ethereumproject/go-ethereum/wiki/Management-APIs).
+ * Start up Ged's built-in interactive [JavaScript console](https://github.com/Tzunami/go-earthdollar/wiki/JavaScript-Console),
+   (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/Tzunami/wiki/wiki/JavaScript-API)
+   as well as Ged's own [management APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs).
    This too is optional and if you leave it out you can always attach to an already running Ged instance
-   with `geth --attach`.
+   with `ged --attach`.
 
-### Full node on the Ethereum test network
+### Full node on the Earthdollar test network
 
-Transitioning towards developers, if you'd like to play around with creating Ethereum contracts, you
+Transitioning towards developers, if you'd like to play around with creating Earthdollar contracts, you
 almost certainly would like to do that without any real money involved until you get the hang of the
 entire system. In other words, instead of attaching to the main network, you want to join the **test**
 network with your node, which is fully equivalent to the main network, but with play-Ether only.
@@ -88,7 +88,7 @@ Specifying the `--testnet` flag however will reconfigure your Ged instance a bit
 
  * Instead of using the default data directory (`~/.ethereum` on Linux for example), Ged will nest
    itself one level deeper into a `testnet` subfolder (`~/.ethereum/testnet` on Linux).
- * Instead of connecting the main Ethereum network, the client will connect to the test network,
+ * Instead of connecting the main Earthdollar network, the client will connect to the test network,
    which uses different P2P bootnodes, different network IDs and genesis states.
 
 *Note: Although there are some internal protective measures to prevent transactions from crossing
@@ -99,10 +99,10 @@ them.*
 
 ### Programatically interfacing Ged nodes
 
-As a developer, sooner rather than later you'll want to start interacting with Ged and the Ethereum
+As a developer, sooner rather than later you'll want to start interacting with Ged and the Earthdollar
 network via your own programs and not manually through the console. To aid this, Ged has built in
-support for a JSON-RPC based APIs ([standard APIs](https://github.com/ethereumproject/wiki/wiki/JSON-RPC) and
-[Geth specific APIs](https://github.com/ethereumproject/go-ethereum/wiki/Management-APIs)). These can be
+support for a JSON-RPC based APIs ([standard APIs](https://github.com/Tzunami/wiki/wiki/JSON-RPC) and
+[Ged specific APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs)). These can be
 exposed via HTTP, WebSockets and IPC (unix sockets on unix based platroms, and named pipes on Windows).
 
 The IPC interface is enabled by default and exposes all the APIs supported by Ged, whereas the HTTP
@@ -130,7 +130,7 @@ via HTTP, WS or IPC to a Ged node configured with the above flags and you'll nee
 on all transports. You can reuse the same connection for multiple requests!
 
 **Note: Please understand the security implications of opening up an HTTP/WS based transport before
-doing so! Hackers on the internet are actively trying to subvert Ethereum nodes with exposed APIs!
+doing so! Hackers on the internet are actively trying to subvert Earthdollar nodes with exposed APIs!
 Further, all browser tabs can access locally running webservers, so malicious webpages could try to
 subvert locally available APIs!**
 
@@ -188,7 +188,7 @@ $ bootnode --genkey=boot.key
 $ bootnode --nodekey=boot.key
 ```
 
-With the bootnode online, it will display an [`enode` URL](https://github.com/ethereumproject/wiki/wiki/enode-url-format)
+With the bootnode online, it will display an [`enode` URL](https://github.com/Tzunami/wiki/wiki/enode-url-format)
 that other nodes can use to connect to it and exchange peer information. Make sure to replace the
 displayed IP address information (most probably `[::]`) with your externally accessible IP to get the
 actual `enode` URL.
@@ -211,7 +211,7 @@ need to configure a miner to process transactions and create new blocks for you.
 
 #### Running a private miner
 
-Mining on the public Ethereum network is a complex task as it's only feasible using GPUs, requiring
+Mining on the public Earthdollar network is a complex task as it's only feasible using GPUs, requiring
 an OpenCL or CUDA enabled `ethminer` instance. For information on such a setup, please consult the
 [EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp-ethereum)
 repository.
@@ -234,9 +234,9 @@ limit blocks converge to (`--targetgaslimit`) and the price transactions are acc
 Thank you for considering to help out with the source code! We welcome contributions from
 anyone on the internet, and are grateful for even the smallest of fixes!
 
-If you'd like to contribute to go-ethereum, please fork, fix, commit and send a pull request
+If you'd like to contribute to go-earthdollar, please fork, fix, commit and send a pull request
 for the maintainers to review and merge into the main code base. If you wish to submit more
-complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/ethereumproject/go-ethereum)
+complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/Tzunami/go-earthdollar)
 to ensure those changes are in line with the general philosophy of the project and/or get some
 early feedback which can make both your efforts much lighter as well as our review and merge
 procedures quick and simple.
@@ -249,15 +249,15 @@ Please make sure your contributions adhere to our coding guidelines:
  * Commit messages should be prefixed with the package(s) they modify.
    * E.g. "eth, rpc: make trace configs optional"
 
-Please see the [Developers' Guide](https://github.com/ethereumproject/go-ethereum/wiki/Developers'-Guide)
+Please see the [Developers' Guide](https://github.com/Tzunami/go-earthdollar/wiki/Developers'-Guide)
 for more details on configuring your environment, managing project dependencies and testing procedures.
 
 ## License
 
-The go-ethereum library (i.e. all code outside of the `cmd` directory) is licensed under the
+The go-earthdollar library (i.e. all code outside of the `cmd` directory) is licensed under the
 [GNU Lesser General Public License v3.0](http://www.gnu.org/licenses/lgpl-3.0.en.html), also
 included in our repository in the `COPYING.LESSER` file.
 
-The go-ethereum binaries (i.e. all code inside of the `cmd` directory) is licensed under the
+The go-earthdollar binaries (i.e. all code inside of the `cmd` directory) is licensed under the
 [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.en.html), also included
 in our repository in the `COPYING` file.

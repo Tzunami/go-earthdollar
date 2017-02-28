@@ -1,48 +1,48 @@
-// Copyright 2016 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright 2016 The go-earthdollar Authors
+// This file is part of the go-earthdollar library.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// The go-earthdollar library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The go-earthdollar library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
 package eth
 
 import (
 	"math/big"
 
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/rlp"
-	"github.com/ethereumproject/go-ethereum/rpc"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/rlp"
+	"github.com/Tzunami/go-earthdollar/rpc"
 )
 
-// ContractBackend implements bind.ContractBackend with direct calls to Ethereum
+// ContractBackend implements bind.ContractBackend with direct calls to Earthdollar
 // internals to support operating on contracts within subprotocols like eth and
 // swarm.
 //
-// Internally this backend uses the already exposed API endpoints of the Ethereum
+// Internally this backend uses the already exposed API endpoints of the Earthdollar
 // object. These should be rewritten to internal Go method calls when the Go API
 // is refactored to support a clean library use.
 type ContractBackend struct {
-	eapi  *PublicEthereumAPI        // Wrapper around the Ethereum object to access metadata
+	eapi  *PublicEarthdollarAPI        // Wrapper around the Earthdollar object to access metadata
 	bcapi *PublicBlockChainAPI      // Wrapper around the blockchain to access chain data
 	txapi *PublicTransactionPoolAPI // Wrapper around the transaction pool to access transaction data
 }
 
 // NewContractBackend creates a new native contract backend using an existing
 // Etheruem object.
-func NewContractBackend(eth *Ethereum) *ContractBackend {
+func NewContractBackend(eth *Earthdollar) *ContractBackend {
 	return &ContractBackend{
-		eapi:  NewPublicEthereumAPI(eth),
+		eapi:  NewPublicEarthdollarAPI(eth),
 		bcapi: NewPublicBlockChainAPI(eth.chainConfig, eth.blockchain, eth.miner, eth.chainDb, eth.gpo, eth.eventMux, eth.accountManager),
 		txapi: NewPublicTransactionPoolAPI(eth),
 	}
@@ -59,7 +59,7 @@ func (b *ContractBackend) HasCode(contract common.Address, pending bool) (bool, 
 	return len(common.FromHex(out)) > 0, err
 }
 
-// ContractCall implements bind.ContractCaller executing an Ethereum contract
+// ContractCall implements bind.ContractCaller executing an Earthdollar contract
 // call with the specified data as the input. The pending flag requests execution
 // against the pending block, not the stable head of the chain.
 func (b *ContractBackend) ContractCall(contract common.Address, data []byte, pending bool) ([]byte, error) {

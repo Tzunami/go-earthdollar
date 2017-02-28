@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/ethereumproject/go-ethereum",
+	"ImportPath": "github.com/Tzunami/go-earthdollar",
 	"GoVersion": "go1.5.2",
 	"GodepVersion": "v74",
 	"Packages": [
@@ -7,7 +7,7 @@
 	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/ethereumproject/ethash",
+			"ImportPath": "github.com/Tzunami/ethash",
 			"Comment": "v23.1-245",
 			"Rev": "56e22dd57264931727e9a9a098bec1e45938b0b6"
 		},

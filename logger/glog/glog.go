@@ -122,8 +122,8 @@ var severityName = []string{
 // these path prefixes are trimmed for display, but not when
 // matching vmodule filters.
 var trimPrefixes = []string{
-	"/github.com/ethereumproject/go-ethereum",
-	"/github.com/ethereumproject/ethash",
+	"/github.com/Tzunami/go-earthdollar",
+	"/github.com/Tzunami/ethash",
 }
 
 func trimToImportPath(file string) string {

@@ -1,20 +1,20 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of go-ethereum.
+// Copyright 2014 The go-earthdollar Authors
+// This file is part of go-earthdollar.
 //
-// go-ethereum is free software: you can redistribute it and/or modify
+// go-earthdollar is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-ethereum is distributed in the hope that it will be useful,
+// go-earthdollar is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
-// ged is the official command-line client for Ethereum.
+// ged is the official command-line client for Earthdollar.
 package main
 
 import (
@@ -27,33 +27,33 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ethereumproject/ethash"
-	"github.com/ethereumproject/go-ethereum/cmd/utils"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/console"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/ed"
-	"github.com/ethereumproject/go-ethereum/eddb"
-	"github.com/ethereumproject/go-ethereum/internal/debug"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/metrics"
-	"github.com/ethereumproject/go-ethereum/node"
-	"github.com/ethereumproject/go-ethereum/params"
-	"github.com/ethereumproject/go-ethereum/release"
-	"github.com/ethereumproject/go-ethereum/rlp"
+	"github.com/Tzunami/ethash"
+	"github.com/Tzunami/go-earthdollar/cmd/utils"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/console"
+	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/ed"
+	"github.com/Tzunami/go-earthdollar/eddb"
+	"github.com/Tzunami/go-earthdollar/internal/debug"
+	"github.com/Tzunami/go-earthdollar/logger"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/metrics"
+	"github.com/Tzunami/go-earthdollar/node"
+	"github.com/Tzunami/go-earthdollar/params"
+	"github.com/Tzunami/go-earthdollar/release"
+	"github.com/Tzunami/go-earthdollar/rlp"
 	"gopkg.in/urfave/cli.v1"
 )
 
 const (
-	clientIdentifier = "Geth"     // Client identifier to advertise over the network
+	clientIdentifier = "Ged"     // Client identifier to advertise over the network
 	versionMajor     = 3          // Major version component of the current release
 	versionMinor     = 2          // Minor version component of the current release
 	versionPatch     = 3          // Patch version component of the current release
 	versionMeta      = "unstable" // Version metadata to append to the version string
 
 	// !EPROJECT Replace Oracle or remove point of centralization
-	versionOracle = "0xfa7b9770ca4cb04296cac84f37736d4041251cdf" // Ethereum address of the Ged release oracle
+	versionOracle = "0xfa7b9770ca4cb04296cac84f37736d4041251cdf" // Earthdollar address of the Ged release oracle
 )
 
 var (
@@ -83,7 +83,7 @@ func init() {
 	copy(relConfig.Commit[:], commit)
 
 	// Initialize the CLI app and start Ged
-	app = utils.NewApp(verString, "the go-ethereum command line interface")
+	app = utils.NewApp(verString, "the go-earthdollar command line interface")
 	app.Action = ged
 	app.HideVersion = true // we have a command to print the version
 	app.Commands = []cli.Command{
@@ -309,7 +309,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	utils.StartNode(stack)
 
 	// Unlock any account specifically requested
-	var ethereum *eth.Ethereum
+	var ethereum *eth.Earthdollar
 	if err := stack.Service(&ethereum); err != nil {
 		utils.Fatalf("ethereum service not running: %v", err)
 	}

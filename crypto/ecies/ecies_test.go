@@ -42,7 +42,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereumproject/go-ethereum/crypto/secp256k1"
+	"github.com/Tzunami/go-earthdollar/crypto/secp256k1"
 )
 
 var dumpEnc bool

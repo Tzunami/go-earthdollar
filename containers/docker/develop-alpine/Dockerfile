@@ -2,12 +2,12 @@ FROM alpine:3.3
 
 RUN \
   apk add --update go git make gcc musl-dev                && \
-  git clone https://github.com/ethereumproject/go-ethereum && \
-  (cd go-ethereum && git checkout develop)                 && \
-  (cd go-ethereum && make ged)                            && \
-  cp go-ethereum/build/bin/geth /geth                      && \
+  git clone https://github.com/Tzunami/go-earthdollar && \
+  (cd go-earthdollar && git checkout develop)                 && \
+  (cd go-earthdollar && make ged)                            && \
+  cp go-earthdollar/build/bin/geth /geth                      && \
   apk del go git make gcc musl-dev                         && \
-  rm -rf /go-ethereum && rm -rf /var/cache/apk/*
+  rm -rf /go-earthdollar && rm -rf /var/cache/apk/*
 
 EXPOSE 8811
 EXPOSE 20203
