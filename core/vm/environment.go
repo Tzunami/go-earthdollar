@@ -117,7 +117,7 @@ type Database interface {
 	Exist(common.Address) bool
 }
 
-// Account represents a contract or basic ethereum account.
+// Account represents a contract or basic earthdollar account.
 type Account interface {
 	SubBalance(amount *big.Int)
 	AddBalance(amount *big.Int)

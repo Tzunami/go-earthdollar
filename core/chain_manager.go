@@ -33,7 +33,7 @@ import (
  * TODO: move this to another package.
  */
 
-// MakeChainConfig returns a new ChainConfig with the ethereum default chain settings.
+// MakeChainConfig returns a new ChainConfig with the earthdollar default chain settings.
 func MakeChainConfig() *ChainConfig {
 	return &ChainConfig{
 		Forks: []*Fork{

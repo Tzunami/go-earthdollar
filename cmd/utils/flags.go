@@ -713,7 +713,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 	case ctx.GlobalBool(DevModeFlag.Name):
 		// Override the base network stack configs
 		if !ctx.GlobalIsSet(DataDirFlag.Name) {
-			stackConf.DataDir = filepath.Join(os.TempDir(), "/ethereum_dev_mode")
+			stackConf.DataDir = filepath.Join(os.TempDir(), "/earthdollar_dev_mode")
 		}
 		if !ctx.GlobalIsSet(MaxPeersFlag.Name) {
 			stackConf.MaxPeers = 0

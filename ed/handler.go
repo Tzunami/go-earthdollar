@@ -87,8 +87,8 @@ type ProtocolManager struct {
 	badBlockReportingEnabled bool
 }
 
-// NewProtocolManager returns a new ethereum sub protocol manager. The Earthdollar sub protocol manages peers capable
-// with the ethereum network.
+// NewProtocolManager returns a new earthdollar sub protocol manager. The Earthdollar sub protocol manages peers capable
+// with the earthdollar network.
 func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, mux *event.TypeMux, txpool txPool, pow pow.PoW, blockchain *core.BlockChain, chaindb ethdb.Database) (*ProtocolManager, error) {
 	// Create the protocol manager with the base fields
 	manager := &ProtocolManager{
@@ -216,7 +216,7 @@ func (pm *ProtocolManager) Start() {
 }
 
 func (pm *ProtocolManager) Stop() {
-	glog.V(logger.Info).Infoln("Stopping ethereum protocol handler...")
+	glog.V(logger.Info).Infoln("Stopping earthdollar protocol handler...")
 
 	pm.txSub.Unsubscribe()         // quits txBroadcastLoop
 	pm.minedBlockSub.Unsubscribe() // quits blockBroadcastLoop

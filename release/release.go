@@ -57,12 +57,12 @@ type ReleaseService struct {
 // releases and notify the user of such.
 func NewReleaseService(ctx *node.ServiceContext, config Config) (node.Service, error) {
 	// Retrieve the Earthdollar service dependency to access the blockchain
-	var ethereum *eth.Earthdollar
-	if err := ctx.Service(&ethereum); err != nil {
+	var earthdollar *eth.Earthdollar
+	if err := ctx.Service(&earthdollar); err != nil {
 		return nil, err
 	}
 	// Construct the release service
-	contract, err := NewReleaseOracle(config.Oracle, eth.NewContractBackend(ethereum))
+	contract, err := NewReleaseOracle(config.Oracle, eth.NewContractBackend(earthdollar))
 	if err != nil {
 		return nil, err
 	}

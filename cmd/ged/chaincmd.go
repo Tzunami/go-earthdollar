@@ -66,7 +66,7 @@ if already existing.
 		Usage:  `dump a specific block from storage`,
 		Description: `
 The arguments are interpreted as block numbers or hashes.
-Use "ethereum dump 0" to dump the genesis block.
+Use "earthdollar dump 0" to dump the genesis block.
 `,
 	}
 )

@@ -60,7 +60,7 @@ import (
   References mentioned in code comments:
 
   1. https://github.com/Earthdollar/wiki/wiki/Ethash
-  2. https://github.com/Earthdollar/cpp-ethereum/blob/develop/libethash-cl/ethash_cl_miner.cpp
+  2. https://github.com/Earthdollar/cpp-earthdollar/blob/develop/libethash-cl/ethash_cl_miner.cpp
   3. https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/
   4. http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_OpenCL_Programming_User_Guide.pdf
 

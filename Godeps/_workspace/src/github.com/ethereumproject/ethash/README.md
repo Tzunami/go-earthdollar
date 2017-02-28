@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ethereumproject/ethash.svg?branch=master)](https://travis-ci.org/ethereumproject/ethash)
+[![Build Status](https://travis-ci.org/earthdollarproject/ethash.svg?branch=master)](https://travis-ci.org/earthdollarproject/ethash)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/debris/ethash?branch=master&svg=true)](https://ci.appveyor.com/project/debris/ethash-nr37r/branch/master)
 
 # Ethash
@@ -8,7 +8,7 @@ https://github.com/Earthdollar/wiki/wiki/Ethash
 
 ### Coding Style for C++ code:
 
-Follow the same exact style as in [cpp-ethereum](https://github.com/Earthdollar/cpp-ethereum/blob/develop/CodingStandards.txt)
+Follow the same exact style as in [cpp-earthdollar](https://github.com/Earthdollar/cpp-earthdollar/blob/develop/CodingStandards.txt)
 
 ### Coding Style for C code:
 

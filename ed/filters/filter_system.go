@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
-// package filters implements an ethereum filtering system for block,
+// package filters implements an earthdollar filtering system for block,
 // transactions and log events.
 package filters
 
@@ -138,7 +138,7 @@ func (fs *FilterSystem) Get(id int) *Filter {
 	return fs.generic[id]
 }
 
-// filterLoop waits for specific events from ethereum and fires their handlers
+// filterLoop waits for specific events from earthdollar and fires their handlers
 // when the filter matches the requirements.
 func (fs *FilterSystem) filterLoop() {
 	for event := range fs.sub.Chan() {

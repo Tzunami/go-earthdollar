@@ -1,9 +1,9 @@
 # common
 
 [![Build
-Status](https://travis-ci.org/Tzunami/go-earthdollar.png?branch=master)](https://travis-ci.org/ethereum/go-earthdollar)
+Status](https://travis-ci.org/Tzunami/go-earthdollar.png?branch=master)](https://travis-ci.org/earthdollar/go-earthdollar)
 
-The common package contains the ethereum utility library.
+The common package contains the earthdollar utility library.
 
 # Installation
 
@@ -18,7 +18,7 @@ RLP Encoding is an encoding scheme used by the Earthdollar. It
 encodes any native value or list to a string.
 
 More in depth information about the encoding scheme see the
-[Wiki](http://wiki.ethereum.org/index.php/RLP) article.
+[Wiki](http://wiki.earthdollar.org/index.php/RLP) article.
 
 ```go
 rlp := common.Encode("doge")
@@ -35,7 +35,7 @@ fmt.Println(decoded) // => ["dog" "cat"]
 Patricie Tree is a merkle trie used by the Earthdollar.
 
 More in depth information about the (modified) Patricia Trie can be
-found on the [Wiki](http://wiki.ethereum.org/index.php/Patricia_Tree).
+found on the [Wiki](http://wiki.earthdollar.org/index.php/Patricia_Tree).
 
 The patricia trie uses a db as backend and could be anything as long as
 it satisfies the Database interface found in `common/db.go`.

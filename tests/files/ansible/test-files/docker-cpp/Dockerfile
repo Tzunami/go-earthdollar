@@ -1,4 +1,4 @@
-# adjusted from https://github.com/Earthdollar/cpp-ethereum/blob/develop/docker/Dockerfile
+# adjusted from https://github.com/Earthdollar/cpp-earthdollar/blob/develop/docker/Dockerfile
 FROM ubuntu:14.04
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -10,7 +10,7 @@ RUN apt-get install -qy build-essential g++-4.8 git cmake libboost-all-dev libcu
 RUN apt-get install -qy automake unzip libgmp-dev libtool libleveldb-dev yasm libminiupnpc-dev libreadline-dev scons
 RUN apt-get install -qy libjsoncpp-dev libargtable2-dev
 
-# NCurses based GUI (not optional though for a succesful compilation, see https://github.com/Earthdollar/cpp-ethereum/issues/452 )
+# NCurses based GUI (not optional though for a succesful compilation, see https://github.com/Earthdollar/cpp-earthdollar/issues/452 )
 RUN apt-get install -qy libncurses5-dev
 
 # Qt-based GUI
@@ -19,15 +19,15 @@ RUN apt-get install -qy libncurses5-dev
 # !EPROJECT A new PPA will be necessary
 # Earthdollar PPA
 RUN apt-get install -qy software-properties-common
-RUN add-apt-repository ppa:ethereum/ethereum
+RUN add-apt-repository ppa:earthdollar/earthdollar
 RUN apt-get update
 RUN apt-get install -qy libcryptopp-dev libjson-rpc-cpp-dev
 
 # Build Earthdollar (HEADLESS)
-RUN git clone --depth=1 --branch develop https://github.com/Tzunami/cpp-ethereum
-RUN mkdir -p cpp-ethereum/build
-RUN cd cpp-ethereum/build && cmake .. -DCMAKE_BUILD_TYPE=Release -DHEADLESS=1 && make -j $(cat /proc/cpuinfo | grep processor | wc -l) && make install
+RUN git clone --depth=1 --branch develop https://github.com/Tzunami/cpp-earthdollar
+RUN mkdir -p cpp-earthdollar/build
+RUN cd cpp-earthdollar/build && cmake .. -DCMAKE_BUILD_TYPE=Release -DHEADLESS=1 && make -j $(cat /proc/cpuinfo | grep processor | wc -l) && make install
 RUN ldconfig
 
-ENTRYPOINT ["/cpp-ethereum/build/test/createRandomTest"]
+ENTRYPOINT ["/cpp-earthdollar/build/test/createRandomTest"]
 

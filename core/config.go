@@ -136,7 +136,7 @@ func (c *ChainConfig) LoadForkConfig() {
 	c.BadHashes = []*BadHash{
 		{
 			// consensus issue that occurred on the Frontier network at block 116,522, mined on 2015-08-20 at 14:59:16+02:00
-			// https://blog.ethereum.org/2015/08/20/security-alert-consensus-issue
+			// https://blog.earthdollar.org/2015/08/20/security-alert-consensus-issue
 			Block: big.NewInt(116522),
 			Hash:  common.HexToHash("05bef30ef572270f654746da22639a7a0c97dd97a7050b9e252391996aaeb689"),
 		},
@@ -148,7 +148,7 @@ func (c *ChainConfig) LoadTestnetConfig() {
 	c.BadHashes = []*BadHash{
 		{
 			// consensus issue at Testnet #383792
-			// http://ethereum.stackexchange.com/questions/10183/upgraded-to-geth-1-5-0-bad-block-383792
+			// http://earthdollar.stackexchange.com/questions/10183/upgraded-to-geth-1-5-0-bad-block-383792
 			Block: big.NewInt(383792),
 			Hash:  common.HexToHash("9690db54968a760704d99b8118bf79d565711669cefad24b51b5b1013d827808"),
 		},

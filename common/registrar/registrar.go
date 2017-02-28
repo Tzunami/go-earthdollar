@@ -30,7 +30,7 @@ import (
 
 /*
 Registrar implements the Earthdollar name registrar services mapping
-- arbitrary strings to ethereum addresses
+- arbitrary strings to earthdollar addresses
 - hashes to hashes
 - hashes to arbitrary strings
 (likely will provide lookup service for all three)

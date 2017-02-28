@@ -1996,7 +1996,7 @@ func (s *PublicNetAPI) PeerCount() *rpc.HexNumber {
 	return rpc.NewHexNumber(s.net.PeerCount())
 }
 
-// Version returns the current ethereum protocol version.
+// Version returns the current earthdollar protocol version.
 func (s *PublicNetAPI) Version() string {
 	return fmt.Sprintf("%d", s.networkVersion)
 }

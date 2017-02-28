@@ -91,7 +91,7 @@ func NewHeaderChain(chainDb ethdb.Database, config *ChainConfig, getValidator ge
 		if err != nil {
 			return nil, err
 		}
-		glog.V(logger.Info).Infoln("WARNING: Wrote default ethereum genesis block")
+		glog.V(logger.Info).Infoln("WARNING: Wrote default earthdollar genesis block")
 		hc.genesisHeader = genesisBlock.Header()
 	}
 

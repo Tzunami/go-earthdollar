@@ -3,7 +3,7 @@ package ethash
 /*  DO NOT EDIT!!!
 
     This code is version controlled at
-    https://github.com/Earthdollar/cpp-ethereum/blob/develop/libethash-cl/ethash_cl_miner_kernel.cl
+    https://github.com/Earthdollar/cpp-earthdollar/blob/develop/libethash-cl/ethash_cl_miner_kernel.cl
 
     If needed change it there first, then copy over here.
 */
