@@ -134,14 +134,14 @@ func (s *PublicEarthdollarAPI) CompileSolidity(source string) (map[string]*compi
 	return solc.Compile(source)
 }
 
-// Etherbase is the address that mining rewards will be send to
-func (s *PublicEarthdollarAPI) Etherbase() (common.Address, error) {
-	return s.e.Etherbase()
+// Earthbase is the address that mining rewards will be send to
+func (s *PublicEarthdollarAPI) Earthbase() (common.Address, error) {
+	return s.e.Earthbase()
 }
 
-// Coinbase is the address that mining rewards will be send to (alias for Etherbase)
+// Coinbase is the address that mining rewards will be send to (alias for Earthbase)
 func (s *PublicEarthdollarAPI) Coinbase() (common.Address, error) {
-	return s.Etherbase()
+	return s.Earthbase()
 }
 
 // ProtocolVersion returns the current Earthdollar protocol version this node supports
@@ -276,9 +276,9 @@ func (s *PrivateMinerAPI) SetGasPrice(gasPrice rpc.HexNumber) bool {
 	return true
 }
 
-// SetEtherbase sets the etherbase of the miner
-func (s *PrivateMinerAPI) SetEtherbase(etherbase common.Address) bool {
-	s.e.SetEtherbase(etherbase)
+// SetEarthbase sets the earthbase of the miner
+func (s *PrivateMinerAPI) SetEarthbase(earthbase common.Address) bool {
+	s.e.SetEarthbase(earthbase)
 	return true
 }
 
@@ -367,9 +367,9 @@ func (s *PublicTxPoolAPI) Inspect() map[string]map[string]map[string][]string {
 	// Define a formatter to flatten a transaction into a string
 	var format = func(tx *types.Transaction) string {
 		if to := tx.To(); to != nil {
-			return fmt.Sprintf("%s: %v wei + %v × %v gas", tx.To().Hex(), tx.Value(), tx.Gas(), tx.GasPrice())
+			return fmt.Sprintf("%s: %v seed + %v × %v gas", tx.To().Hex(), tx.Value(), tx.Gas(), tx.GasPrice())
 		}
-		return fmt.Sprintf("contract creation: %v wei + %v × %v gas", tx.Value(), tx.Gas(), tx.GasPrice())
+		return fmt.Sprintf("contract creation: %v seed + %v × %v gas", tx.Value(), tx.Gas(), tx.GasPrice())
 	}
 	// Flatten the pending transactions
 	for account, batches := range pending {
@@ -568,7 +568,7 @@ func (s *PublicBlockChainAPI) BlockNumber() *big.Int {
 	return s.bc.CurrentHeader().Number
 }
 
-// GetBalance returns the amount of wei for the given address in the state of the
+// GetBalance returns the amount of seed for the given address in the state of the
 // given block number. The rpc.LatestBlockNumber and rpc.PendingBlockNumber meta
 // block numbers are also allowed.
 func (s *PublicBlockChainAPI) GetBalance(address common.Address, blockNr rpc.BlockNumber) (*big.Int, error) {

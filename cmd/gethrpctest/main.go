@@ -97,10 +97,10 @@ func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node
 		IPCPath:     node.DefaultIPCEndpoint(),
 		HTTPHost:    common.DefaultHTTPHost,
 		HTTPPort:    common.DefaultHTTPPort,
-		HTTPModules: []string{"admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3"},
+		HTTPModules: []string{"admin", "db", "ed", "debug", "miner", "net", "shh", "txpool", "personal", "web3"},
 		WSHost:      common.DefaultWSHost,
 		WSPort:      common.DefaultWSPort,
-		WSModules:   []string{"admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3"},
+		WSModules:   []string{"admin", "db", "ed", "debug", "miner", "net", "shh", "txpool", "personal", "web3"},
 		NoDiscovery: true,
 	})
 	if err != nil {

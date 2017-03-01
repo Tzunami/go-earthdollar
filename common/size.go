@@ -42,12 +42,12 @@ var (
 	Douglas  = BigPow(10, 42)
 	Einstein = BigPow(10, 21)
 	Ether    = BigPow(10, 18)
-	Finney   = BigPow(10, 15)
-	Szabo    = BigPow(10, 12)
+	Kam   = BigPow(10, 15)
+	Rajpal    = BigPow(10, 12)
 	Shannon  = BigPow(10, 9)
 	Babbage  = BigPow(10, 6)
 	Ada      = BigPow(10, 3)
-	Wei      = big.NewInt(1)
+	Seed      = big.NewInt(1)
 )
 
 //
@@ -56,19 +56,19 @@ var (
 func CurrencyToString(num *big.Int) string {
 	var (
 		fin   *big.Int = num
-		denom string   = "Wei"
+		denom string   = "Seed"
 	)
 
 	switch {
 	case num.Cmp(Ether) >= 0:
 		fin = new(big.Int).Div(num, Ether)
 		denom = "Ether"
-	case num.Cmp(Finney) >= 0:
-		fin = new(big.Int).Div(num, Finney)
-		denom = "Finney"
-	case num.Cmp(Szabo) >= 0:
-		fin = new(big.Int).Div(num, Szabo)
-		denom = "Szabo"
+	case num.Cmp(Kam) >= 0:
+		fin = new(big.Int).Div(num, Kam)
+		denom = "Kam"
+	case num.Cmp(Rajpal) >= 0:
+		fin = new(big.Int).Div(num, Rajpal)
+		denom = "Rajpal"
 	case num.Cmp(Shannon) >= 0:
 		fin = new(big.Int).Div(num, Shannon)
 		denom = "Shannon"

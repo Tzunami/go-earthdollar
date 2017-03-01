@@ -183,8 +183,8 @@ var (
 		Name:  "autodag",
 		Usage: "Enable automatic DAG pregeneration",
 	}
-	EtherbaseFlag = cli.StringFlag{
-		Name:  "etherbase",
+	EarthbaseFlag = cli.StringFlag{
+		Name:  "earthbase",
 		Usage: "Public address for block mining rewards (default = first account created)",
 		Value: "0",
 	}
@@ -580,22 +580,22 @@ func MakeAddress(accman *accounts.Manager, account string) (accounts.Account, er
 	return accman.AccountByIndex(index)
 }
 
-// MakeEtherbase retrieves the etherbase either from the directly specified
+// MakeEarthbase retrieves the earthbase either from the directly specified
 // command line flags or from the keystore if CLI indexed.
-func MakeEtherbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
+func MakeEarthbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
 	accounts := accman.Accounts()
-	if !ctx.GlobalIsSet(EtherbaseFlag.Name) && len(accounts) == 0 {
-		glog.V(logger.Error).Infoln("WARNING: No etherbase set and no accounts found as default")
+	if !ctx.GlobalIsSet(EarthbaseFlag.Name) && len(accounts) == 0 {
+		glog.V(logger.Error).Infoln("WARNING: No earthbase set and no accounts found as default")
 		return common.Address{}
 	}
-	etherbase := ctx.GlobalString(EtherbaseFlag.Name)
-	if etherbase == "" {
+	earthbase := ctx.GlobalString(EarthbaseFlag.Name)
+	if earthbase == "" {
 		return common.Address{}
 	}
-	// If the specified etherbase is a valid address, return it
-	account, err := MakeAddress(accman, etherbase)
+	// If the specified earthbase is a valid address, return it
+	account, err := MakeAddress(accman, earthbase)
 	if err != nil {
-		Fatalf("Option %q: %v", EtherbaseFlag.Name, err)
+		Fatalf("Option %q: %v", EarthbaseFlag.Name, err)
 	}
 	return account.Address
 }
@@ -675,7 +675,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 		DatabaseHandles:         MakeDatabaseHandles(),
 		NetworkId:               ctx.GlobalInt(NetworkIdFlag.Name),
 		AccountManager:          accman,
-		Etherbase:               MakeEtherbase(accman, ctx),
+		Earthbase:               MakeEarthbase(accman, ctx),
 		MinerThreads:            ctx.GlobalInt(MinerThreadsFlag.Name),
 		ExtraData:               MakeMinerExtra(extra, ctx),
 		NatSpec:                 ctx.GlobalBool(NatspecEnabledFlag.Name),

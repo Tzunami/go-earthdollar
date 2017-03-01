@@ -34,9 +34,9 @@ import (
 )
 
 func (s *Earthdollar) StartMining(threads int, gpus string) error {
-	eb, err := s.Etherbase()
+	eb, err := s.Earthbase()
 	if err != nil {
-		err = fmt.Errorf("Cannot start mining without etherbase address: %v", err)
+		err = fmt.Errorf("Cannot start mining without earthbase address: %v", err)
 		glog.V(logger.Error).Infoln(err)
 		return err
 	}

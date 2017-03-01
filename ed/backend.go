@@ -78,7 +78,7 @@ type Config struct {
 	ExtraData []byte
 
 	AccountManager *accounts.Manager
-	Etherbase      common.Address
+	Earthbase      common.Address
 	GasPrice       *big.Int
 	MinerThreads   int
 	SolcPath       string
@@ -135,7 +135,7 @@ type Earthdollar struct {
 	AutoDAG       bool
 	PowTest       bool
 	autodagquit   chan bool
-	etherbase     common.Address
+	earthbase     common.Address
 	netVersionId  int
 	netRPCService *PublicNetAPI
 }
@@ -194,7 +194,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 		dappDb:                  dappDb,
 		eventMux:                ctx.EventMux,
 		accountManager:          config.AccountManager,
-		etherbase:               config.Etherbase,
+		earthbase:               config.Earthbase,
 		netVersionId:            config.NetworkId,
 		NatSpec:                 config.NatSpec,
 		MinerThreads:            config.MinerThreads,
@@ -351,22 +351,22 @@ func (s *Earthdollar) ResetWithGenesisBlock(gb *types.Block) {
 	s.blockchain.ResetWithGenesisBlock(gb)
 }
 
-func (s *Earthdollar) Etherbase() (eb common.Address, err error) {
-	eb = s.etherbase
+func (s *Earthdollar) Earthbase() (eb common.Address, err error) {
+	eb = s.earthbase
 	if (eb == common.Address{}) {
 		firstAccount, err := s.AccountManager().AccountByIndex(0)
 		eb = firstAccount.Address
 		if err != nil {
-			return eb, fmt.Errorf("etherbase address must be explicitly specified")
+			return eb, fmt.Errorf("earthbase address must be explicitly specified")
 		}
 	}
 	return eb, nil
 }
 
 // set in js console via admin interface or wrapper from cli flags
-func (self *Earthdollar) SetEtherbase(etherbase common.Address) {
-	self.etherbase = etherbase
-	self.miner.SetEtherbase(etherbase)
+func (self *Earthdollar) SetEarthbase(earthbase common.Address) {
+	self.earthbase = earthbase
+	self.miner.SetEarthbase(earthbase)
 }
 
 func (s *Earthdollar) StopMining()         { s.miner.Stop() }

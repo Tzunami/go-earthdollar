@@ -296,7 +296,7 @@ func testGetNodeData(t *testing.T, protocol int) {
 			tx, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(10000), params.TxGas, nil, nil).SignECDSA(testBankKey)
 			block.AddTx(tx)
 		case 1:
-			// In block 2, the test bank sends some more ether to account #1.
+			// In block 2, the test bank sends some more tree to account #1.
 			// acc1Addr passes it on to account #2.
 			tx1, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(testBankKey)
 			tx2, _ := types.NewTransaction(block.TxNonce(acc1Addr), acc2Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(acc1Key)
@@ -387,7 +387,7 @@ func testGetReceipt(t *testing.T, protocol int) {
 			tx, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(10000), params.TxGas, nil, nil).SignECDSA(testBankKey)
 			block.AddTx(tx)
 		case 1:
-			// In block 2, the test bank sends some more ether to account #1.
+			// In block 2, the test bank sends some more tree to account #1.
 			// acc1Addr passes it on to account #2.
 			tx1, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(testBankKey)
 			tx2, _ := types.NewTransaction(block.TxNonce(acc1Addr), acc2Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(acc1Key)

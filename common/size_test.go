@@ -42,18 +42,18 @@ func (s *SizeSuite) TestStorageSizeString(c *checker.C) {
 
 func (s *SizeSuite) TestCommon(c *checker.C) {
 	ether := CurrencyToString(BigPow(10, 19))
-	finney := CurrencyToString(BigPow(10, 16))
-	szabo := CurrencyToString(BigPow(10, 13))
+	kam := CurrencyToString(BigPow(10, 16))
+	rajpal := CurrencyToString(BigPow(10, 13))
 	shannon := CurrencyToString(BigPow(10, 10))
 	babbage := CurrencyToString(BigPow(10, 7))
 	ada := CurrencyToString(BigPow(10, 4))
-	wei := CurrencyToString(big.NewInt(10))
+	seed := CurrencyToString(big.NewInt(10))
 
 	c.Assert(ether, checker.Equals, "10 Ether")
-	c.Assert(finney, checker.Equals, "10 Finney")
-	c.Assert(szabo, checker.Equals, "10 Szabo")
+	c.Assert(kam, checker.Equals, "10 Kam")
+	c.Assert(rajpal, checker.Equals, "10 Rajpal")
 	c.Assert(shannon, checker.Equals, "10 Shannon")
 	c.Assert(babbage, checker.Equals, "10 Babbage")
 	c.Assert(ada, checker.Equals, "10 Ada")
-	c.Assert(wei, checker.Equals, "10 Wei")
+	c.Assert(seed, checker.Equals, "10 Seed")
 }

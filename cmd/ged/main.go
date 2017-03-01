@@ -161,7 +161,7 @@ participating.
 		utils.ListenPortFlag,
 		utils.MaxPeersFlag,
 		utils.MaxPendingPeersFlag,
-		utils.EtherbaseFlag,
+		utils.EarthbaseFlag,
 		utils.GasPriceFlag,
 		utils.MinerThreadsFlag,
 		utils.MiningEnabledFlag,

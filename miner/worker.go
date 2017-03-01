@@ -149,7 +149,7 @@ func newWorker(config *core.ChainConfig, coinbase common.Address, eth core.Backe
 	return worker
 }
 
-func (self *worker) setEtherbase(addr common.Address) {
+func (self *worker) setEarthbase(addr common.Address) {
 	self.mu.Lock()
 	defer self.mu.Unlock()
 	self.coinbase = addr

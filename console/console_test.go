@@ -100,7 +100,7 @@ func newTester(t *testing.T, confOverride func(*eth.Config)) *tester {
 	}
 	ethConf := &eth.Config{
 		ChainConfig:    core.NewChainConfig(),
-		Etherbase:      common.HexToAddress(testAddress),
+		Earthbase:      common.HexToAddress(testAddress),
 		AccountManager: accman,
 		PowTest:        true,
 	}

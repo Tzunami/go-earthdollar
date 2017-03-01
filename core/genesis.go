@@ -119,7 +119,7 @@ func WriteGenesisBlock(chainDb ethdb.Database, reader io.Reader) (*types.Block, 
 	return block, nil
 }
 
-// GenesisBlockForTesting creates a block in which addr has the given wei balance.
+// GenesisBlockForTesting creates a block in which addr has the given seed balance.
 // The state trie of the block is written to db. the passed db needs to contain a state root
 func GenesisBlockForTesting(db ethdb.Database, addr common.Address, balance *big.Int) *types.Block {
 	statedb, _ := state.New(common.Hash{}, db)

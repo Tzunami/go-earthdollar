@@ -20,7 +20,7 @@ package web3ext
 var Modules = map[string]string{
 	"admin":    Admin_JS,
 	"debug":    Debug_JS,
-	"eth":      Eth_JS,
+	"ed":       Eth_JS,
 	"miner":    Miner_JS,
 	"net":      Net_JS,
 	"personal": Personal_JS,
@@ -371,8 +371,8 @@ web3._extend({
 			call: 'miner_stop'
 		}),
 		new web3._extend.Method({
-			name: 'setEtherbase',
-			call: 'miner_setEtherbase',
+			name: 'setEarthbase',
+			call: 'miner_setEarthbase',
 			params: 1,
 			inputFormatter: [web3._extend.formatters.inputAddressFormatter]
 		}),
