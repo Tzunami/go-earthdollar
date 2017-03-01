@@ -1826,7 +1826,7 @@ var ETH_UNITS = [
     'ether',
     'grand',
     'Mether',
-    'Gether',
+    'Geder',
     'Tether',
     'Pether',
     'Eether',

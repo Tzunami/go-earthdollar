@@ -753,7 +753,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 	}
 
 	if ctx.GlobalBool(Unused1.Name) {
-		glog.V(logger.Info).Infoln(fmt.Sprintf("Geth started with --%s flag, which is unused by Ged  and can be omitted", Unused1.Name))
+		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged started with --%s flag, which is unused by Ged  and can be omitted", Unused1.Name))
 	}
 
 	return stack
@@ -824,9 +824,9 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 	}
 
 	if ctx.GlobalBool(TestNetFlag.Name) {
-		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[33mEarthdollar (ETC) Testnet\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar (ETC) Testnet\x1b[39m blockchain!")
 	} else {
-		glog.V(logger.Warn).Info("Geth is configured to use the \x1b[32mEarthdollar (ETC) \x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEarthdollar (ETC) \x1b[39m blockchain!")
 	}
 	glog.V(logger.Warn).Info(separator)
 	return c

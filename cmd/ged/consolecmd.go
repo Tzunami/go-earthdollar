@@ -29,7 +29,7 @@ var (
 	consoleCommand = cli.Command{
 		Action: localConsole,
 		Name:   "console",
-		Usage:  `Geth Console: interactive JavaScript environment`,
+		Usage:  `Ged Console: interactive JavaScript environment`,
 		Description: `
 The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
@@ -39,7 +39,7 @@ See https://github.com/Earthdollar/go-earthdollar/wiki/Javascipt-Console
 	attachCommand = cli.Command{
 		Action: remoteConsole,
 		Name:   "attach",
-		Usage:  `Geth Console: interactive JavaScript environment (connect to node)`,
+		Usage:  `Ged Console: interactive JavaScript environment (connect to node)`,
 		Description: `
 The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
