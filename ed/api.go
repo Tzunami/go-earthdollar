@@ -529,7 +529,7 @@ type PublicBlockChainAPI struct {
 	gpo                     *GasPriceOracle
 }
 
-// NewPublicBlockChainAPI creates a new Etheruem blockchain API.
+// NewPublicBlockChainAPI creates a new Earthdollar blockchain API.
 func NewPublicBlockChainAPI(config *core.ChainConfig, bc *core.BlockChain, m *miner.Miner, chainDb ethdb.Database, gpo *GasPriceOracle, eventMux *event.TypeMux, am *accounts.Manager) *PublicBlockChainAPI {
 	api := &PublicBlockChainAPI{
 		config:   config,
@@ -1501,7 +1501,7 @@ func (s *PublicTransactionPoolAPI) Resend(tx Tx, gasPrice, gasLimit *rpc.HexNumb
 	return common.Hash{}, fmt.Errorf("Transaction %#x not found", tx.Hash)
 }
 
-// PrivateAdminAPI is the collection of Etheruem APIs exposed over the private
+// PrivateAdminAPI is the collection of Earthdollar APIs exposed over the private
 // admin endpoint.
 type PrivateAdminAPI struct {
 	eth *Earthdollar
@@ -1510,7 +1510,7 @@ type PrivateAdminAPI struct {
 // NewPrivateAdminAPI creates a new API definition for the private admin methods
 // of the Earthdollar service.
 func NewPrivateAdminAPI(eth *Earthdollar) *PrivateAdminAPI {
-	return &PrivateAdminAPI{eth: eth}
+	return &PrivateAdminAPI{ed: eth}
 }
 
 // SetSolc sets the Solidity compiler path to be used by the node.
@@ -1590,7 +1590,7 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 	return true, nil
 }
 
-// PublicDebugAPI is the collection of Etheruem APIs exposed over the public
+// PublicDebugAPI is the collection of Earthdollar APIs exposed over the public
 // debugging endpoint.
 type PublicDebugAPI struct {
 	eth *Earthdollar
@@ -1599,7 +1599,7 @@ type PublicDebugAPI struct {
 // NewPublicDebugAPI creates a new API definition for the public debug methods
 // of the Earthdollar service.
 func NewPublicDebugAPI(eth *Earthdollar) *PublicDebugAPI {
-	return &PublicDebugAPI{eth: eth}
+	return &PublicDebugAPI{ed: eth}
 }
 
 // DumpBlock retrieves the entire state of the database at a given block.
@@ -1650,7 +1650,7 @@ func (api *PublicDebugAPI) SeedHash(number uint64) (string, error) {
 	return fmt.Sprintf("0x%x", hash), nil
 }
 
-// PrivateDebugAPI is the collection of Etheruem APIs exposed over the private
+// PrivateDebugAPI is the collection of Earthdollar APIs exposed over the private
 // debugging endpoint.
 type PrivateDebugAPI struct {
 	config *core.ChainConfig
@@ -1660,7 +1660,7 @@ type PrivateDebugAPI struct {
 // NewPrivateDebugAPI creates a new API definition for the private debug methods
 // of the Earthdollar service.
 func NewPrivateDebugAPI(config *core.ChainConfig, eth *Earthdollar) *PrivateDebugAPI {
-	return &PrivateDebugAPI{config: config, eth: eth}
+	return &PrivateDebugAPI{config: config, ed: eth}
 }
 
 // ChaindbProperty returns leveldb properties of the chain database.

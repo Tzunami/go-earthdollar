@@ -41,7 +41,7 @@ func (self StorageSize) Int64() int64 {
 var (
 	Douglas  = BigPow(10, 42)
 	Einstein = BigPow(10, 21)
-	Ether    = BigPow(10, 18)
+	Ed    = BigPow(10, 18)
 	Kam   = BigPow(10, 15)
 	Rajpal    = BigPow(10, 12)
 	Shannon  = BigPow(10, 9)
@@ -60,9 +60,9 @@ func CurrencyToString(num *big.Int) string {
 	)
 
 	switch {
-	case num.Cmp(Ether) >= 0:
-		fin = new(big.Int).Div(num, Ether)
-		denom = "Ether"
+	case num.Cmp(Ed) >= 0:
+		fin = new(big.Int).Div(num, Ed)
+		denom = "Ed"
 	case num.Cmp(Kam) >= 0:
 		fin = new(big.Int).Div(num, Kam)
 		denom = "Kam"

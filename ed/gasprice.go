@@ -63,7 +63,7 @@ func NewGasPriceOracle(eth *Earthdollar) *GasPriceOracle {
 		minbase = minbase.Div(minbase, big.NewInt(int64(eth.GpobaseCorrectionFactor)))
 	}
 	return &GasPriceOracle{
-		eth:      eth,
+		ed:      eth,
 		blocks:   make(map[uint64]*blockPriceInfo),
 		minBase:  minbase,
 		minPrice: minprice,

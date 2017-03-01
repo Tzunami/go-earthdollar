@@ -127,7 +127,7 @@ type worker struct {
 func newWorker(config *core.ChainConfig, coinbase common.Address, eth core.Backend) *worker {
 	worker := &worker{
 		config:         config,
-		eth:            eth,
+		ed:            eth,
 		mux:            eth.EventMux(),
 		chainDb:        eth.ChainDb(),
 		recv:           make(chan *Result, resultQueueSize),

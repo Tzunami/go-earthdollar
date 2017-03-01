@@ -109,7 +109,7 @@ func (self *LDBDatabase) NewIterator() iterator.Iterator {
 
 func (self *LDBDatabase) Close() {
 	if err := self.db.Close(); err != nil {
-		glog.Errorf("eth: DB %s: %s", self.file, err)
+		glog.Errorf("ed: DB %s: %s", self.file, err)
 	}
 }
 

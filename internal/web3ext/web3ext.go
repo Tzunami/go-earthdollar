@@ -303,7 +303,7 @@ web3._extend({
 
 const Eth_JS = `
 web3._extend({
-	property: 'eth',
+	property: 'ed',
 	methods:
 	[
 		new web3._extend.Method({

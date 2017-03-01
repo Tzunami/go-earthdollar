@@ -2160,12 +2160,12 @@ var toHex = function (val) {
  * Returns value of unit in Seed
  *
  * @method getValueOfUnit
- * @param {String} unit the unit to convert to, default ether
+ * @param {String} unit the unit to convert to, default tree
  * @returns {BigNumber} value of the unit (in Seed)
  * @throws error if the unit is not correct:w
  */
 var getValueOfUnit = function (unit) {
-    unit = unit ? unit.toLowerCase() : 'ether';
+    unit = unit ? unit.toLowerCase() : 'tree';
     var unitValue = unitMap[unit];
     if (unitValue === undefined) {
         throw new Error('This unit doesn\'t exists, please use the one of the following units' + JSON.stringify(unitMap, null, 2));
@@ -2178,20 +2178,20 @@ var getValueOfUnit = function (unit) {
  *
  * Possible units are:
  *   SI Short   SI Full        Effigy       Other
- * - kseed       femtoether     babbage
- * - mseed       picoether      lovelace
- * - gseed       nanoether      shannon      nano
- * - --         microether     rajpal        micro
- * - --         milliether     kam       milli
+ * - kseed       femtotree     babbage
+ * - mseed       picotree      lovelace
+ * - gseed       nanotree      shannon      nano
+ * - --         microtree     rajpal        micro
+ * - --         millitree     kam       milli
  * - tree      --             --
- * - kether                    --           grand
- * - mether
+ * - ktree                    --           grand
+ * - mtree
  * - geder
- * - tether
+ * - ttree
  *
  * @method fromSeed
  * @param {Number|String} number can be a number, number string or a HEX of a decimal
- * @param {String} unit the unit to convert to, default ether
+ * @param {String} unit the unit to convert to, default tree
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
 var fromSeed = function(number, unit) {
@@ -2205,21 +2205,21 @@ var fromSeed = function(number, unit) {
  *
  * Possible units are:
  *   SI Short   SI Full        Effigy       Other
- * - kseed       femtoether     babbage
- * - mseed       picoether      lovelace
- * - gseed       nanoether      shannon      nano
- * - --         microether     rajpal        micro
- * - --         microether     rajpal        micro
- * - --         milliether     kam       milli
+ * - kseed       femtotree     babbage
+ * - mseed       picotree      lovelace
+ * - gseed       nanotree      shannon      nano
+ * - --         microtree     rajpal        micro
+ * - --         microtree     rajpal        micro
+ * - --         millitree     kam       milli
  * - tree      --             --
- * - kether                    --           grand
- * - mether
+ * - ktree                    --           grand
+ * - mtree
  * - geder
- * - tether
+ * - ttree
  *
  * @method toSeed
  * @param {Number|String|BigNumber} number can be a number, number string or a HEX of a decimal
- * @param {String} unit the unit to convert from, default ether
+ * @param {String} unit the unit to convert from, default tree
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
 var toSeed = function(number, unit) {
@@ -5774,7 +5774,7 @@ var shh = function () {
 };
 
 module.exports = {
-    eth: eth,
+    ed: eth,
     shh: shh
 };
 

@@ -39,7 +39,7 @@ type ContractBackend struct {
 }
 
 // NewContractBackend creates a new native contract backend using an existing
-// Etheruem object.
+// Earthdollar object.
 func NewContractBackend(eth *Earthdollar) *ContractBackend {
 	return &ContractBackend{
 		eapi:  NewPublicEarthdollarAPI(eth),

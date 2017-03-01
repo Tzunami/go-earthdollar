@@ -50,7 +50,7 @@ func ExampleGenerateChain() {
 	chain, _ := GenerateChain(testChainConfig(), genesis, db, 5, func(i int, gen *BlockGen) {
 		switch i {
 		case 0:
-			// In block 1, addr1 sends addr2 some ether.
+			// In block 1, addr1 sends addr2 some tree.
 			tx, _ := types.NewTransaction(gen.TxNonce(addr1), addr2, big.NewInt(10000), params.TxGas, nil, nil).SignECDSA(key1)
 			gen.AddTx(tx)
 		case 1:

@@ -74,7 +74,7 @@ This command will:
 Transitioning towards developers, if you'd like to play around with creating Earthdollar contracts, you
 almost certainly would like to do that without any real money involved until you get the hang of the
 entire system. In other words, instead of attaching to the main network, you want to join the **test**
-network with your node, which is fully equivalent to the main network, but with play-Ether only.
+network with your node, which is fully equivalent to the main network, but with play-Ed only.
 
 ```
 $ ged --testnet --fast --cache=512 console
@@ -213,7 +213,7 @@ need to configure a miner to process transactions and create new blocks for you.
 
 Mining on the public Earthdollar network is a complex task as it's only feasible using GPUs, requiring
 an OpenCL or CUDA enabled `ethminer` instance. For information on such a setup, please consult the
-[EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp-earthdollar)
+[EdMining subreddit](https://www.reddit.com/r/EdMining/) and the [Genoil miner](https://github.com/Genoil/cpp-earthdollar)
 repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical

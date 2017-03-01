@@ -170,7 +170,7 @@ func parseRequest(incomingMsg json.RawMessage) ([]rpcRequest, bool, RPCError) {
 			}
 
 			// all subscriptions are made on the eth service
-			reqs[0].service, reqs[0].method = "eth", subscribeMethod[0]
+			reqs[0].service, reqs[0].method = "ed", subscribeMethod[0]
 			reqs[0].params = in.Payload
 			return reqs, false, nil
 		}
@@ -223,7 +223,7 @@ func parseBatchRequest(incomingMsg json.RawMessage) ([]rpcRequest, bool, RPCErro
 				}
 
 				// all subscriptions are made on the eth service
-				requests[i].service, requests[i].method = "eth", subscribeMethod[0]
+				requests[i].service, requests[i].method = "ed", subscribeMethod[0]
 				requests[i].params = r.Payload
 				continue
 			}
