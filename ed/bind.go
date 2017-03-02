@@ -26,7 +26,7 @@ import (
 )
 
 // ContractBackend implements bind.ContractBackend with direct calls to Earthdollar
-// internals to support operating on contracts within subprotocols like eth and
+// internals to support operating on contracts within subprotocols like ed and
 // swarm.
 //
 // Internally this backend uses the already exposed API endpoints of the Earthdollar
@@ -40,11 +40,11 @@ type ContractBackend struct {
 
 // NewContractBackend creates a new native contract backend using an existing
 // Earthdollar object.
-func NewContractBackend(eth *Earthdollar) *ContractBackend {
+func NewContractBackend(ed *Earthdollar) *ContractBackend {
 	return &ContractBackend{
-		eapi:  NewPublicEarthdollarAPI(eth),
-		bcapi: NewPublicBlockChainAPI(eth.chainConfig, eth.blockchain, eth.miner, eth.chainDb, eth.gpo, eth.eventMux, eth.accountManager),
-		txapi: NewPublicTransactionPoolAPI(eth),
+		eapi:  NewPublicEarthdollarAPI(ed),
+		bcapi: NewPublicBlockChainAPI(ed.chainConfig, ed.blockchain, ed.miner, ed.chainDb, ed.gpo, ed.eventMux, ed.accountManager),
+		txapi: NewPublicTransactionPoolAPI(ed),
 	}
 }
 

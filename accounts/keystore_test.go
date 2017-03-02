@@ -35,7 +35,7 @@ import (
 )
 
 func tmpKeyStore(t *testing.T) (dir string, ks *keyStore) {
-	dir, err := ioutil.TempDir("", "geth-keystore-test")
+	dir, err := ioutil.TempDir("", "ged-keystore-test")
 	if err != nil {
 		t.Fatal(err)
 	}

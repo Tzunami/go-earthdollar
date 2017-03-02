@@ -102,11 +102,11 @@ func New(config Config) (*Console, error) {
 func (c *Console) init(preload []string) error {
 	// Initialize the JavaScript <-> Go RPC bridge
 	bridge := newBridge(c.client, c.prompter, c.printer)
-	c.jsre.Set("jeth", struct{}{})
+	c.jsre.Set("jed", struct{}{})
 
-	jethObj, _ := c.jsre.Get("jeth")
-	jethObj.Object().Set("send", bridge.Send)
-	jethObj.Object().Set("sendAsync", bridge.Send)
+	jedObj, _ := c.jsre.Get("jed")
+	jedObj.Object().Set("send", bridge.Send)
+	jedObj.Object().Set("sendAsync", bridge.Send)
 
 	consoleObj, _ := c.jsre.Get("console")
 	consoleObj.Object().Set("log", c.consoleOutput)
@@ -122,7 +122,7 @@ func (c *Console) init(preload []string) error {
 	if _, err := c.jsre.Run("var Web3 = require('web3');"); err != nil {
 		return fmt.Errorf("web3 require: %v", err)
 	}
-	if _, err := c.jsre.Run("var web3 = new Web3(jeth);"); err != nil {
+	if _, err := c.jsre.Run("var web3 = new Web3(jed);"); err != nil {
 		return fmt.Errorf("web3 provider: %v", err)
 	}
 	// Load the supported APIs into the JavaScript runtime environment
@@ -146,7 +146,7 @@ func (c *Console) init(preload []string) error {
 		return fmt.Errorf("namespace flattening: %v", err)
 	}
 	// Initialize the global name register (disabled for now)
-	//c.jsre.Run(`var GlobalRegistrar = eth.contract(` + registrar.GlobalRegistrarAbi + `);   registrar = GlobalRegistrar.at("` + registrar.GlobalRegistrarAddr + `");`)
+	//c.jsre.Run(`var GlobalRegistrar = ed.contract(` + registrar.GlobalRegistrarAbi + `);   registrar = GlobalRegistrar.at("` + registrar.GlobalRegistrarAddr + `");`)
 
 	// If the console is in interactive mode, instrument password related methods to query the user
 	if c.prompter != nil {
@@ -156,14 +156,14 @@ func (c *Console) init(preload []string) error {
 			return err
 		}
 		// Override the unlockAccount and newAccount methods since these require user interaction.
-		// Assign the jeth.unlockAccount and jeth.newAccount in the Console the original web3 callbacks.
-		// These will be called by the jeth.* methods after they got the password from the user and send
+		// Assign the jed.unlockAccount and jed.newAccount in the Console the original web3 callbacks.
+		// These will be called by the jed.* methods after they got the password from the user and send
 		// the original web3 request to the backend.
 		if obj := personal.Object(); obj != nil { // make sure the personal api is enabled over the interface
-			if _, err = c.jsre.Run(`jeth.unlockAccount = personal.unlockAccount;`); err != nil {
+			if _, err = c.jsre.Run(`jed.unlockAccount = personal.unlockAccount;`); err != nil {
 				return fmt.Errorf("personal.unlockAccount: %v", err)
 			}
-			if _, err = c.jsre.Run(`jeth.newAccount = personal.newAccount;`); err != nil {
+			if _, err = c.jsre.Run(`jed.newAccount = personal.newAccount;`); err != nil {
 				return fmt.Errorf("personal.newAccount: %v", err)
 			}
 			obj.Set("unlockAccount", bridge.UnlockAccount)
@@ -221,7 +221,7 @@ func (c *Console) AutoCompleteInput(line string, pos int) (string, []string, str
 		return "", nil, ""
 	}
 	// Chunck data to relevant part for autocompletion
-	// E.g. in case of nested lines eth.getBalance(eth.coinb<tab><tab>
+	// E.g. in case of nested lines ed.getBalance(ed.coinb<tab><tab>
 	start := 0
 	for start = pos - 1; start > 0; start-- {
 		// Skip all methods and namespaces (i.e. including te dot)
@@ -247,8 +247,8 @@ func (c *Console) Welcome() {
 	fmt.Fprintf(c.printer, "Welcome to the Ged JavaScript console!\n\n")
 	c.jsre.Run(`
 		console.log("instance: " + web3.version.node);
-		console.log("coinbase: " + eth.coinbase);
-		console.log("at block: " + eth.blockNumber + " (" + new Date(1000 * eth.getBlock(eth.blockNumber).timestamp) + ")");
+		console.log("coinbase: " + ed.coinbase);
+		console.log("at block: " + ed.blockNumber + " (" + new Date(1000 * ed.getBlock(ed.blockNumber).timestamp) + ")");
 		console.log(" datadir: " + admin.datadir);
 	`)
 	// List all the supported modules for the user to call

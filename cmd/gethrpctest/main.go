@@ -130,13 +130,13 @@ func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node
 	if _, err := test.InsertPreState(db); err != nil {
 		return nil, err
 	}
-	ethConf := &eth.Config{
+	ethConf := &ed.Config{
 		TestGenesisState: db,
 		TestGenesisBlock: test.Genesis,
 		ChainConfig:      core.NewChainConfig(),
 		AccountManager:   accman,
 	}
-	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) { return eth.New(ctx, ethConf) }); err != nil {
+	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) { return ed.New(ctx, ethConf) }); err != nil {
 		return nil, err
 	}
 	// Initialize and register the Whisper protocol
@@ -149,7 +149,7 @@ func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node
 // RunTest executes the specified test against an already pre-configured protocol
 // stack to ensure basic checks pass before running RPC tests.
 func RunTest(stack *node.Node, test *tests.BlockTest) error {
-	var earthdollar *eth.Earthdollar
+	var earthdollar *ed.Earthdollar
 	stack.Service(&earthdollar)
 	blockchain := earthdollar.BlockChain()
 

@@ -38,7 +38,7 @@ import (
 //export doRun
 func doRun(args *C.char) C.int {
 	// This is equivalent to ged.main, just modified to handle the function arg passing
-	if err := app.Run(strings.Split("geth "+C.GoString(args), " ")); err != nil {
+	if err := app.Run(strings.Split("ged "+C.GoString(args), " ")); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return -1
 	}

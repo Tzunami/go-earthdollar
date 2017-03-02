@@ -2865,11 +2865,11 @@ var addEventsToContract = function (contract) {
         return json.type === 'event';
     });
 
-    var All = new AllEvents(contract._eth._requestManager, events, contract.address);
+    var All = new AllEvents(contract._ed._requestManager, events, contract.address);
     All.attachToContract(contract);
 
     events.map(function (json) {
-        return new SolidityEvent(contract._eth._requestManager, json, contract.address);
+        return new SolidityEvent(contract._ed._requestManager, json, contract.address);
     }).forEach(function (e) {
         e.attachToContract(contract);
     });
@@ -2889,7 +2889,7 @@ var checkForContractAddress = function(contract, callback){
         callbackFired = false;
 
     // wait for receipt
-    var filter = contract._eth.filter('latest', function(e){
+    var filter = contract._ed.filter('latest', function(e){
         if (!e && !callbackFired) {
             count++;
 
@@ -2907,10 +2907,10 @@ var checkForContractAddress = function(contract, callback){
 
             } else {
 
-                contract._eth.getTransactionReceipt(contract.transactionHash, function(e, receipt){
+                contract._ed.getTransactionReceipt(contract.transactionHash, function(e, receipt){
                     if(receipt && !callbackFired) {
 
-                        contract._eth.getCode(receipt.contractAddress, function(e, code){
+                        contract._ed.getCode(receipt.contractAddress, function(e, code){
                             /*jshint maxcomplexity: 6 */
 
                             if(callbackFired || !code)
@@ -2990,7 +2990,7 @@ var ContractFactory = function (eth, abi) {
         if (callback) {
 
             // wait for the contract address adn check if the code was deployed
-            this.eth.sendTransaction(options, function (err, hash) {
+            this.ed.sendTransaction(options, function (err, hash) {
                 if (err) {
                     callback(err);
                 } else {
@@ -3004,7 +3004,7 @@ var ContractFactory = function (eth, abi) {
                 }
             });
         } else {
-            var hash = this.eth.sendTransaction(options);
+            var hash = this.ed.sendTransaction(options);
             // add the transaction hash
             contract.transactionHash = hash;
             checkForContractAddress(contract);
@@ -4038,12 +4038,12 @@ SolidityFunction.prototype.call = function () {
 
 
     if (!callback) {
-        var output = this._eth.call(payload, defaultBlock);
+        var output = this._ed.call(payload, defaultBlock);
         return this.unpackOutput(output);
     }
 
     var self = this;
-    this._eth.call(payload, defaultBlock, function (error, output) {
+    this._ed.call(payload, defaultBlock, function (error, output) {
         callback(error, self.unpackOutput(output));
     });
 };
@@ -4059,10 +4059,10 @@ SolidityFunction.prototype.sendTransaction = function () {
     var payload = this.toPayload(args);
 
     if (!callback) {
-        return this._eth.sendTransaction(payload);
+        return this._ed.sendTransaction(payload);
     }
 
-    this._eth.sendTransaction(payload, callback);
+    this._ed.sendTransaction(payload, callback);
 };
 
 /**
@@ -4076,10 +4076,10 @@ SolidityFunction.prototype.estimateGas = function () {
     var payload = this.toPayload(args);
 
     if (!callback) {
-        return this._eth.estimateGas(payload);
+        return this._ed.estimateGas(payload);
     }
 
-    this._eth.estimateGas(payload, callback);
+    this._ed.estimateGas(payload, callback);
 };
 
 /**
@@ -5107,7 +5107,7 @@ module.exports = DB;
     along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * @file eth.js
+ * @file ed.js
  * @author Marek Kotewicz <marek@ethdev.com>
  * @author Fabian Vogelsteller <fabian@ethdev.com>
  * @date 2015
@@ -5451,7 +5451,7 @@ module.exports = Eth;
     You should have received a copy of the GNU Lesser General Public License
     along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** @file eth.js
+/** @file ed.js
  * @authors:
  *   Marek Kotewicz <marek@ethdev.com>
  * @date 2015
@@ -5506,7 +5506,7 @@ module.exports = Net;
     along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * @file eth.js
+ * @file ed.js
  * @author Marek Kotewicz <marek@ethdev.com>
  * @author Fabian Vogelsteller <fabian@ethdev.com>
  * @date 2015
@@ -5688,7 +5688,7 @@ module.exports = Shh;
 
 var Method = require('../method');
 
-/// @returns an array of objects describing web3.eth.filter api methods
+/// @returns an array of objects describing web3.ed.filter api methods
 var eth = function () {
     var newFilterCall = function (args) {
         var type = args[0];
@@ -6385,11 +6385,11 @@ var transfer = function (eth, from, to, value, callback) {
     }
 
     if (!callback) {
-        var address = eth.icapNamereg().addr(iban.institution());
+        var address = ed.icapNamereg().addr(iban.institution());
         return deposit(eth, from, address, value, iban.client());
     }
 
-    eth.icapNamereg().addr(iban.institution(), function (err, address) {
+    ed.icapNamereg().addr(iban.institution(), function (err, address) {
         return deposit(eth, from, address, value, iban.client(), callback);
     });
 
@@ -6405,7 +6405,7 @@ var transfer = function (eth, from, to, value, callback) {
  * @param {Function} callback, callback
  */
 var transferToAddress = function (eth, from, to, value, callback) {
-    return eth.sendTransaction({
+    return ed.sendTransaction({
         address: to,
         from: from,
         value: value
@@ -6424,7 +6424,7 @@ var transferToAddress = function (eth, from, to, value, callback) {
  */
 var deposit = function (eth, from, to, value, client, callback) {
     var abi = exchangeAbi;
-    return eth.contract(abi).at(to).deposit(client, {
+    return ed.contract(abi).at(to).deposit(client, {
         from: from,
         value: value
     }, callback);

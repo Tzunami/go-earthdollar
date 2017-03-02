@@ -14,4 +14,4 @@ RUN apt-get update && \
 EXPOSE 8811
 EXPOSE 20203
 
-ENTRYPOINT ["/usr/bin/geth"]
+ENTRYPOINT ["/usr/bin/ged"]

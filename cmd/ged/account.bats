@@ -9,7 +9,7 @@ teardown() {
 }
 
 @test "account list blanko" {
-	run ./geth --datadir $DATA_DIR account
+	run ./ged --datadir $DATA_DIR account
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -19,7 +19,7 @@ teardown() {
 @test "account list testdata keystore" {
 	cp -R ../../accounts/testdata/keystore $DATA_DIR
 
-	run ./geth --datadir $DATA_DIR account
+	run ./ged --datadir $DATA_DIR account
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -29,7 +29,7 @@ teardown() {
 }
 
 @test "account create" {
-	run ./geth --datadir $DATA_DIR --lightkdf account new <<< $'secret\nsecret\n'
+	run ./ged --datadir $DATA_DIR --lightkdf account new <<< $'secret\nsecret\n'
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -37,7 +37,7 @@ teardown() {
 }
 
 @test "account create pass mismatch" {
-	run ./geth --datadir $DATA_DIR --lightkdf account new <<< $'secret\nother\n'
+	run ./ged --datadir $DATA_DIR --lightkdf account new <<< $'secret\nother\n'
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -47,14 +47,14 @@ teardown() {
 @test "account update pass" {
 	cp -R ../../accounts/testdata/keystore $DATA_DIR
 
-	run ./geth --datadir $DATA_DIR --lightkdf account update f466859ead1932d743d622cb74fc058882e8648a <<< $'foobar\nother\nother\n'
+	run ./ged --datadir $DATA_DIR --lightkdf account update f466859ead1932d743d622cb74fc058882e8648a <<< $'foobar\nother\nother\n'
 	echo "$output"
 
 	[ "$status" -eq 0 ]
 }
 
 @test "account import" {
-	run ./geth --datadir $DATA_DIR --lightkdf wallet import testdata/guswallet.json <<< $'foo\n'
+	run ./ged --datadir $DATA_DIR --lightkdf wallet import testdata/guswallet.json <<< $'foo\n'
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -66,7 +66,7 @@ teardown() {
 }
 
 @test "account import pass mismatch" {
-	run ./geth --datadir $DATA_DIR --lightkdf wallet import testdata/guswallet.json <<< $'wrong\n'
+	run ./ged --datadir $DATA_DIR --lightkdf wallet import testdata/guswallet.json <<< $'wrong\n'
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -77,7 +77,7 @@ teardown() {
 	cp -R ../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 
-	run ./geth --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'
+	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -88,7 +88,7 @@ teardown() {
 	cp -R ../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 
-	run ./geth --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong1\nwrong2\nwrong3\n'
+	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong1\nwrong2\nwrong3\n'
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -99,7 +99,7 @@ teardown() {
 	cp -R ../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 
-	run ./geth --datadir $DATA_DIR --nat none --nodiscover --dev --unlock 0,2 js $DATA_DIR/empty.js <<< $'foobar\nfoobar\n'
+	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --unlock 0,2 js $DATA_DIR/empty.js <<< $'foobar\nfoobar\n'
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -112,7 +112,7 @@ teardown() {
 	touch $DATA_DIR/empty.js
 	echo $'foobar\nfoobar\nfoobar\n' > $DATA_DIR/pass.txt
 
-	run ./geth --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
+	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -125,7 +125,7 @@ teardown() {
 	touch $DATA_DIR/empty.js
 	echo $'wrong\nwrong\nwrong\n' > $DATA_DIR/pass.txt
 
-	run ./geth --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
+	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -136,7 +136,7 @@ teardown() {
 	cp -R ../../accounts/testdata/dupes $DATA_DIR/store
 	touch $DATA_DIR/empty.js
 
-	run ./geth --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'$DATA_DIR/store/1
+	run ./ged --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'$DATA_DIR/store/1
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -149,7 +149,7 @@ teardown() {
 	cp -R ../../accounts/testdata/dupes $DATA_DIR/store
 	touch $DATA_DIR/empty.js
 
-	run ./geth --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong\n'$DATA_DIR/store/1
+	run ./ged --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong\n'$DATA_DIR/store/1
 	echo "$output"
 
 	[ "$status" -ne 0 ]

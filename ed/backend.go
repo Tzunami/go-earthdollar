@@ -188,7 +188,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	}
 	glog.V(logger.Info).Infof("Blockchain DB Version: %d", config.BlockChainVersion)
 
-	eth := &Earthdollar{
+	ed := &Earthdollar{
 		shutdownChan:            make(chan bool),
 		chainDb:                 chainDb,
 		dappDb:                  dappDb,
@@ -212,16 +212,16 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	switch {
 	case config.PowTest:
 		glog.V(logger.Info).Infof("ethash used in test mode")
-		eth.pow, err = ethash.NewForTesting()
+		ed.pow, err = ethash.NewForTesting()
 		if err != nil {
 			return nil, err
 		}
 	case config.PowShared:
 		glog.V(logger.Info).Infof("ethash used in shared mode")
-		eth.pow = ethash.NewShared()
+		ed.pow = ethash.NewShared()
 
 	default:
-		eth.pow = ethash.New()
+		ed.pow = ethash.New()
 	}
 
 	// load the genesis block or write a new one if no genesis
@@ -239,32 +239,32 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 		return nil, errors.New("missing chain config")
 	}
 
-	eth.chainConfig = config.ChainConfig
-	eth.chainConfig.VmConfig = vm.Config{
+	ed.chainConfig = config.ChainConfig
+	ed.chainConfig.VmConfig = vm.Config{
 		EnableJit: config.EnableJit,
 		ForceJit:  config.ForceJit,
 	}
 
-	eth.blockchain, err = core.NewBlockChain(chainDb, eth.chainConfig, eth.pow, eth.EventMux())
+	ed.blockchain, err = core.NewBlockChain(chainDb, ed.chainConfig, ed.pow, ed.EventMux())
 	if err != nil {
 		if err == core.ErrNoGenesis {
 			return nil, fmt.Errorf(`No chain found. Please initialise a new chain using the "init" subcommand.`)
 		}
 		return nil, err
 	}
-	eth.gpo = NewGasPriceOracle(eth)
+	ed.gpo = NewGasPriceOracle(ed)
 
-	newPool := core.NewTxPool(eth.chainConfig, eth.EventMux(), eth.blockchain.State, eth.blockchain.GasLimit)
-	eth.txPool = newPool
+	newPool := core.NewTxPool(ed.chainConfig, ed.EventMux(), ed.blockchain.State, ed.blockchain.GasLimit)
+	ed.txPool = newPool
 
-	if eth.protocolManager, err = NewProtocolManager(eth.chainConfig, config.FastSync, config.NetworkId, eth.eventMux, eth.txPool, eth.pow, eth.blockchain, chainDb); err != nil {
+	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, ed.blockchain, chainDb); err != nil {
 		return nil, err
 	}
-	eth.miner = miner.New(eth, eth.chainConfig, eth.EventMux(), eth.pow)
-	eth.miner.SetGasPrice(config.GasPrice)
-	eth.miner.SetExtra(config.ExtraData)
+	ed.miner = miner.New(ed, ed.chainConfig, ed.EventMux(), ed.pow)
+	ed.miner.SetGasPrice(config.GasPrice)
+	ed.miner.SetExtra(config.ExtraData)
 
-	return eth, nil
+	return ed, nil
 }
 
 // APIs returns the collection of RPC services the earthdollar package offers.

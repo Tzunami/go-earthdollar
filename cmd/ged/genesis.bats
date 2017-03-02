@@ -21,13 +21,13 @@ teardown() {
 	"timestamp"  : "0x00"
 }' > $DATA_DIR/genesis.json
 
-	run ./geth --datadir $DATA_DIR init $DATA_DIR/genesis.json
+	run ./ged --datadir $DATA_DIR init $DATA_DIR/genesis.json
 	echo "$output"
 
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"successfully wrote genesis block and/or chain rule set"* ]]
 
-	run ./geth --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
+	run ./ged --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 	echo "$output"
 	[[ "$output" == *'"0x0000000000000042"'* ]]
 }
@@ -46,13 +46,13 @@ teardown() {
 	"config"     : {}
 }' > $DATA_DIR/genesis.json
 
-	run ./geth --datadir $DATA_DIR init $DATA_DIR/genesis.json
+	run ./ged --datadir $DATA_DIR init $DATA_DIR/genesis.json
 	echo "$output"
 
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"successfully wrote genesis block and/or chain rule set"* ]]
 
-	run ./geth --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
+	run ./ged --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 	echo "$output"
 	[[ "$output" == *'"0x0000000000000042"'* ]]
 }
@@ -71,13 +71,13 @@ teardown() {
 	"config"     : {}
 }' > $DATA_DIR/genesis.json
 
-	run ./geth --datadir $DATA_DIR init $DATA_DIR/genesis.json
+	run ./ged --datadir $DATA_DIR init $DATA_DIR/genesis.json
 	echo "$output"
 
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"successfully wrote genesis block and/or chain rule set"* ]]
 
-	run ./geth --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
+	run ./ged --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 	echo "$output"
 	[[ "$output" == *'"0x0000000000000042"'* ]]
 }
