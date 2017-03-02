@@ -32,9 +32,9 @@ import (
 const (
 	JSONRPCVersion         = "2.0"
 	serviceMethodSeparator = "_"
-	subscribeMethod        = "eth_subscribe"
-	unsubscribeMethod      = "eth_unsubscribe"
-	notificationMethod     = "eth_subscription"
+	subscribeMethod        = "ed_subscribe"
+	unsubscribeMethod      = "ed_unsubscribe"
+	notificationMethod     = "ed_subscription"
 )
 
 // JSON-RPC request

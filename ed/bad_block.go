@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
-package eth
+package ed
 
 import (
 	"bytes"
@@ -63,7 +63,7 @@ func sendBadBlockReport(block *types.Block, err error) {
 			"protocolVersion": p.version,
 		}
 	}
-	jsonStr, _ := json.Marshal(map[string]interface{}{"method": "eth_badBlock", "id": "1", "jsonrpc": "2.0", "params": []interface{}{params}})
+	jsonStr, _ := json.Marshal(map[string]interface{}{"method": "ed_badBlock", "id": "1", "jsonrpc": "2.0", "params": []interface{}{params}})
 	client := http.Client{Timeout: 8 * time.Second}
 	resp, err := client.Post(badBlocksURL, "application/json", bytes.NewReader(jsonStr))
 	if err != nil {

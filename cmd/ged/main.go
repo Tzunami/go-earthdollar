@@ -223,7 +223,7 @@ participating.
 		// because it is not intended to run while testing.
 		// In addition to this check, bad block reports are sent only
 		// for chains with the main network genesis block and network id 1.
-		eth.EnableBadBlockReporting = true
+		ed .EnableBadBlockReporting = true
 
 		utils.SetupNetwork(ctx)
 		return nil
@@ -309,7 +309,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	utils.StartNode(stack)
 
 	// Unlock any account specifically requested
-	var earthdollar *eth.Earthdollar
+	var earthdollar *ed .Earthdollar
 	if err := stack.Service(&earthdollar); err != nil {
 		utils.Fatalf("earthdollar service not running: %v", err)
 	}
@@ -361,7 +361,7 @@ func makedag(ctx *cli.Context) error {
 }
 
 func gpuinfo(ctx *cli.Context) error {
-	eth.PrintOpenCLDevices()
+	ed .PrintOpenCLDevices()
 	return nil
 }
 
@@ -376,9 +376,9 @@ func gpubench(ctx *cli.Context) error {
 		if err != nil {
 			wrongArgs()
 		}
-		eth.GPUBench(n)
+		ed .GPUBench(n)
 	case len(args) == 0:
-		eth.GPUBench(0)
+		ed .GPUBench(0)
 	default:
 		wrongArgs()
 	}
@@ -388,7 +388,7 @@ func gpubench(ctx *cli.Context) error {
 func version(c *cli.Context) error {
 	fmt.Println(clientIdentifier)
 	fmt.Println("Version:", verString)
-	fmt.Println("Protocol Versions:", eth.ProtocolVersions)
+	fmt.Println("Protocol Versions:", ed .ProtocolVersions)
 	fmt.Println("Network Id:", c.GlobalInt(utils.NetworkIdFlag.Name))
 	fmt.Println("Go Version:", runtime.Version())
 	fmt.Println("OS:", runtime.GOOS)

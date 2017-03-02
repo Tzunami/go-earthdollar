@@ -100,7 +100,7 @@ type worker struct {
 	agents map[Agent]struct{}
 	recv   chan *Result
 
-	eth     core.Backend
+	ed     core.Backend
 	chain   *core.BlockChain
 	proc    core.Validator
 	chainDb ethdb.Database
@@ -124,16 +124,16 @@ type worker struct {
 	fullValidation bool
 }
 
-func newWorker(config *core.ChainConfig, coinbase common.Address, eth core.Backend) *worker {
+func newWorker(config *core.ChainConfig, coinbase common.Address, ed core.Backend) *worker {
 	worker := &worker{
 		config:         config,
-		ed:            eth,
-		mux:            eth.EventMux(),
-		chainDb:        eth.ChainDb(),
+		ed:             ed,
+		mux:            ed.EventMux(),
+		chainDb:        ed.ChainDb(),
 		recv:           make(chan *Result, resultQueueSize),
 		gasPrice:       new(big.Int),
-		chain:          eth.BlockChain(),
-		proc:           eth.BlockChain().Validator(),
+		chain:          ed.BlockChain(),
+		proc:           ed.BlockChain().Validator(),
 		possibleUncles: make(map[common.Hash]*types.Block),
 		coinbase:       coinbase,
 		txQueue:        make(map[common.Hash]*types.Transaction),
@@ -274,7 +274,7 @@ func (self *worker) wait() {
 					continue
 				}
 
-				auxValidator := self.eth.BlockChain().AuxValidator()
+				auxValidator := self.ed.BlockChain().AuxValidator()
 				if err := core.ValidateHeader(self.config, auxValidator, block.Header(), parent.Header(), true, false); err != nil && err != core.BlockFutureErr {
 					glog.V(logger.Error).Infoln("Invalid header on mined block:", err)
 					continue
@@ -375,7 +375,7 @@ func (self *worker) makeCurrent(parent *types.Block, header *types.Header) error
 		work.family.Add(ancestor.Hash())
 		work.ancestors.Add(ancestor.Hash())
 	}
-	accounts := self.eth.AccountManager().Accounts()
+	accounts := self.ed.AccountManager().Accounts()
 
 	// Keep track of transactions which return errors so they can be removed
 	work.remove = set.New()
@@ -476,19 +476,19 @@ func (self *worker) commitNewWork() {
 	work := self.current
 
 	/* //approach 1
-	transactions := self.eth.TxPool().GetTransactions()
+	transactions := self.ed.TxPool().GetTransactions()
 	sort.Sort(types.TxByNonce(transactions))
 	*/
 
 	//approach 2
-	transactions := self.eth.TxPool().GetTransactions()
+	transactions := self.ed.TxPool().GetTransactions()
 	types.SortByPriceAndNonce(transactions)
 
 	/* // approach 3
 	// commit transactions for this run.
 	txPerOwner := make(map[common.Address]types.Transactions)
 	// Sort transactions by owner
-	for _, tx := range self.eth.TxPool().GetTransactions() {
+	for _, tx := range self.ed.TxPool().GetTransactions() {
 		from, _ := tx.From() // we can ignore the sender error
 		txPerOwner[from] = append(txPerOwner[from], tx)
 	}
@@ -512,7 +512,7 @@ func (self *worker) commitNewWork() {
 	*/
 
 	work.commitTransactions(self.mux, transactions, self.gasPrice, self.chain)
-	self.eth.TxPool().RemoveTransactions(work.lowGasTxs)
+	self.ed.TxPool().RemoveTransactions(work.lowGasTxs)
 
 	// compute uncles for the new block.
 	var (

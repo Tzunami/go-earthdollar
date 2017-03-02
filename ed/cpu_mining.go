@@ -16,7 +16,7 @@
 
 // +build !opencl
 
-package eth
+package ed
 
 import (
 	"errors"

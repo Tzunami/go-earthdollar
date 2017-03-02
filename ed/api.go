@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
-package eth
+package ed
 
 import (
 	"bytes"
@@ -1504,18 +1504,18 @@ func (s *PublicTransactionPoolAPI) Resend(tx Tx, gasPrice, gasLimit *rpc.HexNumb
 // PrivateAdminAPI is the collection of Earthdollar APIs exposed over the private
 // admin endpoint.
 type PrivateAdminAPI struct {
-	eth *Earthdollar
+	ed *Earthdollar
 }
 
 // NewPrivateAdminAPI creates a new API definition for the private admin methods
 // of the Earthdollar service.
-func NewPrivateAdminAPI(eth *Earthdollar) *PrivateAdminAPI {
-	return &PrivateAdminAPI{ed: eth}
+func NewPrivateAdminAPI(ed *Earthdollar) *PrivateAdminAPI {
+	return &PrivateAdminAPI{ed: ed}
 }
 
 // SetSolc sets the Solidity compiler path to be used by the node.
 func (api *PrivateAdminAPI) SetSolc(path string) (string, error) {
-	solc, err := api.eth.SetSolc(path)
+	solc, err := api.ed.SetSolc(path)
 	if err != nil {
 		return "", err
 	}
@@ -1532,7 +1532,7 @@ func (api *PrivateAdminAPI) ExportChain(file string) (bool, error) {
 	defer out.Close()
 
 	// Export the blockchain
-	if err := api.eth.BlockChain().Export(out); err != nil {
+	if err := api.ed.BlockChain().Export(out); err != nil {
 		return false, err
 	}
 	return true, nil
@@ -1577,12 +1577,12 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 			break
 		}
 
-		if hasAllBlocks(api.eth.BlockChain(), blocks) {
+		if hasAllBlocks(api.ed.BlockChain(), blocks) {
 			blocks = blocks[:0]
 			continue
 		}
 		// Import the batch and reset the buffer
-		if _, err := api.eth.BlockChain().InsertChain(blocks); err != nil {
+		if _, err := api.ed.BlockChain().InsertChain(blocks); err != nil {
 			return false, fmt.Errorf("batch %d: failed to insert: %v", batch, err)
 		}
 		blocks = blocks[:0]
@@ -1593,22 +1593,22 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 // PublicDebugAPI is the collection of Earthdollar APIs exposed over the public
 // debugging endpoint.
 type PublicDebugAPI struct {
-	eth *Earthdollar
+	ed *Earthdollar
 }
 
 // NewPublicDebugAPI creates a new API definition for the public debug methods
 // of the Earthdollar service.
-func NewPublicDebugAPI(eth *Earthdollar) *PublicDebugAPI {
-	return &PublicDebugAPI{ed: eth}
+func NewPublicDebugAPI(ed *Earthdollar) *PublicDebugAPI {
+	return &PublicDebugAPI{ed: ed}
 }
 
 // DumpBlock retrieves the entire state of the database at a given block.
 func (api *PublicDebugAPI) DumpBlock(number uint64) (state.Dump, error) {
-	block := api.eth.BlockChain().GetBlockByNumber(number)
+	block := api.ed.BlockChain().GetBlockByNumber(number)
 	if block == nil {
 		return state.Dump{}, fmt.Errorf("block #%d not found", number)
 	}
-	stateDb, err := api.eth.BlockChain().StateAt(block.Root())
+	stateDb, err := api.ed.BlockChain().StateAt(block.Root())
 	if err != nil {
 		return state.Dump{}, err
 	}
@@ -1617,7 +1617,7 @@ func (api *PublicDebugAPI) DumpBlock(number uint64) (state.Dump, error) {
 
 // GetBlockRlp retrieves the RLP encoded for of a single block.
 func (api *PublicDebugAPI) GetBlockRlp(number uint64) (string, error) {
-	block := api.eth.BlockChain().GetBlockByNumber(number)
+	block := api.ed.BlockChain().GetBlockByNumber(number)
 	if block == nil {
 		return "", fmt.Errorf("block #%d not found", number)
 	}
@@ -1630,7 +1630,7 @@ func (api *PublicDebugAPI) GetBlockRlp(number uint64) (string, error) {
 
 // PrintBlock retrieves a block and returns its pretty printed form.
 func (api *PublicDebugAPI) PrintBlock(number uint64) (string, error) {
-	block := api.eth.BlockChain().GetBlockByNumber(number)
+	block := api.ed.BlockChain().GetBlockByNumber(number)
 	if block == nil {
 		return "", fmt.Errorf("block #%d not found", number)
 	}
@@ -1639,7 +1639,7 @@ func (api *PublicDebugAPI) PrintBlock(number uint64) (string, error) {
 
 // SeedHash retrieves the seed hash of a block.
 func (api *PublicDebugAPI) SeedHash(number uint64) (string, error) {
-	block := api.eth.BlockChain().GetBlockByNumber(number)
+	block := api.ed.BlockChain().GetBlockByNumber(number)
 	if block == nil {
 		return "", fmt.Errorf("block #%d not found", number)
 	}
@@ -1654,18 +1654,18 @@ func (api *PublicDebugAPI) SeedHash(number uint64) (string, error) {
 // debugging endpoint.
 type PrivateDebugAPI struct {
 	config *core.ChainConfig
-	eth    *Earthdollar
+	ed    *Earthdollar
 }
 
 // NewPrivateDebugAPI creates a new API definition for the private debug methods
 // of the Earthdollar service.
-func NewPrivateDebugAPI(config *core.ChainConfig, eth *Earthdollar) *PrivateDebugAPI {
-	return &PrivateDebugAPI{config: config, ed: eth}
+func NewPrivateDebugAPI(config *core.ChainConfig, ed *Earthdollar) *PrivateDebugAPI {
+	return &PrivateDebugAPI{config: config, ed: ed}
 }
 
 // ChaindbProperty returns leveldb properties of the chain database.
 func (api *PrivateDebugAPI) ChaindbProperty(property string) (string, error) {
-	ldb, ok := api.eth.chainDb.(interface {
+	ldb, ok := api.ed.chainDb.(interface {
 		LDB() *leveldb.DB
 	})
 	if !ok {
@@ -1717,7 +1717,7 @@ func (api *PrivateDebugAPI) TraceBlockFromFile(file string, config *vm.Config) B
 // TraceBlockByNumber processes the block by canonical block number.
 func (api *PrivateDebugAPI) TraceBlockByNumber(number uint64, config *vm.Config) BlockTraceResult {
 	// Fetch the block that we aim to reprocess
-	block := api.eth.BlockChain().GetBlockByNumber(number)
+	block := api.ed.BlockChain().GetBlockByNumber(number)
 	if block == nil {
 		return BlockTraceResult{Error: fmt.Sprintf("block #%d not found", number)}
 	}
@@ -1733,7 +1733,7 @@ func (api *PrivateDebugAPI) TraceBlockByNumber(number uint64, config *vm.Config)
 // TraceBlockByHash processes the block by hash.
 func (api *PrivateDebugAPI) TraceBlockByHash(hash common.Hash, config *vm.Config) BlockTraceResult {
 	// Fetch the block that we aim to reprocess
-	block := api.eth.BlockChain().GetBlock(hash)
+	block := api.ed.BlockChain().GetBlock(hash)
 	if block == nil {
 		return BlockTraceResult{Error: fmt.Sprintf("block #%x not found", hash)}
 	}
@@ -1762,7 +1762,7 @@ func (t *TraceCollector) AddStructLog(slog vm.StructLog) {
 func (api *PrivateDebugAPI) traceBlock(block *types.Block, config *vm.Config) (bool, []vm.StructLog, error) {
 	// Validate and reprocess the block
 	var (
-		blockchain = api.eth.BlockChain()
+		blockchain = api.ed.BlockChain()
 		validator  = blockchain.Validator()
 		processor  = blockchain.Processor()
 		collector  = &TraceCollector{}
@@ -1793,7 +1793,7 @@ func (api *PrivateDebugAPI) traceBlock(block *types.Block, config *vm.Config) (b
 
 // SetHead rewinds the head of the blockchain to a previous block.
 func (api *PrivateDebugAPI) SetHead(number uint64) {
-	api.eth.BlockChain().SetHead(number)
+	api.ed.BlockChain().SetHead(number)
 }
 
 // ExecutionResult groups all structured logs emitted by the EVM
@@ -1865,20 +1865,20 @@ func (api *PrivateDebugAPI) TraceTransaction(txHash common.Hash, logger *vm.LogC
 		logger = new(vm.LogConfig)
 	}
 	// Retrieve the tx from the chain and the containing block
-	tx, blockHash, _, txIndex := core.GetTransaction(api.eth.ChainDb(), txHash)
+	tx, blockHash, _, txIndex := core.GetTransaction(api.ed.ChainDb(), txHash)
 	if tx == nil {
 		return nil, fmt.Errorf("transaction %x not found", txHash)
 	}
-	block := api.eth.BlockChain().GetBlock(blockHash)
+	block := api.ed.BlockChain().GetBlock(blockHash)
 	if block == nil {
 		return nil, fmt.Errorf("block %x not found", blockHash)
 	}
 	// Create the state database to mutate and eventually trace
-	parent := api.eth.BlockChain().GetBlock(block.ParentHash())
+	parent := api.ed.BlockChain().GetBlock(block.ParentHash())
 	if parent == nil {
 		return nil, fmt.Errorf("block parent %x not found", block.ParentHash())
 	}
-	stateDb, err := api.eth.BlockChain().StateAt(parent.Root())
+	stateDb, err := api.ed.BlockChain().StateAt(parent.Root())
 	if err != nil {
 		return nil, err
 	}
@@ -1899,7 +1899,7 @@ func (api *PrivateDebugAPI) TraceTransaction(txHash common.Hash, logger *vm.LogC
 		}
 		// Mutate the state if we haven't reached the tracing transaction yet
 		if uint64(idx) < txIndex {
-			vmenv := core.NewEnv(stateDb, api.config, api.eth.BlockChain(), msg, block.Header(), vm.Config{})
+			vmenv := core.NewEnv(stateDb, api.config, api.ed.BlockChain(), msg, block.Header(), vm.Config{})
 			_, _, err := core.ApplyMessage(vmenv, msg, new(core.GasPool).AddGas(tx.Gas()))
 			if err != nil {
 				return nil, fmt.Errorf("mutation failed: %v", err)
@@ -1908,7 +1908,7 @@ func (api *PrivateDebugAPI) TraceTransaction(txHash common.Hash, logger *vm.LogC
 			continue
 		}
 		// Otherwise trace the transaction and return
-		vmenv := core.NewEnv(stateDb, api.config, api.eth.BlockChain(), msg, block.Header(), vm.Config{Debug: true, Logger: *logger})
+		vmenv := core.NewEnv(stateDb, api.config, api.ed.BlockChain(), msg, block.Header(), vm.Config{Debug: true, Logger: *logger})
 		ret, gas, err := core.ApplyMessage(vmenv, msg, new(core.GasPool).AddGas(tx.Gas()))
 		if err != nil {
 			return nil, fmt.Errorf("tracing failed: %v", err)

@@ -109,7 +109,7 @@ var (
 	NetworkIdFlag = cli.IntFlag{
 		Name:  "networkid",
 		Usage: "Network identifier (integer, 0=Olympic, 1=Homestead, 2=Morden)",
-		Value: eth.NetworkId,
+		Value: ed.NetworkId,
 	}
 	OlympicFlag = cli.BoolFlag{
 		Name:  "olympic",
@@ -667,7 +667,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 	// get enabled jit flag
 	jitEnabled := ctx.GlobalBool(VMEnableJitFlag.Name)
 
-	ethConf := &eth.Config{
+	ethConf := &ed.Config{
 		ChainConfig:             MustMakeChainConfig(ctx),
 		FastSync:                ctx.GlobalBool(FastSyncFlag.Name),
 		BlockChainVersion:       ctx.GlobalInt(BlockchainVersionFlag.Name),
@@ -737,7 +737,7 @@ func MakeSystemNode(name, version string, relconf release.Config, extra []byte, 
 		Fatalf("Failed to create the protocol stack: %v", err)
 	}
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
-		return eth.New(ctx, ethConf)
+		return ed.New(ctx, ethConf)
 	}); err != nil {
 		Fatalf("Failed to register the Earthdollar service: %v", err)
 	}
