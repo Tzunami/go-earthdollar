@@ -17,8 +17,8 @@
 package core
 
 import (
-	"compress/gzip"
-	"encoding/base64"
+	//"compress/gzip"
+	//"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -177,7 +177,7 @@ func WriteTestNetGenesisBlock(chainDb ethdb.Database) (*types.Block, error) {
 // DefaultGenesisBlock assembles a JSON string representing the default Earthdollar
 // genesis block.
 func DefaultGenesisBlock() string {
-	reader, err := gzip.NewReader(base64.NewDecoder(base64.StdEncoding, strings.NewReader(defaultGenesisBlock)))
+	/*reader, err := gzip.NewReader(base64.NewDecoder(base64.StdEncoding, strings.NewReader(defaultGenesisBlock)))
 	if err != nil {
 		panic(fmt.Sprintf("failed to access default genesis: %v", err))
 	}
@@ -185,7 +185,9 @@ func DefaultGenesisBlock() string {
 	if err != nil {
 		panic(fmt.Sprintf("failed to load default genesis: %v", err))
 	}
-	return string(blob)
+	return string(blob)*/
+	
+	return OlympicGenesisBlock();
 }
 
 // OlympicGenesisBlock assembles a JSON string representing the Olympic genesis
