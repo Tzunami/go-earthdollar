@@ -164,7 +164,7 @@ var systemMap = map[string]system{
 	"cham":     numCham,
 	"cyrl":     numCyrl,
 	"deva":     numDeva,
-	"ethi":     numEthi,
+	"edi":     numEthi,
 	"fullwide": numFullwide,
 	"geor":     numGeor,
 	"grek":     numGrek,

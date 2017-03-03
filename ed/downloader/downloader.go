@@ -509,7 +509,7 @@ func (d *Downloader) syncWithPeer(p *peer, hash common.Hash, td *big.Int) (err e
 
 	default:
 		// Something very wrong, stop right here
-		glog.V(logger.Error).Infof("Unsupported eth protocol: %d", p.version)
+		glog.V(logger.Error).Infof("Unsupported ed protocol: %d", p.version)
 		return errBadPeer
 	}
 }

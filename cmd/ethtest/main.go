@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
-// ethtest executes Earthdollar JSON tests.
+// edtest executes Earthdollar JSON tests.
 package main
 
 import (
@@ -204,7 +204,7 @@ func main() {
 	glog.SetToStderr(true)
 
 	app := cli.NewApp()
-	app.Name = "ethtest"
+	app.Name = "edtest"
 	app.Usage = "go-earthdollar test interface"
 	app.Action = setupApp
 	app.Version = "0.2.0"

@@ -41,7 +41,7 @@ RUN git checkout develop
 RUN git pull
 
 
-RUN ETH_DEPS=$(go list -f '{{.Imports}} {{.TestImports}} {{.XTestImports}}' github.com/Tzunami/go-earthdollar/... | sed -e 's/\[//g' | sed -e 's/\]//g' | sed -e 's/C //g'); if [ "$ETH_DEPS" ]; then go get $ETH_DEPS; fi
-RUN go install -v ./cmd/ethtest
+RUN ED_DEPS=$(go list -f '{{.Imports}} {{.TestImports}} {{.XTestImports}}' github.com/Tzunami/go-earthdollar/... | sed -e 's/\[//g' | sed -e 's/\]//g' | sed -e 's/C //g'); if [ "$ED_DEPS" ]; then go get $ED_DEPS; fi
+RUN go install -v ./cmd/edtest
 
-ENTRYPOINT ["ethtest"]
+ENTRYPOINT ["edtest"]

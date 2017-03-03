@@ -24,7 +24,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/event"
 )
 
-// Implement our EthTest Manager
+// Implement our EdTest Manager
 type TestManager struct {
 	// stateManager *StateManager
 	eventMux *event.TypeMux

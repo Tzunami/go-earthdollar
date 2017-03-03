@@ -35,18 +35,18 @@ const (
 // Official short name of the protocol used during capability negotiation.
 var ProtocolName = "ed"
 
-// Supported versions of the eth protocol (first is primary).
+// Supported versions of the ed protocol (first is primary).
 var ProtocolVersions = []uint{eth63, eth62}
 
 // Number of implemented message corresponding to different protocol versions.
 var ProtocolLengths = []uint64{17, 8}
 
 const (
-	NetworkId          = 1
+	NetworkId          = 88
 	ProtocolMaxMsgSize = 10 * 1024 * 1024 // Maximum cap on the size of a protocol message
 )
 
-// eth protocol message codes
+// ed protocol message codes
 const (
 	// Protocol messages belonging to eth/62
 	StatusMsg          = 0x00

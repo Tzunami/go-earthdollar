@@ -148,7 +148,7 @@ func benchInsertChain(b *testing.B, disk bool, gen func(int, *BlockGen)) {
 	if !disk {
 		db, _ = ethdb.NewMemDatabase()
 	} else {
-		dir, err := ioutil.TempDir("", "eth-core-bench")
+		dir, err := ioutil.TempDir("", "ed-core-bench")
 		if err != nil {
 			b.Fatalf("cannot create temporary directory: %v", err)
 		}

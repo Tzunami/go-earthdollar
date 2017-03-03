@@ -86,7 +86,7 @@ var invalidZeroDiffBlock = testBlock{
 }
 
 func TestEthashVerifyValid(t *testing.T) {
-	eth := New()
+	ed:= New()
 	for i, block := range validBlocks {
 		if !ed.Verify(block) {
 			t.Errorf("block %d (%x) did not validate.", i, block.hashNoNonce[:6])
@@ -95,7 +95,7 @@ func TestEthashVerifyValid(t *testing.T) {
 }
 
 func TestEthashVerifyInvalid(t *testing.T) {
-	eth := New()
+	ed:= New()
 	if ed.Verify(&invalidZeroDiffBlock) {
 		t.Errorf("should not validate - we just ensure it does not panic on this block")
 	}

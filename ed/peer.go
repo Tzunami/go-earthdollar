@@ -230,7 +230,7 @@ func (p *peer) RequestReceipts(hashes []common.Hash) error {
 	return p2p.Send(p.rw, GetReceiptsMsg, hashes)
 }
 
-// Handshake executes the eth protocol handshake, negotiating version number,
+// Handshake executes the ed protocol handshake, negotiating version number,
 // network IDs, difficulties, head and genesis blocks.
 func (p *peer) Handshake(network int, td *big.Int, head common.Hash, genesis common.Hash) error {
 	// Send out own handshake in a new thread
@@ -295,7 +295,7 @@ func (p *peer) readStatus(network int, status *statusData, genesis common.Hash) 
 // String implements fmt.Stringer.
 func (p *peer) String() string {
 	return fmt.Sprintf("Peer %s [%s]", p.id,
-		fmt.Sprintf("eth/%2d", p.version),
+		fmt.Sprintf("ed/%2d", p.version),
 	)
 }
 

@@ -91,7 +91,7 @@ func TestWatchNoDir(t *testing.T) {
 
 	// Create am but not the directory that it watches.
 	rand.Seed(time.Now().UnixNano())
-	dir := filepath.Join(os.TempDir(), fmt.Sprintf("eth-keystore-watch-test-%d-%d", os.Getpid(), rand.Int()))
+	dir := filepath.Join(os.TempDir(), fmt.Sprintf("ed-keystore-watch-test-%d-%d", os.Getpid(), rand.Int()))
 	am, err := NewManager(dir, LightScryptN, LightScryptP)
 	if err != nil {
 		t.Fatal(err)

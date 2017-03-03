@@ -1,4 +1,4 @@
-// Copyright 2015 The go-earthdollar Authors
+	// Copyright 2015 The go-earthdollar Authors
 // This file is part of the go-earthdollar library.
 //
 // The go-earthdollar library is free software: you can redistribute it and/or modify
@@ -90,7 +90,7 @@ type ProtocolManager struct {
 // NewProtocolManager returns a new earthdollar sub protocol manager. The Earthdollar sub protocol manages peers capable
 // with the earthdollar network.
 func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, mux *event.TypeMux, txpool txPool, pow pow.PoW, blockchain *core.BlockChain, chaindb ethdb.Database) (*ProtocolManager, error) {
-	// Create the protocol manager with the base fields
+	// Create the protocol manager with the base 	
 	manager := &ProtocolManager{
 		networkId:   networkId,
 		eventMux:    mux,
@@ -168,7 +168,7 @@ func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, 
 	}
 	manager.fetcher = fetcher.New(blockchain.GetBlock, validator, manager.BroadcastBlock, heighter, inserter, manager.removePeer)
 
-	if blockchain.Genesis().Hash().Hex() == defaultGenesisHash && networkId == 1 {
+	if blockchain.Genesis().Hash().Hex() == defaultGenesisHash && networkId == 88 {
 		manager.badBlockReportingEnabled = false
 	}
 
@@ -244,7 +244,7 @@ func (pm *ProtocolManager) newPeer(pv int, p *p2p.Peer, rw p2p.MsgReadWriter) *p
 	return newPeer(pv, p, newMeteredMsgWriter(rw))
 }
 
-// handle is the callback invoked to manage the life cycle of an eth peer. When
+// handle is the callback invoked to manage the life cycle of an ed peer. When
 // this function terminates, the peer is disconnected.
 func (pm *ProtocolManager) handle(p *peer) error {
 	glog.V(logger.Debug).Infof("%v: peer connected [%s]", p, p.Name())
@@ -623,7 +623,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			}
 		}
 		for _, block := range unknown {
-			// TODO Breaking /eth tests
+			// TODO Breaking /edtests
 			pm.fetcher.Notify(p.id, block.Hash, block.Number, time.Now(), p.RequestOneHeader, p.RequestBodies)
 		}
 

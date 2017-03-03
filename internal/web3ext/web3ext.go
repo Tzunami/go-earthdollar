@@ -20,7 +20,7 @@ package web3ext
 var Modules = map[string]string{
 	"admin":    Admin_JS,
 	"debug":    Debug_JS,
-	"ed":       Eth_JS,
+	"ed":       Ed_JS,
 	"miner":    Miner_JS,
 	"net":      Net_JS,
 	"personal": Personal_JS,
@@ -301,7 +301,7 @@ web3._extend({
 });
 `
 
-const Eth_JS = `
+const Ed_JS = `
 web3._extend({
 	property: 'ed',
 	methods:
