@@ -824,9 +824,9 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 	}
 
 	if ctx.GlobalBool(TestNetFlag.Name) {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar (ETC) Testnet\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar Testnet\x1b[39m blockchain!")
 	} else {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEarthdollar (ETC) \x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEarthdollar \x1b[39m blockchain!")
 	}
 	glog.V(logger.Warn).Info(separator)
 	return c

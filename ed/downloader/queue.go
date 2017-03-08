@@ -92,20 +92,20 @@ type queue struct {
 	blockPendPool  map[string]*fetchRequest      // [eth/62] Currently pending block (body) retrieval operations
 	blockDonePool  map[common.Hash]struct{}      // [eth/62] Set of the completed block (body) fetches
 
-	receiptTaskPool  map[common.Hash]*types.Header // [eth/63] Pending receipt retrieval tasks, mapping hashes to headers
-	receiptTaskQueue *prque.Prque                  // [eth/63] Priority queue of the headers to fetch the receipts for
-	receiptPendPool  map[string]*fetchRequest      // [eth/63] Currently pending receipt retrieval operations
-	receiptDonePool  map[common.Hash]struct{}      // [eth/63] Set of the completed receipt fetches
+	receiptTaskPool  map[common.Hash]*types.Header // [ ed/63] Pending receipt retrieval tasks, mapping hashes to headers
+	receiptTaskQueue *prque.Prque                  // [ ed/63] Priority queue of the headers to fetch the receipts for
+	receiptPendPool  map[string]*fetchRequest      // [ ed/63] Currently pending receipt retrieval operations
+	receiptDonePool  map[common.Hash]struct{}      // [ ed/63] Set of the completed receipt fetches
 
-	stateTaskIndex int                      // [eth/63] Counter indexing the added hashes to ensure prioritised retrieval order
-	stateTaskPool  map[common.Hash]int      // [eth/63] Pending node data retrieval tasks, mapping to their priority
-	stateTaskQueue *prque.Prque             // [eth/63] Priority queue of the hashes to fetch the node data for
-	statePendPool  map[string]*fetchRequest // [eth/63] Currently pending node data retrieval operations
+	stateTaskIndex int                      // [ ed/63] Counter indexing the added hashes to ensure prioritised retrieval order
+	stateTaskPool  map[common.Hash]int      // [ ed/63] Pending node data retrieval tasks, mapping to their priority
+	stateTaskQueue *prque.Prque             // [ ed/63] Priority queue of the hashes to fetch the node data for
+	statePendPool  map[string]*fetchRequest // [ ed/63] Currently pending node data retrieval operations
 
-	stateDatabase   ethdb.Database   // [eth/63] Trie database to populate during state reassembly
-	stateScheduler  *state.StateSync // [eth/63] State trie synchronisation scheduler and integrator
-	stateProcessors int32            // [eth/63] Number of currently running state processors
-	stateSchedLock  sync.RWMutex     // [eth/63] Lock serialising access to the state scheduler
+	stateDatabase   ethdb.Database   // [ ed/63] Trie database to populate during state reassembly
+	stateScheduler  *state.StateSync // [ ed/63] State trie synchronisation scheduler and integrator
+	stateProcessors int32            // [ ed/63] Number of currently running state processors
+	stateSchedLock  sync.RWMutex     // [ ed/63] Lock serialising access to the state scheduler
 
 	resultCache  []*fetchResult // Downloaded but not yet delivered fetch results
 	resultOffset uint64         // Offset of the first cached fetch result in the block chain

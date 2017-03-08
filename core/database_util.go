@@ -465,7 +465,7 @@ func DeleteReceipt(db ethdb.Database, hash common.Hash) {
 // GetBlockByHashOld returns the old combined block corresponding to the hash
 // or nil if not found. This method is only used by the upgrade mechanism to
 // access the old combined block representation. It will be dropped after the
-// network transitions to eth/63.
+// network transitions to  ed/63.
 func GetBlockByHashOld(db ethdb.Database, hash common.Hash) *types.Block {
 	data, _ := db.Get(append(blockHashPrefix, hash[:]...))
 	if len(data) == 0 {

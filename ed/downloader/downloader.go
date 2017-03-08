@@ -141,11 +141,11 @@ type Downloader struct {
 	newPeerCh     chan *peer
 	headerCh      chan dataPack        // [eth/62] Channel receiving inbound block headers
 	bodyCh        chan dataPack        // [eth/62] Channel receiving inbound block bodies
-	receiptCh     chan dataPack        // [eth/63] Channel receiving inbound receipts
-	stateCh       chan dataPack        // [eth/63] Channel receiving inbound node state data
+	receiptCh     chan dataPack        // [ ed/63] Channel receiving inbound receipts
+	stateCh       chan dataPack        // [ ed/63] Channel receiving inbound node state data
 	bodyWakeCh    chan bool            // [eth/62] Channel to signal the block body fetcher of new tasks
-	receiptWakeCh chan bool            // [eth/63] Channel to signal the receipt fetcher of new tasks
-	stateWakeCh   chan bool            // [eth/63] Channel to signal the state fetcher of new tasks
+	receiptWakeCh chan bool            // [ ed/63] Channel to signal the receipt fetcher of new tasks
+	stateWakeCh   chan bool            // [ ed/63] Channel to signal the state fetcher of new tasks
 	headerProcCh  chan []*types.Header // [eth/62] Channel to feed the header processor new tasks
 
 	// Cancellation and termination
@@ -447,7 +447,7 @@ func (d *Downloader) syncWithPeer(p *peer, hash common.Hash, td *big.Int) (err e
 		)
 
 	case p.version >= 63:
-		glog.V(logger.Debug).Infoln("Synchronising with eth/63 peer.")
+		glog.V(logger.Debug).Infoln("Synchronising with  ed/63 peer.")
 		// Look up the sync boundaries: the common ancestor and the target block
 		latest, err := d.fetchHeight(p)
 		if err != nil {

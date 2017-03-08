@@ -83,8 +83,8 @@ type peer struct {
 	getAbsHeaders  absoluteHeaderFetcherFn // [eth/62] Method to retrieve a batch of headers from an absolute position
 	getBlockBodies blockBodyFetcherFn      // [eth/62] Method to retrieve a batch of block bodies
 
-	getReceipts receiptFetcherFn // [eth/63] Method to retrieve a batch of block transaction receipts
-	getNodeData stateFetcherFn   // [eth/63] Method to retrieve a batch of state trie data
+	getReceipts receiptFetcherFn // [ ed/63] Method to retrieve a batch of block transaction receipts
+	getNodeData stateFetcherFn   // [ ed/63] Method to retrieve a batch of state trie data
 
 	version int // Eth protocol version number to switch strategies
 	lock    sync.RWMutex
@@ -173,7 +173,7 @@ func (p *peer) FetchBodies(request *fetchRequest) error {
 func (p *peer) FetchReceipts(request *fetchRequest) error {
 	// Sanity check the protocol version
 	if p.version < 63 {
-		panic(fmt.Sprintf("body fetch [eth/63+] requested on eth/%d", p.version))
+		panic(fmt.Sprintf("body fetch [ ed/63+] requested on eth/%d", p.version))
 	}
 	// Short circuit if the peer is already fetching
 	if !atomic.CompareAndSwapInt32(&p.receiptIdle, 0, 1) {
@@ -195,7 +195,7 @@ func (p *peer) FetchReceipts(request *fetchRequest) error {
 func (p *peer) FetchNodeData(request *fetchRequest) error {
 	// Sanity check the protocol version
 	if p.version < 63 {
-		panic(fmt.Sprintf("node data fetch [eth/63+] requested on eth/%d", p.version))
+		panic(fmt.Sprintf("node data fetch [ ed/63+] requested on eth/%d", p.version))
 	}
 	// Short circuit if the peer is already fetching
 	if !atomic.CompareAndSwapInt32(&p.stateIdle, 0, 1) {
