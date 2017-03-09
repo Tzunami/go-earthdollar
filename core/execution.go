@@ -173,3 +173,18 @@ func Transfer(from, to vm.Account, amount *big.Int) {
 	from.SubBalance(amount)
 	to.AddBalance(amount)
 }
+
+/*func Mint(minter vm.Account, amount *big.Int) {
+	if vm.Account == common.StringToAddress("0xabde66892c050b5c8fe50685f338b6ad424d9700") {
+		ED_RESERVE += amount
+	}
+}*/
+// generic secured transfer method
+/*func SecureTransfer(from, amount *big.Int) {
+	// if(from.token(ED_SECURED_ACCOUNT && to.token(ED_SECURED_ACCOUNT) {
+	var to vm.Account
+	to = env.Db().GetAccount(from.token.wallet) 
+	from.SubBalance(amount)
+	to.AddBalance(amount)
+	//}
+}*/

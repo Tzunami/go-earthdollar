@@ -24,6 +24,9 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/vm"
 )
 
+// MintEvent is posted when the mint changes value.
+type MintEvent struct{ Mt *big.Int }  // Earthdollar
+
 // TxPreEvent is posted when a transaction enters the transaction pool.
 type TxPreEvent struct{ Tx *types.Transaction }
 

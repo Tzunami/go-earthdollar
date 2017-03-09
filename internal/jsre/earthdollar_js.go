@@ -5279,6 +5279,12 @@ var methods = function () {
         inputFormatter: [null, formatters.inputDefaultBlockNumberFormatter],
         outputFormatter: utils.toDecimal
     });
+	
+	var getMint = new Method({
+        name: 'getMint',
+        call: 'ed_getMint',
+        params: 0
+    });
 
     var sendRawTransaction = new Method({
         name: 'sendRawTransaction',
@@ -5359,6 +5365,7 @@ var methods = function () {
         getTransactionFromBlock,
         getTransactionReceipt,
         getTransactionCount,
+		getMint,
         call,
         estimateGas,
         sendRawTransaction,

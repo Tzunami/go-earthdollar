@@ -65,6 +65,7 @@ type Header struct {
 	GasLimit    *big.Int       // Gas limit
 	GasUsed     *big.Int       // Gas used
 	Time        *big.Int       // Creation time
+	Mint	    *big.Int	   // Earthdollar- Mint balance 
 	Extra       []byte         // Extra data
 	MixDigest   common.Hash    // for quick difficulty verification
 	Nonce       BlockNonce
@@ -88,6 +89,7 @@ func (h *Header) HashNoNonce() common.Hash {
 		h.GasLimit,
 		h.GasUsed,
 		h.Time,
+		h.Mint,  //Earthdollar
 		h.Extra,
 	})
 }
@@ -99,6 +101,7 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 		Difficulty string
 		GasLimit   string
 		Time       *big.Int
+		Mint       string
 		Extra      string
 	}
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -110,6 +113,7 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 	h.Coinbase = common.HexToAddress(ext.Coinbase)
 	h.Difficulty = common.String2Big(ext.Difficulty)
 	h.Time = ext.Time
+	//h.Mint = common.String2Big(ext.Mint) //earthdollar
 	h.Extra = []byte(ext.Extra)
 	return nil
 }
@@ -234,6 +238,9 @@ func CopyHeader(h *Header) *Header {
 	if cpy.Time = new(big.Int); h.Time != nil {
 		cpy.Time.Set(h.Time)
 	}
+	if cpy.Mint = new(big.Int); h.Mint != nil {
+		cpy.Mint.Set(h.Mint)
+	}
 	if cpy.Difficulty = new(big.Int); h.Difficulty != nil {
 		cpy.Difficulty.Set(h.Difficulty)
 	}
@@ -317,6 +324,7 @@ func (b *Block) GasLimit() *big.Int   { return new(big.Int).Set(b.header.GasLimi
 func (b *Block) GasUsed() *big.Int    { return new(big.Int).Set(b.header.GasUsed) }
 func (b *Block) Difficulty() *big.Int { return new(big.Int).Set(b.header.Difficulty) }
 func (b *Block) Time() *big.Int       { return new(big.Int).Set(b.header.Time) }
+func (b *Block) Mint() *big.Int       { return new(big.Int).Set(b.header.Mint) } //earthdollar
 
 func (b *Block) NumberU64() uint64        { return b.header.Number.Uint64() }
 func (b *Block) MixDigest() common.Hash   { return b.header.MixDigest }
@@ -426,10 +434,11 @@ func (h *Header) String() string {
 	GasLimit:	    %v
 	GasUsed:	    %v
 	Time:		    %v
+	Mint:      	    %v
 	Extra:		    %s
 	MixDigest:      %x
 	Nonce:		    %x
-]`, h.Hash(), h.ParentHash, h.UncleHash, h.Coinbase, h.Root, h.TxHash, h.ReceiptHash, h.Bloom, h.Difficulty, h.Number, h.GasLimit, h.GasUsed, h.Time, h.Extra, h.MixDigest, h.Nonce)
+]`, h.Hash(), h.ParentHash, h.UncleHash, h.Coinbase, h.Root, h.TxHash, h.ReceiptHash, h.Bloom, h.Difficulty, h.Number, h.GasLimit, h.GasUsed, h.Time, h.Mint, h.Extra, h.MixDigest, h.Nonce)
 }
 
 type Blocks []*Block

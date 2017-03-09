@@ -526,6 +526,7 @@ type PublicBlockChainAPI struct {
 	newBlockSubscriptions   map[string]func(core.ChainEvent) error // callbacks for new block subscriptions
 	am                      *accounts.Manager
 	miner                   *miner.Miner
+	//mint                     
 	gpo                     *GasPriceOracle
 }
 
@@ -817,6 +818,7 @@ func (s *PublicBlockChainAPI) rpcOutputBlock(b *types.Block, inclTx bool, fullTx
 		"logsBloom":        b.Bloom(),
 		"stateRoot":        b.Root(),
 		"miner":            b.Coinbase(),
+		"mint":             rpc.NewHexNumber(b.Mint()),
 		"difficulty":       rpc.NewHexNumber(b.Difficulty()),
 		"totalDifficulty":  rpc.NewHexNumber(s.bc.GetTd(b.Hash())),
 		"extraData":        fmt.Sprintf("0x%x", b.Extra()),

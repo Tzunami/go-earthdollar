@@ -17,8 +17,8 @@
 package core
 
 import (
-	//"compress/gzip"
-	//"encoding/base64"
+	"compress/gzip"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -49,6 +49,7 @@ func WriteGenesisBlock(chainDb ethdb.Database, reader io.Reader) (*types.Block, 
 		ParentHash  string
 		ExtraData   string
 		GasLimit    string
+		Mint        string
 		Difficulty  string
 		Mixhash     string
 		Coinbase    string
@@ -79,6 +80,7 @@ func WriteGenesisBlock(chainDb ethdb.Database, reader io.Reader) (*types.Block, 
 	block := types.NewBlock(&types.Header{
 		Nonce:      types.EncodeNonce(common.String2Big(genesis.Nonce).Uint64()),
 		Time:       common.String2Big(genesis.Timestamp),
+		Mint:       common.String2Big(genesis.Mint),
 		ParentHash: common.HexToHash(genesis.ParentHash),
 		Extra:      common.FromHex(genesis.ExtraData),
 		GasLimit:   common.String2Big(genesis.GasLimit),
@@ -177,12 +179,12 @@ func WriteTestNetGenesisBlock(chainDb ethdb.Database) (*types.Block, error) {
 // DefaultGenesisBlock assembles a JSON string representing the default Earthdollar
 // genesis block.
 func DefaultGenesisBlock() string {
-	/*reader, err := gzip.NewReader(base64.NewDecoder(base64.StdEncoding, strings.NewReader(defaultGenesisBlock)))
+	reader, err := gzip.NewReader(base64.NewDecoder(base64.StdEncoding, strings.NewReader(defaultGenesisBlock)))
 	if err != nil {
 		panic(fmt.Sprintf("failed to access default genesis: %v", err))
-	}*/
+	}
 	
-	reader := fmt.Sprintf(`{
+	/*reader := fmt.Sprintf(`{
 		"nonce": "0x%x",
 		"gasLimit":"0x%x",
 		"difficulty":"0x%x",
@@ -208,7 +210,7 @@ func DefaultGenesisBlock() string {
 			"0x61f2a927f5f7d91786f8779cd0ea4d769201f1ce":  {"balance": "100000000000000000000000000"}, 
 			"0xeef42335bc391518bf07a03518918c7ab0de9e9c":  {"balance": "100000000000000000000000000"} 
 		}
-	}`, types.EncodeNonce(42), params.GenesisGasLimit.Bytes(), params.GenesisDifficulty.Bytes())
+	}`, types.EncodeNonce(42), params.GenesisGasLimit.Bytes(), params.GenesisDifficulty.Bytes())*/
 	
 	blob, err := ioutil.ReadAll(reader)
 	if err != nil {
