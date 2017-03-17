@@ -18,15 +18,16 @@
 package main
 
 import (
-	"encoding/hex"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
 
+<<<<<<< HEAD:cmd/ged/main.go
 	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/cmd/utils"
 	"github.com/Tzunami/go-earthdollar/common"
@@ -85,7 +86,33 @@ func init() {
 	// Initialize the CLI app and start Ged
 	app = utils.NewApp(verString, "the go-earthdollar command line interface")
 	app.Action = ged
+=======
+	"gopkg.in/urfave/cli.v1"
+
+	"github.com/ethereumproject/ethash"
+	"github.com/ethereumproject/go-ethereum/console"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/eth"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/metrics"
+	"github.com/ethereumproject/go-ethereum/node"
+)
+
+// Version is the application revision identifier. It can be set with the linker
+// as in: go build -ldflags "-X main.Version="`git describe --tags`
+var Version = "unknown"
+
+func main() {
+	app := cli.NewApp()
+	app.Name = filepath.Base(os.Args[0])
+	app.Version = Version
+	app.Usage = "the go-ethereum command line interface"
+	app.Action = geth
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 	app.HideVersion = true // we have a command to print the version
+
 	app.Commands = []cli.Command{
 		importCommand,
 		exportCommand,
@@ -146,6 +173,7 @@ participating.
 	}
 
 	app.Flags = []cli.Flag{
+<<<<<<< HEAD:cmd/ged/main.go
 		utils.IdentityFlag,
 		utils.UnlockedAccountFlag,
 		utils.PasswordFileFlag,
@@ -206,14 +234,75 @@ participating.
 		utils.GpobaseCorrectionFactorFlag,
 		utils.ExtraDataFlag,
 		utils.Unused1,
+=======
+		IdentityFlag,
+		UnlockedAccountFlag,
+		PasswordFileFlag,
+		BootnodesFlag,
+		DataDirFlag,
+		KeyStoreDirFlag,
+		BlockchainVersionFlag,
+		OlympicFlag,
+		FastSyncFlag,
+		CacheFlag,
+		LightKDFFlag,
+		JSpathFlag,
+		ListenPortFlag,
+		MaxPeersFlag,
+		MaxPendingPeersFlag,
+		EtherbaseFlag,
+		GasPriceFlag,
+		MinerThreadsFlag,
+		MiningEnabledFlag,
+		MiningGPUFlag,
+		AutoDAGFlag,
+		TargetGasLimitFlag,
+		NATFlag,
+		NatspecEnabledFlag,
+		NoDiscoverFlag,
+		NodeKeyFileFlag,
+		NodeKeyHexFlag,
+		RPCEnabledFlag,
+		RPCListenAddrFlag,
+		RPCPortFlag,
+		RPCApiFlag,
+		WSEnabledFlag,
+		WSListenAddrFlag,
+		WSPortFlag,
+		WSApiFlag,
+		WSAllowedOriginsFlag,
+		IPCDisabledFlag,
+		IPCApiFlag,
+		IPCPathFlag,
+		ExecFlag,
+		PreloadJSFlag,
+		WhisperEnabledFlag,
+		DevModeFlag,
+		TestNetFlag,
+		NetworkIdFlag,
+		RPCCORSDomainFlag,
+		VerbosityFlag,
+		VModuleFlag,
+		BacktraceAtFlag,
+		MetricsFlag,
+		FakePoWFlag,
+		SolcPathFlag,
+		GpoMinGasPriceFlag,
+		GpoMaxGasPriceFlag,
+		GpoFullBlockRatioFlag,
+		GpobaseStepDownFlag,
+		GpobaseStepUpFlag,
+		GpobaseCorrectionFactorFlag,
+		ExtraDataFlag,
+		Unused1,
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 	}
-	app.Flags = append(app.Flags, debug.Flags...)
 
 	app.Before = func(ctx *cli.Context) error {
 		runtime.GOMAXPROCS(runtime.NumCPU())
-		if err := debug.Setup(ctx); err != nil {
-			return err
-		}
+
+		glog.CopyStandardLogTo("INFO")
+		glog.SetToStderr(true)
 
 		if s := ctx.String("metrics"); s != "" {
 			go metrics.Collect(s)
@@ -225,25 +314,23 @@ participating.
 		// for chains with the main network genesis block and network id 1.
 		ed .EnableBadBlockReporting = true
 
-		utils.SetupNetwork(ctx)
+		SetupNetwork(ctx)
 		return nil
 	}
 
 	app.After = func(ctx *cli.Context) error {
 		logger.Flush()
-		debug.Exit()
 		console.Stdin.Close() // Resets terminal mode.
 		return nil
 	}
-}
 
-func main() {
 	if err := app.Run(os.Args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
+<<<<<<< HEAD:cmd/ged/main.go
 func makeDefaultExtra() []byte {
 	var clientInfo = struct {
 		Version   uint
@@ -269,6 +356,13 @@ func makeDefaultExtra() []byte {
 // blocking mode, waiting for it to be shut down.
 func ged(ctx *cli.Context) error {
 	node := utils.MakeSystemNode(clientIdentifier, verString, relConfig, makeDefaultExtra(), ctx)
+=======
+// geth is the main entry point into the system if no special subcommand is ran.
+// It creates a default node based on the command line arguments and runs it in
+// blocking mode, waiting for it to be shut down.
+func geth(ctx *cli.Context) error {
+	node := MakeSystemNode(Version, ctx)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 	startNode(ctx, node)
 	node.Wait()
 
@@ -280,22 +374,22 @@ func ged(ctx *cli.Context) error {
 func initGenesis(ctx *cli.Context) error {
 	genesisPath := ctx.Args().First()
 	if len(genesisPath) == 0 {
-		utils.Fatalf("must supply path to genesis JSON file")
+		log.Fatal("must supply path to genesis JSON file")
 	}
 
-	chainDb, err := ethdb.NewLDBDatabase(filepath.Join(utils.MustMakeDataDir(ctx), "chaindata"), 0, 0)
+	chainDb, err := ethdb.NewLDBDatabase(filepath.Join(MustMakeDataDir(ctx), "chaindata"), 0, 0)
 	if err != nil {
-		utils.Fatalf("could not open database: %v", err)
+		log.Fatal("could not open database: ", err)
 	}
 
 	genesisFile, err := os.Open(genesisPath)
 	if err != nil {
-		utils.Fatalf("failed to read genesis file: %v", err)
+		log.Fatal("failed to read genesis file: ", err)
 	}
 
 	block, err := core.WriteGenesisBlock(chainDb, genesisFile)
 	if err != nil {
-		utils.Fatalf("failed to write genesis block: %v", err)
+		log.Fatalf("failed to write genesis block: ", err)
 	}
 	glog.V(logger.Info).Infof("successfully wrote genesis block and/or chain rule set: %x", block.Hash())
 	return nil
@@ -306,26 +400,41 @@ func initGenesis(ctx *cli.Context) error {
 // miner.
 func startNode(ctx *cli.Context, stack *node.Node) {
 	// Start up the node itself
-	utils.StartNode(stack)
+	StartNode(stack)
 
 	// Unlock any account specifically requested
+<<<<<<< HEAD:cmd/ged/main.go
 	var earthdollar *ed .Earthdollar
 	if err := stack.Service(&earthdollar); err != nil {
 		utils.Fatalf("earthdollar service not running: %v", err)
 	}
 	accman := earthdollar.AccountManager()
 	passwords := utils.MakePasswordList(ctx)
+=======
+	var ethereum *eth.Ethereum
+	if err := stack.Service(&ethereum); err != nil {
+		log.Fatal("ethereum service not running: ", err)
+	}
+	accman := ethereum.AccountManager()
+	passwords := MakePasswordList(ctx)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 
-	accounts := strings.Split(ctx.GlobalString(utils.UnlockedAccountFlag.Name), ",")
+	accounts := strings.Split(ctx.GlobalString(UnlockedAccountFlag.Name), ",")
 	for i, account := range accounts {
 		if trimmed := strings.TrimSpace(account); trimmed != "" {
 			unlockAccount(ctx, accman, trimmed, i, passwords)
 		}
 	}
 	// Start auxiliary services if enabled
+<<<<<<< HEAD:cmd/ged/main.go
 	if ctx.GlobalBool(utils.MiningEnabledFlag.Name) {
 		if err := earthdollar.StartMining(ctx.GlobalInt(utils.MinerThreadsFlag.Name), ctx.GlobalString(utils.MiningGPUFlag.Name)); err != nil {
 			utils.Fatalf("Failed to start mining: %v", err)
+=======
+	if ctx.GlobalBool(MiningEnabledFlag.Name) {
+		if err := ethereum.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
+			log.Fatalf("Failed to start mining: ", err)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 		}
 	}
 }
@@ -333,7 +442,11 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 func makedag(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
+<<<<<<< HEAD:cmd/ged/main.go
 		utils.Fatalf(`Usage: ged makedag <block number> <outputdir>`)
+=======
+		log.Fatal(`Usage: geth makedag <block number> <outputdir>`)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 	}
 	switch {
 	case len(args) == 2:
@@ -349,7 +462,7 @@ func makedag(ctx *cli.Context) error {
 			}
 			_, err = ioutil.ReadDir(dir)
 			if err != nil {
-				utils.Fatalf("Can't find dir")
+				log.Fatal("Can't find dir")
 			}
 			fmt.Println("making DAG, this could take awhile...")
 			ethash.MakeDAG(blockNum, dir)
@@ -368,7 +481,11 @@ func gpuinfo(ctx *cli.Context) error {
 func gpubench(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
+<<<<<<< HEAD:cmd/ged/main.go
 		utils.Fatalf(`Usage: ged gpubench <gpu number>`)
+=======
+		log.Fatal(`Usage: geth gpubench <gpu number>`)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 	}
 	switch {
 	case len(args) == 1:
@@ -386,10 +503,17 @@ func gpubench(ctx *cli.Context) error {
 }
 
 func version(c *cli.Context) error {
+<<<<<<< HEAD:cmd/ged/main.go
 	fmt.Println(clientIdentifier)
 	fmt.Println("Version:", verString)
 	fmt.Println("Protocol Versions:", ed .ProtocolVersions)
 	fmt.Println("Network Id:", c.GlobalInt(utils.NetworkIdFlag.Name))
+=======
+	fmt.Println("Geth")
+	fmt.Println("Version:", Version)
+	fmt.Println("Protocol Versions:", eth.ProtocolVersions)
+	fmt.Println("Network Id:", c.GlobalInt(NetworkIdFlag.Name))
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
 	fmt.Println("Go Version:", runtime.Version())
 	fmt.Println("OS:", runtime.GOOS)
 	fmt.Printf("GOPATH=%s\n", os.Getenv("GOPATH"))

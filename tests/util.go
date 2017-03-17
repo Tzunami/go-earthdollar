@@ -20,7 +20,6 @@ import (
 	"bytes"
 	"fmt"
 	"math/big"
-	"os"
 
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -33,17 +32,8 @@ import (
 	"github.com/Tzunami/go-earthdollar/params"
 )
 
-var (
-	ForceJit  bool
-	EnableJit bool
-)
-
 func init() {
 	glog.SetV(0)
-	if os.Getenv("JITVM") == "true" {
-		ForceJit = true
-		EnableJit = true
-	}
 }
 
 func checkLogs(tlog []Log, logs vm.Logs) error {
@@ -166,7 +156,6 @@ func (r RuleSet) GasTable(num *big.Int) params.GasTable {
 		return params.GasTableHomesteadGasRepriceFork
 	}
 
-	fmt.Println("diehard")
 	return params.GasTableDiehardFork
 }
 
@@ -187,8 +176,6 @@ type Env struct {
 	difficulty *big.Int
 	gasLimit   *big.Int
 
-	logs []vm.StructLog
-
 	vmTest bool
 
 	evm *vm.EVM
@@ -200,14 +187,6 @@ func NewEnv(ruleSet RuleSet, state *state.StateDB) *Env {
 		state:   state,
 	}
 	return env
-}
-
-func (self *Env) StructLogs() []vm.StructLog {
-	return self.logs
-}
-
-func (self *Env) AddStructLog(log vm.StructLog) {
-	self.logs = append(self.logs, log)
 }
 
 func NewEnvFromMap(ruleSet RuleSet, state *state.StateDB, envValues map[string]string, exeValues map[string]string) *Env {
@@ -222,10 +201,7 @@ func NewEnvFromMap(ruleSet RuleSet, state *state.StateDB, envValues map[string]s
 	env.gasLimit = common.Big(envValues["currentGasLimit"])
 	env.Gas = new(big.Int)
 
-	env.evm = vm.New(env, vm.Config{
-		EnableJit: EnableJit,
-		ForceJit:  ForceJit,
-	})
+	env.evm = vm.New(env)
 
 	return env
 }

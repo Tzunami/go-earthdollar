@@ -20,6 +20,7 @@ import (
 	"errors"
 	"math/big"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/common/compiler"
@@ -32,6 +33,19 @@ import (
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
+=======
+	"github.com/ethereumproject/go-ethereum/accounts"
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/common/compiler"
+	"github.com/ethereumproject/go-ethereum/common/registrar"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
 
 // registryAPIBackend is a backend for an Earthdollar Registry.
@@ -191,7 +205,7 @@ func (be *registryAPIBackend) Call(fromStr, toStr, valueStr, gasStr, gasPriceStr
 	}
 
 	header := be.bc.CurrentBlock().Header()
-	vmenv := core.NewEnv(statedb, be.config, be.bc, msg, header, vm.Config{})
+	vmenv := core.NewEnv(statedb, be.config, be.bc, msg, header)
 	gp := new(core.GasPool).AddGas(common.MaxBig)
 	res, gas, err := core.ApplyMessage(vmenv, msg, gp)
 

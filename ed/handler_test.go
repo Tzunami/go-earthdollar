@@ -62,7 +62,17 @@ func TestProtocolCompatibility(t *testing.T) {
 }
 
 // Tests that block headers can be retrieved from a remote chain based on user queries.
-func TestGetBlockHeaders62(t *testing.T) { testGetBlockHeaders(t, 62) }
+func TestGetBlockHeaders62(t *testing.T) {
+	core.TestConfig.Forks = []*core.Fork{
+		{
+			Name:     "Homestead",
+			Block:    big.NewInt(0),
+			GasTable: &params.GasTableHomestead,
+		},
+	}
+	testGetBlockHeaders(t, 62)
+}
+
 func TestGetBlockHeaders63(t *testing.T) { testGetBlockHeaders(t, 63) }
 
 func testGetBlockHeaders(t *testing.T, protocol int) {
@@ -72,7 +82,7 @@ func testGetBlockHeaders(t *testing.T, protocol int) {
 
 	// Create a "random" unknown hash for testing
 	var unknown common.Hash
-	for i, _ := range unknown {
+	for i := range unknown {
 		unknown[i] = byte(i)
 	}
 	// Create a batch of tests for various scenarios
@@ -229,17 +239,17 @@ func testGetBlockBodies(t *testing.T, protocol int) {
 		{limit + 1, nil, nil, limit},                                             // No more than the possible block count should be returned
 		{0, []common.Hash{pm.blockchain.Genesis().Hash()}, []bool{true}, 1},      // The genesis block should be retrievable
 		{0, []common.Hash{pm.blockchain.CurrentBlock().Hash()}, []bool{true}, 1}, // The chains head block should be retrievable
-		{0, []common.Hash{common.Hash{}}, []bool{false}, 0},                      // A non existent block should not be returned
+		{0, []common.Hash{{}}, []bool{false}, 0},                                 // A non existent block should not be returned
 
 		// Existing and non-existing blocks interleaved should not cause problems
 		{0, []common.Hash{
-			common.Hash{},
+			{},
 			pm.blockchain.GetBlockByNumber(1).Hash(),
-			common.Hash{},
+			{},
 			pm.blockchain.GetBlockByNumber(10).Hash(),
-			common.Hash{},
+			{},
 			pm.blockchain.GetBlockByNumber(100).Hash(),
-			common.Hash{},
+			{},
 		}, []bool{false, true, false, true, false, true, false}, 3},
 	}
 	// Run each of the tests and verify the results against the chain

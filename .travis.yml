@@ -1,19 +1,36 @@
 language: go
 go_import_path: github.com/Tzunami/go-earthdollar
 
-go:
-  - 1.7
-  - 1.8
+go: 1.7
+os:
+- linux
+- osx
 
 before_install:
-  - sudo add-apt-repository ppa:duggan/bats --yes
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq bats
-
-install:
-  - go get github.com/tools/godep
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository ppa:duggan/bats --yes; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq bats; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install bats; fi
 
 script:
+<<<<<<< HEAD
   - godep go test ./...
   - godep go build -o cmd/ged/gd ./cmd/ged
   - cd cmd/ged && bats .
+=======
+- go test ./...
+- go build -ldflags "-X main.Version="`git describe --tags` ./cmd/geth
+- bats cmd/geth
+- zip geth-classic-$TRAVIS_OS_NAME-$(git describe --tags).zip geth
+
+deploy:
+  provider: bintray
+  file: "bintray.json"
+  user: splix
+  key:
+    secure: "c50TvgsSeBMs8LoPO6nQVad3rie0Csh9l2KmwBCCZCLnJNA2nRTMM4EvlNiO8XiYKxms5h3KbzkZXCm+LCmsf+H8U0yupb44prg/MZ8HdvHQ4Qh/hEfQ8rESlxsgu6fjDjF779ge4gfYImyXHkBOCn/PoLkw+Akzw18l2dxsBnAecc+dHwBQ8NQ1Wh7CulD05DEG4SmdMuA/urj4f3kQGkb03jLF8/dNlf8HlTfgREaeKP9rpAtAKsoRIVC+34FdRWN/i8KG3TY+A3+M8bzIFCVNx+sXQ5YKbbtRQbuLPZPF/ELBWsMaxxHwlujhEbsBbZVkHGGZtKk8/EU1w9ZkEQWghXnkIuDxpqvSHzl491xhhpbf+7XL/uonAHlatoNDu3822vrp/eDj/Ys4vOF7F8dYQ7JIyhmXN/P3khehG7FG8mDBqXuImPtiltqvLBGMbsgUFIlaugaB45Zr/Oe2Umf97MgNJeSW/U5qLXN7sS4fPA/KAquty9yzFaxhgsY9iKiGJdAS6AC/CJxmhzEJWgwu6idAmN/L5BaRg29YTtaK+D6AwIVCky9hyHn0VhFN+ieF8H3P3fweG8PX4i63oqTs0+sAGGygzcN6xNit9NtJQ7i3QeGlzRIXfCh2cMz0pU5ErZrWy+kNH1ixzpW9VyugAl6qUQxnyIhbbY5ybIQ="
+  on:
+    branch: master
+  tags: true
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087

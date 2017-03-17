@@ -17,6 +17,7 @@
 package filters
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
@@ -25,6 +26,7 @@ import (
 	"sync"
 	"time"
 
+<<<<<<< HEAD:ed/filters/api.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/core/vm"
@@ -33,6 +35,14 @@ import (
 	"github.com/Tzunami/go-earthdollar/rpc"
 
 	"golang.org/x/net/context"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/rpc"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/filters/api.go
 )
 
 var (
@@ -385,7 +395,7 @@ func (args *NewFilterArgs) UnmarshalJSON(data []byte) error {
 		args.Topics = make([][]common.Hash, len(raw.Topics))
 		for i, t := range raw.Topics {
 			if t == nil { // ignore topic when matching logs
-				args.Topics[i] = []common.Hash{common.Hash{}}
+				args.Topics[i] = []common.Hash{{}}
 			} else if topic, ok := t.(string); ok { // match specific topic
 				top, err := topicConverter(topic)
 				if err != nil {

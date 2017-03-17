@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+: ${GETH_CMD:=$GOPATH/bin/geth}
+
 setup() {
 	DATA_DIR=`mktemp -d`
 }
@@ -9,7 +11,11 @@ teardown() {
 }
 
 @test "account list blanko" {
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR account
+=======
+	run $GETH_CMD --datadir $DATA_DIR account
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -17,9 +23,13 @@ teardown() {
 }
 
 @test "account list testdata keystore" {
-	cp -R ../../accounts/testdata/keystore $DATA_DIR
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/keystore $DATA_DIR
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR account
+=======
+	run $GETH_CMD --datadir $DATA_DIR account
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -29,7 +39,11 @@ teardown() {
 }
 
 @test "account create" {
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --lightkdf account new <<< $'secret\nsecret\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --lightkdf account new <<< $'secret\nsecret\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -37,7 +51,11 @@ teardown() {
 }
 
 @test "account create pass mismatch" {
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --lightkdf account new <<< $'secret\nother\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --lightkdf account new <<< $'secret\nother\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -45,16 +63,24 @@ teardown() {
 }
 
 @test "account update pass" {
-	cp -R ../../accounts/testdata/keystore $DATA_DIR
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/keystore $DATA_DIR
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --lightkdf account update f466859ead1932d743d622cb74fc058882e8648a <<< $'foobar\nother\nother\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --lightkdf account update f466859ead1932d743d622cb74fc058882e8648a <<< $'foobar\nother\nother\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
 }
 
 @test "account import" {
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --lightkdf wallet import testdata/guswallet.json <<< $'foo\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --lightkdf wallet import $BATS_TEST_DIRNAME/testdata/guswallet.json <<< $'foo\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -66,7 +92,11 @@ teardown() {
 }
 
 @test "account import pass mismatch" {
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --lightkdf wallet import testdata/guswallet.json <<< $'wrong\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --lightkdf wallet import $BATS_TEST_DIRNAME/testdata/guswallet.json <<< $'wrong\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -74,10 +104,14 @@ teardown() {
 }
 
 @test "account unlock" {
-	cp -R ../../accounts/testdata/keystore $DATA_DIR
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -85,10 +119,14 @@ teardown() {
 }
 
 @test "account unlock pass mismatch" {
-	cp -R ../../accounts/testdata/keystore $DATA_DIR
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong1\nwrong2\nwrong3\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong1\nwrong2\nwrong3\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -96,10 +134,14 @@ teardown() {
 }
 
 @test "account unlock multiple" {
-	cp -R ../../accounts/testdata/keystore $DATA_DIR
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --unlock 0,2 js $DATA_DIR/empty.js <<< $'foobar\nfoobar\n'
+=======
+	run $GETH_CMD --datadir $DATA_DIR --nat none --nodiscover --dev --unlock 0,2 js $DATA_DIR/empty.js <<< $'foobar\nfoobar\n'
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -108,11 +150,15 @@ teardown() {
 }
 
 @test "account unlock multiple with pass file" {
-	cp -R ../../accounts/testdata/keystore $DATA_DIR
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 	echo $'foobar\nfoobar\nfoobar\n' > $DATA_DIR/pass.txt
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
+=======
+	run $GETH_CMD --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -121,11 +167,15 @@ teardown() {
 }
 
 @test "account unlock multiple with wrong pass file" {
-	cp -R ../../accounts/testdata/keystore $DATA_DIR
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/keystore $DATA_DIR
 	touch $DATA_DIR/empty.js
 	echo $'wrong\nwrong\nwrong\n' > $DATA_DIR/pass.txt
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
+=======
+	run $GETH_CMD --datadir $DATA_DIR --nat none --nodiscover --dev --password $DATA_DIR/pass.txt --unlock 0,2 js $DATA_DIR/empty.js
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -ne 0 ]
@@ -133,10 +183,14 @@ teardown() {
 }
 
 @test "account unlock ambiguous" {
-	cp -R ../../accounts/testdata/dupes $DATA_DIR/store
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/dupes $DATA_DIR/store
 	touch $DATA_DIR/empty.js
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'$DATA_DIR/store/1
+=======
+	run $GETH_CMD --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'foobar\n'$DATA_DIR/store/1
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -146,10 +200,14 @@ teardown() {
 }
 
 @test "account unlock ambiguous pass mismatch" {
-	cp -R ../../accounts/testdata/dupes $DATA_DIR/store
+	cp -R $BATS_TEST_DIRNAME/../../accounts/testdata/dupes $DATA_DIR/store
 	touch $DATA_DIR/empty.js
 
+<<<<<<< HEAD:cmd/ged/account.bats
 	run ./ged --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong\n'$DATA_DIR/store/1
+=======
+	run $GETH_CMD --datadir $DATA_DIR --keystore $DATA_DIR/store --nat none --nodiscover --dev --unlock f466859ead1932d743d622cb74fc058882e8648a js $DATA_DIR/empty.js <<< $'wrong\n'$DATA_DIR/store/1
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/account.bats
 	echo "$output"
 
 	[ "$status" -ne 0 ]

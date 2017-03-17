@@ -55,7 +55,7 @@ func newTestProtocolManager(fastSync bool, blocks int, generator func(int, *core
 		genesis     = core.WriteGenesisBlockForTesting(db, testBank)
 		chainConfig = &core.ChainConfig{
 			Forks: []*core.Fork{
-				&core.Fork{
+				{
 					Name:  "Homestead",
 					Block: big.NewInt(0),
 				},
@@ -63,7 +63,8 @@ func newTestProtocolManager(fastSync bool, blocks int, generator func(int, *core
 		}
 		blockchain, _ = core.NewBlockChain(db, chainConfig, pow, evmux)
 	)
-	chain, _ := core.GenerateChain(core.NewTestChainConfig(), genesis, db, blocks, generator)
+
+	chain, _ := core.GenerateChain(core.TestConfig, genesis, db, blocks, generator)
 	if _, err := blockchain.InsertChain(chain); err != nil {
 		panic(err)
 	}

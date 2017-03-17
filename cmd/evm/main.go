@@ -21,9 +21,11 @@ import (
 	"fmt"
 	"math/big"
 	"os"
+	"path/filepath"
 	"runtime"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/cmd/utils"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -35,10 +37,26 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/params"
 	"gopkg.in/urfave/cli.v1"
+=======
+	"gopkg.in/urfave/cli.v1"
+
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/params"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
 
+// Version is the application revision identifier. It can be set with the linker
+// as in: go build -ldflags "-X main.Version="`git describe --tags`
+var Version = "unknown"
+
 var (
-	app       *cli.App
 	DebugFlag = cli.BoolFlag{
 		Name:  "debug",
 		Usage: "output full trace logs",
@@ -92,8 +110,14 @@ var (
 	}
 )
 
+var app *cli.App
+
 func init() {
-	app = utils.NewApp("0.2", "the evm command line interface")
+	app = cli.NewApp()
+	app.Name = filepath.Base(os.Args[0])
+	app.Version = Version
+	app.Usage = "the evm command line interface"
+	app.Action = run
 	app.Flags = []cli.Flag{
 		CreateFlag,
 		DebugFlag,
@@ -108,7 +132,6 @@ func init() {
 		DumpFlag,
 		InputFlag,
 	}
-	app.Action = run
 }
 
 func run(ctx *cli.Context) error {
@@ -119,11 +142,7 @@ func run(ctx *cli.Context) error {
 	statedb, _ := state.New(common.Hash{}, db)
 	sender := statedb.CreateAccount(common.StringToAddress("sender"))
 
-	vmenv := NewEnv(statedb, common.StringToAddress("evmuser"), common.Big(ctx.GlobalString(ValueFlag.Name)), vm.Config{
-		Debug:     ctx.GlobalBool(DebugFlag.Name),
-		ForceJit:  ctx.GlobalBool(ForceJitFlag.Name),
-		EnableJit: !ctx.GlobalBool(DisableJitFlag.Name),
-	})
+	vmenv := NewEnv(statedb, common.StringToAddress("evmuser"), common.Big(ctx.GlobalString(ValueFlag.Name)))
 
 	tstart := time.Now()
 
@@ -161,7 +180,6 @@ func run(ctx *cli.Context) error {
 		statedb.Commit()
 		fmt.Println(string(statedb.Dump()))
 	}
-	vm.StdErrFormat(vmenv.StructLogs())
 
 	if ctx.GlobalBool(SysStatFlag.Name) {
 		var mem runtime.MemStats
@@ -201,21 +219,19 @@ type VMEnv struct {
 	depth int
 	Gas   *big.Int
 	time  *big.Int
-	logs  []vm.StructLog
 
 	evm *vm.EVM
 }
 
-func NewEnv(state *state.StateDB, transactor common.Address, value *big.Int, cfg vm.Config) *VMEnv {
+func NewEnv(state *state.StateDB, transactor common.Address, value *big.Int) *VMEnv {
 	env := &VMEnv{
 		state:      state,
 		transactor: &transactor,
 		value:      value,
 		time:       big.NewInt(time.Now().Unix()),
 	}
-	cfg.Logger.Collector = env
 
-	env.evm = vm.New(env, cfg)
+	env.evm = vm.New(env)
 	return env
 }
 
@@ -248,12 +264,6 @@ func (self *VMEnv) GetHash(n uint64) common.Hash {
 		return self.block.Hash()
 	}
 	return common.Hash{}
-}
-func (self *VMEnv) AddStructLog(log vm.StructLog) {
-	self.logs = append(self.logs, log)
-}
-func (self *VMEnv) StructLogs() []vm.StructLog {
-	return self.logs
 }
 func (self *VMEnv) AddLog(log *vm.Log) {
 	self.state.AddLog(log)

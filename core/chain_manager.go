@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"math/big"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
@@ -27,6 +28,14 @@ import (
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/pow"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/pow"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
 
 /*
@@ -37,7 +46,7 @@ import (
 func MakeChainConfig() *ChainConfig {
 	return &ChainConfig{
 		Forks: []*Fork{
-			&Fork{
+			{
 				Name:  "Homestead",
 				Block: big.NewInt(0),
 			},
@@ -49,7 +58,7 @@ func MakeDiehardChainConfig() *ChainConfig {
 	return &ChainConfig{
 		ChainId: big.NewInt(63),
 		Forks: []*Fork{
-			&Fork{
+			{
 				Name:   "Diehard",
 				Block:  big.NewInt(0),
 				Length: big.NewInt(1000),
@@ -122,7 +131,7 @@ func (b *BlockGen) AddTx(tx *types.Transaction) {
 		b.SetCoinbase(common.Address{})
 	}
 	b.statedb.StartRecord(tx.Hash(), common.Hash{}, len(b.txs))
-	receipt, _, _, err := ApplyTransaction(b.config, nil, b.gasPool, b.statedb, b.header, tx, b.header.GasUsed, vm.Config{})
+	receipt, _, _, err := ApplyTransaction(b.config, nil, b.gasPool, b.statedb, b.header, tx, b.header.GasUsed)
 	if err != nil {
 		panic(err)
 	}

@@ -28,6 +28,7 @@ import (
 	"sync"
 	"time"
 
+<<<<<<< HEAD:ed/backend.go
 	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
@@ -48,6 +49,27 @@ import (
 	"github.com/Tzunami/go-earthdollar/p2p"
 	"github.com/Tzunami/go-earthdollar/rlp"
 	"github.com/Tzunami/go-earthdollar/rpc"
+=======
+	"github.com/ethereumproject/ethash"
+	"github.com/ethereumproject/go-ethereum/accounts"
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/common/compiler"
+	"github.com/ethereumproject/go-ethereum/common/httpclient"
+	"github.com/ethereumproject/go-ethereum/common/registrar/ethreg"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/eth/downloader"
+	"github.com/ethereumproject/go-ethereum/eth/filters"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/miner"
+	"github.com/ethereumproject/go-ethereum/node"
+	"github.com/ethereumproject/go-ethereum/p2p"
+	"github.com/ethereumproject/go-ethereum/rlp"
+	"github.com/ethereumproject/go-ethereum/rpc"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/backend.go
 )
 
 const (
@@ -75,7 +97,6 @@ type Config struct {
 	AutoDAG   bool
 	PowTest   bool
 	PowShared bool
-	ExtraData []byte
 
 	AccountManager *accounts.Manager
 	Earthbase      common.Address
@@ -89,9 +110,6 @@ type Config struct {
 	GpobaseStepDown         int
 	GpobaseStepUp           int
 	GpobaseCorrectionFactor int
-
-	EnableJit bool
-	ForceJit  bool
 
 	TestGenesisBlock *types.Block   // Genesis block to seed the chain database with (testing only!)
 	TestGenesisState ethdb.Database // Genesis state to seed the database with (testing only!)
@@ -239,11 +257,15 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 		return nil, errors.New("missing chain config")
 	}
 
+<<<<<<< HEAD:ed/backend.go
 	ed.chainConfig = config.ChainConfig
 	ed.chainConfig.VmConfig = vm.Config{
 		EnableJit: config.EnableJit,
 		ForceJit:  config.ForceJit,
 	}
+=======
+	eth.chainConfig = config.ChainConfig
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/backend.go
 
 	ed.blockchain, err = core.NewBlockChain(chainDb, ed.chainConfig, ed.pow, ed.EventMux())
 	if err != nil {
@@ -260,9 +282,14 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, ed.blockchain, chainDb); err != nil {
 		return nil, err
 	}
+<<<<<<< HEAD:ed/backend.go
 	ed.miner = miner.New(ed, ed.chainConfig, ed.EventMux(), ed.pow)
 	ed.miner.SetGasPrice(config.GasPrice)
 	ed.miner.SetExtra(config.ExtraData)
+=======
+	eth.miner = miner.New(eth, eth.chainConfig, eth.EventMux(), eth.pow)
+	eth.miner.SetGasPrice(config.GasPrice)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/backend.go
 
 	return ed, nil
 }
@@ -330,10 +357,6 @@ func (s *Earthdollar) APIs() []rpc.API {
 			Version:   "1.0",
 			Service:   NewPublicDebugAPI(s),
 			Public:    true,
-		}, {
-			Namespace: "debug",
-			Version:   "1.0",
-			Service:   NewPrivateDebugAPI(s.chainConfig, s),
 		}, {
 			Namespace: "net",
 			Version:   "1.0",

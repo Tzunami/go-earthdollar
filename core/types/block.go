@@ -33,6 +33,10 @@ import (
 	"github.com/Tzunami/go-earthdollar/rlp"
 )
 
+
+// HeaderExtraMax is the byte size limit for Header.Extra.
+var HeaderExtraMax = 32
+
 // A BlockNonce is a 64-bit hash which proves (combined with the
 // mix-hash) that a sufficient amount of computation has been carried
 // out on a block.
@@ -65,8 +69,12 @@ type Header struct {
 	GasLimit    *big.Int       // Gas limit
 	GasUsed     *big.Int       // Gas used
 	Time        *big.Int       // Creation time
+<<<<<<< HEAD
 	Mint	    *big.Int	   // Earthdollar- Mint balance 
 	Extra       []byte         // Extra data
+=======
+	Extra       []byte         // Freeform descriptor
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 	MixDigest   common.Hash    // for quick difficulty verification
 	Nonce       BlockNonce
 }

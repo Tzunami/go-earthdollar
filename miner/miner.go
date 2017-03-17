@@ -18,10 +18,10 @@
 package miner
 
 import (
-	"fmt"
 	"math/big"
 	"sync/atomic"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -32,7 +32,21 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/params"
 	"github.com/Tzunami/go-earthdollar/pow"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/eth/downloader"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/pow"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
+
+// HeaderExtra is a freeform description.
+var HeaderExtra []byte
 
 type Miner struct {
 	mux *event.TypeMux
@@ -153,15 +167,6 @@ func (self *Miner) HashRate() (tot int64) {
 		tot += agent.GetHashRate()
 	}
 	return
-}
-
-func (self *Miner) SetExtra(extra []byte) error {
-	if uint64(len(extra)) > params.MaximumExtraDataSize.Uint64() {
-		return fmt.Errorf("Extra exceeds max length. %d > %v", len(extra), params.MaximumExtraDataSize)
-	}
-
-	self.worker.extra = extra
-	return nil
 }
 
 // Pending returns the currently pending block and associated state.

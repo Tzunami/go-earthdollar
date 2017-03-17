@@ -18,19 +18,19 @@ package ed
 
 import (
 	"bytes"
+	"context"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"math/big"
 	"os"
 	"runtime"
-	"strings"
 	"sync"
 	"time"
 
+<<<<<<< HEAD:ed/api.go
 	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
@@ -50,6 +50,25 @@ import (
 	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/syndtr/goleveldb/leveldb"
 	"golang.org/x/net/context"
+=======
+	"github.com/ethereumproject/ethash"
+	"github.com/ethereumproject/go-ethereum/accounts"
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/common/compiler"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/miner"
+	"github.com/ethereumproject/go-ethereum/p2p"
+	"github.com/ethereumproject/go-ethereum/rlp"
+	"github.com/ethereumproject/go-ethereum/rpc"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/api.go
 )
 
 const defaultGas = uint64(90000)
@@ -260,14 +279,6 @@ func (s *PrivateMinerAPI) Start(threads *rpc.HexNumber) (bool, error) {
 func (s *PrivateMinerAPI) Stop() bool {
 	s.e.StopMining()
 	return true
-}
-
-// SetExtra sets the extra data string that is included when this miner mines a block.
-func (s *PrivateMinerAPI) SetExtra(extra string) (bool, error) {
-	if err := s.e.Miner().SetExtra([]byte(extra)); err != nil {
-		return false, err
-	}
-	return true, nil
 }
 
 // SetGasPrice sets the minimum accepted gas price for the miner.
@@ -782,7 +793,7 @@ func (s *PublicBlockChainAPI) doCall(args CallArgs, blockNr rpc.BlockNumber) (st
 	}
 
 	// Execute the call and return
-	vmenv := core.NewEnv(stateDb, s.config, s.bc, msg, block.Header(), s.config.VmConfig)
+	vmenv := core.NewEnv(stateDb, s.config, s.bc, msg, block.Header())
 	gp := new(core.GasPool).AddGas(common.MaxBig)
 
 	res, requiredGas, _, err := core.NewStateTransition(vmenv, msg, gp).TransitionDb()
@@ -1652,6 +1663,7 @@ func (api *PublicDebugAPI) SeedHash(number uint64) (string, error) {
 	return fmt.Sprintf("0x%x", hash), nil
 }
 
+<<<<<<< HEAD:ed/api.go
 // PrivateDebugAPI is the collection of Earthdollar APIs exposed over the private
 // debugging endpoint.
 type PrivateDebugAPI struct {
@@ -1798,10 +1810,13 @@ func (api *PrivateDebugAPI) SetHead(number uint64) {
 	api.ed.BlockChain().SetHead(number)
 }
 
+=======
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/api.go
 // ExecutionResult groups all structured logs emitted by the EVM
 // while replaying a transaction in debug mode as well as the amount of
 // gas used and the return value
 type ExecutionResult struct {
+<<<<<<< HEAD:ed/api.go
 	Gas         *big.Int       `json:"gas"`
 	ReturnValue string         `json:"returnValue"`
 	StructLogs  []structLogRes `json:"structLogs"`
@@ -1922,6 +1937,10 @@ func (api *PrivateDebugAPI) TraceTransaction(txHash common.Hash, logger *vm.LogC
 		}, nil
 	}
 	return nil, errors.New("database inconsistency")
+=======
+	Gas         *big.Int `json:"gas"`
+	ReturnValue string   `json:"returnValue"`
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/api.go
 }
 
 // TraceCall executes a call and returns the amount of gas, created logs and optionally returned values.
@@ -1964,16 +1983,13 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 	}
 
 	// Execute the call and return
-	vmenv := core.NewEnv(stateDb, s.config, s.bc, msg, block.Header(), vm.Config{
-		Debug: true,
-	})
+	vmenv := core.NewEnv(stateDb, s.config, s.bc, msg, block.Header())
 	gp := new(core.GasPool).AddGas(common.MaxBig)
 
 	ret, gas, err := core.ApplyMessage(vmenv, msg, gp)
 	return &ExecutionResult{
 		Gas:         gas,
 		ReturnValue: fmt.Sprintf("%x", ret),
-		StructLogs:  formatLogs(vmenv.StructLogs()),
 	}, nil
 }
 

@@ -18,6 +18,7 @@ package miner
 
 import (
 	"fmt"
+	"log"
 	"math/big"
 	"sync"
 	"sync/atomic"
@@ -107,7 +108,6 @@ type worker struct {
 
 	coinbase common.Address
 	gasPrice *big.Int
-	extra    []byte
 
 	currentMu sync.Mutex
 	current   *Work
@@ -262,7 +262,7 @@ func (self *worker) wait() {
 
 			if self.fullValidation {
 				if _, err := self.chain.InsertChain(types.Blocks{block}); err != nil {
-					glog.V(logger.Error).Infoln("mining err", err)
+					log.Println("mine: ignoring invalid block #%d (%x) received:", block.Number(), block.Hash(), err)
 					continue
 				}
 				go self.mux.Post(core.NewMinedBlockEvent{Block: block})
@@ -462,7 +462,7 @@ func (self *worker) commitNewWork() {
 		GasLimit:   core.CalcGasLimit(parent),
 		GasUsed:    new(big.Int),
 		Coinbase:   self.coinbase,
-		Extra:      self.extra,
+		Extra:      HeaderExtra,
 		Time:       big.NewInt(tstamp),
 	}
 	previous := self.current
@@ -654,14 +654,7 @@ func (env *Work) commitTransactions(mux *event.TypeMux, transactions types.Trans
 func (env *Work) commitTransaction(tx *types.Transaction, bc *core.BlockChain, gp *core.GasPool) (error, vm.Logs) {
 	snap := env.state.Snapshot()
 
-	// this is a bit of a hack to force jit for the miners
-	config := env.config.VmConfig
-	if !(config.EnableJit && config.ForceJit) {
-		config.EnableJit = false
-	}
-	config.ForceJit = false // disable forcing jit
-
-	receipt, logs, _, err := core.ApplyTransaction(env.config, bc, gp, env.state, env.header, tx, env.header.GasUsed, vm.Config{})
+	receipt, logs, _, err := core.ApplyTransaction(env.config, bc, gp, env.state, env.header, tx, env.header.GasUsed)
 	if err != nil {
 		env.state.RevertToSnapshot(snap)
 		return err, nil

@@ -26,12 +26,20 @@ import (
 	"sync"
 	"syscall"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/internal/debug"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/p2p"
 	"github.com/Tzunami/go-earthdollar/rpc"
+=======
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/p2p"
+	"github.com/ethereumproject/go-ethereum/rpc"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
 
 var (
@@ -583,10 +591,6 @@ func (n *Node) apis() []rpc.API {
 			Version:   "1.0",
 			Service:   NewPublicAdminAPI(n),
 			Public:    true,
-		}, {
-			Namespace: "debug",
-			Version:   "1.0",
-			Service:   debug.Handler,
 		}, {
 			Namespace: "web3",
 			Version:   "1.0",

@@ -23,7 +23,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"strings"
 
 	"github.com/rs/cors"
@@ -35,11 +34,12 @@ const (
 
 // httpClient connects to a ged RPC server over HTTP.
 type httpClient struct {
-	endpoint   *url.URL    // HTTP-RPC server endpoint
+	endpoint   string      // HTTP-RPC server endpoint
 	httpClient http.Client // reuse connection
 	lastRes    []byte      // HTTP requests are synchronous, store last response
 }
 
+<<<<<<< HEAD
 // NewHTTPClient create a new RPC clients that connection to a ged RPC server
 // over HTTP.
 func NewHTTPClient(endpoint string) (Client, error) {
@@ -50,6 +50,8 @@ func NewHTTPClient(endpoint string) (Client, error) {
 	return &httpClient{endpoint: url}, nil
 }
 
+=======
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 // Send will serialize the given msg to JSON and sends it to the RPC server.
 // Since HTTP is synchronous the response is stored until Recv is called.
 func (client *httpClient) Send(msg interface{}) error {
@@ -61,7 +63,7 @@ func (client *httpClient) Send(msg interface{}) error {
 		return err
 	}
 
-	resp, err := client.httpClient.Post(client.endpoint.String(), "application/json", bytes.NewReader(body))
+	resp, err := client.httpClient.Post(client.endpoint, "application/json", bytes.NewReader(body))
 	if err != nil {
 		return err
 	}

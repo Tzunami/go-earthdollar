@@ -113,7 +113,7 @@ func (v *BlockValidator) ValidateBlock(block *types.Block) error {
 func (v *BlockValidator) ValidateState(block, parent *types.Block, statedb *state.StateDB, receipts types.Receipts, usedGas *big.Int) (err error) {
 	header := block.Header()
 	if block.GasUsed().Cmp(usedGas) != 0 {
-		return ValidationError(fmt.Sprintf("gas used error (%v / %v)", block.GasUsed(), usedGas))
+		return validateError(fmt.Sprintf("gas used error (%v / %v)", block.GasUsed(), usedGas))
 	}
 	// Validate the received block's bloom with the one derived from the generated receipts.
 	// For valid blocks this should always validate to true.
@@ -141,7 +141,7 @@ func (v *BlockValidator) ValidateState(block, parent *types.Block, statedb *stat
 func (v *BlockValidator) VerifyUncles(block, parent *types.Block) error {
 	// validate that there at most 2 uncles included in this block
 	if len(block.Uncles()) > 2 {
-		return ValidationError("Block can only contain maximum 2 uncles (contained %v)", len(block.Uncles()))
+		return validateError(fmt.Sprintf("Block can only contain maximum 2 uncles (contained %d)", len(block.Uncles())))
 	}
 
 	uncles := set.New()
@@ -178,7 +178,7 @@ func (v *BlockValidator) VerifyUncles(block, parent *types.Block) error {
 		}
 
 		if err := ValidateHeader(v.config, v.Pow, uncle, ancestors[uncle.ParentHash].Header(), true, true); err != nil {
-			return ValidationError(fmt.Sprintf("uncle[%d](%x) header invalid: %v", i, hash[:4], err))
+			return validateError(fmt.Sprintf("uncle[%d](%x) header invalid: %v", i, hash[:4], err))
 		}
 	}
 
@@ -204,8 +204,8 @@ func (v *BlockValidator) ValidateHeader(header, parent *types.Header, checkPow b
 //
 // See YP section 4.3.4. "Block Header Validity"
 func ValidateHeader(config *ChainConfig, pow pow.PoW, header *types.Header, parent *types.Header, checkPow, uncle bool) error {
-	if big.NewInt(int64(len(header.Extra))).Cmp(params.MaximumExtraDataSize) == 1 {
-		return fmt.Errorf("Header extra data too long (%d)", len(header.Extra))
+	if len(header.Extra) > types.HeaderExtraMax {
+		return fmt.Errorf("extra data size %d exceeds limit of %d", len(header.Extra), types.HeaderExtraMax)
 	}
 
 	if uncle {

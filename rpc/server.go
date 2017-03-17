@@ -17,16 +17,24 @@
 package rpc
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 	"runtime"
 	"sync/atomic"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"golang.org/x/net/context"
 	"gopkg.in/fatih/set.v0"
+=======
+	"gopkg.in/fatih/set.v0"
+
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
 
 const (

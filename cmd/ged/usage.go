@@ -21,8 +21,11 @@ package main
 import (
 	"io"
 
+<<<<<<< HEAD:cmd/ged/usage.go
 	"github.com/Tzunami/go-earthdollar/cmd/utils"
 	"github.com/Tzunami/go-earthdollar/internal/debug"
+=======
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/usage.go
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -32,13 +35,8 @@ var AppHelpTemplate = `NAME:
 
 USAGE:
    {{.App.HelpName}} [options]{{if .App.Commands}} command [command options]{{end}} {{if .App.ArgsUsage}}{{.App.ArgsUsage}}{{else}}[arguments...]{{end}}
-   {{if .App.Version}}
 VERSION:
-   {{.App.Version}}
-   {{end}}{{if len .App.Authors}}
-AUTHOR(S):
-   {{range .App.Authors}}{{ . }}{{end}}
-   {{end}}{{if .App.Commands}}
+   {{.App.Version}}{{if .App.Commands}}
 COMMANDS:
    {{range .App.Commands}}{{join .Names ", "}}{{ "\t" }}{{.Usage}}
    {{end}}{{end}}{{if .FlagGroups}}
@@ -62,63 +60,64 @@ var AppHelpFlagGroups = []flagGroup{
 	{
 		Name: "EARTHDOLLAR",
 		Flags: []cli.Flag{
-			utils.DataDirFlag,
-			utils.KeyStoreDirFlag,
-			utils.NetworkIdFlag,
-			utils.OlympicFlag,
-			utils.TestNetFlag,
-			utils.DevModeFlag,
-			utils.IdentityFlag,
-			utils.FastSyncFlag,
-			utils.LightKDFFlag,
-			utils.CacheFlag,
-			utils.BlockchainVersionFlag,
+			DataDirFlag,
+			KeyStoreDirFlag,
+			NetworkIdFlag,
+			OlympicFlag,
+			TestNetFlag,
+			DevModeFlag,
+			IdentityFlag,
+			FastSyncFlag,
+			LightKDFFlag,
+			CacheFlag,
+			BlockchainVersionFlag,
 		},
 	},
 	{
 		Name: "ACCOUNT",
 		Flags: []cli.Flag{
-			utils.UnlockedAccountFlag,
-			utils.PasswordFileFlag,
+			UnlockedAccountFlag,
+			PasswordFileFlag,
 		},
 	},
 	{
 		Name: "API AND CONSOLE",
 		Flags: []cli.Flag{
-			utils.RPCEnabledFlag,
-			utils.RPCListenAddrFlag,
-			utils.RPCPortFlag,
-			utils.RPCApiFlag,
-			utils.WSEnabledFlag,
-			utils.WSListenAddrFlag,
-			utils.WSPortFlag,
-			utils.WSApiFlag,
-			utils.WSAllowedOriginsFlag,
-			utils.IPCDisabledFlag,
-			utils.IPCApiFlag,
-			utils.IPCPathFlag,
-			utils.RPCCORSDomainFlag,
-			utils.JSpathFlag,
-			utils.ExecFlag,
-			utils.PreloadJSFlag,
+			RPCEnabledFlag,
+			RPCListenAddrFlag,
+			RPCPortFlag,
+			RPCApiFlag,
+			WSEnabledFlag,
+			WSListenAddrFlag,
+			WSPortFlag,
+			WSApiFlag,
+			WSAllowedOriginsFlag,
+			IPCDisabledFlag,
+			IPCApiFlag,
+			IPCPathFlag,
+			RPCCORSDomainFlag,
+			JSpathFlag,
+			ExecFlag,
+			PreloadJSFlag,
 		},
 	},
 	{
 		Name: "NETWORKING",
 		Flags: []cli.Flag{
-			utils.BootnodesFlag,
-			utils.ListenPortFlag,
-			utils.MaxPeersFlag,
-			utils.MaxPendingPeersFlag,
-			utils.NATFlag,
-			utils.NoDiscoverFlag,
-			utils.NodeKeyFileFlag,
-			utils.NodeKeyHexFlag,
+			BootnodesFlag,
+			ListenPortFlag,
+			MaxPeersFlag,
+			MaxPendingPeersFlag,
+			NATFlag,
+			NoDiscoverFlag,
+			NodeKeyFileFlag,
+			NodeKeyHexFlag,
 		},
 	},
 	{
 		Name: "MINER",
 		Flags: []cli.Flag{
+<<<<<<< HEAD:cmd/ged/usage.go
 			utils.MiningEnabledFlag,
 			utils.MinerThreadsFlag,
 			utils.MiningGPUFlag,
@@ -127,45 +126,50 @@ var AppHelpFlagGroups = []flagGroup{
 			utils.TargetGasLimitFlag,
 			utils.GasPriceFlag,
 			utils.ExtraDataFlag,
+=======
+			MiningEnabledFlag,
+			MinerThreadsFlag,
+			MiningGPUFlag,
+			AutoDAGFlag,
+			EtherbaseFlag,
+			TargetGasLimitFlag,
+			GasPriceFlag,
+			ExtraDataFlag,
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/usage.go
 		},
 	},
 	{
 		Name: "GAS PRICE ORACLE",
 		Flags: []cli.Flag{
-			utils.GpoMinGasPriceFlag,
-			utils.GpoMaxGasPriceFlag,
-			utils.GpoFullBlockRatioFlag,
-			utils.GpobaseStepDownFlag,
-			utils.GpobaseStepUpFlag,
-			utils.GpobaseCorrectionFactorFlag,
-		},
-	},
-	{
-		Name: "VIRTUAL MACHINE",
-		Flags: []cli.Flag{
-			utils.VMEnableJitFlag,
-			utils.VMForceJitFlag,
-			utils.VMJitCacheFlag,
+			GpoMinGasPriceFlag,
+			GpoMaxGasPriceFlag,
+			GpoFullBlockRatioFlag,
+			GpobaseStepDownFlag,
+			GpobaseStepUpFlag,
+			GpobaseCorrectionFactorFlag,
 		},
 	},
 	{
 		Name: "LOGGING AND DEBUGGING",
-		Flags: append([]cli.Flag{
-			utils.MetricsFlag,
-			utils.FakePoWFlag,
-		}, debug.Flags...),
+		Flags: []cli.Flag{
+			VerbosityFlag,
+			VModuleFlag,
+			BacktraceAtFlag,
+			MetricsFlag,
+			FakePoWFlag,
+		},
 	},
 	{
 		Name: "EXPERIMENTAL",
 		Flags: []cli.Flag{
-			utils.WhisperEnabledFlag,
-			utils.NatspecEnabledFlag,
+			WhisperEnabledFlag,
+			NatspecEnabledFlag,
 		},
 	},
 	{
 		Name: "MISCELLANEOUS",
 		Flags: []cli.Flag{
-			utils.SolcPathFlag,
+			SolcPathFlag,
 		},
 	},
 }

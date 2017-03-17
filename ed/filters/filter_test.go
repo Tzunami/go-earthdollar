@@ -57,7 +57,7 @@ func BenchmarkMipmaps(b *testing.B) {
 	defer db.Close()
 
 	genesis := core.WriteGenesisBlockForTesting(db, core.GenesisAccount{Address: addr1, Balance: big.NewInt(1000000)})
-	chain, receipts := core.GenerateChain(core.NewTestChainConfig(), genesis, db, 100010, func(i int, gen *core.BlockGen) {
+	chain, receipts := core.GenerateChain(core.TestConfig, genesis, db, 100010, func(i int, gen *core.BlockGen) {
 		var receipts types.Receipts
 		switch i {
 		case 2403:
@@ -133,7 +133,7 @@ func TestFilters(t *testing.T) {
 	defer db.Close()
 
 	genesis := core.WriteGenesisBlockForTesting(db, core.GenesisAccount{Address: addr, Balance: big.NewInt(1000000)})
-	chain, receipts := core.GenerateChain(core.NewTestChainConfig(), genesis, db, 1000, func(i int, gen *core.BlockGen) {
+	chain, receipts := core.GenerateChain(core.TestConfig, genesis, db, 1000, func(i int, gen *core.BlockGen) {
 		var receipts types.Receipts
 		switch i {
 		case 1:
@@ -203,7 +203,7 @@ func TestFilters(t *testing.T) {
 
 	filter := New(db)
 	filter.SetAddresses([]common.Address{addr})
-	filter.SetTopics([][]common.Hash{[]common.Hash{hash1, hash2, hash3, hash4}})
+	filter.SetTopics([][]common.Hash{{hash1, hash2, hash3, hash4}})
 	filter.SetBeginBlock(0)
 	filter.SetEndBlock(-1)
 
@@ -214,7 +214,7 @@ func TestFilters(t *testing.T) {
 
 	filter = New(db)
 	filter.SetAddresses([]common.Address{addr})
-	filter.SetTopics([][]common.Hash{[]common.Hash{hash3}})
+	filter.SetTopics([][]common.Hash{{hash3}})
 	filter.SetBeginBlock(900)
 	filter.SetEndBlock(999)
 	logs = filter.Find()
@@ -227,7 +227,7 @@ func TestFilters(t *testing.T) {
 
 	filter = New(db)
 	filter.SetAddresses([]common.Address{addr})
-	filter.SetTopics([][]common.Hash{[]common.Hash{hash3}})
+	filter.SetTopics([][]common.Hash{{hash3}})
 	filter.SetBeginBlock(990)
 	filter.SetEndBlock(-1)
 	logs = filter.Find()
@@ -239,7 +239,7 @@ func TestFilters(t *testing.T) {
 	}
 
 	filter = New(db)
-	filter.SetTopics([][]common.Hash{[]common.Hash{hash1, hash2}})
+	filter.SetTopics([][]common.Hash{{hash1, hash2}})
 	filter.SetBeginBlock(1)
 	filter.SetEndBlock(10)
 
@@ -250,7 +250,7 @@ func TestFilters(t *testing.T) {
 
 	failHash := common.BytesToHash([]byte("fail"))
 	filter = New(db)
-	filter.SetTopics([][]common.Hash{[]common.Hash{failHash}})
+	filter.SetTopics([][]common.Hash{{failHash}})
 	filter.SetBeginBlock(0)
 	filter.SetEndBlock(-1)
 
@@ -271,7 +271,7 @@ func TestFilters(t *testing.T) {
 	}
 
 	filter = New(db)
-	filter.SetTopics([][]common.Hash{[]common.Hash{failHash}, []common.Hash{hash1}})
+	filter.SetTopics([][]common.Hash{{failHash}, {hash1}})
 	filter.SetBeginBlock(0)
 	filter.SetEndBlock(-1)
 
