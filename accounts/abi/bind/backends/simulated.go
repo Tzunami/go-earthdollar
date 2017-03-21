@@ -19,7 +19,6 @@ package backends
 import (
 	"math/big"
 
-<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/accounts/abi/bind"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -28,15 +27,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
-=======
-	"github.com/ethereumproject/go-ethereum/accounts/abi/bind"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/event"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
 
 // This nil assignment ensures compile time that SimulatedBackend implements bind.ContractBackend.

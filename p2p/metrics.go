@@ -18,7 +18,6 @@ package p2p
 
 import (
 	"net"
-
 	"github.com/Tzunami/go-earthdollar/metrics"
 )
 

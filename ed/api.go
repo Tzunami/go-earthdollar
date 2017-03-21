@@ -30,7 +30,6 @@ import (
 	"sync"
 	"time"
 
-<<<<<<< HEAD:ed/api.go
 	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
@@ -50,25 +49,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/syndtr/goleveldb/leveldb"
 	"golang.org/x/net/context"
-=======
-	"github.com/ethereumproject/ethash"
-	"github.com/ethereumproject/go-ethereum/accounts"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/common/compiler"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/miner"
-	"github.com/ethereumproject/go-ethereum/p2p"
-	"github.com/ethereumproject/go-ethereum/rlp"
-	"github.com/ethereumproject/go-ethereum/rpc"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/api.go
 )
 
 const defaultGas = uint64(90000)

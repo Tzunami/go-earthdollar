@@ -1,10 +1,5 @@
-<<<<<<< HEAD:internal/debug/loudpanic.go
 // Copyright 2016 The go-earthdollar Authors
 // This file is part of the go-earthdollar library.
-=======
-// Copyright 2017 The go-ethereum Authors
-// This file is part of the go-ethereum library.
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:rpc/rpc.go
 //
 // The go-earthdollar library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by

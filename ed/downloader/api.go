@@ -20,15 +20,10 @@ import (
 	"context"
 	"sync"
 
-<<<<<<< HEAD:ed/downloader/api.go
 	"golang.org/x/net/context"
 
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/rpc"
-=======
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/rpc"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/downloader/api.go
 )
 
 // PublicDownloaderAPI provides an API which gives information about the current synchronisation status.

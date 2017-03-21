@@ -26,7 +26,6 @@ import (
 	"sync"
 	"time"
 
-<<<<<<< HEAD:ed/filters/api.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/core/vm"
@@ -34,15 +33,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/rpc"
 
-	"golang.org/x/net/context"
-=======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/rpc"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/filters/api.go
+	//"golang.org/x/net/context"
 )
 
 var (

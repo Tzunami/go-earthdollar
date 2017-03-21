@@ -25,7 +25,6 @@ import (
 	"runtime"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/cmd/utils"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -37,19 +36,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/params"
 	"gopkg.in/urfave/cli.v1"
-=======
-	"gopkg.in/urfave/cli.v1"
-
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/params"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 )
 
 // Version is the application revision identifier. It can be set with the linker

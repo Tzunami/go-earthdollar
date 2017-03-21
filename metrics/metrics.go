@@ -24,13 +24,9 @@ import (
 	"runtime"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-=======
-	"github.com/ethereumproject/go-ethereum/logger/glog"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
-	"github.com/rcrowley/go-metrics"
+	//"github.com/rcrowley/go-metrics"
 )
 
 // Reg is the metrics destination.
