@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-: ${GETH_CMD:=$GOPATH/bin/geth}
+: ${GETH_CMD:=$GOPATH/bin/ged}
 
 setup() {
 	DATA_DIR=`mktemp -d`
@@ -27,7 +27,7 @@ teardown() {
 	run ./ged --datadir $DATA_DIR init $DATA_DIR/genesis.json
 =======
 	run $GETH_CMD --datadir $DATA_DIR init $DATA_DIR/genesis.json
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/genesis.bats
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/genesis.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -37,7 +37,7 @@ teardown() {
 	run ./ged --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 =======
 	run $GETH_CMD --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/genesis.bats
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/genesis.bats
 	echo "$output"
 	[[ "$output" == *'"0x0000000000000042"'* ]]
 }
@@ -60,7 +60,7 @@ teardown() {
 	run ./ged --datadir $DATA_DIR init $DATA_DIR/genesis.json
 =======
 	run $GETH_CMD --datadir $DATA_DIR init $DATA_DIR/genesis.json
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/genesis.bats
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/genesis.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -70,7 +70,7 @@ teardown() {
 	run ./ged --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 =======
 	run $GETH_CMD --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/genesis.bats
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/genesis.bats
 	echo "$output"
 	[[ "$output" == *'"0x0000000000000042"'* ]]
 }
@@ -93,7 +93,7 @@ teardown() {
 	run ./ged --datadir $DATA_DIR init $DATA_DIR/genesis.json
 =======
 	run $GETH_CMD --datadir $DATA_DIR init $DATA_DIR/genesis.json
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/genesis.bats
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/genesis.bats
 	echo "$output"
 
 	[ "$status" -eq 0 ]
@@ -103,7 +103,7 @@ teardown() {
 	run ./ged --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 =======
 	run $GETH_CMD --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/genesis.bats
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/genesis.bats
 	echo "$output"
 	[[ "$output" == *'"0x0000000000000042"'* ]]
 }

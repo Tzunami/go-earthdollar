@@ -28,7 +28,7 @@ import (
 	"github.com/ethereumproject/go-ethereum/console"
 	"github.com/ethereumproject/go-ethereum/node"
 	"github.com/ethereumproject/go-ethereum/rpc"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/consolecmd.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -79,8 +79,8 @@ func localConsole(ctx *cli.Context) error {
 <<<<<<< HEAD:cmd/ged/consolecmd.go
 		utils.Fatalf("Failed to attach to the inproc ged: %v", err)
 =======
-		log.Fatal("Failed to attach to the inproc geth: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/consolecmd.go
+		log.Fatal("Failed to attach to the inproc ged: ", err)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
 	}
 	config := console.Config{
 		DataDir: node.DataDir(),
@@ -115,15 +115,15 @@ func remoteConsole(ctx *cli.Context) error {
 	if err != nil {
 		utils.Fatalf("Unable to attach to remote ged: %v", err)
 =======
-	// Attach to a remotely running geth instance and start the JavaScript console
+	// Attach to a remotely running ged instance and start the JavaScript console
 	var uri = "ipc:" + node.DefaultIPCEndpoint()
         if ctx.Args().Present() {
                 uri = ctx.Args().First()
 	}
 	client, err := rpc.NewClient(uri)
 	if err != nil {
-		log.Fatal("attach to remote geth: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/consolecmd.go
+		log.Fatal("attach to remote ged: ", err)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
 	}
 
 	config := console.Config{
@@ -166,8 +166,8 @@ func ephemeralConsole(ctx *cli.Context) error {
 <<<<<<< HEAD:cmd/ged/consolecmd.go
 		utils.Fatalf("Failed to attach to the inproc ged: %v", err)
 =======
-		log.Fatal("Failed to attach to the inproc geth: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/consolecmd.go
+		log.Fatal("Failed to attach to the inproc ged: ", err)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
 	}
 	config := console.Config{
 		DataDir: node.DataDir(),

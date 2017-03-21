@@ -28,7 +28,7 @@ recommending actions that must be taken to help complete the migration.
 <<<<<<< HEAD
 Building ged requires both a Go and a C compiler. Dependencies are managed with [godep](https://github.com/tools/godep).
 =======
-Building geth requires both a Go and a C compiler.
+Building ged requires both a Go and a C compiler.
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 
 To install the full suite of utilities run `go install github.com/ethereumproject/go-ethereum/cmd/...`.

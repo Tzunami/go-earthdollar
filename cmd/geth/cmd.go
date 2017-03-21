@@ -19,7 +19,7 @@
 package utils
 =======
 package main
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/cmd.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/cmd.go
 
 import (
 	"fmt"
@@ -43,7 +43,7 @@ import (
 	"github.com/ethereumproject/go-ethereum/logger/glog"
 	"github.com/ethereumproject/go-ethereum/node"
 	"github.com/ethereumproject/go-ethereum/rlp"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/cmd.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/cmd.go
 )
 
 const (

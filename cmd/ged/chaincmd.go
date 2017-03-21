@@ -39,7 +39,7 @@ import (
 	"github.com/ethereumproject/go-ethereum/core/state"
 	"github.com/ethereumproject/go-ethereum/core/types"
 	"github.com/ethereumproject/go-ethereum/logger/glog"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/chaincmd.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/chaincmd.go
 	"gopkg.in/urfave/cli.v1"
 )
 

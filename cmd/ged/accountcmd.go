@@ -34,7 +34,7 @@ import (
 	"github.com/ethereumproject/go-ethereum/crypto"
 	"github.com/ethereumproject/go-ethereum/logger"
 	"github.com/ethereumproject/go-ethereum/logger/glog"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/accountcmd.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/accountcmd.go
 	"gopkg.in/urfave/cli.v1"
 )
 

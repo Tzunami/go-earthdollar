@@ -109,8 +109,8 @@ func main() {
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
 	app.Usage = "the go-ethereum command line interface"
-	app.Action = geth
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+	app.Action = ged
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	app.HideVersion = true // we have a command to print the version
 
 	app.Commands = []cli.Command{
@@ -295,7 +295,7 @@ participating.
 		GpobaseCorrectionFactorFlag,
 		ExtraDataFlag,
 		Unused1,
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	}
 
 	app.Before = func(ctx *cli.Context) error {
@@ -357,12 +357,12 @@ func makeDefaultExtra() []byte {
 func ged(ctx *cli.Context) error {
 	node := utils.MakeSystemNode(clientIdentifier, verString, relConfig, makeDefaultExtra(), ctx)
 =======
-// geth is the main entry point into the system if no special subcommand is ran.
+// ged is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
-func geth(ctx *cli.Context) error {
+func ged(ctx *cli.Context) error {
 	node := MakeSystemNode(Version, ctx)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	startNode(ctx, node)
 	node.Wait()
 
@@ -417,7 +417,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	}
 	accman := ethereum.AccountManager()
 	passwords := MakePasswordList(ctx)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 
 	accounts := strings.Split(ctx.GlobalString(UnlockedAccountFlag.Name), ",")
 	for i, account := range accounts {
@@ -434,7 +434,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	if ctx.GlobalBool(MiningEnabledFlag.Name) {
 		if err := ethereum.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
 			log.Fatalf("Failed to start mining: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 		}
 	}
 }
@@ -445,8 +445,8 @@ func makedag(ctx *cli.Context) error {
 <<<<<<< HEAD:cmd/ged/main.go
 		utils.Fatalf(`Usage: ged makedag <block number> <outputdir>`)
 =======
-		log.Fatal(`Usage: geth makedag <block number> <outputdir>`)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+		log.Fatal(`Usage: ged makedag <block number> <outputdir>`)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	}
 	switch {
 	case len(args) == 2:
@@ -484,8 +484,8 @@ func gpubench(ctx *cli.Context) error {
 <<<<<<< HEAD:cmd/ged/main.go
 		utils.Fatalf(`Usage: ged gpubench <gpu number>`)
 =======
-		log.Fatal(`Usage: geth gpubench <gpu number>`)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+		log.Fatal(`Usage: ged gpubench <gpu number>`)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	}
 	switch {
 	case len(args) == 1:
@@ -513,7 +513,7 @@ func version(c *cli.Context) error {
 	fmt.Println("Version:", Version)
 	fmt.Println("Protocol Versions:", eth.ProtocolVersions)
 	fmt.Println("Network Id:", c.GlobalInt(NetworkIdFlag.Name))
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/main.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	fmt.Println("Go Version:", runtime.Version())
 	fmt.Println("OS:", runtime.GOOS)
 	fmt.Printf("GOPATH=%s\n", os.Getenv("GOPATH"))

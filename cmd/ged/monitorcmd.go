@@ -34,7 +34,7 @@ import (
 =======
 	"github.com/ethereumproject/go-ethereum/node"
 	"github.com/ethereumproject/go-ethereum/rpc"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/monitorcmd.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/monitorcmd.go
 	"github.com/gizak/termui"
 	"gopkg.in/urfave/cli.v1"
 )
@@ -87,8 +87,8 @@ func monitor(ctx *cli.Context) error {
 	// Attach to an Ethereum node over IPC or RPC
 	client, err := rpc.NewClient(ctx.String(monitorCommandAttachFlag.Name))
 	if err != nil {
-		log.Fatal("attach to remote geth: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/monitorcmd.go
+		log.Fatal("attach to remote ged: ", err)
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/monitorcmd.go
 	}
 	defer client.Close()
 
@@ -108,8 +108,8 @@ func monitor(ctx *cli.Context) error {
 <<<<<<< HEAD:cmd/ged/monitorcmd.go
 			utils.Fatalf("No metrics collected by ged (--metrics).\n")
 =======
-			log.Fatal("No metrics collected by geth (--metrics).")
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/monitorcmd.go
+			log.Fatal("No metrics collected by ged (--metrics).")
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/monitorcmd.go
 		}
 	}
 	sort.Strings(monitored)

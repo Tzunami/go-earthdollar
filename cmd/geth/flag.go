@@ -70,7 +70,7 @@ import (
 	"github.com/ethereumproject/go-ethereum/pow"
 	"github.com/ethereumproject/go-ethereum/rpc"
 	"github.com/ethereumproject/go-ethereum/whisper"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/flag.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -600,7 +600,7 @@ func MakeEarthbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
 		Fatalf("Option %q: %v", EarthbaseFlag.Name, err)
 =======
 		log.Fatalf("Option %q: %v", EtherbaseFlag.Name, err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/flag.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 	}
 	return account.Address
 }
@@ -686,7 +686,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	accman := MakeAccountManager(ctx)
 
 	ethConf := &eth.Config{
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/flag.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 		ChainConfig:             MustMakeChainConfig(ctx),
 		FastSync:                ctx.GlobalBool(FastSyncFlag.Name),
 		BlockChainVersion:       ctx.GlobalInt(BlockchainVersionFlag.Name),
@@ -759,7 +759,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		Fatalf("Failed to register the Earthdollar service: %v", err)
 =======
 		log.Fatal("Failed to register the Ethereum service: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/flag.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 	}
 	if shhEnable {
 		if err := stack.Register(func(*node.ServiceContext) (node.Service, error) { return whisper.New(), nil }); err != nil {
@@ -773,7 +773,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		Fatalf("Failed to register the Ged release oracle service: %v", err)
 	}
 =======
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/flag.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 
 	if ctx.GlobalBool(Unused1.Name) {
 		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged started with --%s flag, which is unused by Ged  and can be omitted", Unused1.Name))
@@ -829,7 +829,7 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Geth Classic \x1b[32m%s\x1b[39m", ctx.App.Version))
 
 	genesis := core.GetBlock(db, core.GetCanonicalHash(db, 0))
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/geth/flag.go
+>>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 	genesisHash := ""
 	if genesis != nil {
 		genesisHash = genesis.Hash().Hex()
