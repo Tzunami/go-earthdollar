@@ -89,15 +89,15 @@ func init() {
 =======
 	"gopkg.in/urfave/cli.v1"
 
-	"github.com/ethereumproject/ethash"
-	"github.com/ethereumproject/go-ethereum/console"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/eth"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/metrics"
-	"github.com/ethereumproject/go-ethereum/node"
+	"github.com/Tzunami/ethash"
+	"github.com/Tzunami/go-ethereum/console"
+	"github.com/Tzunami/go-ethereum/core"
+	"github.com/Tzunami/go-ethereum/eth"
+	"github.com/Tzunami/go-ethereum/ethdb"
+	"github.com/Tzunami/go-ethereum/logger"
+	"github.com/Tzunami/go-ethereum/logger/glog"
+	"github.com/Tzunami/go-ethereum/metrics"
+	"github.com/Tzunami/go-ethereum/node"
 )
 
 // Version is the application revision identifier. It can be set with the linker

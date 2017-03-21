@@ -22,11 +22,11 @@ import (
 	"flag"
 	"os"
 
-	"github.com/ethereumproject/go-ethereum/cmd/utils"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/p2p/discover"
-	"github.com/ethereumproject/go-ethereum/p2p/nat"
+	"github.com/Tzunami/go-ethereum/cmd/utils"
+	"github.com/Tzunami/go-ethereum/crypto"
+	"github.com/Tzunami/go-ethereum/logger/glog"
+	"github.com/Tzunami/go-ethereum/p2p/discover"
+	"github.com/Tzunami/go-ethereum/p2p/nat"
 )
 
 func main() {

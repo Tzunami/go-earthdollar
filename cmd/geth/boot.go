@@ -16,7 +16,7 @@
 
 package main
 
-import "github.com/ethereumproject/go-ethereum/p2p/discover"
+import "github.com/Tzunami/go-ethereum/p2p/discover"
 
 // HomesteadBootNodes are the enode URLs of the P2P bootstrap nodes running on
 // the Homestead network.
