@@ -1,8 +1,8 @@
 <<<<<<< HEAD
 [![Build Status](https://travis-ci.org/Tzunami/go-earthdollar.svg?branch=master)](https://travis-ci.org/Tzunami/go-earthdollar)
 =======
-[![Build Status](https://travis-ci.org/Tzunami/go-ethereum.svg?branch=master)](https://travis-ci.org/Tzunami/go-ethereum)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/Tzunami/go-ethereum?svg=true)](https://ci.appveyor.com/project/splix/go-ethereum)
+[![Build Status](https://travis-ci.org/Tzunami/go-earthdollar.svg?branch=master)](https://travis-ci.org/Tzunami/go-earthdollar)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/Tzunami/go-earthdollar?svg=true)](https://ci.appveyor.com/project/splix/go-earthdollar)
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 [![API Reference](https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
 )](https://godoc.org/github.com/Tzunami/go-earthdollar)
@@ -31,7 +31,7 @@ Building ged requires both a Go and a C compiler. Dependencies are managed with 
 Building ged requires both a Go and a C compiler.
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 
-To install the full suite of utilities run `go install github.com/Tzunami/go-ethereum/cmd/...`.
+To install the full suite of utilities run `go install github.com/Tzunami/go-earthdollar/cmd/...`.
 
 ## Executables
 

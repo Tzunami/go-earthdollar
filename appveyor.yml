@@ -1,5 +1,5 @@
 platform: x64
-clone_folder: c:\gopath\src\github.com\Tzunami\go-ethereum
+clone_folder: c:\gopath\src\github.com\Tzunami\go-earthdollar
 os: Visual Studio 2015
 environment:
   GOPATH: c:\gopath
@@ -27,7 +27,7 @@ deploy:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
     subject: Tzunami
     repo: GoEthereumClassic
-    package: go-ethereum
+    package: go-earthdollar
     version: master
     publish: true
     override: true
@@ -39,7 +39,7 @@ deploy:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
     subject: Tzunami
     repo: GoEthereumClassic
-    package: go-ethereum
+    package: go-earthdollar
     version: "%VERSION%"
     publish: true
     override: false

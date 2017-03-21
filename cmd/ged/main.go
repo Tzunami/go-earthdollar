@@ -90,14 +90,14 @@ func init() {
 	"gopkg.in/urfave/cli.v1"
 
 	"github.com/Tzunami/ethash"
-	"github.com/Tzunami/go-ethereum/console"
-	"github.com/Tzunami/go-ethereum/core"
-	"github.com/Tzunami/go-ethereum/eth"
-	"github.com/Tzunami/go-ethereum/ethdb"
-	"github.com/Tzunami/go-ethereum/logger"
-	"github.com/Tzunami/go-ethereum/logger/glog"
-	"github.com/Tzunami/go-ethereum/metrics"
-	"github.com/Tzunami/go-ethereum/node"
+	"github.com/Tzunami/go-earthdollar/console"
+	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/eth"
+	"github.com/Tzunami/go-earthdollar/ethdb"
+	"github.com/Tzunami/go-earthdollar/logger"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/metrics"
+	"github.com/Tzunami/go-earthdollar/node"
 )
 
 // Version is the application revision identifier. It can be set with the linker
@@ -108,7 +108,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
-	app.Usage = "the go-ethereum command line interface"
+	app.Usage = "the go-earthdollar command line interface"
 	app.Action = ged
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	app.HideVersion = true // we have a command to print the version

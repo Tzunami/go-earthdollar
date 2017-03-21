@@ -37,12 +37,12 @@ import (
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/rlp"
 =======
-	"github.com/Tzunami/go-ethereum/core"
-	"github.com/Tzunami/go-ethereum/core/types"
-	"github.com/Tzunami/go-ethereum/logger"
-	"github.com/Tzunami/go-ethereum/logger/glog"
-	"github.com/Tzunami/go-ethereum/node"
-	"github.com/Tzunami/go-ethereum/rlp"
+	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/logger"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/node"
+	"github.com/Tzunami/go-earthdollar/rlp"
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/cmd.go
 )
 

@@ -23,7 +23,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Tzunami/go-ethereum/logger/glog"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
 )
 
 func readDiskStats(stats *diskStats) {

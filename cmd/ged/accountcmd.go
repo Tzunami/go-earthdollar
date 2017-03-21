@@ -29,11 +29,11 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 =======
-	"github.com/Tzunami/go-ethereum/accounts"
-	"github.com/Tzunami/go-ethereum/console"
-	"github.com/Tzunami/go-ethereum/crypto"
-	"github.com/Tzunami/go-ethereum/logger"
-	"github.com/Tzunami/go-ethereum/logger/glog"
+	"github.com/Tzunami/go-earthdollar/accounts"
+	"github.com/Tzunami/go-earthdollar/console"
+	"github.com/Tzunami/go-earthdollar/crypto"
+	"github.com/Tzunami/go-earthdollar/logger"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/accountcmd.go
 	"gopkg.in/urfave/cli.v1"
 )

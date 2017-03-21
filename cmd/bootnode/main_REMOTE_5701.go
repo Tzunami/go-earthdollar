@@ -1,18 +1,18 @@
-// Copyright 2015 The go-ethereum Authors
-// This file is part of go-ethereum.
+// Copyright 2015 The go-earthdollar Authors
+// This file is part of go-earthdollar.
 //
-// go-ethereum is free software: you can redistribute it and/or modify
+// go-earthdollar is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-ethereum is distributed in the hope that it will be useful,
+// go-earthdollar is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
 // bootnode runs a bootstrap node for the Ethereum Discovery Protocol.
 package main
@@ -24,10 +24,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/Tzunami/go-ethereum/crypto"
-	"github.com/Tzunami/go-ethereum/logger/glog"
-	"github.com/Tzunami/go-ethereum/p2p/discover"
-	"github.com/Tzunami/go-ethereum/p2p/nat"
+	"github.com/Tzunami/go-earthdollar/crypto"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
+	"github.com/Tzunami/go-earthdollar/p2p/discover"
+	"github.com/Tzunami/go-earthdollar/p2p/nat"
 )
 
 // Version is the application revision identifier. It can be set with the linker

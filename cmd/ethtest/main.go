@@ -217,7 +217,7 @@ func main() {
 =======
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
-	app.Usage = "go-ethereum test interface"
+	app.Usage = "go-earthdollar test interface"
 	app.Action = setupApp
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 
