@@ -48,7 +48,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/rlp"
 	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/syndtr/goleveldb/leveldb"
-	"golang.org/x/net/context"
+	//"golang.org/x/net/context"
 )
 
 const defaultGas = uint64(90000)

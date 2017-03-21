@@ -26,7 +26,7 @@ import (
 
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"golang.org/x/net/context"
+	//"golang.org/x/net/context"
 	"gopkg.in/fatih/set.v0"
 )
 

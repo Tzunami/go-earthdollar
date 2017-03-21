@@ -20,7 +20,7 @@ import (
 	"context"
 	"sync"
 
-	"golang.org/x/net/context"
+	//"golang.org/x/net/context"
 
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/rpc"
