@@ -21,14 +21,10 @@ import (
 	"os"
 	"os/signal"
 
-<<<<<<< HEAD:cmd/ged/consolecmd.go
-	"github.com/Tzunami/go-earthdollar/cmd/utils"
-	"github.com/Tzunami/go-earthdollar/console"
-=======
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/rpc"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
+
 	"gopkg.in/urfave/cli.v1"
 )
 

@@ -29,27 +29,6 @@ import (
 	"strconv"
 	"strings"
 
-<<<<<<< HEAD:cmd/utils/flags.go
-	"github.com/Tzunami/ethash"
-	"github.com/Tzunami/go-earthdollar/accounts"
-	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/core"
-	"github.com/Tzunami/go-earthdollar/core/state"
-	"github.com/Tzunami/go-earthdollar/crypto"
-	"github.com/Tzunami/go-earthdollar/ed"
-	"github.com/Tzunami/go-earthdollar/eddb"
-	"github.com/Tzunami/go-earthdollar/event"
-	"github.com/Tzunami/go-earthdollar/logger"
-	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/node"
-	"github.com/Tzunami/go-earthdollar/p2p/discover"
-	"github.com/Tzunami/go-earthdollar/p2p/nat"
-	"github.com/Tzunami/go-earthdollar/params"
-	"github.com/Tzunami/go-earthdollar/pow"
-	"github.com/Tzunami/go-earthdollar/release"
-	"github.com/Tzunami/go-earthdollar/rpc"
-	"github.com/Tzunami/go-earthdollar/whisper"
-=======
 	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
@@ -57,8 +36,8 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/crypto"
-	"github.com/Tzunami/go-earthdollar/eth"
-	"github.com/Tzunami/go-earthdollar/ethdb"
+	"github.com/Tzunami/go-earthdollar/ed"
+	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
@@ -70,7 +49,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/pow"
 	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/Tzunami/go-earthdollar/whisper"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
+
 	"gopkg.in/urfave/cli.v1"
 )
 

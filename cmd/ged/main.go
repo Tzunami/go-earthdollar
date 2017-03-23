@@ -27,7 +27,6 @@ import (
 	"strconv"
 	"strings"
 
-<<<<<<< HEAD:cmd/ged/main.go
 	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/cmd/utils"
 	"github.com/Tzunami/go-earthdollar/common"

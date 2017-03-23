@@ -14,12 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
-<<<<<<< HEAD:cmd/utils/cmd.go
-// Package utils contains internal helper functions for go-earthdollar commands.
-package utils
-=======
 package main
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/cmd.go
 
 import (
 	"fmt"
@@ -28,22 +23,12 @@ import (
 	"os/signal"
 	"runtime"
 
-<<<<<<< HEAD:cmd/utils/cmd.go
-	"github.com/Tzunami/go-earthdollar/core"
-	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/internal/debug"
-	"github.com/Tzunami/go-earthdollar/logger"
-	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/node"
-	"github.com/Tzunami/go-earthdollar/rlp"
-=======
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/rlp"
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/cmd.go
 )
 
 const (
