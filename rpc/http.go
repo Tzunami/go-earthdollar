@@ -39,7 +39,6 @@ type httpClient struct {
 	lastRes    []byte      // HTTP requests are synchronous, store last response
 }
 
-<<<<<<< HEAD
 // NewHTTPClient create a new RPC clients that connection to a ged RPC server
 // over HTTP.
 func NewHTTPClient(endpoint string) (Client, error) {
@@ -50,8 +49,6 @@ func NewHTTPClient(endpoint string) (Client, error) {
 	return &httpClient{endpoint: url}, nil
 }
 
-=======
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 // Send will serialize the given msg to JSON and sends it to the RPC server.
 // Since HTTP is synchronous the response is stored until Recv is called.
 func (client *httpClient) Send(msg interface{}) error {

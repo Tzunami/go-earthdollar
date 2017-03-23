@@ -69,12 +69,8 @@ type Header struct {
 	GasLimit    *big.Int       // Gas limit
 	GasUsed     *big.Int       // Gas used
 	Time        *big.Int       // Creation time
-<<<<<<< HEAD
 	Mint	    *big.Int	   // Earthdollar- Mint balance 
 	Extra       []byte         // Extra data
-=======
-	Extra       []byte         // Freeform descriptor
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 	MixDigest   common.Hash    // for quick difficulty verification
 	Nonce       BlockNonce
 }

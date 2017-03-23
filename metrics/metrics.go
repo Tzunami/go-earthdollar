@@ -24,9 +24,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-	//"github.com/rcrowley/go-metrics"
+        "github.com/rcrowley/go-metrics"
 )
 
 // Reg is the metrics destination.

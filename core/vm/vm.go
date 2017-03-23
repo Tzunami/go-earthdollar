@@ -28,7 +28,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/params"
 )
 
-<<<<<<< HEAD
 // Config are the configuration options for the EVM
 type Config struct {
 	Debug     bool
@@ -38,9 +37,6 @@ type Config struct {
 }
 
 // EVM is used to run Earthdollar based contracts and will utilise the
-=======
-// EVM is used to run Ethereum based contracts and will utilise the
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 // passed environment to query external sources for state information.
 // The EVM will run the byte code VM or JIT VM based on the passed
 // configuration.
