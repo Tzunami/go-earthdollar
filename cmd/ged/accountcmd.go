@@ -22,7 +22,7 @@ import (
 	"log"
 
 	"github.com/Tzunami/go-earthdollar/accounts"
-	//"github.com/Tzunami/go-earthdollar/cmd/utils"
+	//
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/logger"

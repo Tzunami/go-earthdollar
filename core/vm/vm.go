@@ -24,16 +24,17 @@ import (
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/logger"
-	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/params"
+	"github.com/Tzunami/go-earthdollar/logger/glog"	
 )
 
-// Config are the configuration options for the EVM
-type Config struct {
-	Debug     bool
-	EnableJit bool
-	ForceJit  bool
-	Logger    LogConfig
+var (
+	OutOfGasError          = errors.New("Out of gas")
+	CodeStoreOutOfGasError = errors.New("Contract creation code storage out of gas")
+)
+
+// VirtualMachine is an EVM interface
+type VirtualMachine interface {
+Run(*Contract, []byte) ([]byte, error)
 }
 
 // EVM is used to run Earthdollar based contracts and will utilise the
@@ -43,7 +44,7 @@ type Config struct {
 type EVM struct {
 	env       Environment
 	jumpTable vmJumpTable
-	gasTable  params.GasTable
+	gasTable  GasTable
 }
 
 // New returns a new instance of the EVM.

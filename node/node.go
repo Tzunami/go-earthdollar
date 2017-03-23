@@ -27,7 +27,6 @@ import (
 	"syscall"
 
 	"github.com/Tzunami/go-earthdollar/event"
-	"github.com/Tzunami/go-earthdollar/internal/debug"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/p2p"

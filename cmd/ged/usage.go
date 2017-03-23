@@ -21,7 +21,7 @@ package main
 import (
 	"io"
 
-	"github.com/Tzunami/go-earthdollar/cmd/utils"
+	
 	"github.com/Tzunami/go-earthdollar/internal/debug"
 
 	"gopkg.in/urfave/cli.v1"
