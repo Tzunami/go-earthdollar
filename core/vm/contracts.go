@@ -25,7 +25,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 )
 
-// PrecompiledAccount represents a native earthdollar contract
+// PrecompiledAccount represents a native ethereum contract
 type PrecompiledAccount struct {
 	Gas func(l int) *big.Int
 	fn  func(in []byte) []byte
@@ -36,37 +36,36 @@ func (self PrecompiledAccount) Call(in []byte) []byte {
 	return self.fn(in)
 }
 
-// Precompiled contains the default set of earthdollar contracts
+// Precompiled contains the default set of ethereum contracts
 var Precompiled = PrecompiledContracts()
 
-// PrecompiledContracts returns the default set of precompiled earthdollar
-// contracts defined by the earthdollar yellow paper.
+// PrecompiledContracts returns the default set of precompiled ethereum
+// contracts defined by the ethereum yellow paper.
 func PrecompiledContracts() map[string]*PrecompiledAccount {
 	return map[string]*PrecompiledAccount{
 		// ECRECOVER
 		string(common.LeftPadBytes([]byte{1}, 20)): {func(l int) *big.Int {
-			return params.EcrecoverGas
+			return big.NewInt(3000)
 		}, ecrecoverFunc},
 
 		// SHA256
 		string(common.LeftPadBytes([]byte{2}, 20)): {func(l int) *big.Int {
 			n := big.NewInt(int64(l+31) / 32)
-			n.Mul(n, params.Sha256WordGas)
-			return n.Add(n, params.Sha256Gas)
+			n.Mul(n, big.NewInt(12))
+			return n.Add(n, big.NewInt(60))
 		}, sha256Func},
 
 		// RIPEMD160
 		string(common.LeftPadBytes([]byte{3}, 20)): {func(l int) *big.Int {
 			n := big.NewInt(int64(l+31) / 32)
-			n.Mul(n, params.Ripemd160WordGas)
-			return n.Add(n, params.Ripemd160Gas)
+			n.Mul(n, big.NewInt(120))
+			return n.Add(n, big.NewInt(600))
 		}, ripemd160Func},
 
 		string(common.LeftPadBytes([]byte{4}, 20)): {func(l int) *big.Int {
 			n := big.NewInt(int64(l+31) / 32)
-			n.Mul(n, params.IdentityWordGas)
-
-			return n.Add(n, params.IdentityGas)
+			n.Mul(n, big.NewInt(3))
+			return n.Add(n, big.NewInt(15))
 		}, memCpy},
 	}
 }
@@ -114,3 +113,4 @@ func ecrecoverFunc(in []byte) []byte {
 func memCpy(in []byte) []byte {
 	return in
 }
+

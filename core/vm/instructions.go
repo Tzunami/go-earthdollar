@@ -22,6 +22,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/crypto"
 )
+var callStipend = big.NewInt(2300) // Free gas given at beginning of call.
 
 type instrFn func(instr instruction, pc *uint64, env Environment, contract *Contract, memory *Memory, stack *stack)
 
@@ -449,7 +450,7 @@ func opCall(instr instruction, pc *uint64, env Environment, contract *Contract, 
 	args := memory.Get(inOffset.Int64(), inSize.Int64())
 
 	if len(value.Bytes()) > 0 {
-		gas.Add(gas, params.CallStipend)
+		gas.Add(gas, callStipend)
 	}
 
 	ret, err := env.Call(contract, address, args, gas, contract.Price, value)
@@ -480,7 +481,7 @@ func opCallCode(instr instruction, pc *uint64, env Environment, contract *Contra
 	args := memory.Get(inOffset.Int64(), inSize.Int64())
 
 	if len(value.Bytes()) > 0 {
-		gas.Add(gas, params.CallStipend)
+		gas.Add(gas, callStipend)
 	}
 
 	ret, err := env.CallCode(contract, address, args, gas, contract.Price, value)
