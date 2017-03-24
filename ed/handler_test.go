@@ -29,7 +29,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/ed/downloader"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/p2p"
-	"github.com/Tzunami/go-earthdollar/params"
 )
 
 // Tests that protocol versions and modes of operations are matched up properly.

@@ -29,7 +29,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/params"
 	"github.com/Tzunami/go-earthdollar/pow"
 )
 

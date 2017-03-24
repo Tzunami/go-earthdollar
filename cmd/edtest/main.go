@@ -26,7 +26,6 @@ import (
 	"strings"
 
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/params"
 	"github.com/Tzunami/go-earthdollar/tests"
 	"gopkg.in/urfave/cli.v1"
 )

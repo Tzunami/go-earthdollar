@@ -20,7 +20,6 @@ import (
 	"math/big"
 
 	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/params"
 )
 
 // Type is the VM type accepted by **NewVm**

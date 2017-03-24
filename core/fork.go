@@ -4,7 +4,6 @@ import (
 	"math/big"
 
 	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/params"
 )
 
 type Fork struct {

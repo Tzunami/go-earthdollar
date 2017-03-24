@@ -25,7 +25,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/eddb"
-	"github.com/Tzunami/go-earthdollar/params"
 )
 
 // The default, always homestead, rule set for the vm env

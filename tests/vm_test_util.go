@@ -29,7 +29,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/params"
 )
 
 func RunVmTestWithReader(r io.Reader, skipTests []string) error {

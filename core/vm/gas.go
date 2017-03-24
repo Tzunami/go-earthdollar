@@ -19,8 +19,6 @@ package vm
 import (
 	"fmt"
 	"math/big"
-
-	"github.com/Tzunami/go-earthdollar/params"
 )
 
 var (
@@ -43,7 +41,7 @@ var (
 //
 // The cost of gas was changed during the homestead price change HF. To allow for EIP150
 // to be implemented. The returned gas is gas - base * 63 / 64.
-func callGas(gasTable params.GasTable, availableGas, base, callCost *big.Int) *big.Int {
+func callGas(gasTable GasTable, availableGas, base, callCost *big.Int) *big.Int {
 	if gasTable.CreateBySuicide != nil {
 		availableGas = new(big.Int).Sub(availableGas, base)
 		g := new(big.Int).Div(availableGas, n64)

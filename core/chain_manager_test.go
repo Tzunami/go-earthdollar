@@ -24,7 +24,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
-	"github.com/Tzunami/go-earthdollar/params"
 )
 
 func ExampleGenerateChain() {

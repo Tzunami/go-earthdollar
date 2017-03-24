@@ -25,7 +25,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/params"
 	"github.com/Tzunami/go-earthdollar/pow"
 	"gopkg.in/fatih/set.v0"
 )

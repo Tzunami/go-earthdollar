@@ -39,8 +39,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/metrics"
 	"github.com/Tzunami/go-earthdollar/node"
-	"github.com/Tzunami/go-earthdollar/params"
-	"github.com/Tzunami/go-earthdollar/release"
 	"github.com/Tzunami/go-earthdollar/rlp"
 	"gopkg.in/urfave/cli.v1"
 )

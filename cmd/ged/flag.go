@@ -45,7 +45,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/p2p/discover"
 	"github.com/Tzunami/go-earthdollar/p2p/nat"
-	"github.com/Tzunami/go-earthdollar/params"
 	"github.com/Tzunami/go-earthdollar/pow"
 	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/Tzunami/go-earthdollar/whisper"
