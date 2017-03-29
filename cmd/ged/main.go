@@ -408,11 +408,11 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	accman := earthdollar.AccountManager()
 	passwords := utils.MakePasswordList(ctx)
 =======
-	var ethereum *eth.Ethereum
+	var earthdollar *eth.Ethereum
 	if err := stack.Service(&ethereum); err != nil {
 		log.Fatal("ethereum service not running: ", err)
 	}
-	accman := ethereum.AccountManager()
+	accman := earthdollar.AccountManager()
 	passwords := MakePasswordList(ctx)
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 
@@ -429,7 +429,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 			utils.Fatalf("Failed to start mining: %v", err)
 =======
 	if ctx.GlobalBool(MiningEnabledFlag.Name) {
-		if err := ethereum.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
+		if err := earthdollar.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
 			log.Fatalf("Failed to start mining: ", err)
 >>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 		}

@@ -39,7 +39,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/trie"
 )
 
-var (
+const (
 	MaxHashFetch    = 512 // Amount of hashes to be fetched per retrieval request
 	MaxBlockFetch   = 128 // Amount of blocks to be fetched per retrieval request
 	MaxHeaderFetch  = 192 // Amount of block headers to be fetched per retrieval request
@@ -48,12 +48,16 @@ var (
 	MaxReceiptFetch = 256 // Amount of transaction receipts to allow fetching per request
 	MaxStateFetch   = 384 // Amount of node state values to allow fetching per request
 
-	MaxForkAncestry  = 3 * params.EpochDuration.Uint64() // Maximum chain reorganisation
-	rttMinEstimate   = 2 * time.Second                   // Minimum round-trip time to target for download requests
-	rttMaxEstimate   = 20 * time.Second                  // Maximum rount-trip time to target for download requests
-	rttMinConfidence = 0.1                               // Worse confidence factor in our estimated RTT value
-	ttlScaling       = 3                                 // Constant scaling factor for RTT -> TTL conversion
-	ttlLimit         = time.Minute                       // Maximum TTL allowance to prevent reaching crazy timeouts
+	EpochDuration   = 30000             // Duration between proof-of-work epochs
+	MaxForkAncestry = 3 * EpochDuration // Maximum chain reorganisation
+)
+
+var (
+	rttMinEstimate   = 2 * time.Second  // Minimum round-trip time to target for download requests
+	rttMaxEstimate   = 20 * time.Second // Maximum rount-trip time to target for download requests
+	rttMinConfidence = 0.1              // Worse confidence factor in our estimated RTT value
+	ttlScaling       = 3                // Constant scaling factor for RTT -> TTL conversion
+	ttlLimit         = time.Minute      // Maximum TTL allowance to prevent reaching crazy timeouts
 
 	qosTuningPeers   = 5    // Number of peers to tune based on (best peers)
 	qosConfidenceCap = 10   // Number of peers above which not to modify RTT confidence
@@ -95,6 +99,15 @@ var (
 	errCancelContentProcessing = errors.New("content processing canceled (requested)")
 	errNoSyncActive            = errors.New("no sync active")
 	errTooOld                  = errors.New("peer doesn't speak recent enough protocol version (need version >= 62)")
+)
+
+// SyncMode represents the synchronisation mode of the downloader.
+type SyncMode int
+
+const (
+	FullSync  SyncMode = iota // Synchronise the entire blockchain history from full blocks
+	FastSync                  // Quickly download the headers, full sync only at the chain head
+	LightSync                 // Download only the headers and terminate afterwards
 )
 
 type Downloader struct {
@@ -141,11 +154,11 @@ type Downloader struct {
 	newPeerCh     chan *peer
 	headerCh      chan dataPack        // [eth/62] Channel receiving inbound block headers
 	bodyCh        chan dataPack        // [eth/62] Channel receiving inbound block bodies
-	receiptCh     chan dataPack        // [ ed/63] Channel receiving inbound receipts
-	stateCh       chan dataPack        // [ ed/63] Channel receiving inbound node state data
+	receiptCh     chan dataPack        // [eth/63] Channel receiving inbound receipts
+	stateCh       chan dataPack        // [eth/63] Channel receiving inbound node state data
 	bodyWakeCh    chan bool            // [eth/62] Channel to signal the block body fetcher of new tasks
-	receiptWakeCh chan bool            // [ ed/63] Channel to signal the receipt fetcher of new tasks
-	stateWakeCh   chan bool            // [ ed/63] Channel to signal the state fetcher of new tasks
+	receiptWakeCh chan bool            // [eth/63] Channel to signal the receipt fetcher of new tasks
+	stateWakeCh   chan bool            // [eth/63] Channel to signal the state fetcher of new tasks
 	headerProcCh  chan []*types.Header // [eth/62] Channel to feed the header processor new tasks
 
 	// Cancellation and termination
@@ -424,42 +437,9 @@ func (d *Downloader) syncWithPeer(p *peer, hash common.Hash, td *big.Int) (err e
 			if height > uint64(fsMinFullBlocks)+pivotOffset.Uint64() {
 				pivot = height - uint64(fsMinFullBlocks) - pivotOffset.Uint64()
 			}
-<<<<<<< HEAD:ed/downloader/downloader.go
-			glog.V(logger.Debug).Infof("Fast syncing until pivot block #%d", pivot)
-		}
-		d.queue.Prepare(origin+1, d.mode, pivot, latest)
-		if d.syncInitHook != nil {
-			d.syncInitHook(origin, height)
-		}
-		return d.spawnSync(origin+1,
-			func() error { return d.fetchHeaders(p, origin+1) },    // Headers are always retrieved
-			func() error { return d.processHeaders(origin+1, td) }, // Headers are always retrieved
-			func() error { return d.fetchBodies(origin + 1) },      // Bodies are retrieved during normal and fast sync
-			func() error { return d.fetchReceipts(origin + 1) },    // Receipts are retrieved during fast sync
-			func() error { return d.fetchNodeData() },              // Node state data is retrieved during fast sync
-		)
-
-	case p.version >= 63:
-		glog.V(logger.Debug).Infoln("Synchronising with  ed/63 peer.")
-		// Look up the sync boundaries: the common ancestor and the target block
-		latest, err := d.fetchHeight(p)
-		if err != nil {
-			return err
-		}
-		height := latest.Number.Uint64()
-
-		origin, err := d.findAncestor(p, height)
-		if err != nil {
-			return err
-		}
-		d.syncStatsLock.Lock()
-		if d.syncStatsChainHeight <= origin || d.syncStatsChainOrigin > origin {
-			d.syncStatsChainOrigin = origin
-=======
 		} else {
 			// Pivot point locked in, use this and do not pick a new one!
 			pivot = d.fsPivotLock.Number.Uint64()
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/downloader/downloader.go
 		}
 		// If the point is below the origin, move origin back to ensure state download
 		if pivot < origin {
@@ -469,22 +449,7 @@ func (d *Downloader) syncWithPeer(p *peer, hash common.Hash, td *big.Int) (err e
 				origin = 0
 			}
 		}
-<<<<<<< HEAD:ed/downloader/downloader.go
-		return d.spawnSync(origin+1,
-			func() error { return d.fetchHeaders(p, origin+1) },    // Headers are always retrieved
-			func() error { return d.processHeaders(origin+1, td) }, // Headers are always retrieved
-			func() error { return d.fetchBodies(origin + 1) },      // Bodies are retrieved during normal and fast sync
-			func() error { return d.fetchReceipts(origin + 1) },    // Receipts are retrieved during fast sync
-			func() error { return d.fetchNodeData() },              // Node state data is retrieved during fast sync
-		)
-
-	default:
-		// Something very wrong, stop right here
-		glog.V(logger.Error).Infof("Unsupported ed protocol: %d", p.version)
-		return errBadPeer
-=======
 		glog.V(logger.Debug).Infof("Fast syncing until pivot block #%d", pivot)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/downloader/downloader.go
 	}
 	d.queue.Prepare(origin+1, d.mode, pivot, latest)
 	if d.syncInitHook != nil {
@@ -1561,3 +1526,4 @@ func (d *Downloader) requestTTL() time.Duration {
 	}
 	return ttl
 }
+

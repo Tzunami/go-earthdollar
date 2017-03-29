@@ -53,7 +53,7 @@ func New(env Environment) *EVM {
 	return &EVM{
 		env:       env,
 		jumpTable: newJumpTable(env.RuleSet(), env.BlockNumber()),
-		gasTable:  *env.RuleSet().GasTable(env.BlockNumber()),
+		gasTable:  env.RuleSet().GasTable(env.BlockNumber()),
 	}
 }
 

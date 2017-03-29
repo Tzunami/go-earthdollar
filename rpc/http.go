@@ -32,7 +32,7 @@ const (
 	maxHTTPRequestContentLength = 1024 * 128
 )
 
-// httpClient connects to a geth RPC server over HTTP.
+// httpClient connects to a ged RPC server over HTTP.
 type httpClient struct {
 	endpoint   string      // HTTP-RPC server endpoint
 	httpClient http.Client // reuse connection

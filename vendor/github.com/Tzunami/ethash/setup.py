@@ -41,7 +41,7 @@ setup(
     version='0.1.23',
     url='https://github.com/Tzunami/ethash',
     download_url='https://github.com/Tzunami/ethash/tarball/v23',
-    description=('Python wrappers for ethash, the ethereum proof of work'
+    description=('Python wrappers for ethash, the earthdollar proof of work'
                  'hashing function'),
     ext_modules=[pyethash],
 )
