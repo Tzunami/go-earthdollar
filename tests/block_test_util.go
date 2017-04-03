@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package tests
 
@@ -26,7 +26,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Tzunami/ethash"
+	"github.com/ethereumproject/edhash"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -160,7 +160,7 @@ func runBlockTests(homesteadBlock, gasPriceFork *big.Int, bt map[string]*BlockTe
 
 func runBlockTest(homesteadBlock, gasPriceFork *big.Int, test *BlockTest) error {
 	// import pre accounts & construct test genesis block & state root
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	if _, err := test.InsertPreState(db); err != nil {
 		return fmt.Errorf("InsertPreState: %v", err)
 	}
@@ -176,7 +176,7 @@ func runBlockTest(homesteadBlock, gasPriceFork *big.Int, test *BlockTest) error 
 		core.DefaultConfig.Fork("GasReprice").Block = gasPriceFork
 	}
 
-	chain, err := core.NewBlockChain(db, core.DefaultConfig, ethash.NewShared(), evmux)
+	chain, err := core.NewBlockChain(db, core.DefaultConfig, edhash.NewShared(), evmux)
 	if err != nil {
 		return err
 	}
@@ -206,7 +206,7 @@ func runBlockTest(homesteadBlock, gasPriceFork *big.Int, test *BlockTest) error 
 
 // InsertPreState populates the given database with the genesis
 // accounts defined by the test.
-func (t *BlockTest) InsertPreState(db ethdb.Database) (*state.StateDB, error) {
+func (t *BlockTest) InsertPreState(db eddb.Database) (*state.StateDB, error) {
 	statedb, err := state.New(common.Hash{}, db)
 	if err != nil {
 		return nil, err
@@ -243,7 +243,7 @@ func (t *BlockTest) InsertPreState(db ethdb.Database) (*state.StateDB, error) {
 	return statedb, nil
 }
 
-/* See https://github.com/Earthdollar/tests/wiki/Blockchain-Tests-II
+/* See https://github.com/ethereum/tests/wiki/Blockchain-Tests-II
 
    Whether a block is valid or not is a bit subtle, it's defined by presence of
    blockHeader, transactions and uncleHeaders fields. If they are missing, the block is

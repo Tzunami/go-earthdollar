@@ -1,20 +1,20 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package core implements the Earthdollar consensus protocol.
+// Package core implements the Ethereum consensus protocol.
 package core
 
 import (
@@ -76,7 +76,7 @@ type BlockChain struct {
 	config *ChainConfig // chain & network configuration
 
 	hc           *HeaderChain
-	chainDb      ethdb.Database
+	chainDb      eddb.Database
 	eventMux     *event.TypeMux
 	genesisBlock *types.Block
 
@@ -105,9 +105,9 @@ type BlockChain struct {
 }
 
 // NewBlockChain returns a fully initialised block chain using information
-// available in the database. It initialiser the default Earthdollar Validator and
+// available in the database. It initialiser the default Ethereum Validator and
 // Processor.
-func NewBlockChain(chainDb ethdb.Database, config *ChainConfig, pow pow.PoW, mux *event.TypeMux) (*BlockChain, error) {
+func NewBlockChain(chainDb eddb.Database, config *ChainConfig, pow pow.PoW, mux *event.TypeMux) (*BlockChain, error) {
 	bodyCache, _ := lru.New(bodyCacheLimit)
 	bodyRLPCache, _ := lru.New(bodyCacheLimit)
 	blockCache, _ := lru.New(blockCacheLimit)
@@ -529,7 +529,7 @@ func (self *BlockChain) GetBlockByNumber(number uint64) *types.Block {
 	return self.GetBlock(hash)
 }
 
-// [deprecated by eth/62]
+// [deprecated by ed/62]
 // GetBlocksFromHash returns the block corresponding to hash and up to n-1 ancestors.
 func (self *BlockChain) GetBlocksFromHash(hash common.Hash, n int) (blocks []*types.Block) {
 	for i := 0; i < n; i++ {

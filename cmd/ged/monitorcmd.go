@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -29,7 +29,6 @@ import (
 
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/rpc"
-
 	"github.com/gizak/termui"
 	"gopkg.in/urfave/cli.v1"
 )
@@ -69,21 +68,10 @@ to display multiple metrics simultaneously.
 
 // monitor starts a terminal UI based monitoring tool for the requested metrics.
 func monitor(ctx *cli.Context) error {
-<<<<<<< HEAD:cmd/ged/monitorcmd.go
-	var (
-		client rpc.Client
-		err    error
-	)
-	// Attach to an Earthdollar node over IPC or RPC
-	endpoint := ctx.String(monitorCommandAttachFlag.Name)
-	if client, err = utils.NewRemoteRPCClientFromString(endpoint); err != nil {
-		utils.Fatalf("Unable to attach to ged node: %v", err)
-=======
 	// Attach to an Ethereum node over IPC or RPC
 	client, err := rpc.NewClient(ctx.String(monitorCommandAttachFlag.Name))
 	if err != nil {
 		log.Fatal("attach to remote ged: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/monitorcmd.go
 	}
 	defer client.Close()
 
@@ -100,11 +88,7 @@ func monitor(ctx *cli.Context) error {
 		if len(list) > 0 {
 			log.Fatalf("No metrics specified. Available: %q", list)
 		} else {
-<<<<<<< HEAD:cmd/ged/monitorcmd.go
-			utils.Fatalf("No metrics collected by ged (--metrics).\n")
-=======
 			log.Fatal("No metrics collected by ged (--metrics).")
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/monitorcmd.go
 		}
 	}
 	sort.Strings(monitored)

@@ -1,23 +1,24 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
-// ged is the official command-line client for Earthdollar.
+// ged is the official command-line client for Ethereum.
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -27,70 +28,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Tzunami/ethash"
-	
-	"github.com/Tzunami/go-earthdollar/common"
+	"gopkg.in/urfave/cli.v1"
+
+	"github.com/ethereumproject/edhash"
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/ed"
 	"github.com/Tzunami/go-earthdollar/eddb"
-	"github.com/Tzunami/go-earthdollar/internal/debug"
-	"github.com/Tzunami/go-earthdollar/logger"
-	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/metrics"
-	"github.com/Tzunami/go-earthdollar/node"
-	"github.com/Tzunami/go-earthdollar/rlp"
-	"gopkg.in/urfave/cli.v1"
-)
-
-const (
-	clientIdentifier = "Ged"     // Client identifier to advertise over the network
-	versionMajor     = 3          // Major version component of the current release
-	versionMinor     = 2          // Minor version component of the current release
-	versionPatch     = 3          // Patch version component of the current release
-	versionMeta      = "unstable" // Version metadata to append to the version string
-
-	// !EPROJECT Replace Oracle or remove point of centralization
-	versionOracle = "0xfa7b9770ca4cb04296cac84f37736d4041251cdf" // Earthdollar address of the Ged release oracle
-)
-
-var (
-	gitCommit string         // Git SHA1 commit hash of the release (set via linker flags)
-	verString string         // Combined textual representation of all the version components
-	relConfig release.Config // Structured version information and release oracle config
-	app       *cli.App
-)
-
-func init() {
-	// Construct the textual version string from the individual components
-	verString = fmt.Sprintf("%d.%d.%d", versionMajor, versionMinor, versionPatch)
-	if versionMeta != "" {
-		verString += "-" + versionMeta
-	}
-	if gitCommit != "" {
-		verString += "-" + gitCommit[:8]
-	}
-	// Construct the version release oracle configuration
-	relConfig.Oracle = common.HexToAddress(versionOracle)
-
-	relConfig.Major = uint32(versionMajor)
-	relConfig.Minor = uint32(versionMinor)
-	relConfig.Patch = uint32(versionPatch)
-
-	commit, _ := hex.DecodeString(gitCommit)
-	copy(relConfig.Commit[:], commit)
-
-	// Initialize the CLI app and start Ged
-	app = utils.NewApp(verString, "the go-earthdollar command line interface")
-	app.Action = ged
-=======
-	"gopkg.in/urfave/cli.v1"
-
-	"github.com/Tzunami/ethash"
-	"github.com/Tzunami/go-earthdollar/console"
-	"github.com/Tzunami/go-earthdollar/core"
-	"github.com/Tzunami/go-earthdollar/eth"
-	"github.com/Tzunami/go-earthdollar/ethdb"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/metrics"
@@ -105,9 +49,8 @@ func main() {
 	app := cli.NewApp()
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
-	app.Usage = "the go-earthdollar command line interface"
+	app.Usage = "the go-ethereum command line interface"
 	app.Action = ged
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	app.HideVersion = true // we have a command to print the version
 
 	app.Commands = []cli.Command{
@@ -125,9 +68,9 @@ func main() {
 		{
 			Action: makedag,
 			Name:   "makedag",
-			Usage:  "generate ethash dag (for testing)",
+			Usage:  "generate edhash dag (for testing)",
 			Description: `
-The makedag command generates an ethash DAG in /tmp/dag.
+The makedag command generates an edhash DAG in /tmp/dag.
 
 This command exists to support the system testing project.
 Regular users do not need to execute it.
@@ -152,7 +95,7 @@ Runs quick benchmark on first GPU found.
 		{
 			Action: version,
 			Name:   "version",
-			Usage:  "print earthdollar version numbers",
+			Usage:  "print ethereum version numbers",
 			Description: `
 The output of this command is supposed to be machine-readable.
 `,
@@ -170,68 +113,6 @@ participating.
 	}
 
 	app.Flags = []cli.Flag{
-<<<<<<< HEAD:cmd/ged/main.go
-		utils.IdentityFlag,
-		utils.UnlockedAccountFlag,
-		utils.PasswordFileFlag,
-		utils.BootnodesFlag,
-		utils.DataDirFlag,
-		utils.KeyStoreDirFlag,
-		utils.BlockchainVersionFlag,
-		utils.OlympicFlag,
-		utils.FastSyncFlag,
-		utils.CacheFlag,
-		utils.LightKDFFlag,
-		utils.JSpathFlag,
-		utils.ListenPortFlag,
-		utils.MaxPeersFlag,
-		utils.MaxPendingPeersFlag,
-		utils.EarthbaseFlag,
-		utils.GasPriceFlag,
-		utils.MinerThreadsFlag,
-		utils.MiningEnabledFlag,
-		utils.MiningGPUFlag,
-		utils.AutoDAGFlag,
-		utils.TargetGasLimitFlag,
-		utils.NATFlag,
-		utils.NatspecEnabledFlag,
-		utils.NoDiscoverFlag,
-		utils.NodeKeyFileFlag,
-		utils.NodeKeyHexFlag,
-		utils.RPCEnabledFlag,
-		utils.RPCListenAddrFlag,
-		utils.RPCPortFlag,
-		utils.RPCApiFlag,
-		utils.WSEnabledFlag,
-		utils.WSListenAddrFlag,
-		utils.WSPortFlag,
-		utils.WSApiFlag,
-		utils.WSAllowedOriginsFlag,
-		utils.IPCDisabledFlag,
-		utils.IPCApiFlag,
-		utils.IPCPathFlag,
-		utils.ExecFlag,
-		utils.PreloadJSFlag,
-		utils.WhisperEnabledFlag,
-		utils.DevModeFlag,
-		utils.TestNetFlag,
-		utils.VMForceJitFlag,
-		utils.VMJitCacheFlag,
-		utils.VMEnableJitFlag,
-		utils.NetworkIdFlag,
-		utils.RPCCORSDomainFlag,
-		utils.MetricsFlag,
-		utils.FakePoWFlag,
-		utils.SolcPathFlag,
-		utils.GpoMinGasPriceFlag,
-		utils.GpoMaxGasPriceFlag,
-		utils.GpoFullBlockRatioFlag,
-		utils.GpobaseStepDownFlag,
-		utils.GpobaseStepUpFlag,
-		utils.GpobaseCorrectionFactorFlag,
-		utils.ExtraDataFlag,
-		utils.Unused1,
-=======
 		IdentityFlag,
 		UnlockedAccountFlag,
 		PasswordFileFlag,
@@ -292,7 +173,6 @@ participating.
 		GpobaseCorrectionFactorFlag,
 		ExtraDataFlag,
 		Unused1,
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	}
 
 	app.Before = func(ctx *cli.Context) error {
@@ -309,7 +189,7 @@ participating.
 		// because it is not intended to run while testing.
 		// In addition to this check, bad block reports are sent only
 		// for chains with the main network genesis block and network id 1.
-		ed .EnableBadBlockReporting = true
+		ed.EnableBadBlockReporting = true
 
 		SetupNetwork(ctx)
 		return nil
@@ -327,39 +207,11 @@ participating.
 	}
 }
 
-<<<<<<< HEAD:cmd/ged/main.go
-func makeDefaultExtra() []byte {
-	var clientInfo = struct {
-		Version   uint
-		Name      string
-		GoVersion string
-		Os        string
-	}{uint(versionMajor<<16 | versionMinor<<8 | versionPatch), clientIdentifier, runtime.Version(), runtime.GOOS}
-	extra, err := rlp.EncodeToBytes(clientInfo)
-	if err != nil {
-		glog.V(logger.Warn).Infoln("error setting canonical miner information:", err)
-	}
-
-	if uint64(len(extra)) > params.MaximumExtraDataSize.Uint64() {
-		glog.V(logger.Warn).Infoln("error setting canonical miner information: extra exceeds", params.MaximumExtraDataSize)
-		glog.V(logger.Debug).Infof("extra: %x\n", extra)
-		return nil
-	}
-	return extra
-}
-
-// ged is the main entry point into the system if no special subcommand is ran.
-// It creates a default node based on the command line arguments and runs it in
-// blocking mode, waiting for it to be shut down.
-func ged(ctx *cli.Context) error {
-	node := utils.MakeSystemNode(clientIdentifier, verString, relConfig, makeDefaultExtra(), ctx)
-=======
 // ged is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
 func ged(ctx *cli.Context) error {
 	node := MakeSystemNode(Version, ctx)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	startNode(ctx, node)
 	node.Wait()
 
@@ -368,28 +220,33 @@ func ged(ctx *cli.Context) error {
 
 // initGenesis will initialise the given JSON format genesis file and writes it as
 // the zero'd block (i.e. genesis) or will fail hard if it can't succeed.
-func initGenesis(ctx *cli.Context) error {
-	genesisPath := ctx.Args().First()
-	if len(genesisPath) == 0 {
-		log.Fatal("must supply path to genesis JSON file")
+func initGenesis(ctx *cli.Context) {
+	path := ctx.Args().First()
+	if len(path) == 0 {
+		log.Fatal("need path argument to genesis JSON file")
 	}
 
-	chainDb, err := ethdb.NewLDBDatabase(filepath.Join(MustMakeDataDir(ctx), "chaindata"), 0, 0)
+	chainDB, err := eddb.NewLDBDatabase(filepath.Join(MustMakeDataDir(ctx), "chaindata"), 0, 0)
 	if err != nil {
 		log.Fatal("could not open database: ", err)
 	}
 
-	genesisFile, err := os.Open(genesisPath)
+	f, err := os.Open(path)
 	if err != nil {
 		log.Fatal("failed to read genesis file: ", err)
 	}
+	defer f.Close()
 
-	block, err := core.WriteGenesisBlock(chainDb, genesisFile)
-	if err != nil {
-		log.Fatalf("failed to write genesis block: ", err)
+	dump := new(core.GenesisDump)
+	if json.NewDecoder(f).Decode(dump); err != nil {
+		log.Fatalf("%s: %s", path, err)
 	}
-	glog.V(logger.Info).Infof("successfully wrote genesis block and/or chain rule set: %x", block.Hash())
-	return nil
+
+	block, err := core.WriteGenesisBlock(chainDB, dump)
+	if err != nil {
+		log.Fatal("failed to write genesis block: ", err)
+	}
+	log.Printf("successfully wrote genesis block and/or chain rule set: %x", block.Hash())
 }
 
 // startNode boots up the system node and all registered protocols, after which
@@ -400,21 +257,12 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	StartNode(stack)
 
 	// Unlock any account specifically requested
-<<<<<<< HEAD:cmd/ged/main.go
-	var earthdollar *ed .Earthdollar
-	if err := stack.Service(&earthdollar); err != nil {
-		utils.Fatalf("earthdollar service not running: %v", err)
-	}
-	accman := earthdollar.AccountManager()
-	passwords := utils.MakePasswordList(ctx)
-=======
-	var earthdollar *eth.Ethereum
+	var ethereum *ed.Ethereum
 	if err := stack.Service(&ethereum); err != nil {
 		log.Fatal("ethereum service not running: ", err)
 	}
-	accman := earthdollar.AccountManager()
+	accman := ethereum.AccountManager()
 	passwords := MakePasswordList(ctx)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 
 	accounts := strings.Split(ctx.GlobalString(UnlockedAccountFlag.Name), ",")
 	for i, account := range accounts {
@@ -423,15 +271,9 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 		}
 	}
 	// Start auxiliary services if enabled
-<<<<<<< HEAD:cmd/ged/main.go
-	if ctx.GlobalBool(utils.MiningEnabledFlag.Name) {
-		if err := earthdollar.StartMining(ctx.GlobalInt(utils.MinerThreadsFlag.Name), ctx.GlobalString(utils.MiningGPUFlag.Name)); err != nil {
-			utils.Fatalf("Failed to start mining: %v", err)
-=======
 	if ctx.GlobalBool(MiningEnabledFlag.Name) {
-		if err := earthdollar.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
+		if err := ethereum.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
 			log.Fatalf("Failed to start mining: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 		}
 	}
 }
@@ -439,11 +281,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 func makedag(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
-<<<<<<< HEAD:cmd/ged/main.go
-		utils.Fatalf(`Usage: ged makedag <block number> <outputdir>`)
-=======
 		log.Fatal(`Usage: ged makedag <block number> <outputdir>`)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	}
 	switch {
 	case len(args) == 2:
@@ -462,7 +300,7 @@ func makedag(ctx *cli.Context) error {
 				log.Fatal("Can't find dir")
 			}
 			fmt.Println("making DAG, this could take awhile...")
-			ethash.MakeDAG(blockNum, dir)
+			edhash.MakeDAG(blockNum, dir)
 		}
 	default:
 		wrongArgs()
@@ -471,18 +309,14 @@ func makedag(ctx *cli.Context) error {
 }
 
 func gpuinfo(ctx *cli.Context) error {
-	ed .PrintOpenCLDevices()
+	ed.PrintOpenCLDevices()
 	return nil
 }
 
 func gpubench(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
-<<<<<<< HEAD:cmd/ged/main.go
-		utils.Fatalf(`Usage: ged gpubench <gpu number>`)
-=======
 		log.Fatal(`Usage: ged gpubench <gpu number>`)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	}
 	switch {
 	case len(args) == 1:
@@ -490,9 +324,9 @@ func gpubench(ctx *cli.Context) error {
 		if err != nil {
 			wrongArgs()
 		}
-		ed .GPUBench(n)
+		ed.GPUBench(n)
 	case len(args) == 0:
-		ed .GPUBench(0)
+		ed.GPUBench(0)
 	default:
 		wrongArgs()
 	}
@@ -500,17 +334,10 @@ func gpubench(ctx *cli.Context) error {
 }
 
 func version(c *cli.Context) error {
-<<<<<<< HEAD:cmd/ged/main.go
-	fmt.Println(clientIdentifier)
-	fmt.Println("Version:", verString)
-	fmt.Println("Protocol Versions:", ed .ProtocolVersions)
-	fmt.Println("Network Id:", c.GlobalInt(utils.NetworkIdFlag.Name))
-=======
-	fmt.Println("Geth")
+	fmt.Println("Ged")
 	fmt.Println("Version:", Version)
-	fmt.Println("Protocol Versions:", eth.ProtocolVersions)
+	fmt.Println("Protocol Versions:", ed.ProtocolVersions)
 	fmt.Println("Network Id:", c.GlobalInt(NetworkIdFlag.Name))
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/main.go
 	fmt.Println("Go Version:", runtime.Version())
 	fmt.Println("OS:", runtime.GOOS)
 	fmt.Printf("GOPATH=%s\n", os.Getenv("GOPATH"))

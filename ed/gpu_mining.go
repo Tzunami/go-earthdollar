@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 // +build opencl
 
@@ -25,7 +25,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Tzunami/ethash"
+	"github.com/ethereumproject/edhash"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/logger"
@@ -33,10 +33,10 @@ import (
 	"github.com/Tzunami/go-earthdollar/miner"
 )
 
-func (s *Earthdollar) StartMining(threads int, gpus string) error {
-	eb, err := s.Earthbase()
+func (s *Ethereum) StartMining(threads int, gpus string) error {
+	eb, err := s.Etherbase()
 	if err != nil {
-		err = fmt.Errorf("Cannot start mining without earthbase address: %v", err)
+		err = fmt.Errorf("Cannot start mining without etherbase address: %v", err)
 		glog.V(logger.Error).Infoln(err)
 		return err
 	}
@@ -56,7 +56,7 @@ func (s *Earthdollar) StartMining(threads int, gpus string) error {
 		}
 
 		// TODO: re-creating miner is a bit ugly
-		s.miner = miner.New(s, s.chainConfig, s.EventMux(), ethash.NewCL(ids))
+		s.miner = miner.New(s, s.chainConfig, s.EventMux(), edhash.NewCL(ids))
 		go s.miner.Start(eb, len(ids))
 		return nil
 	}
@@ -67,7 +67,7 @@ func (s *Earthdollar) StartMining(threads int, gpus string) error {
 }
 
 func GPUBench(gpuid uint64) {
-	e := ethash.NewCL([]int{int(gpuid)})
+	e := edhash.NewCL([]int{int(gpuid)})
 
 	var h common.Hash
 	bogoHeader := &types.Header{
@@ -77,7 +77,7 @@ func GPUBench(gpuid uint64) {
 	}
 	bogoBlock := types.NewBlock(bogoHeader, nil, nil, nil)
 
-	err := ethash.InitCL(bogoBlock.NumberU64(), e)
+	err := edhash.InitCL(bogoBlock.NumberU64(), e)
 	if err != nil {
 		fmt.Println("OpenCL init error: ", err)
 		return
@@ -98,5 +98,5 @@ func GPUBench(gpuid uint64) {
 }
 
 func PrintOpenCLDevices() {
-	ethash.PrintDevices()
+	edhash.PrintDevices()
 }

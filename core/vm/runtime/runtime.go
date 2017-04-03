@@ -1,19 +1,20 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
+// Package runtime provides a basic execution model for executing EVM code.
 package runtime
 
 import (
@@ -31,8 +32,17 @@ import (
 type ruleSet struct{}
 
 func (ruleSet) IsHomestead(*big.Int) bool { return true }
-func (ruleSet) GasTable(*big.Int) params.GasTable {
-	return params.GasTableHomesteadGasRepriceFork
+func (ruleSet) GasTable(*big.Int) *vm.GasTable {
+	return &vm.GasTable{
+		ExtcodeSize:     big.NewInt(700),
+		ExtcodeCopy:     big.NewInt(700),
+		Balance:         big.NewInt(400),
+		SLoad:           big.NewInt(200),
+		Calls:           big.NewInt(700),
+		Suicide:         big.NewInt(5000),
+		ExpByte:         big.NewInt(10),
+		CreateBySuicide: big.NewInt(25000),
+	}
 }
 
 // Config is a basic type specifying certain configuration flags for running
@@ -98,7 +108,7 @@ func Execute(code, input []byte, cfg *Config) ([]byte, *state.StateDB, error) {
 	setDefaults(cfg)
 
 	if cfg.State == nil {
-		db, _ := ethdb.NewMemDatabase()
+		db, _ := eddb.NewMemDatabase()
 		cfg.State, _ = state.New(common.Hash{}, db)
 	}
 	var (

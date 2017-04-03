@@ -1,23 +1,25 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package fetcher
 
 import (
+	"crypto/ecdsa"
 	"errors"
+	"fmt"
 	"math/big"
 	"sync"
 	"sync/atomic"
@@ -26,18 +28,50 @@ import (
 
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/eddb"
 )
 
 var (
-	testdb, _    = ethdb.NewMemDatabase()
-	testKey, _   = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
-	testAddress  = crypto.PubkeyToAddress(testKey.PublicKey)
-	genesis      = core.GenesisBlockForTesting(testdb, testAddress, big.NewInt(1000000000))
-	unknownBlock = types.NewBlock(&types.Header{GasLimit: params.GenesisGasLimit}, nil, nil, nil)
+	testdb       eddb.Database
+	testKey      *ecdsa.PrivateKey
+	testAddress  common.Address
+	genesis      *types.Block
+	unknownBlock = types.NewBlock(&types.Header{GasLimit: big.NewInt(4712388)}, nil, nil, nil)
 )
+
+func init() {
+	var err error
+	testKey, err = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
+	if err != nil {
+		panic(err)
+	}
+	testAddress = crypto.PubkeyToAddress(testKey.PublicKey)
+
+	testdb, err = eddb.NewMemDatabase()
+	if err != nil {
+		panic(err)
+	}
+
+	statedb, err := state.New(common.Hash{}, testdb)
+	if err != nil {
+		panic(err)
+	}
+
+	obj := statedb.GetOrNewStateObject(testAddress)
+	obj.SetBalance(big.NewInt(1000000000))
+	root, err := statedb.Commit()
+	if err != nil {
+		panic(fmt.Sprintf("cannot write state: %v", err))
+	}
+	genesis = types.NewBlock(&types.Header{
+		Difficulty: big.NewInt(131072),
+		GasLimit:   big.NewInt(4712388),
+		Root:       root,
+	}, nil, nil, nil)
+}
 
 // makeChain creates a chain of n blocks starting at and including parent.
 // the returned hash chain is ordered head->parent. In addition, every 3rd block
@@ -49,7 +83,7 @@ func makeChain(n int, seed byte, parent *types.Block) ([]common.Hash, map[common
 
 		// If the block number is multiple of 3, send a bonus transaction to the miner
 		if parent == genesis && i%3 == 0 {
-			tx, err := types.NewTransaction(block.TxNonce(testAddress), common.Address{seed}, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(testKey)
+			tx, err := types.NewTransaction(block.TxNonce(testAddress), common.Address{seed}, big.NewInt(1000), core.TxGas, nil, nil).SignECDSA(testKey)
 			if err != nil {
 				panic(err)
 			}

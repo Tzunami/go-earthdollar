@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package miner
 
@@ -104,7 +104,7 @@ type worker struct {
 	ed     core.Backend
 	chain   *core.BlockChain
 	proc    core.Validator
-	chainDb ethdb.Database
+	chainDb eddb.Database
 
 	coinbase common.Address
 	gasPrice *big.Int
@@ -127,7 +127,7 @@ type worker struct {
 func newWorker(config *core.ChainConfig, coinbase common.Address, ed core.Backend) *worker {
 	worker := &worker{
 		config:         config,
-		ed:             ed,
+		ed:            ed,
 		mux:            ed.EventMux(),
 		chainDb:        ed.ChainDb(),
 		recv:           make(chan *Result, resultQueueSize),
@@ -149,7 +149,7 @@ func newWorker(config *core.ChainConfig, coinbase common.Address, ed core.Backen
 	return worker
 }
 
-func (self *worker) setEarthbase(addr common.Address) {
+func (self *worker) setEtherbase(addr common.Address) {
 	self.mu.Lock()
 	defer self.mu.Unlock()
 	self.coinbase = addr
@@ -580,7 +580,7 @@ func (env *Work) commitTransactions(mux *event.TypeMux, transactions types.Trans
 		// We use the eip155 signer regardless of the current hf.
 		tx.SetSigner(env.signer)
 		from, _ := types.Sender(env.signer, tx)
-		// Check whether the tx is replay protected. If we're not in the EIP155 hf
+		// Check wheder the tx is replay protected. If we're not in the EIP155 hf
 		// phase, start ignoring the sender until we do.
 		if tx.Protected() && !env.config.IsDiehard(env.header.Number) {
 			glog.V(logger.Detail).Infof("Transaction (%x) is replay protected, but we haven't yet hardforked. Transaction will be ignored until we hardfork.\n", tx.Hash())

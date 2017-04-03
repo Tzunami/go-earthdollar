@@ -1,18 +1,18 @@
-	// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package ed
 
@@ -56,12 +56,12 @@ func errResp(code errCode, format string, v ...interface{}) error {
 type ProtocolManager struct {
 	networkId int
 
-	fastSync uint32 // Flag whether fast sync is enabled (gets disabled if we already have blocks)
-	synced   uint32 // Flag whether we're considered synchronised (enables transaction processing)
+	fastSync uint32 // Flag wheder fast sync is enabled (gets disabled if we already have blocks)
+	synced   uint32 // Flag wheder we're considered synchronised (enables transaction processing)
 
 	txpool      txPool
 	blockchain  *core.BlockChain
-	chaindb     ethdb.Database
+	chaindb     eddb.Database
 	chainConfig *core.ChainConfig
 
 	downloader *downloader.Downloader
@@ -87,10 +87,10 @@ type ProtocolManager struct {
 	badBlockReportingEnabled bool
 }
 
-// NewProtocolManager returns a new earthdollar sub protocol manager. The Earthdollar sub protocol manages peers capable
-// with the earthdollar network.
-func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, mux *event.TypeMux, txpool txPool, pow pow.PoW, blockchain *core.BlockChain, chaindb ethdb.Database) (*ProtocolManager, error) {
-	// Create the protocol manager with the base 	
+// NewProtocolManager returns a new edereum sub protocol manager. The Ethereum sub protocol manages peers capable
+// with the edereum network.
+func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, mux *event.TypeMux, txpool txPool, pow pow.PoW, blockchain *core.BlockChain, chaindb eddb.Database) (*ProtocolManager, error) {
+	// Create the protocol manager with the base fields
 	manager := &ProtocolManager{
 		networkId:   networkId,
 		eventMux:    mux,
@@ -104,7 +104,7 @@ func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, 
 		txsyncCh:    make(chan *txsync),
 		quitSync:    make(chan struct{}),
 	}
-	// Figure out whether to allow fast sync or not
+	// Figure out wheder to allow fast sync or not
 	if fastSync && blockchain.CurrentBlock().NumberU64() > 0 {
 		glog.V(logger.Info).Infof("blockchain not empty, fast sync disabled")
 		fastSync = false
@@ -116,7 +116,7 @@ func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, 
 	manager.SubProtocols = make([]p2p.Protocol, 0, len(ProtocolVersions))
 	for i, version := range ProtocolVersions {
 		// Skip protocol version if incompatible with the mode of operation
-		if fastSync && version <  ed63 {
+		if fastSync && version < ed63 {
 			continue
 		}
 		// Compatible; initialise the sub-protocol
@@ -168,7 +168,7 @@ func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, 
 	}
 	manager.fetcher = fetcher.New(blockchain.GetBlock, validator, manager.BroadcastBlock, heighter, inserter, manager.removePeer)
 
-	if blockchain.Genesis().Hash().Hex() == defaultGenesisHash && networkId == 88 {
+	if blockchain.Genesis().Hash().Hex() == defaultGenesisHash && networkId == 1 {
 		manager.badBlockReportingEnabled = false
 	}
 
@@ -191,7 +191,7 @@ func (pm *ProtocolManager) removePeer(id string) {
 	}
 	glog.V(logger.Debug).Infoln("Removing peer", id)
 
-	// Unregister the peer from the downloader and Earthdollar peer set
+	// Unregister the peer from the downloader and Ethereum peer set
 	pm.downloader.UnregisterPeer(id)
 	if err := pm.peers.Unregister(id); err != nil {
 		glog.V(logger.Error).Infoln("Removal failed:", err)
@@ -216,7 +216,7 @@ func (pm *ProtocolManager) Start() {
 }
 
 func (pm *ProtocolManager) Stop() {
-	glog.V(logger.Info).Infoln("Stopping earthdollar protocol handler...")
+	glog.V(logger.Info).Infoln("Stopping edereum protocol handler...")
 
 	pm.txSub.Unsubscribe()         // quits txBroadcastLoop
 	pm.minedBlockSub.Unsubscribe() // quits blockBroadcastLoop
@@ -237,7 +237,7 @@ func (pm *ProtocolManager) Stop() {
 	// Wait for all peer handler goroutines and the loops to come down.
 	pm.wg.Wait()
 
-	glog.V(logger.Info).Infoln("Earthdollar protocol handler stopped")
+	glog.V(logger.Info).Infoln("Ethereum protocol handler stopped")
 }
 
 func (pm *ProtocolManager) newPeer(pv int, p *p2p.Peer, rw p2p.MsgReadWriter) *peer {
@@ -249,7 +249,7 @@ func (pm *ProtocolManager) newPeer(pv int, p *p2p.Peer, rw p2p.MsgReadWriter) *p
 func (pm *ProtocolManager) handle(p *peer) error {
 	glog.V(logger.Debug).Infof("%v: peer connected [%s]", p, p.Name())
 
-	// Execute the Earthdollar handshake
+	// Execute the Ethereum handshake
 	td, head, genesis := pm.blockchain.Status()
 	if err := p.Handshake(pm.networkId, td, head, genesis); err != nil {
 		glog.V(logger.Debug).Infof("%v: handshake failed: %v", p, err)
@@ -331,7 +331,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		// Status messages should never arrive after the handshake
 		return errResp(ErrExtraStatusMsg, "uncontrolled status message")
 	// Block header query, collect the requested headers and reply
-	case p.version >= eth62 && msg.Code == GetBlockHeadersMsg:
+	case p.version >= ed62 && msg.Code == GetBlockHeadersMsg:
 		// Decode the complex header query
 		var query getBlockHeadersData
 		if err := msg.Decode(&query); err != nil {
@@ -397,7 +397,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		}
 		return p.SendBlockHeaders(headers)
 
-	case p.version >= eth62 && msg.Code == BlockHeadersMsg:
+	case p.version >= ed62 && msg.Code == BlockHeadersMsg:
 		// A batch of headers arrived to one of our previous requests
 		var headers []*types.Header
 		if err := msg.Decode(&headers); err != nil {
@@ -444,7 +444,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			}
 		}
 
-	case p.version >= eth62 && msg.Code == GetBlockBodiesMsg:
+	case p.version >= ed62 && msg.Code == GetBlockBodiesMsg:
 		// Decode the retrieval message
 		msgStream := rlp.NewStream(msg.Payload, uint64(msg.Size))
 		if _, err := msgStream.List(); err != nil {
@@ -471,7 +471,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		}
 		return p.SendBlockBodiesRLP(bodies)
 
-	case p.version >= eth62 && msg.Code == BlockBodiesMsg:
+	case p.version >= ed62 && msg.Code == BlockBodiesMsg:
 		// A batch of block bodies arrived to one of our previous requests
 		var request blockBodiesData
 		if err := msg.Decode(&request); err != nil {
@@ -497,7 +497,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			}
 		}
 
-	case p.version >=  ed63 && msg.Code == GetNodeDataMsg:
+	case p.version >= ed63 && msg.Code == GetNodeDataMsg:
 		// Decode the retrieval message
 		msgStream := rlp.NewStream(msg.Payload, uint64(msg.Size))
 		if _, err := msgStream.List(); err != nil {
@@ -524,7 +524,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		}
 		return p.SendNodeData(data)
 
-	case p.version >=  ed63 && msg.Code == NodeDataMsg:
+	case p.version >= ed63 && msg.Code == NodeDataMsg:
 		// A batch of node state data arrived to one of our previous requests
 		var data [][]byte
 		if err := msg.Decode(&data); err != nil {
@@ -535,7 +535,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			glog.V(logger.Debug).Infof("failed to deliver node state data: %v", err)
 		}
 
-	case p.version >=  ed63 && msg.Code == GetReceiptsMsg:
+	case p.version >= ed63 && msg.Code == GetReceiptsMsg:
 		// Decode the retrieval message
 		msgStream := rlp.NewStream(msg.Payload, uint64(msg.Size))
 		if _, err := msgStream.List(); err != nil {
@@ -571,7 +571,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		}
 		return p.SendReceiptsRLP(receipts)
 
-	case p.version >=  ed63 && msg.Code == ReceiptsMsg:
+	case p.version >= ed63 && msg.Code == ReceiptsMsg:
 		// A batch of receipts arrived to one of our previous requests
 		var receipts [][]*types.Receipt
 		if err := msg.Decode(&receipts); err != nil {
@@ -590,7 +590,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		}
 		var announces = []announce{}
 
-		if p.version < eth62 {
+		if p.version < ed62 {
 			// We're running the old protocol, make block number unknown (0)
 			var hashes []common.Hash
 			if err := msg.Decode(&hashes); err != nil {
@@ -622,7 +622,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			}
 		}
 		for _, block := range unknown {
-			// TODO Breaking /edtests
+			// TODO Breaking /ed tests
 			pm.fetcher.Notify(p.id, block.Hash, block.Number, time.Now(), p.RequestOneHeader, p.RequestBodies)
 		}
 
@@ -751,10 +751,10 @@ func (self *ProtocolManager) txBroadcastLoop() {
 	}
 }
 
-// EthNodeInfo represents a short summary of the Earthdollar sub-protocol metadata known
+// EthNodeInfo represents a short summary of the Ethereum sub-protocol metadata known
 // about the host peer.
 type EthNodeInfo struct {
-	Network    int         `json:"network"`    // Earthdollar network ID (0=Olympic, 1=Frontier, 2=Morden)
+	Network    int         `json:"network"`    // Ethereum network ID (0=Olympic, 1=Frontier, 2=Morden)
 	Difficulty *big.Int    `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Head       common.Hash `json:"head"`       // SHA3 hash of the host's best owned block

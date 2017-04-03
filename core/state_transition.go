@@ -1,18 +1,18 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -27,7 +27,10 @@ import (
 )
 
 var (
-	Big0 = big.NewInt(0)
+	TxGas                 = big.NewInt(21000) // Per transaction not creating a contract. NOTE: Not payable on data of calls between transactions.
+	TxGasContractCreation = big.NewInt(53000) // Per transaction that creates a contract. NOTE: Not payable on data of calls between transactions.
+	TxDataZeroGas         = big.NewInt(4)     // Per byte of data attached to a transaction that equals zero. NOTE: Not payable on data of calls between transactions.
+	TxDataNonZeroGas      = big.NewInt(68)    // Per byte of data attached to a transaction that is not equal to zero. NOTE: Not payable on data of calls between transactions.
 )
 
 /*
@@ -81,9 +84,9 @@ func MessageCreatesContract(msg Message) bool {
 func IntrinsicGas(data []byte, contractCreation, homestead bool) *big.Int {
 	igas := new(big.Int)
 	if contractCreation && homestead {
-		igas.Set(params.TxGasContractCreation)
+		igas.Set(TxGasContractCreation)
 	} else {
-		igas.Set(params.TxGas)
+		igas.Set(TxGas)
 	}
 	if len(data) > 0 {
 		var nz int64
@@ -93,10 +96,10 @@ func IntrinsicGas(data []byte, contractCreation, homestead bool) *big.Int {
 			}
 		}
 		m := big.NewInt(nz)
-		m.Mul(m, params.TxDataNonZeroGas)
+		m.Mul(m, TxDataNonZeroGas)
 		igas.Add(igas, m)
 		m.SetInt64(int64(len(data)) - nz)
-		m.Mul(m, params.TxDataZeroGas)
+		m.Mul(m, TxDataZeroGas)
 		igas.Add(igas, m)
 	}
 	return igas
@@ -183,7 +186,7 @@ func (self *StateTransition) buyGas() error {
 		return err
 	}
 	if sender.Balance().Cmp(mgval) < 0 {
-		return fmt.Errorf("insufficient EDfor gas (%x). Req %v, has %v", sender.Address().Bytes()[:4], mgval, sender.Balance())
+		return fmt.Errorf("insufficient ETH for gas (%x). Req %v, has %v", sender.Address().Bytes()[:4], mgval, sender.Balance())
 	}
 	if err = self.gp.SubGas(mgas); err != nil {
 		return err
@@ -237,7 +240,7 @@ func (self *StateTransition) TransitionDb() (ret []byte, requiredGas, usedGas *b
 	if contractCreation {
 		ret, _, err = vmenv.Create(sender, self.data, self.gas, self.gasPrice, self.value)
 		if homestead && err == vm.CodeStoreOutOfGasError {
-			self.gas = Big0
+			self.gas = big.NewInt(0)
 		}
 
 		if err != nil {

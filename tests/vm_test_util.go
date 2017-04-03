@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package tests
 
@@ -89,7 +89,7 @@ func BenchVmTest(p string, conf bconf, b *testing.B) error {
 
 func benchVmTest(test VmTest, env map[string]string, b *testing.B) {
 	b.StopTimer()
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	statedb := makePreState(db, test.Pre)
 	b.StartTimer()
 
@@ -133,7 +133,7 @@ func runVmTests(tests map[string]VmTest, skipTests []string) error {
 }
 
 func runVmTest(test VmTest) error {
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	statedb := makePreState(db, test.Pre)
 
 	// XXX Yeah, yeah...
@@ -214,7 +214,12 @@ func RunVm(state *state.StateDB, env, exec map[string]string) ([]byte, vm.Logs, 
 
 	caller := state.GetOrNewStateObject(from)
 
-	vmenv := NewEnvFromMap(RuleSet{params.MainNetHomesteadBlock, params.MainNetHomesteadGasRepriceBlock, params.DiehardBlock, params.ExplosionBlock}, state, env, exec)
+	vmenv := NewEnvFromMap(RuleSet{
+		HomesteadBlock:           big.NewInt(1150000),
+		HomesteadGasRepriceBlock: big.NewInt(2500000),
+		DiehardBlock:             big.NewInt(3000000),
+		ExplosionBlock:           big.NewInt(5000000),
+	}, state, env, exec)
 	vmenv.vmTest = true
 	vmenv.skipTransfer = true
 	vmenv.initial = true

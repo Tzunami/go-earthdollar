@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package trie
 
@@ -58,13 +58,13 @@ type TrieSyncLeafCallback func(leaf []byte, parent common.Hash) error
 // unknown trie hashes to retrieve, accepts node data associated with said hashes
 // and reconstructs the trie step by step until all is done.
 type TrieSync struct {
-	database ethdb.Database           // State database for storing all the assembled node data
+	database eddb.Database           // State database for storing all the assembled node data
 	requests map[common.Hash]*request // Pending requests pertaining to a key hash
 	queue    *prque.Prque             // Priority queue with the pending requests
 }
 
 // NewTrieSync creates a new trie data download scheduler.
-func NewTrieSync(root common.Hash, database ethdb.Database, callback TrieSyncLeafCallback) *TrieSync {
+func NewTrieSync(root common.Hash, database eddb.Database, callback TrieSyncLeafCallback) *TrieSync {
 	ts := &TrieSync{
 		database: database,
 		requests: make(map[common.Hash]*request),
@@ -266,7 +266,7 @@ func (s *TrieSync) children(req *request) ([]*request, error) {
 // commit finalizes a retrieval request and stores it into the database. If any
 // of the referencing parent requests complete due to this commit, they are also
 // committed themselves.
-func (s *TrieSync) commit(req *request, batch ethdb.Batch) (err error) {
+func (s *TrieSync) commit(req *request, batch eddb.Batch) (err error) {
 	// Create a new batch if none was specified
 	if batch == nil {
 		batch = s.database.NewBatch()

@@ -1,18 +1,18 @@
-// Copyright 2016 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2016 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package state
 
@@ -37,7 +37,7 @@ import (
 // actually committing the state.
 func TestUpdateLeaks(t *testing.T) {
 	// Create an empty state database
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	state, _ := New(common.Hash{}, db)
 
 	// Update it with some accounts
@@ -64,8 +64,8 @@ func TestUpdateLeaks(t *testing.T) {
 // only the one right before the commit.
 func TestIntermediateLeaks(t *testing.T) {
 	// Create two state databases, one transitioning to the final state, the other final from the beginning
-	transDb, _ := ethdb.NewMemDatabase()
-	finalDb, _ := ethdb.NewMemDatabase()
+	transDb, _ := eddb.NewMemDatabase()
+	finalDb, _ := eddb.NewMemDatabase()
 	transState, _ := New(common.Hash{}, transDb)
 	finalState, _ := New(common.Hash{}, finalDb)
 
@@ -281,7 +281,7 @@ func (test *snapshotTest) String() string {
 func (test *snapshotTest) run() bool {
 	// Run all actions and create snapshots.
 	var (
-		db, _        = ethdb.NewMemDatabase()
+		db, _        = eddb.NewMemDatabase()
 		state, _     = New(common.Hash{}, db)
 		snapshotRevs = make([]int, len(test.snapshots))
 		sindex       = 0

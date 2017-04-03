@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package filters
 
@@ -47,11 +47,11 @@ func BenchmarkMipmaps(b *testing.B) {
 	defer os.RemoveAll(dir)
 
 	var (
-		db, _   = ethdb.NewLDBDatabase(dir, 0, 0)
+		db, _   = eddb.NewLDBDatabase(dir, 0, 0)
 		key1, _ = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
 		addr1   = crypto.PubkeyToAddress(key1.PublicKey)
 		addr2   = common.BytesToAddress([]byte("jeff"))
-		addr3   = common.BytesToAddress([]byte("earthdollar"))
+		addr3   = common.BytesToAddress([]byte("ethereum"))
 		addr4   = common.BytesToAddress([]byte("random addresses please"))
 	)
 	defer db.Close()
@@ -121,7 +121,7 @@ func TestFilters(t *testing.T) {
 	defer os.RemoveAll(dir)
 
 	var (
-		db, _   = ethdb.NewLDBDatabase(dir, 0, 0)
+		db, _   = eddb.NewLDBDatabase(dir, 0, 0)
 		key1, _ = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
 		addr    = crypto.PubkeyToAddress(key1.PublicKey)
 

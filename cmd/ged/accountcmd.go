@@ -1,18 +1,18 @@
-// Copyright 2016 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2016 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -22,7 +22,6 @@ import (
 	"log"
 
 	"github.com/Tzunami/go-earthdollar/accounts"
-	//
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/logger"
@@ -33,19 +32,19 @@ import (
 var (
 	walletCommand = cli.Command{
 		Name:  "wallet",
-		Usage: "earthdollar presale wallet",
+		Usage: "ethereum presale wallet",
 		Subcommands: []cli.Command{
 			{
 				Action: importWallet,
 				Name:   "import",
-				Usage:  "import earthdollar presale wallet",
+				Usage:  "import ethereum presale wallet",
 			},
 		},
 		Description: `
 
     get wallet import /path/to/my/presale.wallet
 
-will prompt for your password and imports your earthdollar presale account.
+will prompt for your password and imports your ether presale account.
 It can be used non-interactively with the --password option taking a
 passwordfile as argument containing the wallet password in plaintext.
 
@@ -73,7 +72,7 @@ Note that exporting your key in unencrypted format is NOT supported.
 
 Keys are stored under <DATADIR>/keystore.
 It is safe to transfer the entire directory or the individual keys therein
-between earthdollar nodes by simply copying.
+between ethereum nodes by simply copying.
 Make sure you backup your keys regularly.
 
 In order to use your account to send transactions, you need to unlock them using
@@ -97,7 +96,7 @@ And finally. DO NOT FORGET YOUR PASSWORD.
 				Usage:  "create a new account",
 				Description: `
 
-    earthdollar account new
+    ethereum account new
 
 Creates a new account. Prints the address.
 
@@ -107,7 +106,7 @@ You must remember this passphrase to unlock your account in the future.
 
 For non-interactive use the passphrase can be specified with the --password flag:
 
-    earthdollar --password <passwordfile> account new
+    ethereum --password <passwordfile> account new
 
 Note, this is meant to be used for testing only, it is a bad idea to save your
 password to file or expose in any other way.
@@ -119,7 +118,7 @@ password to file or expose in any other way.
 				Usage:  "update an existing account",
 				Description: `
 
-    earthdollar account update <address>
+    ethereum account update <address>
 
 Update an existing account.
 
@@ -131,7 +130,7 @@ format to the newest format or change the password for an account.
 
 For non-interactive use the passphrase can be specified with the --password flag:
 
-    earthdollar --password <passwordfile> account update <address>
+    ethereum --password <passwordfile> account update <address>
 
 Since only one password can be given, only format update can be performed,
 changing your password is only possible interactively.
@@ -143,7 +142,7 @@ changing your password is only possible interactively.
 				Usage:  "import a private key into a new account",
 				Description: `
 
-    earthdollar account import <keyfile>
+    ethereum account import <keyfile>
 
 Imports an unencrypted private key from <keyfile> and creates a new account.
 Prints the address.
@@ -156,10 +155,10 @@ You must remember this passphrase to unlock your account in the future.
 
 For non-interactive use the passphrase can be specified with the -password flag:
 
-    earthdollar --password <passwordfile> account import <keyfile>
+    ethereum --password <passwordfile> account import <keyfile>
 
 Note:
-As you can directly copy your encrypted accounts to another earthdollar instance,
+As you can directly copy your encrypted accounts to another ethereum instance,
 this import mechanism is not needed when you transfer an account between
 nodes.
 					`,

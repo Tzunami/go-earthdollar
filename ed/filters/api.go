@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package filters
 
@@ -32,8 +32,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/rpc"
-
-	//"golang.org/x/net/context"
 )
 
 var (
@@ -49,12 +47,12 @@ const (
 )
 
 // PublicFilterAPI offers support to create and manage filters. This will allow external clients to retrieve various
-// information related to the Earthdollar protocol such als blocks, transactions and logs.
+// information related to the Ethereum protocol such als blocks, transactions and logs.
 type PublicFilterAPI struct {
 	mux *event.TypeMux
 
 	quit    chan struct{}
-	chainDb ethdb.Database
+	chainDb eddb.Database
 
 	filterManager *FilterSystem
 
@@ -72,7 +70,7 @@ type PublicFilterAPI struct {
 }
 
 // NewPublicFilterAPI returns a new PublicFilterAPI instance.
-func NewPublicFilterAPI(chainDb ethdb.Database, mux *event.TypeMux) *PublicFilterAPI {
+func NewPublicFilterAPI(chainDb eddb.Database, mux *event.TypeMux) *PublicFilterAPI {
 	svc := &PublicFilterAPI{
 		mux:              mux,
 		chainDb:          chainDb,

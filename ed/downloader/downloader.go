@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package downloader contains the manual full chain synchronisation.
 package downloader
@@ -63,7 +63,7 @@ var (
 	qosConfidenceCap = 10   // Number of peers above which not to modify RTT confidence
 	qosTuningImpact  = 0.25 // Impact that a new tuning target has on the previous value
 
-	maxQueuedHeaders  = 32 * 1024 // [eth/62] Maximum number of headers to queue for import (DOS protection)
+	maxQueuedHeaders  = 32 * 1024 // [ed/62] Maximum number of headers to queue for import (DOS protection)
 	maxHeadersProcess = 2048      // Number of header download results to import at once into the chain
 	maxResultsProcess = 2048      // Number of content download results to import at once into the chain
 
@@ -152,14 +152,14 @@ type Downloader struct {
 
 	// Channels
 	newPeerCh     chan *peer
-	headerCh      chan dataPack        // [eth/62] Channel receiving inbound block headers
-	bodyCh        chan dataPack        // [eth/62] Channel receiving inbound block bodies
-	receiptCh     chan dataPack        // [eth/63] Channel receiving inbound receipts
-	stateCh       chan dataPack        // [eth/63] Channel receiving inbound node state data
-	bodyWakeCh    chan bool            // [eth/62] Channel to signal the block body fetcher of new tasks
-	receiptWakeCh chan bool            // [eth/63] Channel to signal the receipt fetcher of new tasks
-	stateWakeCh   chan bool            // [eth/63] Channel to signal the state fetcher of new tasks
-	headerProcCh  chan []*types.Header // [eth/62] Channel to feed the header processor new tasks
+	headerCh      chan dataPack        // [ed/62] Channel receiving inbound block headers
+	bodyCh        chan dataPack        // [ed/62] Channel receiving inbound block bodies
+	receiptCh     chan dataPack        // [ed/63] Channel receiving inbound receipts
+	stateCh       chan dataPack        // [ed/63] Channel receiving inbound node state data
+	bodyWakeCh    chan bool            // [ed/62] Channel to signal the block body fetcher of new tasks
+	receiptWakeCh chan bool            // [ed/63] Channel to signal the receipt fetcher of new tasks
+	stateWakeCh   chan bool            // [ed/63] Channel to signal the state fetcher of new tasks
+	headerProcCh  chan []*types.Header // [ed/62] Channel to feed the header processor new tasks
 
 	// Cancellation and termination
 	cancelPeer string        // Identifier of the peer currently being used as the master (cancel on drop)
@@ -177,7 +177,7 @@ type Downloader struct {
 }
 
 // New creates a new downloader to fetch hashes and blocks from remote peers.
-func New(stateDb ethdb.Database, mux *event.TypeMux, hasHeader headerCheckFn, hasBlockAndState blockAndStateCheckFn,
+func New(stateDb eddb.Database, mux *event.TypeMux, hasHeader headerCheckFn, hasBlockAndState blockAndStateCheckFn,
 	getHeader headerRetrievalFn, getBlock blockRetrievalFn, headHeader headHeaderRetrievalFn, headBlock headBlockRetrievalFn,
 	headFastBlock headFastBlockRetrievalFn, commitHeadBlock headBlockCommitterFn, getTd tdRetrievalFn, insertHeaders headerChainInsertFn,
 	insertBlocks blockChainInsertFn, insertReceipts receiptChainInsertFn, rollback chainRollbackFn, dropPeer peerDropFn) *Downloader {
@@ -394,7 +394,7 @@ func (d *Downloader) syncWithPeer(p *peer, hash common.Hash, td *big.Int) (err e
 		}
 	}()
 
-	glog.V(logger.Debug).Infof("Synchronising with the network using: %s [eth/%d]", p.id, p.version)
+	glog.V(logger.Debug).Infof("Synchronising with the network using: %s [ed/%d]", p.id, p.version)
 	defer func(start time.Time) {
 		glog.V(logger.Debug).Infof("Synchronisation terminated after %v", time.Since(start))
 	}(time.Now())
@@ -1526,4 +1526,3 @@ func (d *Downloader) requestTTL() time.Duration {
 	}
 	return ttl
 }
-

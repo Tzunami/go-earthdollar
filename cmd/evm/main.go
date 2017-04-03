@@ -1,18 +1,18 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
 // evm executes EVM code snippets.
 package main
@@ -25,6 +25,8 @@ import (
 	"runtime"
 	"time"
 
+	"gopkg.in/urfave/cli.v1"
+
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -33,7 +35,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"gopkg.in/urfave/cli.v1"
 )
 
 // Version is the application revision identifier. It can be set with the linker
@@ -122,7 +123,7 @@ func run(ctx *cli.Context) error {
 	glog.SetToStderr(true)
 	glog.SetV(ctx.GlobalInt(VerbosityFlag.Name))
 
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	statedb, _ := state.New(common.Hash{}, db)
 	sender := statedb.CreateAccount(common.StringToAddress("sender"))
 
@@ -223,8 +224,18 @@ func NewEnv(state *state.StateDB, transactor common.Address, value *big.Int) *VM
 type ruleSet struct{}
 
 func (ruleSet) IsHomestead(*big.Int) bool { return true }
-func (ruleSet) GasTable(*big.Int) params.GasTable {
-	return params.GasTableHomesteadGasRepriceFork
+
+func (ruleSet) GasTable(*big.Int) *vm.GasTable {
+	return &vm.GasTable{
+		ExtcodeSize:     big.NewInt(700),
+		ExtcodeCopy:     big.NewInt(700),
+		Balance:         big.NewInt(400),
+		SLoad:           big.NewInt(200),
+		Calls:           big.NewInt(700),
+		Suicide:         big.NewInt(5000),
+		ExpByte:         big.NewInt(10),
+		CreateBySuicide: big.NewInt(25000),
+	}
 }
 
 func (self *VMEnv) RuleSet() vm.RuleSet       { return ruleSet{} }

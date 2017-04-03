@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package ed
 
@@ -25,6 +25,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/ed/downloader"
 	"github.com/Tzunami/go-earthdollar/eddb"
@@ -64,9 +65,18 @@ func TestProtocolCompatibility(t *testing.T) {
 func TestGetBlockHeaders62(t *testing.T) {
 	core.TestConfig.Forks = []*core.Fork{
 		{
-			Name:     "Homestead",
-			Block:    big.NewInt(0),
-			GasTable: &params.GasTableHomestead,
+			Name:  "Homestead",
+			Block: big.NewInt(0),
+			GasTable: &vm.GasTable{
+				ExtcodeSize:     big.NewInt(20),
+				ExtcodeCopy:     big.NewInt(20),
+				Balance:         big.NewInt(20),
+				SLoad:           big.NewInt(50),
+				Calls:           big.NewInt(40),
+				Suicide:         big.NewInt(0),
+				ExpByte:         big.NewInt(10),
+				CreateBySuicide: nil,
+			},
 		},
 	}
 	testGetBlockHeaders(t, 62)
@@ -301,14 +311,14 @@ func testGetNodeData(t *testing.T, protocol int) {
 	generator := func(i int, block *core.BlockGen) {
 		switch i {
 		case 0:
-			// In block 1, the test bank sends account #1 some tree.
-			tx, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(10000), params.TxGas, nil, nil).SignECDSA(testBankKey)
+			// In block 1, the test bank sends account #1 some ether.
+			tx, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(10000), core.TxGas, nil, nil).SignECDSA(testBankKey)
 			block.AddTx(tx)
 		case 1:
-			// In block 2, the test bank sends some more tree to account #1.
+			// In block 2, the test bank sends some more ether to account #1.
 			// acc1Addr passes it on to account #2.
-			tx1, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(testBankKey)
-			tx2, _ := types.NewTransaction(block.TxNonce(acc1Addr), acc2Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(acc1Key)
+			tx1, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(1000), core.TxGas, nil, nil).SignECDSA(testBankKey)
+			tx2, _ := types.NewTransaction(block.TxNonce(acc1Addr), acc2Addr, big.NewInt(1000), core.TxGas, nil, nil).SignECDSA(acc1Key)
 			block.AddTx(tx1)
 			block.AddTx(tx2)
 		case 2:
@@ -332,7 +342,7 @@ func testGetNodeData(t *testing.T, protocol int) {
 
 	// Fetch for now the entire chain db
 	hashes := []common.Hash{}
-	for _, key := range pm.chaindb.(*ethdb.MemDatabase).Keys() {
+	for _, key := range pm.chaindb.(*eddb.MemDatabase).Keys() {
 		if len(key) == len(common.Hash{}) {
 			hashes = append(hashes, common.BytesToHash(key))
 		}
@@ -355,7 +365,7 @@ func testGetNodeData(t *testing.T, protocol int) {
 			t.Errorf("data hash mismatch: have %x, want %x", hash, want)
 		}
 	}
-	statedb, _ := ethdb.NewMemDatabase()
+	statedb, _ := eddb.NewMemDatabase()
 	for i := 0; i < len(data); i++ {
 		statedb.Put(hashes[i].Bytes(), data[i])
 	}
@@ -392,14 +402,14 @@ func testGetReceipt(t *testing.T, protocol int) {
 	generator := func(i int, block *core.BlockGen) {
 		switch i {
 		case 0:
-			// In block 1, the test bank sends account #1 some tree.
-			tx, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(10000), params.TxGas, nil, nil).SignECDSA(testBankKey)
+			// In block 1, the test bank sends account #1 some ether.
+			tx, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(10000), core.TxGas, nil, nil).SignECDSA(testBankKey)
 			block.AddTx(tx)
 		case 1:
-			// In block 2, the test bank sends some more tree to account #1.
+			// In block 2, the test bank sends some more ether to account #1.
 			// acc1Addr passes it on to account #2.
-			tx1, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(testBankKey)
-			tx2, _ := types.NewTransaction(block.TxNonce(acc1Addr), acc2Addr, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(acc1Key)
+			tx1, _ := types.NewTransaction(block.TxNonce(testBank.Address), acc1Addr, big.NewInt(1000), core.TxGas, nil, nil).SignECDSA(testBankKey)
+			tx2, _ := types.NewTransaction(block.TxNonce(acc1Addr), acc2Addr, big.NewInt(1000), core.TxGas, nil, nil).SignECDSA(acc1Key)
 			block.AddTx(tx1)
 			block.AddTx(tx2)
 		case 2:

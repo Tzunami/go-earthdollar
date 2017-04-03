@@ -1,9 +1,9 @@
 {
 
   "package": {
-    "name": "go-earthdollar",
+    "name": "go-ethereum",
     "repo": "GoEthereumClassic",
-    "subject": "Tzunami"
+    "subject": "ethereumproject"
   },
 
   "version": {

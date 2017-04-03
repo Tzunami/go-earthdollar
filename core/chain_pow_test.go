@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -58,7 +58,7 @@ func (pow delayedPow) Turbo(bool)                  {}
 func TestPowVerification(t *testing.T) {
 	// Create a simple chain to verify
 	var (
-		testdb, _ = ethdb.NewMemDatabase()
+		testdb, _ = eddb.NewMemDatabase()
 		genesis   = GenesisBlockForTesting(testdb, common.Address{}, new(big.Int))
 		blocks, _ = GenerateChain(testChainConfig(), genesis, testdb, 8, nil)
 	)
@@ -113,7 +113,7 @@ func TestPowConcurrentVerification32(t *testing.T) { testPowConcurrentVerificati
 func testPowConcurrentVerification(t *testing.T, threads int) {
 	// Create a simple chain to verify
 	var (
-		testdb, _ = ethdb.NewMemDatabase()
+		testdb, _ = eddb.NewMemDatabase()
 		genesis   = GenesisBlockForTesting(testdb, common.Address{}, new(big.Int))
 		blocks, _ = GenerateChain(testChainConfig(), genesis, testdb, 8, nil)
 	)
@@ -184,7 +184,7 @@ func TestPowConcurrentAbortion32(t *testing.T) { testPowConcurrentAbortion(t, 32
 func testPowConcurrentAbortion(t *testing.T, threads int) {
 	// Create a simple chain to verify
 	var (
-		testdb, _ = ethdb.NewMemDatabase()
+		testdb, _ = eddb.NewMemDatabase()
 		genesis   = GenesisBlockForTesting(testdb, common.Address{}, new(big.Int))
 		blocks, _ = GenerateChain(testChainConfig(), genesis, testdb, 1024, nil)
 	)

@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -30,9 +30,18 @@ import (
 )
 
 var (
-	ExpDiffPeriod = big.NewInt(100000)
-	big10         = big.NewInt(10)
-	bigMinus99    = big.NewInt(-99)
+	DurationLimit          = big.NewInt(13) // The decision boundary on the blocktime duration used to determine whether difficulty should go up or not.
+	ExpDiffPeriod          = big.NewInt(100000)
+	MinimumDifficulty      = big.NewInt(131072)
+	MinGasLimit            = big.NewInt(5000)    // Minimum the gas limit may ever be.
+	TargetGasLimit         = big.NewInt(4712388) // The artificial target
+	DifficultyBoundDivisor = big.NewInt(2048)    // The bound divisor of the difficulty, used in the update calculations.
+	GasLimitBoundDivisor   = big.NewInt(1024)    // The bound divisor of the gas limit, used in update calculations.
+)
+
+var (
+	big10      = big.NewInt(10)
+	bigMinus99 = big.NewInt(-99)
 )
 
 // BlockValidator is responsible for validating block headers, uncles and
@@ -133,7 +142,7 @@ func (v *BlockValidator) ValidateState(block, parent *types.Block, statedb *stat
 	return nil
 }
 
-// VerifyUncles verifies the given block's uncles and applies the Earthdollar
+// VerifyUncles verifies the given block's uncles and applies the Ethereum
 // consensus rules to the various block headers included; it will return an
 // error if any of the included uncle headers were invalid. It returns an error
 // if the validation failed.
@@ -229,8 +238,8 @@ func ValidateHeader(config *ChainConfig, pow pow.PoW, header *types.Header, pare
 	a = a.Sub(a, header.GasLimit)
 	a.Abs(a)
 	b := new(big.Int).Set(parent.GasLimit)
-	b = b.Div(b, params.GasLimitBoundDivisor)
-	if !(a.Cmp(b) < 0) || (header.GasLimit.Cmp(params.MinGasLimit) == -1) {
+	b = b.Div(b, GasLimitBoundDivisor)
+	if !(a.Cmp(b) < 0) || (header.GasLimit.Cmp(MinGasLimit) == -1) {
 		return fmt.Errorf("GasLimit check failed for header %v (%v > %v)", header.GasLimit, a, b)
 	}
 
@@ -269,7 +278,7 @@ func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, 
 	}
 }
 func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
-	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
+	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -293,13 +302,13 @@ func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *bi
 	}
 
 	// (parent_diff + parent_diff // 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
-	y.Div(parentDiff, params.DifficultyBoundDivisor)
+	y.Div(parentDiff, DifficultyBoundDivisor)
 	x.Mul(y, x)
 	x.Add(parentDiff, x)
 
 	// minimum difficulty can ever be (before exponential factor)
-	if x.Cmp(params.MinimumDifficulty) < 0 {
-		x.Set(params.MinimumDifficulty)
+	if x.Cmp(MinimumDifficulty) < 0 {
+		x.Set(MinimumDifficulty)
 	}
 
 	// for the exponential factor
@@ -317,7 +326,7 @@ func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *bi
 }
 
 func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int, explosionBlock *big.Int) *big.Int {
-	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
+	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -341,13 +350,13 @@ func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *
 	}
 
 	// (parent_diff + parent_diff // 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
-	y.Div(parentDiff, params.DifficultyBoundDivisor)
+	y.Div(parentDiff, DifficultyBoundDivisor)
 	x.Mul(y, x)
 	x.Add(parentDiff, x)
 
 	// minimum difficulty can ever be (before exponential factor)
-	if x.Cmp(params.MinimumDifficulty) < 0 {
-		x.Set(params.MinimumDifficulty)
+	if x.Cmp(MinimumDifficulty) < 0 {
+		x.Set(MinimumDifficulty)
 	}
 
 	// for the exponential factor
@@ -368,7 +377,7 @@ func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *
 }
 
 func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
-	// https://github.com/Earthdollar/EIPs/blob/master/EIPS/eip-2.mediawiki
+	// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2.mediawiki
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -392,13 +401,13 @@ func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *
 	}
 
 	// (parent_diff + parent_diff // 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
-	y.Div(parentDiff, params.DifficultyBoundDivisor)
+	y.Div(parentDiff, DifficultyBoundDivisor)
 	x.Mul(y, x)
 	x.Add(parentDiff, x)
 
 	// minimum difficulty can ever be (before exponential factor)
-	if x.Cmp(params.MinimumDifficulty) < 0 {
-		x.Set(params.MinimumDifficulty)
+	if x.Cmp(MinimumDifficulty) < 0 {
+		x.Set(MinimumDifficulty)
 	}
 
 	// for the exponential factor
@@ -418,20 +427,20 @@ func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *
 
 func calcDifficultyFrontier(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
 	diff := new(big.Int)
-	adjust := new(big.Int).Div(parentDiff, params.DifficultyBoundDivisor)
+	adjust := new(big.Int).Div(parentDiff, DifficultyBoundDivisor)
 	bigTime := new(big.Int)
 	bigParentTime := new(big.Int)
 
 	bigTime.SetUint64(time)
 	bigParentTime.SetUint64(parentTime)
 
-	if bigTime.Sub(bigTime, bigParentTime).Cmp(params.DurationLimit) < 0 {
+	if bigTime.Sub(bigTime, bigParentTime).Cmp(DurationLimit) < 0 {
 		diff.Add(parentDiff, adjust)
 	} else {
 		diff.Sub(parentDiff, adjust)
 	}
-	if diff.Cmp(params.MinimumDifficulty) < 0 {
-		diff.Set(params.MinimumDifficulty)
+	if diff.Cmp(MinimumDifficulty) < 0 {
+		diff.Set(MinimumDifficulty)
 	}
 
 	periodCount := new(big.Int).Add(parentNumber, common.Big1)
@@ -441,7 +450,7 @@ func calcDifficultyFrontier(time, parentTime uint64, parentNumber, parentDiff *b
 		expDiff := periodCount.Sub(periodCount, common.Big2)
 		expDiff.Exp(common.Big2, expDiff, nil)
 		diff.Add(diff, expDiff)
-		diff = common.BigMax(diff, params.MinimumDifficulty)
+		diff = common.BigMax(diff, MinimumDifficulty)
 	}
 
 	return diff
@@ -454,10 +463,10 @@ func CalcGasLimit(parent *types.Block) *big.Int {
 	// contrib = (parentGasUsed * 3 / 2) / 1024
 	contrib := new(big.Int).Mul(parent.GasUsed(), big.NewInt(3))
 	contrib = contrib.Div(contrib, big.NewInt(2))
-	contrib = contrib.Div(contrib, params.GasLimitBoundDivisor)
+	contrib = contrib.Div(contrib, GasLimitBoundDivisor)
 
 	// decay = parentGasLimit / 1024 -1
-	decay := new(big.Int).Div(parent.GasLimit(), params.GasLimitBoundDivisor)
+	decay := new(big.Int).Div(parent.GasLimit(), GasLimitBoundDivisor)
 	decay.Sub(decay, big.NewInt(1))
 
 	/*
@@ -469,13 +478,13 @@ func CalcGasLimit(parent *types.Block) *big.Int {
 	*/
 	gl := new(big.Int).Sub(parent.GasLimit(), decay)
 	gl = gl.Add(gl, contrib)
-	gl.Set(common.BigMax(gl, params.MinGasLimit))
+	gl.Set(common.BigMax(gl, MinGasLimit))
 
 	// however, if we're now below the target (TargetGasLimit) we increase the
 	// limit as much as we can (parentGasLimit / 1024 -1)
-	if gl.Cmp(params.TargetGasLimit) < 0 {
+	if gl.Cmp(TargetGasLimit) < 0 {
 		gl.Add(parent.GasLimit(), decay)
-		gl.Set(common.BigMin(gl, params.TargetGasLimit))
+		gl.Set(common.BigMin(gl, TargetGasLimit))
 	}
 	return gl
 }

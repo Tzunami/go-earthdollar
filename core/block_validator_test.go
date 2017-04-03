@@ -1,25 +1,26 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
 import (
-	"fmt"
 	"math/big"
 	"testing"
+
+	"github.com/ethereumproject/edhash"
 
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -34,34 +35,57 @@ func testChainConfig() *ChainConfig {
 		ChainId: big.NewInt(2),
 		Forks: []*Fork{
 			{
-				Name:     "Homestead",
-				Block:    big.NewInt(0),
-				GasTable: &params.GasTableHomestead,
+				Name:  "Homestead",
+				Block: big.NewInt(0),
+				GasTable: &vm.GasTable{
+					ExtcodeSize:     big.NewInt(20),
+					ExtcodeCopy:     big.NewInt(20),
+					Balance:         big.NewInt(20),
+					SLoad:           big.NewInt(50),
+					Calls:           big.NewInt(40),
+					Suicide:         big.NewInt(0),
+					ExpByte:         big.NewInt(10),
+					CreateBySuicide: nil,
+				},
 			},
 		},
 	}
 }
 
-func proc() (Validator, *BlockChain) {
-	db, _ := ethdb.NewMemDatabase()
-	var mux event.TypeMux
-
-	WriteTestNetGenesisBlock(db)
-	blockchain, err := NewBlockChain(db, testChainConfig(), thePow(), &mux)
+func proc(t testing.TB) (Validator, *BlockChain) {
+	db, err := eddb.NewMemDatabase()
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
+	}
+	_, err = WriteGenesisBlock(db, TestNetGenesis)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pow, err := edhash.NewForTesting()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var mux event.TypeMux
+	blockchain, err := NewBlockChain(db, testChainConfig(), pow, &mux)
+	if err != nil {
+		t.Fatal(err)
 	}
 	return blockchain.validator, blockchain
 }
 
 func TestNumber(t *testing.T) {
-	_, chain := proc()
+	_, chain := proc(t)
 
-	statedb, _ := state.New(chain.Genesis().Root(), chain.chainDb)
+	statedb, err := state.New(chain.Genesis().Root(), chain.chainDb)
+	if err != nil {
+		t.Fatal(err)
+	}
 	header := makeHeader(chain.config, chain.Genesis(), statedb)
 	header.Number = big.NewInt(3)
 	cfg := testChainConfig()
-	err := ValidateHeader(cfg, nil, header, chain.Genesis().Header(), false, false)
+	err = ValidateHeader(cfg, nil, header, chain.Genesis().Header(), false, false)
 	if err != BlockNumberErr {
 		t.Errorf("expected block number error, got %q", err)
 	}
@@ -74,7 +98,10 @@ func TestNumber(t *testing.T) {
 }
 
 func TestPutReceipt(t *testing.T) {
-	db, _ := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	var addr common.Address
 	addr[0] = 1

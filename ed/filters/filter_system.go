@@ -1,20 +1,20 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// package filters implements an earthdollar filtering system for block,
+// package filters implements an ethereum filtering system for block,
 // transactions and log events.
 package filters
 
@@ -41,7 +41,7 @@ const (
 
 // FilterSystem manages filters that filter specific events such as
 // block, transaction and log events. The Filtering system can be used to listen
-// for specific LOG events fired by the EVM (Earthdollar Virtual Machine).
+// for specific LOG events fired by the EVM (Ethereum Virtual Machine).
 type FilterSystem struct {
 	filterMu sync.RWMutex
 	filterId int
@@ -96,7 +96,7 @@ func (fs *FilterSystem) Unlock() {
 // Add adds a filter to the filter manager
 // Expects filterMu to be locked.
 func (fs *FilterSystem) Add(filter *Filter, filterType FilterType) (int, error) {
-	// protocol version eth/61
+	// protocol version ed/61
 	//fs.filterMu.Lock()
 	//defer fs.filterMu.Unlock()
 	id := fs.filterId
@@ -138,7 +138,7 @@ func (fs *FilterSystem) Get(id int) *Filter {
 	return fs.generic[id]
 }
 
-// filterLoop waits for specific events from earthdollar and fires their handlers
+// filterLoop waits for specific events from ethereum and fires their handlers
 // when the filter matches the requirements.
 func (fs *FilterSystem) filterLoop() {
 	for event := range fs.sub.Chan() {

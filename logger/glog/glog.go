@@ -123,7 +123,7 @@ var severityName = []string{
 // matching vmodule filters.
 var trimPrefixes = []string{
 	"/github.com/Tzunami/go-earthdollar",
-	"/github.com/Tzunami/ethash",
+	"/github.com/ethereumproject/edhash",
 }
 
 func trimToImportPath(file string) string {

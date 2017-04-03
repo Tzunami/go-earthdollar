@@ -1,20 +1,20 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// package ed implements the Earthdollar protocol.
+// Package ed implements the Ethereum protocol.
 package ed
 
 import (
@@ -24,19 +24,17 @@ import (
 	"math/big"
 	"os"
 	"path/filepath"
-	"strings"
 	"sync"
 	"time"
 
-	"github.com/Tzunami/ethash"
+	"github.com/ethereumproject/edhash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/common/compiler"
 	"github.com/Tzunami/go-earthdollar/common/httpclient"
-	"github.com/Tzunami/go-earthdollar/common/registrar/ethreg"
+	"github.com/Tzunami/go-earthdollar/common/registrar/edreg"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/ed/downloader"
 	"github.com/Tzunami/go-earthdollar/ed/filters"
 	"github.com/Tzunami/go-earthdollar/eddb"
@@ -52,7 +50,7 @@ import (
 
 const (
 	epochLength    = 30000
-	ethashRevision = 23
+	edhashRevision = 23
 
 	autoDAGcheckInterval = 10 * time.Hour
 	autoDAGepochHeight   = epochLength / 2
@@ -61,9 +59,9 @@ const (
 type Config struct {
 	ChainConfig *core.ChainConfig // chain configuration
 
-	NetworkId int    // Network ID to use for selecting peers to connect to
-	Genesis   string // Genesis JSON to seed the chain database with
-	FastSync  bool   // Enables the state download based fast synchronisation algorithm
+	NetworkId int // Network ID to use for selecting peers to connect to
+	Genesis   *core.GenesisDump
+	FastSync  bool // Enables the state download based fast synchronisation algorithm
 
 	BlockChainVersion  int
 	SkipBcVersionCheck bool // e.g. blockchain export
@@ -77,7 +75,7 @@ type Config struct {
 	PowShared bool
 
 	AccountManager *accounts.Manager
-	Earthbase      common.Address
+	Etherbase      common.Address
 	GasPrice       *big.Int
 	MinerThreads   int
 	SolcPath       string
@@ -90,24 +88,24 @@ type Config struct {
 	GpobaseCorrectionFactor int
 
 	TestGenesisBlock *types.Block   // Genesis block to seed the chain database with (testing only!)
-	TestGenesisState ethdb.Database // Genesis state to seed the database with (testing only!)
+	TestGenesisState eddb.Database // Genesis state to seed the database with (testing only!)
 }
 
-type Earthdollar struct {
+type Ethereum struct {
 	chainConfig *core.ChainConfig
-	// Channel for shutting down the earthdollar
+	// Channel for shutting down the edereum
 	shutdownChan chan bool
 
 	// DB interfaces
-	chainDb ethdb.Database // Block chain database
-	dappDb  ethdb.Database // Dapp database
+	chainDb eddb.Database // Block chain database
+	dappDb  eddb.Database // Dapp database
 
 	// Handlers
 	txPool          *core.TxPool
 	txMu            sync.Mutex
 	blockchain      *core.BlockChain
 	accountManager  *accounts.Manager
-	pow             *ethash.Ethash
+	pow             *edhash.Ethash
 	protocolManager *ProtocolManager
 	SolcPath        string
 	solc            *compiler.Solidity
@@ -131,12 +129,12 @@ type Earthdollar struct {
 	AutoDAG       bool
 	PowTest       bool
 	autodagquit   chan bool
-	earthbase     common.Address
+	ederbase     common.Address
 	netVersionId  int
 	netRPCService *PublicNetAPI
 }
 
-func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
+func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 	// Open the chain database and perform any upgrades needed
 	chainDb, err := ctx.OpenDatabase("chaindata", config.DatabaseCache, config.DatabaseHandles)
 	if err != nil {
@@ -156,8 +154,8 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	glog.V(logger.Info).Infof("Protocol Versions: %v, Network Id: %v, Chain Id: %v", ProtocolVersions, config.NetworkId, config.ChainConfig.ChainId)
 
 	// Load up any custom genesis block if requested
-	if len(config.Genesis) > 0 {
-		block, err := core.WriteGenesisBlock(chainDb, strings.NewReader(config.Genesis))
+	if config.Genesis != nil {
+		block, err := core.WriteGenesisBlock(chainDb, config.Genesis)
 		if err != nil {
 			return nil, err
 		}
@@ -184,13 +182,13 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	}
 	glog.V(logger.Info).Infof("Blockchain DB Version: %d", config.BlockChainVersion)
 
-	ed := &Earthdollar{
+	ed := &Ethereum{
 		shutdownChan:            make(chan bool),
 		chainDb:                 chainDb,
 		dappDb:                  dappDb,
 		eventMux:                ctx.EventMux,
 		accountManager:          config.AccountManager,
-		earthbase:               config.Earthbase,
+		ederbase:               config.Etherbase,
 		netVersionId:            config.NetworkId,
 		NatSpec:                 config.NatSpec,
 		MinerThreads:            config.MinerThreads,
@@ -207,43 +205,35 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	}
 	switch {
 	case config.PowTest:
-		glog.V(logger.Info).Infof("ethash used in test mode")
-		ed.pow, err = ethash.NewForTesting()
+		glog.V(logger.Info).Infof("edhash used in test mode")
+		ed.pow, err = edhash.NewForTesting()
 		if err != nil {
 			return nil, err
 		}
 	case config.PowShared:
-		glog.V(logger.Info).Infof("ethash used in shared mode")
-		ed.pow = ethash.NewShared()
+		glog.V(logger.Info).Infof("edhash used in shared mode")
+		ed.pow = edhash.NewShared()
 
 	default:
-		ed.pow = ethash.New()
+		ed.pow = edhash.New()
 	}
 
 	// load the genesis block or write a new one if no genesis
 	// block is prenent in the database.
 	genesis := core.GetBlock(chainDb, core.GetCanonicalHash(chainDb, 0))
 	if genesis == nil {
-		genesis, err = core.WriteDefaultGenesisBlock(chainDb)
+		genesis, err = core.WriteGenesisBlock(chainDb, core.DefaultGenesis)
 		if err != nil {
 			return nil, err
 		}
-		glog.V(logger.Info).Infoln("WARNING: Wrote default earthdollar genesis block")
+		glog.V(logger.Info).Infoln("WARNING: Wrote default edereum genesis block")
 	}
 
 	if config.ChainConfig == nil {
 		return nil, errors.New("missing chain config")
 	}
 
-<<<<<<< HEAD:ed/backend.go
 	ed.chainConfig = config.ChainConfig
-	ed.chainConfig.VmConfig = vm.Config{
-		EnableJit: config.EnableJit,
-		ForceJit:  config.ForceJit,
-	}
-=======
-	eth.chainConfig = config.ChainConfig
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/backend.go
 
 	ed.blockchain, err = core.NewBlockChain(chainDb, ed.chainConfig, ed.pow, ed.EventMux())
 	if err != nil {
@@ -260,26 +250,20 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, ed.blockchain, chainDb); err != nil {
 		return nil, err
 	}
-<<<<<<< HEAD:ed/backend.go
 	ed.miner = miner.New(ed, ed.chainConfig, ed.EventMux(), ed.pow)
 	ed.miner.SetGasPrice(config.GasPrice)
-	ed.miner.SetExtra(config.ExtraData)
-=======
-	eth.miner = miner.New(eth, eth.chainConfig, eth.EventMux(), eth.pow)
-	eth.miner.SetGasPrice(config.GasPrice)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/backend.go
 
 	return ed, nil
 }
 
-// APIs returns the collection of RPC services the earthdollar package offers.
+// APIs returns the collection of RPC services the edereum package offers.
 // NOTE, some of these services probably need to be moved to somewhere else.
-func (s *Earthdollar) APIs() []rpc.API {
+func (s *Ethereum) APIs() []rpc.API {
 	return []rpc.API{
 		{
 			Namespace: "ed",
 			Version:   "1.0",
-			Service:   NewPublicEarthdollarAPI(s),
+			Service:   NewPublicEthereumAPI(s),
 			Public:    true,
 		}, {
 			Namespace: "ed",
@@ -343,57 +327,57 @@ func (s *Earthdollar) APIs() []rpc.API {
 		}, {
 			Namespace: "admin",
 			Version:   "1.0",
-			Service:   ethreg.NewPrivateRegistarAPI(s.chainConfig, s.blockchain, s.chainDb, s.txPool, s.accountManager),
+			Service:   edreg.NewPrivateRegistarAPI(s.chainConfig, s.blockchain, s.chainDb, s.txPool, s.accountManager),
 		},
 	}
 }
 
-func (s *Earthdollar) ResetWithGenesisBlock(gb *types.Block) {
+func (s *Ethereum) ResetWithGenesisBlock(gb *types.Block) {
 	s.blockchain.ResetWithGenesisBlock(gb)
 }
 
-func (s *Earthdollar) Earthbase() (eb common.Address, err error) {
-	eb = s.earthbase
+func (s *Ethereum) Etherbase() (eb common.Address, err error) {
+	eb = s.ederbase
 	if (eb == common.Address{}) {
 		firstAccount, err := s.AccountManager().AccountByIndex(0)
 		eb = firstAccount.Address
 		if err != nil {
-			return eb, fmt.Errorf("earthbase address must be explicitly specified")
+			return eb, fmt.Errorf("ederbase address must be explicitly specified")
 		}
 	}
 	return eb, nil
 }
 
 // set in js console via admin interface or wrapper from cli flags
-func (self *Earthdollar) SetEarthbase(earthbase common.Address) {
-	self.earthbase = earthbase
-	self.miner.SetEarthbase(earthbase)
+func (self *Ethereum) SetEtherbase(ederbase common.Address) {
+	self.ederbase = ederbase
+	self.miner.SetEtherbase(ederbase)
 }
 
-func (s *Earthdollar) StopMining()         { s.miner.Stop() }
-func (s *Earthdollar) IsMining() bool      { return s.miner.Mining() }
-func (s *Earthdollar) Miner() *miner.Miner { return s.miner }
+func (s *Ethereum) StopMining()         { s.miner.Stop() }
+func (s *Ethereum) IsMining() bool      { return s.miner.Mining() }
+func (s *Ethereum) Miner() *miner.Miner { return s.miner }
 
-func (s *Earthdollar) AccountManager() *accounts.Manager  { return s.accountManager }
-func (s *Earthdollar) BlockChain() *core.BlockChain       { return s.blockchain }
-func (s *Earthdollar) TxPool() *core.TxPool               { return s.txPool }
-func (s *Earthdollar) EventMux() *event.TypeMux           { return s.eventMux }
-func (s *Earthdollar) ChainDb() ethdb.Database            { return s.chainDb }
-func (s *Earthdollar) DappDb() ethdb.Database             { return s.dappDb }
-func (s *Earthdollar) IsListening() bool                  { return true } // Always listening
-func (s *Earthdollar) EthVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
-func (s *Earthdollar) NetVersion() int                    { return s.netVersionId }
-func (s *Earthdollar) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
+func (s *Ethereum) AccountManager() *accounts.Manager  { return s.accountManager }
+func (s *Ethereum) BlockChain() *core.BlockChain       { return s.blockchain }
+func (s *Ethereum) TxPool() *core.TxPool               { return s.txPool }
+func (s *Ethereum) EventMux() *event.TypeMux           { return s.eventMux }
+func (s *Ethereum) ChainDb() eddb.Database            { return s.chainDb }
+func (s *Ethereum) DappDb() eddb.Database             { return s.dappDb }
+func (s *Ethereum) IsListening() bool                  { return true } // Always listening
+func (s *Ethereum) EthVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
+func (s *Ethereum) NetVersion() int                    { return s.netVersionId }
+func (s *Ethereum) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
 
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
-func (s *Earthdollar) Protocols() []p2p.Protocol {
+func (s *Ethereum) Protocols() []p2p.Protocol {
 	return s.protocolManager.SubProtocols
 }
 
 // Start implements node.Service, starting all internal goroutines needed by the
-// Earthdollar protocol implementation.
-func (s *Earthdollar) Start(srvr *p2p.Server) error {
+// Ethereum protocol implementation.
+func (s *Ethereum) Start(srvr *p2p.Server) error {
 	if s.AutoDAG {
 		s.StartAutoDAG()
 	}
@@ -403,8 +387,8 @@ func (s *Earthdollar) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines used by the
-// Earthdollar protocol.
-func (s *Earthdollar) Stop() error {
+// Ethereum protocol.
+func (s *Ethereum) Stop() error {
 	s.blockchain.Stop()
 	s.protocolManager.Stop()
 	s.txPool.Stop()
@@ -421,47 +405,47 @@ func (s *Earthdollar) Stop() error {
 }
 
 // This function will wait for a shutdown and resumes main thread execution
-func (s *Earthdollar) WaitForShutdown() {
+func (s *Ethereum) WaitForShutdown() {
 	<-s.shutdownChan
 }
 
 // StartAutoDAG() spawns a go routine that checks the DAG every autoDAGcheckInterval
 // by default that is 10 times per epoch
 // in epoch n, if we past autoDAGepochHeight within-epoch blocks,
-// it calls ethash.MakeDAG  to pregenerate the DAG for the next epoch n+1
+// it calls edhash.MakeDAG  to pregenerate the DAG for the next epoch n+1
 // if it does not exist yet as well as remove the DAG for epoch n-1
 // the loop quits if autodagquit channel is closed, it can safely restart and
 // stop any number of times.
 // For any more sophisticated pattern of DAG generation, use CLI subcommand
 // makedag
-func (self *Earthdollar) StartAutoDAG() {
+func (self *Ethereum) StartAutoDAG() {
 	if self.autodagquit != nil {
 		return // already started
 	}
 	go func() {
-		glog.V(logger.Info).Infof("Automatic pregeneration of ethash DAG ON (ethash dir: %s)", ethash.DefaultDir)
+		glog.V(logger.Info).Infof("Automatic pregeneration of edhash DAG ON (edhash dir: %s)", edhash.DefaultDir)
 		var nextEpoch uint64
 		timer := time.After(0)
 		self.autodagquit = make(chan bool)
 		for {
 			select {
 			case <-timer:
-				glog.V(logger.Info).Infof("checking DAG (ethash dir: %s)", ethash.DefaultDir)
+				glog.V(logger.Info).Infof("checking DAG (edhash dir: %s)", edhash.DefaultDir)
 				currentBlock := self.BlockChain().CurrentBlock().NumberU64()
 				thisEpoch := currentBlock / epochLength
 				if nextEpoch <= thisEpoch {
 					if currentBlock%epochLength > autoDAGepochHeight {
 						if thisEpoch > 0 {
 							previousDag, previousDagFull := dagFiles(thisEpoch - 1)
-							os.Remove(filepath.Join(ethash.DefaultDir, previousDag))
-							os.Remove(filepath.Join(ethash.DefaultDir, previousDagFull))
+							os.Remove(filepath.Join(edhash.DefaultDir, previousDag))
+							os.Remove(filepath.Join(edhash.DefaultDir, previousDagFull))
 							glog.V(logger.Info).Infof("removed DAG for epoch %d (%s)", thisEpoch-1, previousDag)
 						}
 						nextEpoch = thisEpoch + 1
 						dag, _ := dagFiles(nextEpoch)
 						if _, err := os.Stat(dag); os.IsNotExist(err) {
 							glog.V(logger.Info).Infof("Pregenerating DAG for epoch %d (%s)", nextEpoch, dag)
-							err := ethash.MakeDAG(nextEpoch*epochLength, "") // "" -> ethash.DefaultDir
+							err := edhash.MakeDAG(nextEpoch*epochLength, "") // "" -> edhash.DefaultDir
 							if err != nil {
 								glog.V(logger.Error).Infof("Error generating DAG for epoch %d (%s)", nextEpoch, dag)
 								return
@@ -480,21 +464,21 @@ func (self *Earthdollar) StartAutoDAG() {
 }
 
 // stopAutoDAG stops automatic DAG pregeneration by quitting the loop
-func (self *Earthdollar) StopAutoDAG() {
+func (self *Ethereum) StopAutoDAG() {
 	if self.autodagquit != nil {
 		close(self.autodagquit)
 		self.autodagquit = nil
 	}
-	glog.V(logger.Info).Infof("Automatic pregeneration of ethash DAG OFF (ethash dir: %s)", ethash.DefaultDir)
+	glog.V(logger.Info).Infof("Automatic pregeneration of edhash DAG OFF (edhash dir: %s)", edhash.DefaultDir)
 }
 
 // HTTPClient returns the light http client used for fetching offchain docs
 // (natspec, source for verification)
-func (self *Earthdollar) HTTPClient() *httpclient.HTTPClient {
+func (self *Ethereum) HTTPClient() *httpclient.HTTPClient {
 	return self.httpclient
 }
 
-func (self *Earthdollar) Solc() (*compiler.Solidity, error) {
+func (self *Ethereum) Solc() (*compiler.Solidity, error) {
 	var err error
 	if self.solc == nil {
 		self.solc, err = compiler.New(self.SolcPath)
@@ -503,7 +487,7 @@ func (self *Earthdollar) Solc() (*compiler.Solidity, error) {
 }
 
 // set in js console via admin interface or wrapper from cli flags
-func (self *Earthdollar) SetSolc(solcPath string) (*compiler.Solidity, error) {
+func (self *Ethereum) SetSolc(solcPath string) (*compiler.Solidity, error) {
 	self.SolcPath = solcPath
 	self.solc = nil
 	return self.Solc()
@@ -512,14 +496,14 @@ func (self *Earthdollar) SetSolc(solcPath string) (*compiler.Solidity, error) {
 // dagFiles(epoch) returns the two alternative DAG filenames (not a path)
 // 1) <revision>-<hex(seedhash[8])> 2) full-R<revision>-<hex(seedhash[8])>
 func dagFiles(epoch uint64) (string, string) {
-	seedHash, _ := ethash.GetSeedHash(epoch * epochLength)
-	dag := fmt.Sprintf("full-R%d-%x", ethashRevision, seedHash[:8])
+	seedHash, _ := edhash.GetSeedHash(epoch * epochLength)
+	dag := fmt.Sprintf("full-R%d-%x", edhashRevision, seedHash[:8])
 	return dag, "full-R" + dag
 }
 
 // upgradeChainDatabase ensures that the chain database stores block split into
 // separate header and body entries.
-func upgradeChainDatabase(db ethdb.Database) error {
+func upgradeChainDatabase(db eddb.Database) error {
 	// Short circuit if the head block is stored already as separate header and body
 	data, err := db.Get([]byte("LastBlock"))
 	if err != nil {
@@ -533,7 +517,7 @@ func upgradeChainDatabase(db ethdb.Database) error {
 	// At least some of the database is still the old format, upgrade (skip the head block!)
 	glog.V(logger.Info).Info("Old database detected, upgrading...")
 
-	if db, ok := db.(*ethdb.LDBDatabase); ok {
+	if db, ok := db.(*eddb.LDBDatabase); ok {
 		blockPrefix := []byte("block-hash-")
 		for it := db.NewIterator(); it.Next(); {
 			// Skip anything other than a combined block
@@ -576,7 +560,7 @@ func upgradeChainDatabase(db ethdb.Database) error {
 	return nil
 }
 
-func addMipmapBloomBins(db ethdb.Database) (err error) {
+func addMipmapBloomBins(db eddb.Database) (err error) {
 	const mipmapVersion uint = 2
 
 	// check if the version is set. We ignore data for now since there's

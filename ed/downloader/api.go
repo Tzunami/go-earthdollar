@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package downloader
 
@@ -20,11 +20,13 @@ import (
 	"context"
 	"sync"
 
-	//"golang.org/x/net/context"
-
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/rpc"
 )
+
+type DoneEvent struct{}
+type StartEvent struct{}
+type FailedEvent struct{ Err error }
 
 // PublicDownloaderAPI provides an API which gives information about the current synchronisation status.
 // It offers only methods that operates on data that can be available to anyone without security risks.
@@ -69,7 +71,7 @@ func (api *PublicDownloaderAPI) run() {
 	}
 }
 
-// Progress gives progress indications when the node is synchronising with the Earthdollar network.
+// Progress gives progress indications when the node is synchronising with the Ethereum network.
 type Progress struct {
 	Origin  uint64 `json:"startingBlock"`
 	Current uint64 `json:"currentBlock"`
@@ -84,7 +86,7 @@ type SyncingResult struct {
 	Status  Progress `json:"status"`
 }
 
-// Syncing provides information when this nodes starts synchronising with the Earthdollar network and when it's finished.
+// Syncing provides information when this nodes starts synchronising with the Ethereum network and when it's finished.
 func (api *PublicDownloaderAPI) Syncing(ctx context.Context) (rpc.Subscription, error) {
 	notifier, supported := rpc.NotifierFromContext(ctx)
 	if !supported {

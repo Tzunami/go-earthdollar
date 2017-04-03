@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -22,7 +22,7 @@ import (
 
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
-	"github.com/Tzunami/go-earthdollar/core/types"	
+	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
 	"github.com/Tzunami/go-earthdollar/pow"
@@ -32,7 +32,7 @@ import (
  * TODO: move this to another package.
  */
 
-// MakeChainConfig returns a new ChainConfig with the earthdollar default chain settings.
+// MakeChainConfig returns a new ChainConfig with the ethereum default chain settings.
 func MakeChainConfig() *ChainConfig {
 	return &ChainConfig{
 		Forks: []*Fork{
@@ -193,7 +193,7 @@ func (b *BlockGen) OffsetTime(seconds int64) {
 // Blocks created by GenerateChain do not contain valid proof of work
 // values. Inserting them into BlockChain requires use of FakePow or
 // a similar non-validating proof of work implementation.
-func GenerateChain(config *ChainConfig, parent *types.Block, db ethdb.Database, n int, gen func(int, *BlockGen)) ([]*types.Block, []types.Receipts) {
+func GenerateChain(config *ChainConfig, parent *types.Block, db eddb.Database, n int, gen func(int, *BlockGen)) ([]*types.Block, []types.Receipts) {
 	blocks, receipts := make(types.Blocks, n), make([]types.Receipts, n)
 	genblock := func(i int, h *types.Header, statedb *state.StateDB) (*types.Block, types.Receipts) {
 		b := &BlockGen{parent: parent, i: i, chain: blocks, header: h, statedb: statedb, config: config}
@@ -244,22 +244,32 @@ func makeHeader(config *ChainConfig, parent *types.Block, state *state.StateDB) 
 		GasUsed:    new(big.Int),
 		Number:     new(big.Int).Add(parent.Number(), common.Big1),
 		Time:       time,
-		Mint:	    new(big.Int).Set(parent.Mint()),
 	}
 }
 
 // newCanonical creates a chain database, and injects a deterministic canonical
 // chain. Depending on the full flag, if creates either a full block chain or a
 // header only chain.
-func newCanonical(config *ChainConfig, n int, full bool) (ethdb.Database, *BlockChain, error) {
+func newCanonical(config *ChainConfig, n int, full bool) (eddb.Database, *BlockChain, error) {
 	// Create the new chain database
-	db, _ := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
+	if err != nil {
+		return nil, nil, err
+	}
+
 	evmux := &event.TypeMux{}
 
 	// Initialize a fresh chain with only a genesis block
-	genesis, _ := WriteTestNetGenesisBlock(db)
+	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
+	if err != nil {
+		return nil, nil, err
+	}
 
-	blockchain, _ := NewBlockChain(db, MakeChainConfig(), FakePow{}, evmux)
+	blockchain, err := NewBlockChain(db, MakeChainConfig(), FakePow{}, evmux)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	// Create and inject the requested chain
 	if n == 0 {
 		return db, blockchain, nil
@@ -272,12 +282,12 @@ func newCanonical(config *ChainConfig, n int, full bool) (ethdb.Database, *Block
 	}
 	// Header-only chain requested
 	headers := makeHeaderChain(config, genesis.Header(), n, db, canonicalSeed)
-	_, err := blockchain.InsertHeaderChain(headers, 1)
+	_, err = blockchain.InsertHeaderChain(headers, 1)
 	return db, blockchain, err
 }
 
 // makeHeaderChain creates a deterministic chain of headers rooted at parent.
-func makeHeaderChain(config *ChainConfig, parent *types.Header, n int, db ethdb.Database, seed int) []*types.Header {
+func makeHeaderChain(config *ChainConfig, parent *types.Header, n int, db eddb.Database, seed int) []*types.Header {
 	blocks := makeBlockChain(config, types.NewBlockWithHeader(parent), n, db, seed)
 	headers := make([]*types.Header, len(blocks))
 	for i, block := range blocks {
@@ -287,7 +297,7 @@ func makeHeaderChain(config *ChainConfig, parent *types.Header, n int, db ethdb.
 }
 
 // makeBlockChain creates a deterministic chain of blocks rooted at parent.
-func makeBlockChain(config *ChainConfig, parent *types.Block, n int, db ethdb.Database, seed int) []*types.Block {
+func makeBlockChain(config *ChainConfig, parent *types.Block, n int, db eddb.Database, seed int) []*types.Block {
 	blocks, _ := GenerateChain(config, parent, db, n, func(i int, b *BlockGen) {
 		b.SetCoinbase(common.Address{0: byte(seed), 19: byte(i)})
 	})

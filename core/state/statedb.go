@@ -1,20 +1,20 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package state provides a caching layer atop the Earthdollar state trie.
+// Package state provides a caching layer atop the Ethereum state trie.
 package state
 
 import (
@@ -55,13 +55,13 @@ type revision struct {
 	journalIndex int
 }
 
-// StateDBs within the earthdollar protocol are used to store anything
+// StateDBs within the ethereum protocol are used to store anything
 // within the merkle trie. StateDBs take care of caching and storing
 // nested states. It's the general query interface to retrieve:
 // * Contracts
 // * Accounts
 type StateDB struct {
-	db            ethdb.Database
+	db            eddb.Database
 	trie          *trie.SecureTrie
 	pastTries     []*trie.SecureTrie
 	codeSizeCache *lru.Cache
@@ -88,7 +88,7 @@ type StateDB struct {
 }
 
 // Create a new state from a given trie
-func New(root common.Hash, db ethdb.Database) (*StateDB, error) {
+func New(root common.Hash, db eddb.Database) (*StateDB, error) {
 	tr, err := trie.NewSecure(root, db, maxTrieCacheGen)
 	if err != nil {
 		return nil, err
@@ -438,7 +438,7 @@ func (self *StateDB) createObject(addr common.Address) (newobj, prev *StateObjec
 //   1. sends funds to sha(account ++ (nonce + 1))
 //   2. tx_create(sha(account ++ nonce)) (note that this gets the address of 1)
 //
-// Carrying over the balance ensures that Ed doesn't disappear.
+// Carrying over the balance ensures that Ether doesn't disappear.
 func (self *StateDB) CreateAccount(addr common.Address) vm.Account {
 	new, prev := self.createObject(addr)
 	if prev != nil {
@@ -561,7 +561,7 @@ func (s *StateDB) Commit() (root common.Hash, err error) {
 // CommitBatch commits all state changes to a write batch but does not
 // execute the batch. It is used to validate state changes against
 // the root hash stored in a block.
-func (s *StateDB) CommitBatch() (root common.Hash, batch ethdb.Batch) {
+func (s *StateDB) CommitBatch() (root common.Hash, batch eddb.Batch) {
 	batch = s.db.NewBatch()
 	root, _ = s.commit(batch)
 	return root, batch

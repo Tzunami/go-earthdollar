@@ -1,18 +1,18 @@
-// Copyright 2016 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2016 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -24,7 +24,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/rpc"
-
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -36,7 +35,7 @@ var (
 		Description: `
 The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/Earthdollar/go-earthdollar/wiki/Javascipt-Console
+See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
 `,
 	}
 	attachCommand = cli.Command{
@@ -46,7 +45,7 @@ See https://github.com/Earthdollar/go-earthdollar/wiki/Javascipt-Console
 		Description: `
 The Ged console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/Earthdollar/go-earthdollar/wiki/Javascipt-Console.
+See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console.
 This command allows to open a console on a running ged node.
 	`,
 	}
@@ -56,7 +55,7 @@ This command allows to open a console on a running ged node.
 		Usage:  `executes the given JavaScript files in the Ged JavaScript VM`,
 		Description: `
 The JavaScript VM exposes a node admin interface as well as the Ðapp
-JavaScript API. See https://github.com/Earthdollar/go-earthdollar/wiki/Javascipt-Console
+JavaScript API. See https://github.com/ethereum/go-ethereum/wiki/Javascipt-Console
 `,
 	}
 )
@@ -72,11 +71,7 @@ func localConsole(ctx *cli.Context) error {
 	// Attach to the newly started node and start the JavaScript console
 	client, err := node.Attach()
 	if err != nil {
-<<<<<<< HEAD:cmd/ged/consolecmd.go
-		utils.Fatalf("Failed to attach to the inproc ged: %v", err)
-=======
 		log.Fatal("Failed to attach to the inproc ged: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
 	}
 	config := console.Config{
 		DataDir: node.DataDir(),
@@ -105,21 +100,14 @@ func localConsole(ctx *cli.Context) error {
 // remoteConsole will connect to a remote ged instance, attaching a JavaScript
 // console to it.
 func remoteConsole(ctx *cli.Context) error {
-<<<<<<< HEAD:cmd/ged/consolecmd.go
-	// Attach to a remotely running ged instance and start the JavaScript console
-	client, err := utils.NewRemoteRPCClient(ctx)
-	if err != nil {
-		utils.Fatalf("Unable to attach to remote ged: %v", err)
-=======
 	// Attach to a remotely running ged instance and start the JavaScript console
 	var uri = "ipc:" + node.DefaultIPCEndpoint()
-        if ctx.Args().Present() {
-                uri = ctx.Args().First()
+	if ctx.Args().Present() {
+		uri = ctx.Args().First()
 	}
 	client, err := rpc.NewClient(uri)
 	if err != nil {
 		log.Fatal("attach to remote ged: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
 	}
 
 	config := console.Config{
@@ -159,11 +147,7 @@ func ephemeralConsole(ctx *cli.Context) error {
 	// Attach to the newly started node and start the JavaScript console
 	client, err := node.Attach()
 	if err != nil {
-<<<<<<< HEAD:cmd/ged/consolecmd.go
-		utils.Fatalf("Failed to attach to the inproc ged: %v", err)
-=======
 		log.Fatal("Failed to attach to the inproc ged: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/consolecmd.go
 	}
 	config := console.Config{
 		DataDir: node.DataDir(),

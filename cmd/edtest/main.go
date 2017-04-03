@@ -1,26 +1,27 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
-// edtest executes Earthdollar JSON tests.
+// ethtest executes Ethereum JSON tests.
 package main
 
 import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math/big"
 	"os"
 	"path/filepath"
 	"strings"
@@ -52,7 +53,7 @@ var (
 		Name:   "file",
 		Usage:  "Test file or directory. Directories are searched for .json files 1 level deep",
 		Value:  defaultDir,
-		EnvVar: "EARTHDOLLAR_TEST_PATH",
+		EnvVar: "ETHEREUM_TEST_PATH",
 	}
 	ContinueOnErrorFlag = cli.BoolFlag{
 		Name:  "continue",
@@ -77,9 +78,9 @@ func runTestWithReader(test string, r io.Reader) error {
 	var err error
 	switch strings.ToLower(test) {
 	case "bk", "block", "blocktest", "blockchaintest", "blocktests", "blockchaintests":
-		err = tests.RunBlockTestWithReader(params.MainNetHomesteadBlock, nil, r, skipTests)
+		err = tests.RunBlockTestWithReader(big.NewInt(1150000), nil, r, skipTests)
 	case "st", "state", "statetest", "statetests":
-		rs := tests.RuleSet{HomesteadBlock: params.MainNetHomesteadBlock}
+		rs := tests.RuleSet{HomesteadBlock: big.NewInt(1150000)}
 		err = tests.RunStateTestWithReader(rs, r, skipTests)
 	case "tx", "transactiontest", "transactiontests":
 		err = tests.RunTransactionTestsWithReader(r, skipTests)
@@ -207,18 +208,10 @@ func main() {
 	glog.SetToStderr(true)
 
 	app := cli.NewApp()
-<<<<<<< HEAD
-	app.Name = "edtest"
-	app.Usage = "go-earthdollar test interface"
-	app.Action = setupApp
-	app.Version = "0.2.0"
-	app.Author = "go-earthdollar team"
-=======
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
-	app.Usage = "go-earthdollar test interface"
+	app.Usage = "go-ethereum test interface"
 	app.Action = setupApp
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 
 	app.Flags = []cli.Flag{
 		TestFlag,

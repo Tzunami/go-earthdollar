@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package console
 
@@ -74,7 +74,7 @@ func (p *hookedPrompter) SetWordCompleter(completer WordCompleter) {}
 type tester struct {
 	workspace string
 	stack     *node.Node
-	earthdollar  *ed.Earthdollar
+	ethereum  *ed.Ethereum
 	console   *Console
 	input     *hookedPrompter
 	output    *bytes.Buffer
@@ -93,28 +93,22 @@ func newTester(t *testing.T, confOverride func(*ed.Config)) *tester {
 		t.Fatalf("failed to create account manager: %s", err)
 	}
 
-	// Create a networkless protocol stack and start an Earthdollar service within
+	// Create a networkless protocol stack and start an Ethereum service within
 	stack, err := node.New(&node.Config{DataDir: workspace, Name: testInstance, NoDiscovery: true})
 	if err != nil {
 		t.Fatalf("failed to create node: %v", err)
 	}
-<<<<<<< HEAD
-	ethConf := &ed.Config{
-		ChainConfig:    core.NewChainConfig(),
-		Earthbase:      common.HexToAddress(testAddress),
-=======
-	ethConf := &eth.Config{
+	edConf := &ed.Config{
 		ChainConfig:    core.DefaultConfig,
 		Etherbase:      common.HexToAddress(testAddress),
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087
 		AccountManager: accman,
 		PowTest:        true,
 	}
 	if confOverride != nil {
-		confOverride(ethConf)
+		confOverride(edConf)
 	}
-	if err = stack.Register(func(ctx *node.ServiceContext) (node.Service, error) { return ed.New(ctx, ethConf) }); err != nil {
-		t.Fatalf("failed to register Earthdollar protocol: %v", err)
+	if err = stack.Register(func(ctx *node.ServiceContext) (node.Service, error) { return ed.New(ctx, edConf) }); err != nil {
+		t.Fatalf("failed to register Ethereum protocol: %v", err)
 	}
 	// Start the node and assemble the JavaScript console around it
 	if err = stack.Start(); err != nil {
@@ -139,13 +133,13 @@ func newTester(t *testing.T, confOverride func(*ed.Config)) *tester {
 		t.Fatalf("failed to create JavaScript console: %v", err)
 	}
 	// Create the final tester and return
-	var earthdollar *ed.Earthdollar
-	stack.Service(&earthdollar)
+	var ethereum *ed.Ethereum
+	stack.Service(&ethereum)
 
 	return &tester{
 		workspace: workspace,
 		stack:     stack,
-		earthdollar:  earthdollar,
+		ethereum:  ethereum,
 		console:   console,
 		input:     prompter,
 		output:    printer,

@@ -1,18 +1,18 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package trie
 
@@ -37,7 +37,7 @@ func init() {
 
 // Used for testing
 func newEmpty() *Trie {
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	trie, _ := New(common.Hash{}, db)
 	return trie
 }
@@ -60,7 +60,7 @@ func TestNull(t *testing.T) {
 }
 
 func TestMissingRoot(t *testing.T) {
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	trie, err := New(common.HexToHash("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33"), db)
 	if trie != nil {
 		t.Error("New returned non-nil trie for invalid root")
@@ -71,7 +71,7 @@ func TestMissingRoot(t *testing.T) {
 }
 
 func TestMissingNode(t *testing.T) {
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	trie, _ := New(common.Hash{}, db)
 	updateString(trie, "120000", "qwerqwerqwerqwerqwerqwerqwerqwer")
 	updateString(trie, "123456", "asdfasdfasdfasdfasdfasdfasdfasdf")
@@ -194,11 +194,11 @@ func TestDelete(t *testing.T) {
 	trie := newEmpty()
 	vals := []struct{ k, v string }{
 		{"do", "verb"},
-		{"tree", "wookiedoo"},
+		{"ether", "wookiedoo"},
 		{"horse", "stallion"},
 		{"shaman", "horse"},
 		{"doge", "coin"},
-		{"tree", ""},
+		{"ether", ""},
 		{"dog", "puppy"},
 		{"shaman", ""},
 	}
@@ -222,11 +222,11 @@ func TestEmptyValues(t *testing.T) {
 
 	vals := []struct{ k, v string }{
 		{"do", "verb"},
-		{"tree", "wookiedoo"},
+		{"ether", "wookiedoo"},
 		{"horse", "stallion"},
 		{"shaman", "horse"},
 		{"doge", "coin"},
-		{"tree", ""},
+		{"ether", ""},
 		{"dog", "puppy"},
 		{"shaman", ""},
 	}
@@ -245,7 +245,7 @@ func TestReplication(t *testing.T) {
 	trie := newEmpty()
 	vals := []struct{ k, v string }{
 		{"do", "verb"},
-		{"tree", "wookiedoo"},
+		{"ether", "wookiedoo"},
 		{"horse", "stallion"},
 		{"shaman", "horse"},
 		{"doge", "coin"},
@@ -281,11 +281,11 @@ func TestReplication(t *testing.T) {
 	// perform some insertions on the new trie.
 	vals2 := []struct{ k, v string }{
 		{"do", "verb"},
-		{"tree", "wookiedoo"},
+		{"ether", "wookiedoo"},
 		{"horse", "stallion"},
 		// {"shaman", "horse"},
 		// {"doge", "coin"},
-		// {"tree", ""},
+		// {"ether", ""},
 		// {"dog", "puppy"},
 		// {"somethingveryoddindeedthis is", "myothernodedata"},
 		// {"shaman", ""},
@@ -390,7 +390,7 @@ func randRead(r *rand.Rand, b []byte) {
 }
 
 func runRandTest(rt randTest) bool {
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	tr, _ := New(common.Hash{}, db)
 	values := make(map[string]string) // tracks content of the trie
 
@@ -458,7 +458,7 @@ const benchElemCount = 20000
 func benchGet(b *testing.B, commit bool) {
 	trie := new(Trie)
 	if commit {
-		tmpdb, err := ethdb.NewMemDatabase()
+		tmpdb, err := eddb.NewMemDatabase()
 		if err != nil {
 			b.Fatal(err)
 		}
@@ -481,7 +481,7 @@ func benchGet(b *testing.B, commit bool) {
 	b.StopTimer()
 
 	if commit {
-		ldb := trie.db.(*ethdb.LDBDatabase)
+		ldb := trie.db.(*eddb.LDBDatabase)
 		ldb.Close()
 	}
 }

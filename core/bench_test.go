@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -101,7 +101,7 @@ func init() {
 	}
 }
 
-// genTxRing returns a block generator that sends earthdollar in a ring
+// genTxRing returns a block generator that sends ether in a ring
 // among n accounts. This is creates n entries in the state database
 // and fills the blocks with many small transactions.
 func genTxRing(naccounts int) func(int, *BlockGen) {
@@ -109,8 +109,8 @@ func genTxRing(naccounts int) func(int, *BlockGen) {
 	return func(i int, gen *BlockGen) {
 		gas := CalcGasLimit(gen.PrevBlock(i - 1))
 		for {
-			gas.Sub(gas, params.TxGas)
-			if gas.Cmp(params.TxGas) < 0 {
+			gas.Sub(gas, TxGas)
+			if gas.Cmp(TxGas) < 0 {
 				break
 			}
 			to := (from + 1) % naccounts
@@ -118,7 +118,7 @@ func genTxRing(naccounts int) func(int, *BlockGen) {
 				gen.TxNonce(ringAddrs[from]),
 				ringAddrs[to],
 				benchRootFunds,
-				params.TxGas,
+				TxGas,
 				nil,
 				nil,
 			)
@@ -143,16 +143,16 @@ func genUncles(i int, gen *BlockGen) {
 
 func benchInsertChain(b *testing.B, disk bool, gen func(int, *BlockGen)) {
 	// Create the database in memory or in a temporary directory.
-	var db ethdb.Database
+	var db eddb.Database
 	if !disk {
-		db, _ = ethdb.NewMemDatabase()
+		db, _ = eddb.NewMemDatabase()
 	} else {
 		dir, err := ioutil.TempDir("", "ed-core-bench")
 		if err != nil {
 			b.Fatalf("cannot create temporary directory: %v", err)
 		}
 		defer os.RemoveAll(dir)
-		db, err = ethdb.NewLDBDatabase(dir, 128, 128)
+		db, err = eddb.NewLDBDatabase(dir, 128, 128)
 		if err != nil {
 			b.Fatalf("cannot create temporary database: %v", err)
 		}

@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package state
 
@@ -36,9 +36,9 @@ type testAccount struct {
 }
 
 // makeTestState create a sample test state to test node-wise reconstruction.
-func makeTestState() (ethdb.Database, common.Hash, []*testAccount) {
+func makeTestState() (eddb.Database, common.Hash, []*testAccount) {
 	// Create an empty state
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	state, _ := New(common.Hash{}, db)
 
 	// Fill it with some arbitrary data
@@ -68,7 +68,7 @@ func makeTestState() (ethdb.Database, common.Hash, []*testAccount) {
 
 // checkStateAccounts cross references a reconstructed state with an expected
 // account array.
-func checkStateAccounts(t *testing.T, db ethdb.Database, root common.Hash, accounts []*testAccount) {
+func checkStateAccounts(t *testing.T, db eddb.Database, root common.Hash, accounts []*testAccount) {
 	// Check root availability and state contents
 	state, err := New(root, db)
 	if err != nil {
@@ -91,7 +91,7 @@ func checkStateAccounts(t *testing.T, db ethdb.Database, root common.Hash, accou
 }
 
 // checkStateConsistency checks that all nodes in a state trie are indeed present.
-func checkStateConsistency(db ethdb.Database, root common.Hash) error {
+func checkStateConsistency(db eddb.Database, root common.Hash) error {
 	// Create and iterate a state trie rooted in a sub-node
 	if _, err := db.Get(root.Bytes()); err != nil {
 		return nil // Consider a non existent state consistent
@@ -109,7 +109,7 @@ func checkStateConsistency(db ethdb.Database, root common.Hash) error {
 // Tests that an empty state is not scheduled for syncing.
 func TestEmptyStateSync(t *testing.T) {
 	empty := common.HexToHash("56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421")
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	if req := NewStateSync(empty, db).Missing(1); len(req) != 0 {
 		t.Errorf("content requested for empty state: %v", req)
 	}
@@ -125,7 +125,7 @@ func testIterativeStateSync(t *testing.T, batch int) {
 	srcDb, srcRoot, srcAccounts := makeTestState()
 
 	// Create a destination state and sync with the scheduler
-	dstDb, _ := ethdb.NewMemDatabase()
+	dstDb, _ := eddb.NewMemDatabase()
 	sched := NewStateSync(srcRoot, dstDb)
 
 	queue := append([]common.Hash{}, sched.Missing(batch)...)
@@ -154,7 +154,7 @@ func TestIterativeDelayedStateSync(t *testing.T) {
 	srcDb, srcRoot, srcAccounts := makeTestState()
 
 	// Create a destination state and sync with the scheduler
-	dstDb, _ := ethdb.NewMemDatabase()
+	dstDb, _ := eddb.NewMemDatabase()
 	sched := NewStateSync(srcRoot, dstDb)
 
 	queue := append([]common.Hash{}, sched.Missing(0)...)
@@ -188,7 +188,7 @@ func testIterativeRandomStateSync(t *testing.T, batch int) {
 	srcDb, srcRoot, srcAccounts := makeTestState()
 
 	// Create a destination state and sync with the scheduler
-	dstDb, _ := ethdb.NewMemDatabase()
+	dstDb, _ := eddb.NewMemDatabase()
 	sched := NewStateSync(srcRoot, dstDb)
 
 	queue := make(map[common.Hash]struct{})
@@ -225,7 +225,7 @@ func TestIterativeRandomDelayedStateSync(t *testing.T) {
 	srcDb, srcRoot, srcAccounts := makeTestState()
 
 	// Create a destination state and sync with the scheduler
-	dstDb, _ := ethdb.NewMemDatabase()
+	dstDb, _ := eddb.NewMemDatabase()
 	sched := NewStateSync(srcRoot, dstDb)
 
 	queue := make(map[common.Hash]struct{})
@@ -267,7 +267,7 @@ func TestIncompleteStateSync(t *testing.T) {
 	srcDb, srcRoot, srcAccounts := makeTestState()
 
 	// Create a destination state and sync with the scheduler
-	dstDb, _ := ethdb.NewMemDatabase()
+	dstDb, _ := eddb.NewMemDatabase()
 	sched := NewStateSync(srcRoot, dstDb)
 
 	added := []common.Hash{}

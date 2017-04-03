@@ -1682,7 +1682,7 @@
             }
         }
     },
-    "suicideSendEdToMe" : {
+    "suicideSendEtherToMe" : {
         "callcreates" : [
         ],
         "env" : {

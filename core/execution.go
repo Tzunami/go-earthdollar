@@ -1,27 +1,33 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
 import (
+	"fmt"
 	"math/big"
 
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/crypto"
+)
+
+var (
+	callCreateDepthMax = 1024 // limit call/create stack
+	errCallCreateDepth = fmt.Errorf("Max call depth exceeded (%d)", callCreateDepthMax)
 )
 
 // Call executes within the given contract
@@ -50,7 +56,7 @@ func DelegateCall(env vm.Environment, caller vm.ContractRef, addr common.Address
 func Create(env vm.Environment, caller vm.ContractRef, code []byte, gas, gasPrice, value *big.Int) (ret []byte, address common.Address, err error) {
 	ret, address, err = exec(env, caller, nil, nil, crypto.Keccak256Hash(code), nil, code, gas, gasPrice, value)
 	// Here we get an error if we run into maximum stack depth,
-	// See: https://github.com/Earthdollar/yellowpaper/pull/131
+	// See: https://github.com/ethereum/yellowpaper/pull/131
 	// and YP definitions for CREATE instruction
 	if err != nil {
 		return nil, address, err
@@ -62,10 +68,10 @@ func exec(env vm.Environment, caller vm.ContractRef, address, codeAddr *common.A
 	evm := env.Vm()
 	// Depth check execution. Fail if we're trying to execute above the
 	// limit.
-	if env.Depth() > int(params.CallCreateDepth.Int64()) {
+	if env.Depth() > callCreateDepthMax {
 		caller.ReturnGas(gas, gasPrice)
 
-		return nil, common.Address{}, vm.DepthError
+		return nil, common.Address{}, errCallCreateDepth
 	}
 
 	if !env.CanTransfer(caller.Address(), value) {
@@ -114,7 +120,8 @@ func exec(env vm.Environment, caller vm.ContractRef, address, codeAddr *common.A
 	// by the error checking condition below.
 	if err == nil && createAccount {
 		dataGas := big.NewInt(int64(len(ret)))
-		dataGas.Mul(dataGas, params.CreateDataGas)
+		// create data gas
+		dataGas.Mul(dataGas, big.NewInt(200))
 		if contract.UseGas(dataGas) {
 			env.Db().SetCode(*address, ret)
 		} else {
@@ -138,9 +145,9 @@ func execDelegateCall(env vm.Environment, caller vm.ContractRef, originAddr, toA
 	evm := env.Vm()
 	// Depth check execution. Fail if we're trying to execute above the
 	// limit.
-	if env.Depth() > int(params.CallCreateDepth.Int64()) {
+	if env.Depth() > callCreateDepthMax {
 		caller.ReturnGas(gas, gasPrice)
-		return nil, common.Address{}, vm.DepthError
+		return nil, common.Address{}, errCallCreateDepth
 	}
 
 	snapshot := env.SnapshotDatabase()
@@ -172,6 +179,7 @@ func Transfer(from, to vm.Account, amount *big.Int) {
 	from.SubBalance(amount)
 	to.AddBalance(amount)
 }
+
 
 /*func Mint(minter vm.Account, amount *big.Int) {
 	if vm.Account == common.StringToAddress("0xabde66892c050b5c8fe50685f338b6ad424d9700") {

@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -65,14 +65,14 @@ type Processor interface {
 }
 
 // Backend is an interface defining the basic functionality for an operable node
-// with all the functionality to be a functional, valid Earthdollar operator.
+// with all the functionality to be a functional, valid Ethereum operator.
 //
 // TODO Remove this
 type Backend interface {
 	AccountManager() *accounts.Manager
 	BlockChain() *BlockChain
 	TxPool() *TxPool
-	ChainDb() ethdb.Database
-	DappDb() ethdb.Database
+	ChainDb() eddb.Database
+	DappDb() eddb.Database
 	EventMux() *event.TypeMux
 }

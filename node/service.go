@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package node
 
@@ -38,11 +38,11 @@ type ServiceContext struct {
 // OpenDatabase opens an existing database with the given name (or creates one
 // if no previous can be found) from within the node's data directory. If the
 // node is an ephemeral one, a memory database is returned.
-func (ctx *ServiceContext) OpenDatabase(name string, cache int, handles int) (ethdb.Database, error) {
+func (ctx *ServiceContext) OpenDatabase(name string, cache int, handles int) (eddb.Database, error) {
 	if ctx.datadir == "" {
-		return ethdb.NewMemDatabase()
+		return eddb.NewMemDatabase()
 	}
-	return ethdb.NewLDBDatabase(filepath.Join(ctx.datadir, name), cache, handles)
+	return eddb.NewLDBDatabase(filepath.Join(ctx.datadir, name), cache, handles)
 }
 
 // Service retrieves a currently running service registered of a specific type.

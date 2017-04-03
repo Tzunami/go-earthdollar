@@ -1,22 +1,23 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package downloader
 
 import (
+	"crypto/ecdsa"
 	"errors"
 	"fmt"
 	"math/big"
@@ -36,16 +37,43 @@ import (
 )
 
 var (
-	testdb, _   = ethdb.NewMemDatabase()
-	testKey, _  = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
-	testAddress = crypto.PubkeyToAddress(testKey.PublicKey)
-	genesis     = core.GenesisBlockForTesting(testdb, testAddress, big.NewInt(1000000000))
+	testdb      eddb.Database
+	testKey     *ecdsa.PrivateKey
+	testAddress common.Address
+	genesis     *types.Block
 )
 
 // Reduce some of the parameters to make the tester faster.
 func init() {
-	MaxForkAncestry = uint64(10000)
 	blockCacheLimit = 1024
+
+	var err error
+	testKey, err = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
+	if err != nil {
+		panic(err)
+	}
+	testAddress = crypto.PubkeyToAddress(testKey.PublicKey)
+
+	testdb, err = eddb.NewMemDatabase()
+	if err != nil {
+		panic(err)
+	}
+
+	statedb, err := state.New(common.Hash{}, testdb)
+	if err != nil {
+		panic(err)
+	}
+	obj := statedb.GetOrNewStateObject(testAddress)
+	obj.SetBalance(big.NewInt(1000000000))
+	root, err := statedb.Commit()
+	if err != nil {
+		panic(fmt.Sprintf("cannot write state: %v", err))
+	}
+	genesis = types.NewBlock(&types.Header{
+		Difficulty: big.NewInt(131072),
+		GasLimit:   big.NewInt(4712388),
+		Root:       root,
+	}, nil, nil, nil)
 }
 
 // makeChain creates a chain of n blocks starting at and including parent.
@@ -63,7 +91,7 @@ func makeChain(n int, seed byte, parent *types.Block, parentReceipts types.Recei
 		}
 		// If the block number is multiple of 3, send a bonus transaction to the miner
 		if parent == genesis && i%3 == 0 {
-			tx, err := types.NewTransaction(block.TxNonce(testAddress), common.Address{seed}, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(testKey)
+			tx, err := types.NewTransaction(block.TxNonce(testAddress), common.Address{seed}, big.NewInt(1000), core.TxGas, nil, nil).SignECDSA(testKey)
 			if err != nil {
 				panic(err)
 			}
@@ -133,7 +161,7 @@ func makeChainFork(n, f int, parent *types.Block, parentReceipts types.Receipts,
 
 // downloadTester is a test simulator for mocking out local block chain.
 type downloadTester struct {
-	stateDb    ethdb.Database
+	stateDb    eddb.Database
 	downloader *Downloader
 
 	ownHashes   []common.Hash                  // Hash chain belonging to the tester
@@ -168,7 +196,7 @@ func newTester() *downloadTester {
 		peerChainTds:      make(map[string]map[common.Hash]*big.Int),
 		peerMissingStates: make(map[string]map[common.Hash]bool),
 	}
-	tester.stateDb, _ = ethdb.NewMemDatabase()
+	tester.stateDb, _ = eddb.NewMemDatabase()
 	tester.stateDb.Put(genesis.Root().Bytes(), []byte{0x00})
 
 	tester.downloader = New(tester.stateDb, new(event.TypeMux), tester.hasHeader, tester.hasBlock, tester.getHeader,

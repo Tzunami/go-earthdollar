@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -24,22 +24,12 @@ import (
 	"strconv"
 	"time"
 
-/*
-	
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-*/
-	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/console"
-	"github.com/Tzunami/go-earthdollar/core"
-	"github.com/Tzunami/go-earthdollar/core/state"
-	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/logger/glog"
-
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -76,7 +66,7 @@ if already existing.
 		Usage:  `dump a specific block from storage`,
 		Description: `
 The arguments are interpreted as block numbers or hashes.
-Use "earthdollar dump 0" to dump the genesis block.
+Use "ethereum dump 0" to dump the genesis block.
 `,
 	}
 )

@@ -1,20 +1,20 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package miner implements Earthdollar block creation and mining.
+// Package miner implements Ethereum block creation and mining.
 package miner
 
 import (
@@ -45,11 +45,11 @@ type Miner struct {
 	threads  int
 	coinbase common.Address
 	mining   int32
-	ed     core.Backend
+	ed      core.Backend
 	pow      pow.PoW
 
-	canStart    int32 // can start indicates whether we can start the mining operation
-	shouldStart int32 // should start indicates whether we should start after sync
+	canStart    int32 // can start indicates wheder we can start the mining operation
+	shouldStart int32 // should start indicates wheder we should start after sync
 }
 
 func New(ed core.Backend, config *core.ChainConfig, mux *event.TypeMux, pow pow.PoW) *Miner {
@@ -161,7 +161,7 @@ func (self *Miner) Pending() (*types.Block, *state.StateDB) {
 	return self.worker.pending()
 }
 
-func (self *Miner) SetEarthbase(addr common.Address) {
+func (self *Miner) SetEtherbase(addr common.Address) {
 	self.coinbase = addr
-	self.worker.setEarthbase(addr)
+	self.worker.setEtherbase(addr)
 }

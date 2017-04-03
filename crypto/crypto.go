@@ -1,18 +1,18 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package crypto
 
@@ -59,7 +59,7 @@ func Keccak256Hash(data ...[]byte) (h common.Hash) {
 func Sha3(data ...[]byte) []byte          { return Keccak256(data...) }
 func Sha3Hash(data ...[]byte) common.Hash { return Keccak256Hash(data...) }
 
-// Creates an earthdollar address given the bytes and the nonce
+// Creates an ethereum address given the bytes and the nonce
 func CreateAddress(b common.Address, nonce uint64) common.Address {
 	data, _ := rlp.EncodeToBytes([]interface{}{b, nonce})
 	return common.BytesToAddress(Keccak256(data)[12:])

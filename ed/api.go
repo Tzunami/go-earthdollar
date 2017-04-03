@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package ed
 
@@ -30,7 +30,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Tzunami/ethash"
+	"github.com/ethereumproject/edhash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/common/compiler"
@@ -47,8 +47,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/p2p"
 	"github.com/Tzunami/go-earthdollar/rlp"
 	"github.com/Tzunami/go-earthdollar/rpc"
-	"github.com/syndtr/goleveldb/leveldb"
-	//"golang.org/x/net/context"
 )
 
 const defaultGas = uint64(90000)
@@ -74,7 +72,7 @@ func blockByNumber(m *miner.Miner, bc *core.BlockChain, blockNr rpc.BlockNumber)
 // returns the state and containing block for the given block number, capable of
 // handling two special states: rpc.LatestBlockNumber and rpc.PendingBlockNumber.
 // It returns nil when no block or state could be found.
-func stateAndBlockByNumber(m *miner.Miner, bc *core.BlockChain, blockNr rpc.BlockNumber, chainDb ethdb.Database) (*state.StateDB, *types.Block, error) {
+func stateAndBlockByNumber(m *miner.Miner, bc *core.BlockChain, blockNr rpc.BlockNumber, chainDb eddb.Database) (*state.StateDB, *types.Block, error) {
 	// Pending state is only known by the miner
 	if blockNr == rpc.PendingBlockNumber {
 		block, state := m.Pending()
@@ -89,28 +87,28 @@ func stateAndBlockByNumber(m *miner.Miner, bc *core.BlockChain, blockNr rpc.Bloc
 	return stateDb, block, err
 }
 
-// PublicEarthdollarAPI provides an API to access Earthdollar related information.
-// It offers only methods that operate on public data that is freely available to anyone.
-type PublicEarthdollarAPI struct {
-	e   *Earthdollar
+// PublicEthereumAPI provides an API to access Ethereum related information.
+// It offers only medods that operate on public data that is freely available to anyone.
+type PublicEthereumAPI struct {
+	e   *Ethereum
 	gpo *GasPriceOracle
 }
 
-// NewPublicEarthdollarAPI creates a new Earthdollar protocol API.
-func NewPublicEarthdollarAPI(e *Earthdollar) *PublicEarthdollarAPI {
-	return &PublicEarthdollarAPI{
+// NewPublicEthereumAPI creates a new Ethereum protocol API.
+func NewPublicEthereumAPI(e *Ethereum) *PublicEthereumAPI {
+	return &PublicEthereumAPI{
 		e:   e,
 		gpo: e.gpo,
 	}
 }
 
 // GasPrice returns a suggestion for a gas price.
-func (s *PublicEarthdollarAPI) GasPrice() *big.Int {
+func (s *PublicEthereumAPI) GasPrice() *big.Int {
 	return s.gpo.SuggestPrice()
 }
 
 // GetCompilers returns the collection of available smart contract compilers
-func (s *PublicEarthdollarAPI) GetCompilers() ([]string, error) {
+func (s *PublicEthereumAPI) GetCompilers() ([]string, error) {
 	solc, err := s.e.Solc()
 	if err == nil && solc != nil {
 		return []string{"Solidity"}, nil
@@ -120,7 +118,7 @@ func (s *PublicEarthdollarAPI) GetCompilers() ([]string, error) {
 }
 
 // CompileSolidity compiles the given solidity source
-func (s *PublicEarthdollarAPI) CompileSolidity(source string) (map[string]*compiler.Contract, error) {
+func (s *PublicEthereumAPI) CompileSolidity(source string) (map[string]*compiler.Contract, error) {
 	solc, err := s.e.Solc()
 	if err != nil {
 		return nil, err
@@ -133,23 +131,23 @@ func (s *PublicEarthdollarAPI) CompileSolidity(source string) (map[string]*compi
 	return solc.Compile(source)
 }
 
-// Earthbase is the address that mining rewards will be send to
-func (s *PublicEarthdollarAPI) Earthbase() (common.Address, error) {
-	return s.e.Earthbase()
+// Etherbase is the address that mining rewards will be send to
+func (s *PublicEthereumAPI) Etherbase() (common.Address, error) {
+	return s.e.Etherbase()
 }
 
-// Coinbase is the address that mining rewards will be send to (alias for Earthbase)
-func (s *PublicEarthdollarAPI) Coinbase() (common.Address, error) {
-	return s.Earthbase()
+// Coinbase is the address that mining rewards will be send to (alias for Etherbase)
+func (s *PublicEthereumAPI) Coinbase() (common.Address, error) {
+	return s.Etherbase()
 }
 
-// ProtocolVersion returns the current Earthdollar protocol version this node supports
-func (s *PublicEarthdollarAPI) ProtocolVersion() *rpc.HexNumber {
+// ProtocolVersion returns the current Ethereum protocol version this node supports
+func (s *PublicEthereumAPI) ProtocolVersion() *rpc.HexNumber {
 	return rpc.NewHexNumber(s.e.EthVersion())
 }
 
 // Hashrate returns the POW hashrate
-func (s *PublicEarthdollarAPI) Hashrate() *rpc.HexNumber {
+func (s *PublicEthereumAPI) Hashrate() *rpc.HexNumber {
 	return rpc.NewHexNumber(s.e.Miner().HashRate())
 }
 
@@ -160,7 +158,7 @@ func (s *PublicEarthdollarAPI) Hashrate() *rpc.HexNumber {
 // - highestBlock:  block number of the highest block header this node has received from peers
 // - pulledStates:  number of state entries processed until now
 // - knownStates:   number of known state entries that still need to be pulled
-func (s *PublicEarthdollarAPI) Syncing() (interface{}, error) {
+func (s *PublicEthereumAPI) Syncing() (interface{}, error) {
 	origin, current, height, pulled, known := s.e.Downloader().Progress()
 
 	// Return not syncing if the synchronisation already completed
@@ -178,14 +176,14 @@ func (s *PublicEarthdollarAPI) Syncing() (interface{}, error) {
 }
 
 // PublicMinerAPI provides an API to control the miner.
-// It offers only methods that operate on data that pose no security risk when it is publicly accessible.
+// It offers only medods that operate on data that pose no security risk when it is publicly accessible.
 type PublicMinerAPI struct {
-	e     *Earthdollar
+	e     *Ethereum
 	agent *miner.RemoteAgent
 }
 
 // NewPublicMinerAPI create a new PublicMinerAPI instance.
-func NewPublicMinerAPI(e *Earthdollar) *PublicMinerAPI {
+func NewPublicMinerAPI(e *Ethereum) *PublicMinerAPI {
 	agent := miner.NewRemoteAgent()
 	e.Miner().Register(agent)
 
@@ -228,14 +226,14 @@ func (s *PublicMinerAPI) SubmitHashrate(hashrate rpc.HexNumber, id common.Hash) 
 	return true
 }
 
-// PrivateMinerAPI provides private RPC methods to control the miner.
-// These methods can be abused by external users and must be considered insecure for use by untrusted users.
+// PrivateMinerAPI provides private RPC medods to control the miner.
+// These medods can be abused by external users and must be considered insecure for use by untrusted users.
 type PrivateMinerAPI struct {
-	e *Earthdollar
+	e *Ethereum
 }
 
 // NewPrivateMinerAPI create a new RPC service which controls the miner of this node.
-func NewPrivateMinerAPI(e *Earthdollar) *PrivateMinerAPI {
+func NewPrivateMinerAPI(e *Ethereum) *PrivateMinerAPI {
 	return &PrivateMinerAPI{e: e}
 }
 
@@ -267,9 +265,9 @@ func (s *PrivateMinerAPI) SetGasPrice(gasPrice rpc.HexNumber) bool {
 	return true
 }
 
-// SetEarthbase sets the earthbase of the miner
-func (s *PrivateMinerAPI) SetEarthbase(earthbase common.Address) bool {
-	s.e.SetEarthbase(earthbase)
+// SetEtherbase sets the ederbase of the miner
+func (s *PrivateMinerAPI) SetEtherbase(ederbase common.Address) bool {
+	s.e.SetEtherbase(ederbase)
 	return true
 }
 
@@ -288,7 +286,7 @@ func (s *PrivateMinerAPI) StopAutoDAG() bool {
 
 // MakeDAG creates the new DAG for the given block number
 func (s *PrivateMinerAPI) MakeDAG(blockNr rpc.BlockNumber) (bool, error) {
-	if err := ethash.MakeDAG(uint64(blockNr.Int64()), ""); err != nil {
+	if err := edhash.MakeDAG(uint64(blockNr.Int64()), ""); err != nil {
 		return false, err
 	}
 	return true, nil
@@ -296,11 +294,11 @@ func (s *PrivateMinerAPI) MakeDAG(blockNr rpc.BlockNumber) (bool, error) {
 
 // PublicTxPoolAPI offers and API for the transaction pool. It only operates on data that is non confidential.
 type PublicTxPoolAPI struct {
-	e *Earthdollar
+	e *Ethereum
 }
 
 // NewPublicTxPoolAPI creates a new tx pool service that gives information about the transaction pool.
-func NewPublicTxPoolAPI(e *Earthdollar) *PublicTxPoolAPI {
+func NewPublicTxPoolAPI(e *Ethereum) *PublicTxPoolAPI {
 	return &PublicTxPoolAPI{e}
 }
 
@@ -358,9 +356,9 @@ func (s *PublicTxPoolAPI) Inspect() map[string]map[string]map[string][]string {
 	// Define a formatter to flatten a transaction into a string
 	var format = func(tx *types.Transaction) string {
 		if to := tx.To(); to != nil {
-			return fmt.Sprintf("%s: %v seed + %v × %v gas", tx.To().Hex(), tx.Value(), tx.Gas(), tx.GasPrice())
+			return fmt.Sprintf("%s: %v wei + %v × %v gas", tx.To().Hex(), tx.Value(), tx.Gas(), tx.GasPrice())
 		}
-		return fmt.Sprintf("contract creation: %v seed + %v × %v gas", tx.Value(), tx.Gas(), tx.GasPrice())
+		return fmt.Sprintf("contract creation: %v wei + %v × %v gas", tx.Value(), tx.Gas(), tx.GasPrice())
 	}
 	// Flatten the pending transactions
 	for account, batches := range pending {
@@ -388,7 +386,7 @@ func (s *PublicTxPoolAPI) Inspect() map[string]map[string]map[string][]string {
 }
 
 // PublicAccountAPI provides an API to access accounts managed by this node.
-// It offers only methods that can retrieve accounts.
+// It offers only medods that can retrieve accounts.
 type PublicAccountAPI struct {
 	am *accounts.Manager
 }
@@ -404,7 +402,7 @@ func (s *PublicAccountAPI) Accounts() []accounts.Account {
 }
 
 // PrivateAccountAPI provides an API to access accounts managed by this node.
-// It offers methods to create, (un)lock en list accounts. Some methods accept
+// It offers medods to create, (un)lock en list accounts. Some medods accept
 // passwords and are therefore considered private by default.
 type PrivateAccountAPI struct {
 	bc     *core.BlockChain
@@ -415,7 +413,7 @@ type PrivateAccountAPI struct {
 }
 
 // NewPrivateAccountAPI create a new PrivateAccountAPI.
-func NewPrivateAccountAPI(e *Earthdollar) *PrivateAccountAPI {
+func NewPrivateAccountAPI(e *Ethereum) *PrivateAccountAPI {
 	return &PrivateAccountAPI{
 		bc:     e.blockchain,
 		am:     e.accountManager,
@@ -506,23 +504,23 @@ func (s *PrivateAccountAPI) SignAndSendTransaction(args SendTxArgs, passwd strin
 	return submitTransaction(s.bc, s.txPool, tx, signature)
 }
 
-// PublicBlockChainAPI provides an API to access the Earthdollar blockchain.
-// It offers only methods that operate on public data that is freely available to anyone.
+// PublicBlockChainAPI provides an API to access the Ethereum blockchain.
+// It offers only medods that operate on public data that is freely available to anyone.
 type PublicBlockChainAPI struct {
 	config                  *core.ChainConfig
 	bc                      *core.BlockChain
-	chainDb                 ethdb.Database
+	chainDb                 eddb.Database
 	eventMux                *event.TypeMux
 	muNewBlockSubscriptions sync.Mutex                             // protects newBlocksSubscriptions
 	newBlockSubscriptions   map[string]func(core.ChainEvent) error // callbacks for new block subscriptions
 	am                      *accounts.Manager
 	miner                   *miner.Miner
-	//mint                     
+        //mint                     
 	gpo                     *GasPriceOracle
 }
 
-// NewPublicBlockChainAPI creates a new Earthdollar blockchain API.
-func NewPublicBlockChainAPI(config *core.ChainConfig, bc *core.BlockChain, m *miner.Miner, chainDb ethdb.Database, gpo *GasPriceOracle, eventMux *event.TypeMux, am *accounts.Manager) *PublicBlockChainAPI {
+// NewPublicBlockChainAPI creates a new Etheruem blockchain API.
+func NewPublicBlockChainAPI(config *core.ChainConfig, bc *core.BlockChain, m *miner.Miner, chainDb eddb.Database, gpo *GasPriceOracle, eventMux *event.TypeMux, am *accounts.Manager) *PublicBlockChainAPI {
 	api := &PublicBlockChainAPI{
 		config:   config,
 		bc:       bc,
@@ -560,7 +558,7 @@ func (s *PublicBlockChainAPI) BlockNumber() *big.Int {
 	return s.bc.CurrentHeader().Number
 }
 
-// GetBalance returns the amount of seed for the given address in the state of the
+// GetBalance returns the amount of wei for the given address in the state of the
 // given block number. The rpc.LatestBlockNumber and rpc.PendingBlockNumber meta
 // block numbers are also allowed.
 func (s *PublicBlockChainAPI) GetBalance(address common.Address, blockNr rpc.BlockNumber) (*big.Int, error) {
@@ -649,7 +647,7 @@ type NewBlocksArgs struct {
 }
 
 // NewBlocks triggers a new block event each time a block is appended to the chain. It accepts an argument which allows
-// the caller to specify whether the output should contain transactions and in what format.
+// the caller to specify wheder the output should contain transactions and in what format.
 func (s *PublicBlockChainAPI) NewBlocks(ctx context.Context, args NewBlocksArgs) (rpc.Subscription, error) {
 	notifier, supported := rpc.NotifierFromContext(ctx)
 	if !supported {
@@ -809,7 +807,7 @@ func (s *PublicBlockChainAPI) rpcOutputBlock(b *types.Block, inclTx bool, fullTx
 		"logsBloom":        b.Bloom(),
 		"stateRoot":        b.Root(),
 		"miner":            b.Coinbase(),
-		"mint":             rpc.NewHexNumber(b.Mint()),
+                "mint":             rpc.NewHexNumber(b.Mint()),
 		"difficulty":       rpc.NewHexNumber(b.Difficulty()),
 		"totalDifficulty":  rpc.NewHexNumber(s.bc.GetTd(b.Hash())),
 		"extraData":        fmt.Sprintf("0x%x", b.Extra()),
@@ -926,10 +924,10 @@ func newRPCTransaction(b *types.Block, txHash common.Hash) (*RPCTransaction, err
 	return nil, nil
 }
 
-// PublicTransactionPoolAPI exposes methods for the RPC interface
+// PublicTransactionPoolAPI exposes medods for the RPC interface
 type PublicTransactionPoolAPI struct {
 	eventMux        *event.TypeMux
-	chainDb         ethdb.Database
+	chainDb         eddb.Database
 	gpo             *GasPriceOracle
 	bc              *core.BlockChain
 	miner           *miner.Miner
@@ -940,8 +938,8 @@ type PublicTransactionPoolAPI struct {
 	pendingTxSubs   map[string]rpc.Subscription
 }
 
-// NewPublicTransactionPoolAPI creates a new RPC service with methods specific for the transaction pool.
-func NewPublicTransactionPoolAPI(e *Earthdollar) *PublicTransactionPoolAPI {
+// NewPublicTransactionPoolAPI creates a new RPC service with medods specific for the transaction pool.
+func NewPublicTransactionPoolAPI(e *Ethereum) *PublicTransactionPoolAPI {
 	api := &PublicTransactionPoolAPI{
 		eventMux:      e.eventMux,
 		gpo:           e.gpo,
@@ -977,7 +975,7 @@ func (s *PublicTransactionPoolAPI) subscriptionLoop() {
 	}
 }
 
-func getTransaction(chainDb ethdb.Database, txPool *core.TxPool, txHash common.Hash) (*types.Transaction, bool, error) {
+func getTransaction(chainDb eddb.Database, txPool *core.TxPool, txHash common.Hash) (*types.Transaction, bool, error) {
 	txData, err := chainDb.Get(txHash.Bytes())
 	isPending := false
 	tx := new(types.Transaction)
@@ -1038,7 +1036,7 @@ func (s *PublicTransactionPoolAPI) GetTransactionCount(address common.Address, b
 
 // getTransactionBlockData fetches the meta data for the given transaction from the chain database. This is useful to
 // retrieve block information for a hash. It returns the block hash, block index and transaction index.
-func getTransactionBlockData(chainDb ethdb.Database, txHash common.Hash) (common.Hash, uint64, uint64, error) {
+func getTransactionBlockData(chainDb eddb.Database, txHash common.Hash) (common.Hash, uint64, uint64, error) {
 	var txBlock struct {
 		BlockHash  common.Hash
 		BlockIndex uint64
@@ -1494,15 +1492,15 @@ func (s *PublicTransactionPoolAPI) Resend(tx Tx, gasPrice, gasLimit *rpc.HexNumb
 	return common.Hash{}, fmt.Errorf("Transaction %#x not found", tx.Hash)
 }
 
-// PrivateAdminAPI is the collection of Earthdollar APIs exposed over the private
+// PrivateAdminAPI is the collection of Etheruem APIs exposed over the private
 // admin endpoint.
 type PrivateAdminAPI struct {
-	ed *Earthdollar
+	ed *Ethereum
 }
 
-// NewPrivateAdminAPI creates a new API definition for the private admin methods
-// of the Earthdollar service.
-func NewPrivateAdminAPI(ed *Earthdollar) *PrivateAdminAPI {
+// NewPrivateAdminAPI creates a new API definition for the private admin medods
+// of the Ethereum service.
+func NewPrivateAdminAPI(ed *Ethereum) *PrivateAdminAPI {
 	return &PrivateAdminAPI{ed: ed}
 }
 
@@ -1583,15 +1581,15 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 	return true, nil
 }
 
-// PublicDebugAPI is the collection of Earthdollar APIs exposed over the public
+// PublicDebugAPI is the collection of Etheruem APIs exposed over the public
 // debugging endpoint.
 type PublicDebugAPI struct {
-	ed *Earthdollar
+	ed *Ethereum
 }
 
-// NewPublicDebugAPI creates a new API definition for the public debug methods
-// of the Earthdollar service.
-func NewPublicDebugAPI(ed *Earthdollar) *PublicDebugAPI {
+// NewPublicDebugAPI creates a new API definition for the public debug medods
+// of the Ethereum service.
+func NewPublicDebugAPI(ed *Ethereum) *PublicDebugAPI {
 	return &PublicDebugAPI{ed: ed}
 }
 
@@ -1636,291 +1634,19 @@ func (api *PublicDebugAPI) SeedHash(number uint64) (string, error) {
 	if block == nil {
 		return "", fmt.Errorf("block #%d not found", number)
 	}
-	hash, err := ethash.GetSeedHash(number)
+	hash, err := edhash.GetSeedHash(number)
 	if err != nil {
 		return "", err
 	}
 	return fmt.Sprintf("0x%x", hash), nil
 }
 
-<<<<<<< HEAD:ed/api.go
-// PrivateDebugAPI is the collection of Earthdollar APIs exposed over the private
-// debugging endpoint.
-type PrivateDebugAPI struct {
-	config *core.ChainConfig
-	ed    *Earthdollar
-}
-
-// NewPrivateDebugAPI creates a new API definition for the private debug methods
-// of the Earthdollar service.
-func NewPrivateDebugAPI(config *core.ChainConfig, ed *Earthdollar) *PrivateDebugAPI {
-	return &PrivateDebugAPI{config: config, ed: ed}
-}
-
-// ChaindbProperty returns leveldb properties of the chain database.
-func (api *PrivateDebugAPI) ChaindbProperty(property string) (string, error) {
-	ldb, ok := api.ed.chainDb.(interface {
-		LDB() *leveldb.DB
-	})
-	if !ok {
-		return "", fmt.Errorf("chaindbProperty does not work for memory databases")
-	}
-	if property == "" {
-		property = "leveldb.stats"
-	} else if !strings.HasPrefix(property, "leveldb.") {
-		property = "leveldb." + property
-	}
-	return ldb.LDB().GetProperty(property)
-}
-
-// BlockTraceResult is the returned value when replaying a block to check for
-// consensus results and full VM trace logs for all included transactions.
-type BlockTraceResult struct {
-	Validated  bool           `json:"validated"`
-	StructLogs []structLogRes `json:"structLogs"`
-	Error      string         `json:"error"`
-}
-
-// TraceBlock processes the given block's RLP but does not import the block in to
-// the chain.
-func (api *PrivateDebugAPI) TraceBlock(blockRlp []byte, config *vm.Config) BlockTraceResult {
-	var block types.Block
-	err := rlp.Decode(bytes.NewReader(blockRlp), &block)
-	if err != nil {
-		return BlockTraceResult{Error: fmt.Sprintf("could not decode block: %v", err)}
-	}
-
-	validated, logs, err := api.traceBlock(&block, config)
-	return BlockTraceResult{
-		Validated:  validated,
-		StructLogs: formatLogs(logs),
-		Error:      formatError(err),
-	}
-}
-
-// TraceBlockFromFile loads the block's RLP from the given file name and attempts to
-// process it but does not import the block in to the chain.
-func (api *PrivateDebugAPI) TraceBlockFromFile(file string, config *vm.Config) BlockTraceResult {
-	blockRlp, err := ioutil.ReadFile(file)
-	if err != nil {
-		return BlockTraceResult{Error: fmt.Sprintf("could not read file: %v", err)}
-	}
-	return api.TraceBlock(blockRlp, config)
-}
-
-// TraceBlockByNumber processes the block by canonical block number.
-func (api *PrivateDebugAPI) TraceBlockByNumber(number uint64, config *vm.Config) BlockTraceResult {
-	// Fetch the block that we aim to reprocess
-	block := api.ed.BlockChain().GetBlockByNumber(number)
-	if block == nil {
-		return BlockTraceResult{Error: fmt.Sprintf("block #%d not found", number)}
-	}
-
-	validated, logs, err := api.traceBlock(block, config)
-	return BlockTraceResult{
-		Validated:  validated,
-		StructLogs: formatLogs(logs),
-		Error:      formatError(err),
-	}
-}
-
-// TraceBlockByHash processes the block by hash.
-func (api *PrivateDebugAPI) TraceBlockByHash(hash common.Hash, config *vm.Config) BlockTraceResult {
-	// Fetch the block that we aim to reprocess
-	block := api.ed.BlockChain().GetBlock(hash)
-	if block == nil {
-		return BlockTraceResult{Error: fmt.Sprintf("block #%x not found", hash)}
-	}
-
-	validated, logs, err := api.traceBlock(block, config)
-	return BlockTraceResult{
-		Validated:  validated,
-		StructLogs: formatLogs(logs),
-		Error:      formatError(err),
-	}
-}
-
-// TraceCollector collects EVM structered logs.
-//
-// TraceCollector implements vm.Collector
-type TraceCollector struct {
-	traces []vm.StructLog
-}
-
-// AddStructLog adds a structered log.
-func (t *TraceCollector) AddStructLog(slog vm.StructLog) {
-	t.traces = append(t.traces, slog)
-}
-
-// traceBlock processes the given block but does not save the state.
-func (api *PrivateDebugAPI) traceBlock(block *types.Block, config *vm.Config) (bool, []vm.StructLog, error) {
-	// Validate and reprocess the block
-	var (
-		blockchain = api.ed.BlockChain()
-		validator  = blockchain.Validator()
-		processor  = blockchain.Processor()
-		collector  = &TraceCollector{}
-	)
-	if config == nil {
-		config = new(vm.Config)
-	}
-	config.Debug = true // make sure debug is set.
-	config.Logger.Collector = collector
-
-	if err := core.ValidateHeader(api.config, blockchain.AuxValidator(), block.Header(), blockchain.GetHeader(block.ParentHash()), true, false); err != nil {
-		return false, collector.traces, err
-	}
-	statedb, err := blockchain.StateAt(blockchain.GetBlock(block.ParentHash()).Root())
-	if err != nil {
-		return false, collector.traces, err
-	}
-
-	receipts, _, usedGas, err := processor.Process(block, statedb, *config)
-	if err != nil {
-		return false, collector.traces, err
-	}
-	if err := validator.ValidateState(block, blockchain.GetBlock(block.ParentHash()), statedb, receipts, usedGas); err != nil {
-		return false, collector.traces, err
-	}
-	return true, collector.traces, nil
-}
-
-// SetHead rewinds the head of the blockchain to a previous block.
-func (api *PrivateDebugAPI) SetHead(number uint64) {
-	api.ed.BlockChain().SetHead(number)
-}
-
-=======
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/api.go
 // ExecutionResult groups all structured logs emitted by the EVM
 // while replaying a transaction in debug mode as well as the amount of
 // gas used and the return value
 type ExecutionResult struct {
-<<<<<<< HEAD:ed/api.go
-	Gas         *big.Int       `json:"gas"`
-	ReturnValue string         `json:"returnValue"`
-	StructLogs  []structLogRes `json:"structLogs"`
-}
-
-// structLogRes stores a structured log emitted by the EVM while replaying a
-// transaction in debug mode
-type structLogRes struct {
-	Pc      uint64            `json:"pc"`
-	Op      string            `json:"op"`
-	Gas     *big.Int          `json:"gas"`
-	GasCost *big.Int          `json:"gasCost"`
-	Depth   int               `json:"depth"`
-	Error   string            `json:"error"`
-	Stack   []string          `json:"stack"`
-	Memory  []string          `json:"memory"`
-	Storage map[string]string `json:"storage"`
-}
-
-// formatLogs formats EVM returned structured logs for json output
-func formatLogs(structLogs []vm.StructLog) []structLogRes {
-	formattedStructLogs := make([]structLogRes, len(structLogs))
-	for index, trace := range structLogs {
-		formattedStructLogs[index] = structLogRes{
-			Pc:      trace.Pc,
-			Op:      trace.Op.String(),
-			Gas:     trace.Gas,
-			GasCost: trace.GasCost,
-			Depth:   trace.Depth,
-			Error:   formatError(trace.Err),
-			Stack:   make([]string, len(trace.Stack)),
-			Storage: make(map[string]string),
-		}
-
-		for i, stackValue := range trace.Stack {
-			formattedStructLogs[index].Stack[i] = fmt.Sprintf("%x", common.LeftPadBytes(stackValue.Bytes(), 32))
-		}
-
-		for i := 0; i+32 <= len(trace.Memory); i += 32 {
-			formattedStructLogs[index].Memory = append(formattedStructLogs[index].Memory, fmt.Sprintf("%x", trace.Memory[i:i+32]))
-		}
-
-		for i, storageValue := range trace.Storage {
-			formattedStructLogs[index].Storage[fmt.Sprintf("%x", i)] = fmt.Sprintf("%x", storageValue)
-		}
-	}
-	return formattedStructLogs
-}
-
-// formatError formats a Go error into either an empty string or the data content
-// of the error itself.
-func formatError(err error) string {
-	if err == nil {
-		return ""
-	}
-	return err.Error()
-}
-
-// TraceTransaction returns the structured logs created during the execution of EVM
-// and returns them as a JSON object.
-func (api *PrivateDebugAPI) TraceTransaction(txHash common.Hash, logger *vm.LogConfig) (*ExecutionResult, error) {
-	if logger == nil {
-		logger = new(vm.LogConfig)
-	}
-	// Retrieve the tx from the chain and the containing block
-	tx, blockHash, _, txIndex := core.GetTransaction(api.ed.ChainDb(), txHash)
-	if tx == nil {
-		return nil, fmt.Errorf("transaction %x not found", txHash)
-	}
-	block := api.ed.BlockChain().GetBlock(blockHash)
-	if block == nil {
-		return nil, fmt.Errorf("block %x not found", blockHash)
-	}
-	// Create the state database to mutate and eventually trace
-	parent := api.ed.BlockChain().GetBlock(block.ParentHash())
-	if parent == nil {
-		return nil, fmt.Errorf("block parent %x not found", block.ParentHash())
-	}
-	stateDb, err := api.ed.BlockChain().StateAt(parent.Root())
-	if err != nil {
-		return nil, err
-	}
-	// Mutate the state and trace the selected transaction
-	for idx, tx := range block.Transactions() {
-		// Assemble the transaction call message
-		from, err := tx.From()
-		if err != nil {
-			return nil, fmt.Errorf("sender retrieval failed: %v", err)
-		}
-		msg := callmsg{
-			from:     stateDb.GetOrNewStateObject(from),
-			to:       tx.To(),
-			gas:      tx.Gas(),
-			gasPrice: tx.GasPrice(),
-			value:    tx.Value(),
-			data:     tx.Data(),
-		}
-		// Mutate the state if we haven't reached the tracing transaction yet
-		if uint64(idx) < txIndex {
-			vmenv := core.NewEnv(stateDb, api.config, api.ed.BlockChain(), msg, block.Header(), vm.Config{})
-			_, _, err := core.ApplyMessage(vmenv, msg, new(core.GasPool).AddGas(tx.Gas()))
-			if err != nil {
-				return nil, fmt.Errorf("mutation failed: %v", err)
-			}
-			stateDb.DeleteSuicides()
-			continue
-		}
-		// Otherwise trace the transaction and return
-		vmenv := core.NewEnv(stateDb, api.config, api.ed.BlockChain(), msg, block.Header(), vm.Config{Debug: true, Logger: *logger})
-		ret, gas, err := core.ApplyMessage(vmenv, msg, new(core.GasPool).AddGas(tx.Gas()))
-		if err != nil {
-			return nil, fmt.Errorf("tracing failed: %v", err)
-		}
-		return &ExecutionResult{
-			Gas:         gas,
-			ReturnValue: fmt.Sprintf("%x", ret),
-			StructLogs:  formatLogs(vmenv.StructLogs()),
-		}, nil
-	}
-	return nil, errors.New("database inconsistency")
-=======
 	Gas         *big.Int `json:"gas"`
 	ReturnValue string   `json:"returnValue"`
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:eth/api.go
 }
 
 // TraceCall executes a call and returns the amount of gas, created logs and optionally returned values.
@@ -1973,7 +1699,7 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 	}, nil
 }
 
-// PublicNetAPI offers network related RPC methods
+// PublicNetAPI offers network related RPC medods
 type PublicNetAPI struct {
 	net            *p2p.Server
 	networkVersion int
@@ -1994,7 +1720,7 @@ func (s *PublicNetAPI) PeerCount() *rpc.HexNumber {
 	return rpc.NewHexNumber(s.net.PeerCount())
 }
 
-// Version returns the current earthdollar protocol version.
+// Version returns the current edereum protocol version.
 func (s *PublicNetAPI) Version() string {
 	return fmt.Sprintf("%d", s.networkVersion)
 }

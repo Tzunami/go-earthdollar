@@ -1,0 +1,17 @@
+include setup.py
+
+# C sources
+include src/libedhash/internal.c
+include src/libedhash/sha3.c
+include src/libedhash/util.c
+include src/python/core.c
+
+# Headers
+include src/libedhash/compiler.h
+include src/libedhash/data_sizes.h
+include src/libedhash/endian.h
+include src/libedhash/edhash.h
+include src/libedhash/fnv.h
+include src/libedhash/internal.h
+include src/libedhash/sha3.h
+include src/libedhash/util.h

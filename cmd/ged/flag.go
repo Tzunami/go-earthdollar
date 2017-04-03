@@ -1,26 +1,26 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of go-earthdollar.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of go-ethereum.
 //
-// go-earthdollar is free software: you can redistribute it and/or modify
+// go-ethereum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-earthdollar is distributed in the hope that it will be useful,
+// go-ethereum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
+// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
 import (
 	"crypto/ecdsa"
 	"fmt"
-	"log"
 	"io/ioutil"
+	"log"
 	"math"
 	"math/big"
 	"os"
@@ -29,7 +29,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Tzunami/ethash"
+	"github.com/ethereumproject/edhash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -48,7 +48,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/pow"
 	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/Tzunami/go-earthdollar/whisper"
-
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -167,14 +166,14 @@ var (
 	TargetGasLimitFlag = cli.StringFlag{
 		Name:  "targetgaslimit",
 		Usage: "Target gas limit sets the artificial target gas floor for the blocks to mine",
-		Value: params.GenesisGasLimit.String(),
+		Value: core.TargetGasLimit.String(),
 	}
 	AutoDAGFlag = cli.BoolFlag{
 		Name:  "autodag",
 		Usage: "Enable automatic DAG pregeneration",
 	}
-	EarthbaseFlag = cli.StringFlag{
-		Name:  "earthbase",
+	EtherbaseFlag = cli.StringFlag{
+		Name:  "etherbase",
 		Usage: "Public address for block mining rewards (default = first account created)",
 		Value: "0",
 	}
@@ -207,7 +206,7 @@ var (
 	}
 	VModuleFlag = cli.GenericFlag{
 		Name:  "vmodule",
-		Usage: "Per-module verbosity: comma-separated list of <pattern>=<level> (e.g. eth/*=6,p2p=5)",
+		Usage: "Per-module verbosity: comma-separated list of <pattern>=<level> (e.g. ed/*=6,p2p=5)",
 		Value: glog.GetVModule(),
 	}
 	BacktraceAtFlag = cli.GenericFlag{
@@ -559,26 +558,22 @@ func MakeAddress(accman *accounts.Manager, account string) (accounts.Account, er
 	return accman.AccountByIndex(index)
 }
 
-// MakeEarthbase retrieves the earthbase either from the directly specified
+// MakeEtherbase retrieves the etherbase either from the directly specified
 // command line flags or from the keystore if CLI indexed.
-func MakeEarthbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
+func MakeEtherbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
 	accounts := accman.Accounts()
-	if !ctx.GlobalIsSet(EarthbaseFlag.Name) && len(accounts) == 0 {
-		glog.V(logger.Error).Infoln("WARNING: No earthbase set and no accounts found as default")
+	if !ctx.GlobalIsSet(EtherbaseFlag.Name) && len(accounts) == 0 {
+		glog.V(logger.Error).Infoln("WARNING: No etherbase set and no accounts found as default")
 		return common.Address{}
 	}
-	earthbase := ctx.GlobalString(EarthbaseFlag.Name)
-	if earthbase == "" {
+	etherbase := ctx.GlobalString(EtherbaseFlag.Name)
+	if etherbase == "" {
 		return common.Address{}
 	}
-	// If the specified earthbase is a valid address, return it
-	account, err := MakeAddress(accman, earthbase)
+	// If the specified etherbase is a valid address, return it
+	account, err := MakeAddress(accman, etherbase)
 	if err != nil {
-<<<<<<< HEAD:cmd/utils/flags.go
-		Fatalf("Option %q: %v", EarthbaseFlag.Name, err)
-=======
 		log.Fatalf("Option %q: %v", EtherbaseFlag.Name, err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 	}
 	return account.Address
 }
@@ -604,7 +599,7 @@ func MakePasswordList(ctx *cli.Context) []string {
 // MakeSystemNode sets up a local node, configures the services to launch and
 // assembles the P2P protocol stack.
 func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
-	name := fmt.Sprintf("Geth/%s/%s/%s", version, runtime.GOOS, runtime.Version())
+	name := fmt.Sprintf("Ged/%s/%s/%s", version, runtime.GOOS, runtime.Version())
 	if identity := ctx.GlobalString(IdentityFlag.Name); len(identity) > 0 {
 		name += "/" + identity
 	}
@@ -650,21 +645,11 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		WSOrigins:       ctx.GlobalString(WSAllowedOriginsFlag.Name),
 		WSModules:       MakeRPCModules(ctx.GlobalString(WSApiFlag.Name)),
 	}
-<<<<<<< HEAD:cmd/utils/flags.go
-	// Configure the Earthdollar service
-	accman := MakeAccountManager(ctx)
-
-	// get enabled jit flag
-	jitEnabled := ctx.GlobalBool(VMEnableJitFlag.Name)
-
-	ethConf := &ed.Config{
-=======
 
 	// Configure the Ethereum service
 	accman := MakeAccountManager(ctx)
 
-	ethConf := &eth.Config{
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
+	edConf := &ed.Config{
 		ChainConfig:             MustMakeChainConfig(ctx),
 		FastSync:                ctx.GlobalBool(FastSyncFlag.Name),
 		BlockChainVersion:       ctx.GlobalInt(BlockchainVersionFlag.Name),
@@ -672,7 +657,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		DatabaseHandles:         MakeDatabaseHandles(),
 		NetworkId:               ctx.GlobalInt(NetworkIdFlag.Name),
 		AccountManager:          accman,
-		Earthbase:               MakeEarthbase(accman, ctx),
+		Etherbase:               MakeEtherbase(accman, ctx),
 		MinerThreads:            ctx.GlobalInt(MinerThreadsFlag.Name),
 		NatSpec:                 ctx.GlobalBool(NatspecEnabledFlag.Name),
 		DocRoot:                 ctx.GlobalString(DocRootFlag.Name),
@@ -693,21 +678,21 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	switch {
 	case ctx.GlobalBool(OlympicFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			ethConf.NetworkId = 1
+			edConf.NetworkId = 1
 		}
-		ethConf.Genesis = core.OlympicGenesisBlock()
+		edConf.Genesis = core.OlympicGenesis
 
 	case ctx.GlobalBool(TestNetFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			ethConf.NetworkId = 2
+			edConf.NetworkId = 2
 		}
-		ethConf.Genesis = core.TestNetGenesisBlock()
+		edConf.Genesis = core.TestNetGenesis
 		state.StartingNonce = 1048576 // (2**20)
 
 	case ctx.GlobalBool(DevModeFlag.Name):
 		// Override the base network stack configs
 		if !ctx.GlobalIsSet(DataDirFlag.Name) {
-			stackConf.DataDir = filepath.Join(os.TempDir(), "/earthdollar_dev_mode")
+			stackConf.DataDir = filepath.Join(os.TempDir(), "/ethereum_dev_mode")
 		}
 		if !ctx.GlobalIsSet(MaxPeersFlag.Name) {
 			stackConf.MaxPeers = 0
@@ -715,15 +700,15 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		if !ctx.GlobalIsSet(ListenPortFlag.Name) {
 			stackConf.ListenAddr = ":0"
 		}
-		// Override the Earthdollar protocol configs
-		ethConf.Genesis = core.OlympicGenesisBlock()
+		// Override the Ethereum protocol configs
+		edConf.Genesis = core.OlympicGenesis
 		if !ctx.GlobalIsSet(GasPriceFlag.Name) {
-			ethConf.GasPrice = new(big.Int)
+			edConf.GasPrice = new(big.Int)
 		}
 		if !ctx.GlobalIsSet(WhisperEnabledFlag.Name) {
 			shhEnable = true
 		}
-		ethConf.PowTest = true
+		edConf.PowTest = true
 	}
 	// Assemble and return the protocol stack
 	stack, err := node.New(stackConf)
@@ -731,30 +716,18 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		log.Fatal("Failed to create the protocol stack: ", err)
 	}
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
-		return ed.New(ctx, ethConf)
+		return ed.New(ctx, edConf)
 	}); err != nil {
-<<<<<<< HEAD:cmd/utils/flags.go
-		Fatalf("Failed to register the Earthdollar service: %v", err)
-=======
 		log.Fatal("Failed to register the Ethereum service: ", err)
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 	}
 	if shhEnable {
 		if err := stack.Register(func(*node.ServiceContext) (node.Service, error) { return whisper.New(), nil }); err != nil {
 			log.Fatal("Failed to register the Whisper service: ", err)
 		}
 	}
-<<<<<<< HEAD:cmd/utils/flags.go
-	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
-		return release.NewReleaseService(ctx, relconf)
-	}); err != nil {
-		Fatalf("Failed to register the Ged release oracle service: %v", err)
-	}
-=======
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 
 	if ctx.GlobalBool(Unused1.Name) {
-		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged started with --%s flag, which is unused by Ged  and can be omitted", Unused1.Name))
+		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged started with --%s flag, which is unused by Ged and can be omitted", Unused1.Name))
 	}
 
 	return stack
@@ -764,15 +737,14 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 func SetupNetwork(ctx *cli.Context) {
 	switch {
 	case ctx.GlobalBool(OlympicFlag.Name):
-		params.DurationLimit = big.NewInt(8)
-		params.GenesisGasLimit = big.NewInt(3141592)
-		params.MinGasLimit = big.NewInt(125000)
+		core.DurationLimit = big.NewInt(8)
+		core.MinGasLimit = big.NewInt(125000)
 		types.HeaderExtraMax = 1024
 		NetworkIdFlag.Value = 0
 		core.BlockReward = big.NewInt(1.5e+18)
 		core.ExpDiffPeriod = big.NewInt(math.MaxInt64)
 	}
-	params.TargetGasLimit = common.String2Big(ctx.GlobalString(TargetGasLimitFlag.Name))
+	core.TargetGasLimit = common.String2Big(ctx.GlobalString(TargetGasLimitFlag.Name))
 }
 
 // MustMakeChainConfig reads the chain configuration from the database in ctx.Datadir.
@@ -784,13 +756,13 @@ func MustMakeChainConfig(ctx *cli.Context) *core.ChainConfig {
 }
 
 // MustMakeChainConfigFromDb reads the chain configuration from the given database.
-func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainConfig {
+func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainConfig {
 	c := core.DefaultConfig
 	if ctx.GlobalBool(TestNetFlag.Name) {
 		c = core.TestConfig
 	}
 
-	for i := range c.Forks {
+	for i := range c.Forks {  //earthdollar, remove
 		// Force override any existing configs if explicitly requested
 		if c.Forks[i].Name == "ETF" {
 			if ctx.GlobalBool(ETFChain.Name) {
@@ -801,13 +773,9 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 
 	separator := strings.Repeat("-", 110)
 	glog.V(logger.Warn).Info(separator)
-<<<<<<< HEAD:cmd/utils/flags.go
-	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Ged  \x1b[32m%s\x1b[39m", ctx.App.Version))
-=======
-	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Geth Classic \x1b[32m%s\x1b[39m", ctx.App.Version))
+	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Ged \x1b[32m%s\x1b[39m", ctx.App.Version))
 
 	genesis := core.GetBlock(db, core.GetCanonicalHash(db, 0))
->>>>>>> 09218adc3dc58c6d349121f8b1c0cf0b62331087:cmd/ged/flag.go
 	genesisHash := ""
 	if genesis != nil {
 		genesisHash = genesis.Hash().Hex()
@@ -826,23 +794,23 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db ethdb.Database) *core.ChainC
 	}
 
 	if ctx.GlobalBool(TestNetFlag.Name) {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar Testnet\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEthereum (ETC) Testnet\x1b[39m blockchain!")
 	} else {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEarthdollar \x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEthereum (ETC) Classic\x1b[39m blockchain!")
 	}
 	glog.V(logger.Warn).Info(separator)
 	return c
 }
 
 // MakeChainDatabase open an LevelDB using the flags passed to the client and will hard crash if it fails.
-func MakeChainDatabase(ctx *cli.Context) ethdb.Database {
+func MakeChainDatabase(ctx *cli.Context) eddb.Database {
 	var (
 		datadir = MustMakeDataDir(ctx)
 		cache   = ctx.GlobalInt(CacheFlag.Name)
 		handles = MakeDatabaseHandles()
 	)
 
-	chainDb, err := ethdb.NewLDBDatabase(filepath.Join(datadir, "chaindata"), cache, handles)
+	chainDb, err := eddb.NewLDBDatabase(filepath.Join(datadir, "chaindata"), cache, handles)
 	if err != nil {
 		log.Fatal("Could not open database: ", err)
 	}
@@ -850,21 +818,21 @@ func MakeChainDatabase(ctx *cli.Context) ethdb.Database {
 }
 
 // MakeChain creates a chain manager from set command line flags.
-func MakeChain(ctx *cli.Context) (chain *core.BlockChain, chainDb ethdb.Database) {
+func MakeChain(ctx *cli.Context) (chain *core.BlockChain, chainDb eddb.Database) {
 	var err error
 	chainDb = MakeChainDatabase(ctx)
 
 	if ctx.GlobalBool(OlympicFlag.Name) {
-		_, err := core.WriteTestNetGenesisBlock(chainDb)
+		_, err := core.WriteGenesisBlock(chainDb, core.OlympicGenesis)
 		if err != nil {
-			glog.Fatalln(err)
+			log.Fatal(err)
 		}
 	}
 	chainConfig := MustMakeChainConfigFromDb(ctx, chainDb)
 
 	pow := pow.PoW(core.FakePow{})
 	if !ctx.GlobalBool(FakePoWFlag.Name) {
-		pow = ethash.New()
+		pow = edhash.New()
 	}
 	chain, err = core.NewBlockChain(chainDb, chainConfig, pow, new(event.TypeMux))
 	if err != nil {

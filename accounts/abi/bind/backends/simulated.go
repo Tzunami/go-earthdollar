@@ -1,18 +1,18 @@
-// Copyright 2016 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2016 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package backends
 
@@ -24,7 +24,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
 )
@@ -35,8 +34,8 @@ var _ bind.ContractBackend = (*SimulatedBackend)(nil)
 // SimulatedBackend implements bind.ContractBackend, simulating a blockchain in
 // the background. Its main purpose is to allow easily testing contract bindings.
 type SimulatedBackend struct {
-	database   ethdb.Database   // In memory database to store our testing data
-	blockchain *core.BlockChain // Earthdollar blockchain to handle the consensus
+	database   eddb.Database   // In memory database to store our testing data
+	blockchain *core.BlockChain // Ethereum blockchain to handle the consensus
 
 	pendingBlock *types.Block   // Currently pending block that will be imported on request
 	pendingState *state.StateDB // Currently pending state that will be the active on on request
@@ -45,7 +44,7 @@ type SimulatedBackend struct {
 // NewSimulatedBackend creates a new binding backend using a simulated blockchain
 // for testing purposes.
 func NewSimulatedBackend(accounts ...core.GenesisAccount) *SimulatedBackend {
-	database, _ := ethdb.NewMemDatabase()
+	database, _ := eddb.NewMemDatabase()
 	core.WriteGenesisBlockForTesting(database, accounts...)
 	blockchain, _ := core.NewBlockChain(database, core.TestConfig, new(core.FakePow), new(event.TypeMux))
 

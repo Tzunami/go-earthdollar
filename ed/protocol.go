@@ -1,18 +1,18 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package ed
 
@@ -28,27 +28,27 @@ import (
 
 // Constants to match up protocol versions and messages
 const (
-	eth62 = 62
-	 ed63 = 63
+	ed62 = 62
+	ed63 = 63
 )
 
 // Official short name of the protocol used during capability negotiation.
 var ProtocolName = "ed"
 
 // Supported versions of the ed protocol (first is primary).
-var ProtocolVersions = []uint{ ed63, eth62}
+var ProtocolVersions = []uint{ed63, ed62}
 
 // Number of implemented message corresponding to different protocol versions.
 var ProtocolLengths = []uint64{17, 8}
 
 const (
-	NetworkId          = 88
+	NetworkId          = 1
 	ProtocolMaxMsgSize = 10 * 1024 * 1024 // Maximum cap on the size of a protocol message
 )
 
 // ed protocol message codes
 const (
-	// Protocol messages belonging to eth/62
+	// Protocol messages belonging to ed/62
 	StatusMsg          = 0x00
 	NewBlockHashesMsg  = 0x01
 	TxMsg              = 0x02
@@ -58,7 +58,7 @@ const (
 	BlockBodiesMsg     = 0x06
 	NewBlockMsg        = 0x07
 
-	// Protocol messages belonging to  ed/63
+	// Protocol messages belonging to ed/63
 	GetNodeDataMsg = 0x0d
 	NodeDataMsg    = 0x0e
 	GetReceiptsMsg = 0x0f

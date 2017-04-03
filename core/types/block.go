@@ -1,20 +1,20 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package types contains data types related to Earthdollar consensus.
+// Package types contains data types related to Ethereum consensus.
 package types
 
 import (
@@ -69,8 +69,8 @@ type Header struct {
 	GasLimit    *big.Int       // Gas limit
 	GasUsed     *big.Int       // Gas used
 	Time        *big.Int       // Creation time
-	Mint	    *big.Int	   // Earthdollar- Mint balance 
-	Extra       []byte         // Extra data
+        Mint        *big.Int       // Mint
+	Extra       []byte         // Freeform descriptor
 	MixDigest   common.Hash    // for quick difficulty verification
 	Nonce       BlockNonce
 }
@@ -89,11 +89,11 @@ func (h *Header) HashNoNonce() common.Hash {
 		h.ReceiptHash,
 		h.Bloom,
 		h.Difficulty,
-		h.Number,
+		h.Number,               
 		h.GasLimit,
 		h.GasUsed,
 		h.Time,
-		h.Mint,  //Earthdollar
+                h.Mint,
 		h.Extra,
 	})
 }
@@ -105,7 +105,6 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 		Difficulty string
 		GasLimit   string
 		Time       *big.Int
-		Mint       string
 		Extra      string
 	}
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -117,7 +116,6 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 	h.Coinbase = common.HexToAddress(ext.Coinbase)
 	h.Difficulty = common.String2Big(ext.Difficulty)
 	h.Time = ext.Time
-	//h.Mint = common.String2Big(ext.Mint) //earthdollar
 	h.Extra = []byte(ext.Extra)
 	return nil
 }
@@ -162,7 +160,7 @@ func (b *Block) DeprecatedTd() *big.Int {
 	return b.td
 }
 
-// [deprecated by  ed/63]
+// [deprecated by ed/63]
 // StorageBlock defines the RLP encoding of a Block stored in the
 // state database. The StorageBlock encoding contains fields that
 // would otherwise need to be recomputed.
@@ -175,7 +173,7 @@ type extblock struct {
 	Uncles []*Header
 }
 
-// [deprecated by  ed/63]
+// [deprecated by ed/63]
 // "storage" block encoding. used for database.
 type storageblock struct {
 	Header *Header
@@ -242,9 +240,6 @@ func CopyHeader(h *Header) *Header {
 	if cpy.Time = new(big.Int); h.Time != nil {
 		cpy.Time.Set(h.Time)
 	}
-	if cpy.Mint = new(big.Int); h.Mint != nil {
-		cpy.Mint.Set(h.Mint)
-	}
 	if cpy.Difficulty = new(big.Int); h.Difficulty != nil {
 		cpy.Difficulty.Set(h.Difficulty)
 	}
@@ -300,7 +295,7 @@ func (b *Block) EncodeRLP(w io.Writer) error {
 	})
 }
 
-// [deprecated by  ed/63]
+// [deprecated by ed/63]
 func (b *StorageBlock) DecodeRLP(s *rlp.Stream) error {
 	var sb storageblock
 	if err := s.Decode(&sb); err != nil {
@@ -438,11 +433,10 @@ func (h *Header) String() string {
 	GasLimit:	    %v
 	GasUsed:	    %v
 	Time:		    %v
-	Mint:      	    %v
 	Extra:		    %s
 	MixDigest:      %x
 	Nonce:		    %x
-]`, h.Hash(), h.ParentHash, h.UncleHash, h.Coinbase, h.Root, h.TxHash, h.ReceiptHash, h.Bloom, h.Difficulty, h.Number, h.GasLimit, h.GasUsed, h.Time, h.Mint, h.Extra, h.MixDigest, h.Nonce)
+]`, h.Hash(), h.ParentHash, h.UncleHash, h.Coinbase, h.Root, h.TxHash, h.ReceiptHash, h.Bloom, h.Difficulty, h.Number, h.GasLimit, h.GasUsed, h.Time, h.Extra, h.MixDigest, h.Nonce)
 }
 
 type Blocks []*Block

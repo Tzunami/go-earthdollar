@@ -1,18 +1,18 @@
-// Copyright 2016 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2016 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -20,9 +20,9 @@ import (
 	hexlib "encoding/hex"
 	"errors"
 	"fmt"
-        "math/big"
+	"math/big"
 
-        "github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/core/vm"
@@ -30,6 +30,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 )
+
 var (
 	ChainConfigNotFoundErr     = errors.New("ChainConfig not found")
 	ChainConfigForkNotFoundErr = errors.New("ChainConfig fork not found")
@@ -170,7 +171,7 @@ type Fork struct {
 }
 
 // WriteGenesisBlock writes the genesis block to the database as block number 0
-func WriteGenesisBlock(chainDb ethdb.Database, genesis *GenesisDump) (*types.Block, error) {
+func WriteGenesisBlock(chainDb eddb.Database, genesis *GenesisDump) (*types.Block, error) {
 	statedb, err := state.New(common.Hash{}, chainDb)
 	if err != nil {
 		return nil, err
@@ -251,7 +252,7 @@ type GenesisAccount struct {
 	Balance *big.Int
 }
 
-func WriteGenesisBlockForTesting(db ethdb.Database, accounts ...GenesisAccount) *types.Block {
+func WriteGenesisBlockForTesting(db eddb.Database, accounts ...GenesisAccount) *types.Block {
 	dump := GenesisDump{
 		GasLimit:   "0x47E7C4",
 		Difficulty: "0x020000",
@@ -271,7 +272,7 @@ func WriteGenesisBlockForTesting(db ethdb.Database, accounts ...GenesisAccount) 
 	return block
 }
 
-// GenesisDump is the geth JSON format.
+// GenesisDump is the ged JSON format.
 // https://github.com/ethereumproject/wiki/wiki/Ethereum-Chain-Spec-Format#subformat-genesis
 type GenesisDump struct {
 	Nonce      prefixedHex

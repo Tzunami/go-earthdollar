@@ -1158,7 +1158,7 @@
       "value" : "0x0a"
     }
   },
-  "refund_getEdBack" : {
+  "refund_getEtherBack" : {
     "env" : {
       "currentCoinbase" : "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
       "currentDifficulty" : "0x0100",

@@ -1,5 +1,5 @@
 platform: x64
-clone_folder: c:\gopath\src\github.com\Tzunami\go-earthdollar
+clone_folder: c:\gopath\src\github.com\ethereumproject\go-ethereum
 os: Visual Studio 2015
 environment:
   GOPATH: c:\gopath
@@ -16,7 +16,7 @@ install:
 build_script:
   - go test ./...
   - go build -ldflags "-X main.Version=%VERSION%" ./cmd/ged
-  - 7z a ged-win64-%VERSION%.zip ged.exe
+  - 7z a ged-classic-win64-%VERSION%.zip ged.exe
 artifacts:
   - path: '*.zip'
     name: ged
@@ -25,9 +25,9 @@ deploy:
     username: splix
     api_key:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
-    subject: Tzunami
+    subject: ethereumproject
     repo: GoEthereumClassic
-    package: go-earthdollar
+    package: go-ethereum
     version: master
     publish: true
     override: true
@@ -37,9 +37,9 @@ deploy:
     username: splix
     api_key:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
-    subject: Tzunami
+    subject: ethereumproject
     repo: GoEthereumClassic
-    package: go-earthdollar
+    package: go-ethereum
     version: "%VERSION%"
     publish: true
     override: false

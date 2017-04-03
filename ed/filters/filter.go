@@ -1,18 +1,18 @@
-// Copyright 2014 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2014 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package filters
 
@@ -35,7 +35,7 @@ type AccountChange struct {
 type Filter struct {
 	created time.Time
 
-	db         ethdb.Database
+	db         eddb.Database
 	begin, end int64
 	addresses  []common.Address
 	topics     [][]common.Hash
@@ -47,7 +47,7 @@ type Filter struct {
 
 // Create a new filter which uses a bloom filter on blocks to figure out whether a particular block
 // is interesting or not.
-func New(db ethdb.Database) *Filter {
+func New(db eddb.Database) *Filter {
 	return &Filter{db: db}
 }
 

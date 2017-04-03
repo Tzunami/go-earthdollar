@@ -1,18 +1,18 @@
-// Copyright 2015 The go-earthdollar Authors
-// This file is part of the go-earthdollar library.
+// Copyright 2015 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-earthdollar library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-earthdollar library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -27,8 +27,7 @@ import (
 )
 
 func ExampleGenerateChain() {
-	params.MinGasLimit = big.NewInt(125000)      // Minimum the gas limit may ever be.
-	params.GenesisGasLimit = big.NewInt(3141592) // Gas limit of the Genesis block.
+	MinGasLimit = big.NewInt(125000) // Minimum the gas limit may ever be.
 
 	var (
 		key1, _ = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
@@ -37,7 +36,7 @@ func ExampleGenerateChain() {
 		addr1   = crypto.PubkeyToAddress(key1.PublicKey)
 		addr2   = crypto.PubkeyToAddress(key2.PublicKey)
 		addr3   = crypto.PubkeyToAddress(key3.PublicKey)
-		db, _   = ethdb.NewMemDatabase()
+		db, _   = eddb.NewMemDatabase()
 	)
 
 	// Ensure that key1 has some funds in the genesis block.
@@ -49,14 +48,14 @@ func ExampleGenerateChain() {
 	chain, _ := GenerateChain(testChainConfig(), genesis, db, 5, func(i int, gen *BlockGen) {
 		switch i {
 		case 0:
-			// In block 1, addr1 sends addr2 some tree.
-			tx, _ := types.NewTransaction(gen.TxNonce(addr1), addr2, big.NewInt(10000), params.TxGas, nil, nil).SignECDSA(key1)
+			// In block 1, addr1 sends addr2 some ether.
+			tx, _ := types.NewTransaction(gen.TxNonce(addr1), addr2, big.NewInt(10000), TxGas, nil, nil).SignECDSA(key1)
 			gen.AddTx(tx)
 		case 1:
-			// In block 2, addr1 sends some more earthdollar to addr2.
+			// In block 2, addr1 sends some more ether to addr2.
 			// addr2 passes it on to addr3.
-			tx1, _ := types.NewTransaction(gen.TxNonce(addr1), addr2, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(key1)
-			tx2, _ := types.NewTransaction(gen.TxNonce(addr2), addr3, big.NewInt(1000), params.TxGas, nil, nil).SignECDSA(key2)
+			tx1, _ := types.NewTransaction(gen.TxNonce(addr1), addr2, big.NewInt(1000), TxGas, nil, nil).SignECDSA(key1)
+			tx2, _ := types.NewTransaction(gen.TxNonce(addr2), addr3, big.NewInt(1000), TxGas, nil, nil).SignECDSA(key2)
 			gen.AddTx(tx1)
 			gen.AddTx(tx2)
 		case 2:
