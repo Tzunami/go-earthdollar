@@ -3,7 +3,7 @@
 
 # Edhash
 
-For details on this project, please see the Ethereum wiki:
+For details on this project, please see the Earthdollar wiki:
 https://github.com/Tzunami/wiki/wiki/Edhash
 
 ### Coding Style for C++ code:

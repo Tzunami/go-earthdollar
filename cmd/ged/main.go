@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
-// ged is the official command-line client for Ethereum.
+// ged is the official command-line client for Earthdollar.
 package main
 
 import (
@@ -257,7 +257,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	StartNode(stack)
 
 	// Unlock any account specifically requested
-	var ethereum *ed.Ethereum
+	var ethereum *ed.Earthdollar
 	if err := stack.Service(&ethereum); err != nil {
 		log.Fatal("ethereum service not running: ", err)
 	}

@@ -25,7 +25,7 @@ import (
 
 // This file contains configuration literals.
 
-// DefaultConfig is the Ethereum Classic standard setup.
+// DefaultConfig is the Earthdollar standard setup.
 var DefaultConfig = &ChainConfig{
 	Forks: []*Fork{
 		{
@@ -205,7 +205,7 @@ var OlympicGenesis = &GenesisDump{
 	},
 }
 
-// DefaultGenesis representing the default Ethereum genesis block.
+// DefaultGenesis representing the default Earthdollar genesis block.
 var DefaultGenesis = &GenesisDump{
 	Difficulty: "0x0400000000",
 	GasLimit:   "0x1388",

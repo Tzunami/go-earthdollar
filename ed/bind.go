@@ -25,24 +25,24 @@ import (
 	"github.com/Tzunami/go-earthdollar/rpc"
 )
 
-// ContractBackend implements bind.ContractBackend with direct calls to Ethereum
+// ContractBackend implements bind.ContractBackend with direct calls to Earthdollar
 // internals to support operating on contracts within subprotocols like ed and
 // swarm.
 //
-// Internally this backend uses the already exposed API endpoints of the Ethereum
+// Internally this backend uses the already exposed API endpoints of the Earthdollar
 // object. These should be rewritten to internal Go medod calls when the Go API
 // is refactored to support a clean library use.
 type ContractBackend struct {
-	eapi  *PublicEthereumAPI        // Wrapper around the Ethereum object to access metadata
+	eapi  *PublicEarthdollarAPI        // Wrapper around the Earthdollar object to access metadata
 	bcapi *PublicBlockChainAPI      // Wrapper around the blockchain to access chain data
 	txapi *PublicTransactionPoolAPI // Wrapper around the transaction pool to access transaction data
 }
 
 // NewContractBackend creates a new native contract backend using an existing
 // Etheruem object.
-func NewContractBackend(ed *Ethereum) *ContractBackend {
+func NewContractBackend(ed *Earthdollar) *ContractBackend {
 	return &ContractBackend{
-		eapi:  NewPublicEthereumAPI(ed),
+		eapi:  NewPublicEarthdollarAPI(ed),
 		bcapi: NewPublicBlockChainAPI(ed.chainConfig, ed.blockchain, ed.miner, ed.chainDb, ed.gpo, ed.eventMux, ed.accountManager),
 		txapi: NewPublicTransactionPoolAPI(ed),
 	}
@@ -59,7 +59,7 @@ func (b *ContractBackend) HasCode(contract common.Address, pending bool) (bool, 
 	return len(common.FromHex(out)) > 0, err
 }
 
-// ContractCall implements bind.ContractCaller executing an Ethereum contract
+// ContractCall implements bind.ContractCaller executing an Earthdollar contract
 // call with the specified data as the input. The pending flag requests execution
 // against the pending block, not the stable head of the chain.
 func (b *ContractBackend) ContractCall(contract common.Address, data []byte, pending bool) ([]byte, error) {

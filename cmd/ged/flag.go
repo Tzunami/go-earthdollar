@@ -646,7 +646,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		WSModules:       MakeRPCModules(ctx.GlobalString(WSApiFlag.Name)),
 	}
 
-	// Configure the Ethereum service
+	// Configure the Earthdollar service
 	accman := MakeAccountManager(ctx)
 
 	edConf := &ed.Config{
@@ -700,7 +700,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		if !ctx.GlobalIsSet(ListenPortFlag.Name) {
 			stackConf.ListenAddr = ":0"
 		}
-		// Override the Ethereum protocol configs
+		// Override the Earthdollar protocol configs
 		edConf.Genesis = core.OlympicGenesis
 		if !ctx.GlobalIsSet(GasPriceFlag.Name) {
 			edConf.GasPrice = new(big.Int)
@@ -718,7 +718,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		return ed.New(ctx, edConf)
 	}); err != nil {
-		log.Fatal("Failed to register the Ethereum service: ", err)
+		log.Fatal("Failed to register the Earthdollar service: ", err)
 	}
 	if shhEnable {
 		if err := stack.Register(func(*node.ServiceContext) (node.Service, error) { return whisper.New(), nil }); err != nil {
@@ -794,9 +794,9 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainCo
 	}
 
 	if ctx.GlobalBool(TestNetFlag.Name) {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEthereum (ETC) Testnet\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar (ETC) Testnet\x1b[39m blockchain!")
 	} else {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEthereum (ETC) Classic\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEarthdollar (ETC) Classic\x1b[39m blockchain!")
 	}
 	glog.V(logger.Warn).Info(separator)
 	return c

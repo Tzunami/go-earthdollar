@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package bind generates Ethereum contract Go bindings.
+// Package bind generates Earthdollar contract Go bindings.
 //
 // Detailed usage document and tutorial available on the go-earthdollar Wiki page:
-// https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts
+// https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps:-Go-bindings-to-Earthdollar-contracts
 package bind
 
 import (

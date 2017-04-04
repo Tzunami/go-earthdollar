@@ -29,7 +29,7 @@ import (
 )
 
 /*
-Registrar implements the Ethereum name registrar services mapping
+Registrar implements the Earthdollar name registrar services mapping
 - arbitrary strings to ethereum addresses
 - hashes to hashes
 - hashes to arbitrary strings

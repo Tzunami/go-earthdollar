@@ -26,7 +26,7 @@ deploy:
     api_key:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
     subject: Tzunami
-    repo: GoEthereumClassic
+    repo: GoEarthdollarClassic
     package: go-earthdollar
     version: master
     publish: true
@@ -38,7 +38,7 @@ deploy:
     api_key:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
     subject: Tzunami
-    repo: GoEthereumClassic
+    repo: GoEarthdollarClassic
     package: go-earthdollar
     version: "%VERSION%"
     publish: true

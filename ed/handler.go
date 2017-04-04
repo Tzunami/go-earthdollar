@@ -87,7 +87,7 @@ type ProtocolManager struct {
 	badBlockReportingEnabled bool
 }
 
-// NewProtocolManager returns a new edereum sub protocol manager. The Ethereum sub protocol manages peers capable
+// NewProtocolManager returns a new edereum sub protocol manager. The Earthdollar sub protocol manages peers capable
 // with the edereum network.
 func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, mux *event.TypeMux, txpool txPool, pow pow.PoW, blockchain *core.BlockChain, chaindb eddb.Database) (*ProtocolManager, error) {
 	// Create the protocol manager with the base fields
@@ -191,7 +191,7 @@ func (pm *ProtocolManager) removePeer(id string) {
 	}
 	glog.V(logger.Debug).Infoln("Removing peer", id)
 
-	// Unregister the peer from the downloader and Ethereum peer set
+	// Unregister the peer from the downloader and Earthdollar peer set
 	pm.downloader.UnregisterPeer(id)
 	if err := pm.peers.Unregister(id); err != nil {
 		glog.V(logger.Error).Infoln("Removal failed:", err)
@@ -237,7 +237,7 @@ func (pm *ProtocolManager) Stop() {
 	// Wait for all peer handler goroutines and the loops to come down.
 	pm.wg.Wait()
 
-	glog.V(logger.Info).Infoln("Ethereum protocol handler stopped")
+	glog.V(logger.Info).Infoln("Earthdollar protocol handler stopped")
 }
 
 func (pm *ProtocolManager) newPeer(pv int, p *p2p.Peer, rw p2p.MsgReadWriter) *peer {
@@ -249,7 +249,7 @@ func (pm *ProtocolManager) newPeer(pv int, p *p2p.Peer, rw p2p.MsgReadWriter) *p
 func (pm *ProtocolManager) handle(p *peer) error {
 	glog.V(logger.Debug).Infof("%v: peer connected [%s]", p, p.Name())
 
-	// Execute the Ethereum handshake
+	// Execute the Earthdollar handshake
 	td, head, genesis := pm.blockchain.Status()
 	if err := p.Handshake(pm.networkId, td, head, genesis); err != nil {
 		glog.V(logger.Debug).Infof("%v: handshake failed: %v", p, err)
@@ -751,10 +751,10 @@ func (self *ProtocolManager) txBroadcastLoop() {
 	}
 }
 
-// EthNodeInfo represents a short summary of the Ethereum sub-protocol metadata known
+// EthNodeInfo represents a short summary of the Earthdollar sub-protocol metadata known
 // about the host peer.
 type EthNodeInfo struct {
-	Network    int         `json:"network"`    // Ethereum network ID (0=Olympic, 1=Frontier, 2=Morden)
+	Network    int         `json:"network"`    // Earthdollar network ID (0=Olympic, 1=Frontier, 2=Morden)
 	Difficulty *big.Int    `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Head       common.Hash `json:"head"`       // SHA3 hash of the host's best owned block

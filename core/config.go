@@ -158,7 +158,7 @@ type Fork struct {
 	Support      bool
 	NetworkSplit bool
 	// Block is the block number where the hard-fork commences on
-	// the Ethereum network.
+	// the Earthdollar network.
 	Block *big.Int
 	// Length of fork, if limited
 	Length *big.Int
@@ -273,7 +273,7 @@ func WriteGenesisBlockForTesting(db eddb.Database, accounts ...GenesisAccount) *
 }
 
 // GenesisDump is the ged JSON format.
-// https://github.com/Tzunami/wiki/wiki/Ethereum-Chain-Spec-Format#subformat-genesis
+// https://github.com/Tzunami/wiki/wiki/Earthdollar-Chain-Spec-Format#subformat-genesis
 type GenesisDump struct {
 	Nonce      prefixedHex
 	Timestamp  prefixedHex

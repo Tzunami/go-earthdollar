@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package core implements the Ethereum consensus protocol.
+// Package core implements the Earthdollar consensus protocol.
 package core
 
 import (
@@ -105,7 +105,7 @@ type BlockChain struct {
 }
 
 // NewBlockChain returns a fully initialised block chain using information
-// available in the database. It initialiser the default Ethereum Validator and
+// available in the database. It initialiser the default Earthdollar Validator and
 // Processor.
 func NewBlockChain(chainDb eddb.Database, config *ChainConfig, pow pow.PoW, mux *event.TypeMux) (*BlockChain, error) {
 	bodyCache, _ := lru.New(bodyCacheLimit)

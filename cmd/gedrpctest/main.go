@@ -136,7 +136,7 @@ func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node
 			return nil, err
 		}
 	}
-	// Initialize and register the Ethereum protocol
+	// Initialize and register the Earthdollar protocol
 	db, _ := eddb.NewMemDatabase()
 	if _, err := test.InsertPreState(db); err != nil {
 		return nil, err
@@ -160,7 +160,7 @@ func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node
 // RunTest executes the specified test against an already pre-configured protocol
 // stack to ensure basic checks pass before running RPC tests.
 func RunTest(stack *node.Node, test *tests.BlockTest) error {
-	var ethereum *ed.Ethereum
+	var ethereum *ed.Earthdollar
 	stack.Service(&ethereum)
 	blockchain := ethereum.BlockChain()
 

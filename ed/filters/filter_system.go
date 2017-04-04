@@ -41,7 +41,7 @@ const (
 
 // FilterSystem manages filters that filter specific events such as
 // block, transaction and log events. The Filtering system can be used to listen
-// for specific LOG events fired by the EVM (Ethereum Virtual Machine).
+// for specific LOG events fired by the EVM (Earthdollar Virtual Machine).
 type FilterSystem struct {
 	filterMu sync.RWMutex
 	filterId int

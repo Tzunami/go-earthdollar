@@ -57,14 +57,14 @@ func (self Storage) Copy() Storage {
 	return cpy
 }
 
-// StateObject represents an Ethereum account which is being modified.
+// StateObject represents an Earthdollar account which is being modified.
 //
 // The usage pattern is as follows:
 // First you need to obtain a state object.
 // Account values can be accessed and modified through the object.
 // Finally, call CommitTrie to write the modified storage trie into a database.
 type StateObject struct {
-	address common.Address // Ethereum address of this account
+	address common.Address // Earthdollar address of this account
 	data    Account
 	db      *StateDB
 
@@ -91,7 +91,7 @@ type StateObject struct {
 	onDirty   func(addr common.Address) // Callback method to mark a state object newly dirty
 }
 
-// Account is the Ethereum consensus representation of accounts.
+// Account is the Earthdollar consensus representation of accounts.
 // These objects are stored in the main account trie.
 type Account struct {
 	Nonce    uint64

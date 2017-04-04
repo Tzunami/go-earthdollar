@@ -33,7 +33,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 )
 
-// registryAPIBackend is a backend for an Ethereum Registry.
+// registryAPIBackend is a backend for an Earthdollar Registry.
 type registryAPIBackend struct {
 	config  *core.ChainConfig
 	bc      *core.BlockChain
@@ -42,7 +42,7 @@ type registryAPIBackend struct {
 	am      *accounts.Manager
 }
 
-// PrivateRegistarAPI offers various functions to access the Ethereum registry.
+// PrivateRegistarAPI offers various functions to access the Earthdollar registry.
 type PrivateRegistarAPI struct {
 	config *core.ChainConfig
 	be     *registryAPIBackend

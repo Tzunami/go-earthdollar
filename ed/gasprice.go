@@ -40,7 +40,7 @@ type blockPriceInfo struct {
 // GasPriceOracle recommends gas prices based on the content of recent
 // blocks.
 type GasPriceOracle struct {
-	ed           *Ethereum
+	ed           *Earthdollar
 	initOnce      sync.Once
 	minPrice      *big.Int
 	lastBaseMutex sync.Mutex
@@ -53,7 +53,7 @@ type GasPriceOracle struct {
 }
 
 // NewGasPriceOracle returns a new oracle.
-func NewGasPriceOracle(ed *Ethereum) *GasPriceOracle {
+func NewGasPriceOracle(ed *Earthdollar) *GasPriceOracle {
 	minprice := ed.GpoMinGasPrice
 	if minprice == nil {
 		minprice = big.NewInt(gpoDefaultMinGasPrice)

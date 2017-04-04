@@ -45,7 +45,7 @@ var (
 // Account represents a stored key.
 // When used as an argument, it selects a unique key file to act on.
 type Account struct {
-	Address common.Address // Ethereum account address derived from the key
+	Address common.Address // Earthdollar account address derived from the key
 
 	// File contains the key file name.
 	// When Acccount is used as an argument to select a key, File can be left blank to
@@ -338,7 +338,7 @@ func (am *Manager) Update(a Account, passphrase, newPassphrase string) error {
 	return am.keyStore.Update(a.File, key, newPassphrase)
 }
 
-// ImportPreSaleKey decrypts the given Ethereum presale wallet and stores
+// ImportPreSaleKey decrypts the given Earthdollar presale wallet and stores
 // a key file in the key directory. The key file is encrypted with the same passphrase.
 func (am *Manager) ImportPreSaleKey(keyJSON []byte, passphrase string) (Account, error) {
 	a, _, err := importPreSaleKey(&am.keyStore, keyJSON, passphrase)

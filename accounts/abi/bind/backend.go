@@ -37,7 +37,7 @@ type ContractCaller interface {
 	// errors and the local chain being out of sync.
 	HasCode(contract common.Address, pending bool) (bool, error)
 
-	// ContractCall executes an Ethereum contract call with the specified data as
+	// ContractCall executes an Earthdollar contract call with the specified data as
 	// the input. The pending flag requests execution against the pending block, not
 	// the stable head of the chain.
 	ContractCall(contract common.Address, data []byte, pending bool) ([]byte, error)
@@ -86,7 +86,7 @@ type ContractBackend interface {
 	// errors and the local chain being out of sync.
 	HasCode(contract common.Address, pending bool) (bool, error)
 
-	// ContractCall executes an Ethereum contract call with the specified data as
+	// ContractCall executes an Earthdollar contract call with the specified data as
 	// the input. The pending flag requests execution against the pending block, not
 	// the stable head of the chain.
 	ContractCall(contract common.Address, data []byte, pending bool) ([]byte, error)

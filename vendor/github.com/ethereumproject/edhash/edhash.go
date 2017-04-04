@@ -140,7 +140,7 @@ func (l *Light) Verify(block pow.Block) bool {
 	/* Cannot happen if block header diff is validated prior to PoW, but can
 		 happen if PoW is checked first due to parallel PoW checking.
 		 We could check the minimum valid difficulty but for SoC we avoid (duplicating)
-	   Ethereum protocol consensus rules here which are not in scope of Edhash
+	   Earthdollar protocol consensus rules here which are not in scope of Edhash
 	*/
 	if difficulty.Cmp(common.Big0) == 0 {
 		glog.V(logger.Debug).Infof("invalid block difficulty")

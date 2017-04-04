@@ -34,7 +34,7 @@ import (
 var _ bind.ContractBackend = (*rpcBackend)(nil)
 
 // rpcBackend implements bind.ContractBackend, and acts as the data provider to
-// Ethereum contracts bound to Go structs. It uses an RPC connection to delegate
+// Earthdollar contracts bound to Go structs. It uses an RPC connection to delegate
 // all its functionality.
 //
 // Note: The current implementation is a blocking one. This should be replaced

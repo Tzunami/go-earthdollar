@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
-// ethtest executes Ethereum JSON tests.
+// ethtest executes Earthdollar JSON tests.
 package main
 
 import (

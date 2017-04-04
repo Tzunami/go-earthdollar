@@ -37,7 +37,7 @@ func isProtectedV(V *big.Int) bool {
 	return true
 }
 
-// normaliseV returns the Ethereum version of the V parameter
+// normaliseV returns the Earthdollar version of the V parameter
 func normaliseV(s Signer, v *big.Int) byte {
 	if s, ok := s.(ChainIdSigner); ok {
 		stdV := v.BitLen() <= 8 && (v.Uint64() == 27 || v.Uint64() == 28)

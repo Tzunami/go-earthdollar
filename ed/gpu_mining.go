@@ -33,7 +33,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/miner"
 )
 
-func (s *Ethereum) StartMining(threads int, gpus string) error {
+func (s *Earthdollar) StartMining(threads int, gpus string) error {
 	eb, err := s.Earthbase()
 	if err != nil {
 		err = fmt.Errorf("Cannot start mining without earthbase address: %v", err)

@@ -68,7 +68,7 @@ to display multiple metrics simultaneously.
 
 // monitor starts a terminal UI based monitoring tool for the requested metrics.
 func monitor(ctx *cli.Context) error {
-	// Attach to an Ethereum node over IPC or RPC
+	// Attach to an Earthdollar node over IPC or RPC
 	client, err := rpc.NewClient(ctx.String(monitorCommandAttachFlag.Name))
 	if err != nil {
 		log.Fatal("attach to remote ged: ", err)
