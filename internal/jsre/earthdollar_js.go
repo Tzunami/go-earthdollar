@@ -1,18 +1,18 @@
-// Copyright 2015 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright 2015 The go-earthdollar Authors
+// This file is part of the go-earthdollar library.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// The go-earthdollar library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The go-earthdollar library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-earthdollar library. If not, see <http://www.gnu.org/licenses/>.
 
 package jsre
 
@@ -1809,33 +1809,27 @@ if (typeof XMLHttpRequest === 'undefined') {
 var BigNumber = require('bignumber.js');
 
 var ED_UNITS = [
-    'wei',
-    'kwei',
-    'Mwei',
-    'Gwei',
-    'szabo',
-    'finney',
-    'femtoeder',
-    'picoeder',
-    'nanoeder',
-    'microeder',
-    'millieder',
-    'nano',
-    'micro',
-    'milli',
-    'eder',
-    'grand',
-    'Meder',
-    'Geder',
-    'Teder',
-    'Peder',
-    'Eeder',
-    'Zeder',
-    'Yeder',
-    'Neder',
-    'Deder',
-    'Veder',
-    'Ueder'
+    'tree',
+    'quarter',
+    'dime',
+    'nickle',
+    'penny',
+    'kam',
+    'tilly',
+    'fish',
+    'rajpal',
+    'ratt',
+    'wawatie',
+    'chief',
+    'luck',
+    'tien',
+    'jack',
+    'nottaway',
+    'skydancer',
+    'maes',
+    'so',
+    'little',
+    'seed'		
 ];
 
 module.exports = {
@@ -1931,34 +1925,29 @@ var sha3 = require('./sha3.js');
 var utf8 = require('utf8');
 
 var unitMap = {
-    'noeder':      '0',
-    'wei':          '1',
-    'kwei':         '1000',
-    'Kwei':         '1000',
-    'babbage':      '1000',
-    'femtoeder':   '1000',
-    'mwei':         '1000000',
-    'Mwei':         '1000000',
-    'lovelace':     '1000000',
-    'picoeder':    '1000000',
-    'gwei':         '1000000000',
-    'Gwei':         '1000000000',
-    'shannon':      '1000000000',
-    'nanoeder':    '1000000000',
-    'nano':         '1000000000',
-    'szabo':        '1000000000000',
-    'microeder':   '1000000000000',
-    'micro':        '1000000000000',
-    'finney':       '1000000000000000',
-    'millieder':    '1000000000000000',
-    'milli':         '1000000000000000',
-    'eder':        '1000000000000000000',
-    'keder':       '1000000000000000000000',
-    'grand':        '1000000000000000000000',
-    'meder':       '1000000000000000000000000',
-    'geder':       '1000000000000000000000000000',
-    'teder':       '1000000000000000000000000000000'
+    'tree':                    '1',
+    'quarter':                 '4',
+    'dime':                   '10',
+    'nickel':                 '20',
+    'penny':                 '100',
+    'kam':                  '1000',
+    'tilly':               '10000',
+    'fish':               '100000',
+    'rajpal':            '1000000',
+    'ratt':             '10000000',
+    'wawatie':         '100000000',
+    'chief':          '1000000000',
+    'luck':          '10000000000',
+    'tien':         '100000000000',
+    'jack':        '1000000000000',
+    'nottaway':   '10000000000000',
+    'skydancer': '100000000000000',
+    'maes':     '1000000000000000',
+    'so':      '10000000000000000',
+    'little': '100000000000000000',
+    'seed':  '1000000000000000000'
 };
+
 
 /**
  * Should be called to pad string to expected length
@@ -2193,19 +2182,19 @@ var getValueOfUnit = function (unit) {
  * - mwei       picoeder      lovelace
  * - gwei       nanoeder      shannon      nano
  * - --         microeder     szabo        micro
- * - --         millieder     finney       milli
+ * - --         millieder     kam       milli
  * - eder      --             --
  * - keder                    --           grand
  * - meder
  * - geder
  * - teder
  *
- * @medod fromWei
+ * @medod fromSeed
  * @param {Number|String} number can be a number, number string or a HEX of a decimal
  * @param {String} unit the unit to convert to, default eder
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
-var fromWei = function(number, unit) {
+var fromSeed = function(number, unit) {
     var returnValue = toBigNumber(number).dividedBy(getValueOfUnit(unit));
 
     return isBigNumber(number) ? returnValue : returnValue.toString(10);
@@ -2221,19 +2210,19 @@ var fromWei = function(number, unit) {
  * - gwei       nanoeder      shannon      nano
  * - --         microeder     szabo        micro
  * - --         microeder     szabo        micro
- * - --         millieder     finney       milli
+ * - --         millieder     kam       milli
  * - eder      --             --
  * - keder                    --           grand
  * - meder
  * - geder
  * - teder
  *
- * @medod toWei
+ * @medod toSeed
  * @param {Number|String|BigNumber} number can be a number, number string or a HEX of a decimal
  * @param {String} unit the unit to convert from, default eder
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
-var toWei = function(number, unit) {
+var toSeed = function(number, unit) {
     var returnValue = toBigNumber(number).times(getValueOfUnit(unit));
 
     return isBigNumber(number) ? returnValue : returnValue.toString(10);
@@ -2470,8 +2459,8 @@ module.exports = {
     transformToFullName: transformToFullName,
     extractDisplayName: extractDisplayName,
     extractTypeName: extractTypeName,
-    toWei: toWei,
-    fromWei: fromWei,
+    toSeed: toSeed,
+    fromSeed: fromSeed,
     toBigNumber: toBigNumber,
     toTwosComplement: toTwosComplement,
     toAddress: toAddress,
@@ -2586,8 +2575,8 @@ Web3.prototype.fromUtf8 = utils.fromUtf8;
 Web3.prototype.toDecimal = utils.toDecimal;
 Web3.prototype.fromDecimal = utils.fromDecimal;
 Web3.prototype.toBigNumber = utils.toBigNumber;
-Web3.prototype.toWei = utils.toWei;
-Web3.prototype.fromWei = utils.fromWei;
+Web3.prototype.toSeed = utils.toSeed;
+Web3.prototype.fromSeed = utils.fromSeed;
 Web3.prototype.isAddress = utils.isAddress;
 Web3.prototype.isChecksumAddress = utils.isChecksumAddress;
 Web3.prototype.toChecksumAddress = utils.toChecksumAddress;

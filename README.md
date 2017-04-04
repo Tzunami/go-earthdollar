@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/ethereumproject/go-ethereum.svg?branch=master)](https://travis-ci.org/ethereumproject/go-ethereum)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/ethereumproject/go-ethereum?svg=true)](https://ci.appveyor.com/project/splix/go-ethereum)
+[![Build Status](https://travis-ci.org/ethereumproject/go-earthdollar.svg?branch=master)](https://travis-ci.org/ethereumproject/go-earthdollar)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/ethereumproject/go-earthdollar?svg=true)](https://ci.appveyor.com/project/splix/go-earthdollar)
 [![API Reference](https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
 )](https://godoc.org/github.com/Tzunami/go-earthdollar)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ethereumproject/go-ethereum?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Download](https://api.bintray.com/packages/ethereumproject/GoEthereumClassic/go-ethereum/images/download.svg)](https://bintray.com/ethereumproject/GoEthereumClassic/go-ethereum/_latestVersion)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ethereumproject/go-earthdollar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Download](https://api.bintray.com/packages/ethereumproject/GoEthereumClassic/go-earthdollar/images/download.svg)](https://bintray.com/ethereumproject/GoEthereumClassic/go-earthdollar/_latestVersion)
 
 ## Ethereum Go (Ethereum Classic Blockchain)
 
@@ -27,7 +27,7 @@ To install the full suite of utilities run `go install github.com/Tzunami/go-ear
 
 ## Executables
 
-The go-ethereum project comes with several wrappers/executables found in the `cmd` directory.
+The go-earthdollar project comes with several wrappers/executables found in the `cmd` directory.
 
 | Command    | Description |
 |:----------:|-------------|
@@ -235,9 +235,9 @@ limit blocks converge to (`--targetgaslimit`) and the price transactions are acc
 Thank you for considering to help out with the source code! We welcome contributions from
 anyone on the internet, and are grateful for even the smallest of fixes!
 
-If you'd like to contribute to go-ethereum, please fork, fix, commit and send a pull request
+If you'd like to contribute to go-earthdollar, please fork, fix, commit and send a pull request
 for the maintainers to review and merge into the main code base. If you wish to submit more
-complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/ethereumproject/go-ethereum)
+complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/ethereumproject/go-earthdollar)
 to ensure those changes are in line with the general philosophy of the project and/or get some
 early feedback which can make both your efforts much lighter as well as our review and merge
 procedures quick and simple.
@@ -255,10 +255,10 @@ for more details on configuring your environment, managing project dependencies 
 
 ## License
 
-The go-ethereum library (i.e. all code outside of the `cmd` directory) is licensed under the
+The go-earthdollar library (i.e. all code outside of the `cmd` directory) is licensed under the
 [GNU Lesser General Public License v3.0](http://www.gnu.org/licenses/lgpl-3.0.en.html), also
 included in our repository in the `COPYING.LESSER` file.
 
-The go-ethereum binaries (i.e. all code inside of the `cmd` directory) is licensed under the
+The go-earthdollar binaries (i.e. all code inside of the `cmd` directory) is licensed under the
 [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.en.html), also included
 in our repository in the `COPYING` file.

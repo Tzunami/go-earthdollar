@@ -201,22 +201,22 @@ get_seedhash(PyObject *self, PyObject *args) {
 
 static PyMethodDef PyedhashMethods[] =
         {
-                {"get_seedhash", get_seedhash, METH_VARARGS,
+                {"get_seedhash", get_seedhash, MED_VARARGS,
                         "get_seedhash(block_number)\n\n"
                                 "Gets the seedhash for a block."},
-                {"mkcache_bytes", mkcache_bytes, METH_VARARGS,
+                {"mkcache_bytes", mkcache_bytes, MED_VARARGS,
                         "mkcache_bytes(block_number)\n\n"
                                 "Makes a byte array for the cache for given block number\n"},
-                /*{"calc_dataset_bytes", calc_dataset_bytes, METH_VARARGS,
+                /*{"calc_dataset_bytes", calc_dataset_bytes, MED_VARARGS,
                         "calc_dataset_bytes(full_size, cache_bytes)\n\n"
                                 "Makes a byte array for the dataset for a given size given cache bytes"},*/
-                {"hashimoto_light", hashimoto_light, METH_VARARGS,
+                {"hashimoto_light", hashimoto_light, MED_VARARGS,
                         "hashimoto_light(block_number, cache_bytes, header, nonce)\n\n"
                                 "Runs the hashimoto hashing function just using cache bytes. Takes an int (full_size), byte array (cache_bytes), another byte array (header), and an int (nonce). Returns an object containing the mix digest, and hash result."},
-                /*{"hashimoto_full", hashimoto_full, METH_VARARGS,
+                /*{"hashimoto_full", hashimoto_full, MED_VARARGS,
                         "hashimoto_full(dataset_bytes, header, nonce)\n\n"
                                 "Runs the hashimoto hashing function using the dataset bytes. Useful for testing. Returns an object containing the mix digest (byte array), and hash result (another byte array)."},
-                {"mine", mine, METH_VARARGS,
+                {"mine", mine, MED_VARARGS,
                         "mine(dataset_bytes, header, difficulty_bytes)\n\n"
                                 "Mine for an adequate header. Returns an object containing the mix digest (byte array), hash result (another byte array) and nonce (an int)."},*/
                 {NULL, NULL, 0, NULL}
