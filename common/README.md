@@ -1,7 +1,7 @@
 # common
 
 [![Build
-Status](https://travis-ci.org/ethereumproject/go-earthdollar.png?branch=master)](https://travis-ci.org/ethereum/go-earthdollar)
+Status](https://travis-ci.org/Tzunami/go-earthdollar.png?branch=master)](https://travis-ci.org/ethereum/go-earthdollar)
 
 The common package contains the ethereum utility library.
 

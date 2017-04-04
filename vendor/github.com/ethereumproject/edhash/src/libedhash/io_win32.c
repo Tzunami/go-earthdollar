@@ -87,7 +87,7 @@ bool edhash_file_size(FILE* f, size_t* ret_size)
 
 bool edhash_get_default_dirname(char* strbuf, size_t buffsize)
 {
-	static const char dir_suffix[] = "Ethash\\";
+	static const char dir_suffix[] = "Edhash\\";
 	strbuf[0] = '\0';
 	if (!SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, (CHAR*)strbuf))) {
 		return false;

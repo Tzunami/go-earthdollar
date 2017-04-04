@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/ethereumproject/go-earthdollar.svg?branch=master)](https://travis-ci.org/ethereumproject/go-earthdollar)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/ethereumproject/go-earthdollar?svg=true)](https://ci.appveyor.com/project/splix/go-earthdollar)
+[![Build Status](https://travis-ci.org/Tzunami/go-earthdollar.svg?branch=master)](https://travis-ci.org/Tzunami/go-earthdollar)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/Tzunami/go-earthdollar?svg=true)](https://ci.appveyor.com/project/splix/go-earthdollar)
 [![API Reference](https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
 )](https://godoc.org/github.com/Tzunami/go-earthdollar)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ethereumproject/go-earthdollar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Download](https://api.bintray.com/packages/ethereumproject/GoEthereumClassic/go-earthdollar/images/download.svg)](https://bintray.com/ethereumproject/GoEthereumClassic/go-earthdollar/_latestVersion)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Tzunami/go-earthdollar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Download](https://api.bintray.com/packages/Tzunami/GoEthereumClassic/go-earthdollar/images/download.svg)](https://bintray.com/Tzunami/GoEthereumClassic/go-earthdollar/_latestVersion)
 
 ## Ethereum Go (Ethereum Classic Blockchain)
 
@@ -32,12 +32,12 @@ The go-earthdollar project comes with several wrappers/executables found in the 
 | Command    | Description |
 |:----------:|-------------|
 | **`ged`** | Our main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as an gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. Please see our [Command Line Options](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options) wiki page for details. |
-| `abigen` | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com/ethereumproject/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts) wiki page for details. |
+| `abigen` | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com/Tzunami/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts) wiki page for details. |
 | `bootnode` | Stripped down version of our Ethereum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
 | `disasm` | Bytecode disassembler to convert EVM (Ethereum Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Ethereum Yellow Paper](http://gavwood.com/paper.pdf). |
 | `evm` | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gedrpctest` | Developer utility tool to support our [edereum/rpc-test](https://github.com/ethereumproject/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com/ethereumproject/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/ethereumproject/rpc-tests/blob/master/README.md) for details. |
-| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/ethereumproject/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
+| `gedrpctest` | Developer utility tool to support our [edereum/rpc-test](https://github.com/Tzunami/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com/Tzunami/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/Tzunami/rpc-tests/blob/master/README.md) for details. |
+| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/Tzunami/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 
 ## Running ged
 
@@ -65,7 +65,7 @@ This command will:
    sync times especially for HDD users. This flag is optional and you can set it as high or as low as
    you'd like, though we'd recommend the 512MB - 2GB range.
  * Start up Ged's built-in interactive [JavaScript console](https://github.com/Tzunami/go-earthdollar/wiki/JavaScript-Console),
-   (via the trailing `console` subcommand) through which you can invoke all official [`web3` medods](https://github.com/ethereumproject/wiki/wiki/JavaScript-API)
+   (via the trailing `console` subcommand) through which you can invoke all official [`web3` medods](https://github.com/Tzunami/wiki/wiki/JavaScript-API)
    as well as Ged's own [management APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs).
    This too is optional and if you leave it out you can always attach to an already running Ged instance
    with `ged --attach`.
@@ -102,7 +102,7 @@ them.*
 
 As a developer, sooner rather than later you'll want to start interacting with Ged and the Ethereum
 network via your own programs and not manually through the console. To aid this, Ged has built in
-support for a JSON-RPC based APIs ([standard APIs](https://github.com/ethereumproject/wiki/wiki/JSON-RPC) and
+support for a JSON-RPC based APIs ([standard APIs](https://github.com/Tzunami/wiki/wiki/JSON-RPC) and
 [Ged specific APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs)). These can be
 exposed via HTTP, WebSockets and IPC (unix sockets on unix based platroms, and named pipes on Windows).
 
@@ -189,7 +189,7 @@ $ bootnode --genkey=boot.key
 $ bootnode --nodekey=boot.key
 ```
 
-With the bootnode online, it will display an [`enode` URL](https://github.com/ethereumproject/wiki/wiki/enode-url-format)
+With the bootnode online, it will display an [`enode` URL](https://github.com/Tzunami/wiki/wiki/enode-url-format)
 that other nodes can use to connect to it and exchange peer information. Make sure to replace the
 displayed IP address information (most probably `[::]`) with your externally accessible IP to get the
 actual `enode` URL.
@@ -237,7 +237,7 @@ anyone on the internet, and are grateful for even the smallest of fixes!
 
 If you'd like to contribute to go-earthdollar, please fork, fix, commit and send a pull request
 for the maintainers to review and merge into the main code base. If you wish to submit more
-complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/ethereumproject/go-earthdollar)
+complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/Tzunami/go-earthdollar)
 to ensure those changes are in line with the general philosophy of the project and/or get some
 early feedback which can make both your efforts much lighter as well as our review and merge
 procedures quick and simple.

@@ -172,7 +172,7 @@ mine(PyObject *self, PyObject *args) {
     // TODO: Multi threading?
     do {
         edhash_full(&out, (void *) full_bytes, &params, (const edhash_h256_t *) header, nonce++);
-        // TODO: disagrees with the spec https://github.com/ethereum/wiki/wiki/Ethash#mining
+        // TODO: disagrees with the spec https://github.com/Tzunami/wiki/wiki/Edhash#mining
     } while (!edhash_check_difficulty(&out.result, (const edhash_h256_t *) difficulty));
 
     return Py_BuildValue("{" PY_CONST_STRING_FORMAT ":" PY_STRING_FORMAT ", " PY_CONST_STRING_FORMAT ":" PY_STRING_FORMAT ", " PY_CONST_STRING_FORMAT ":K}",
@@ -233,7 +233,7 @@ static struct PyModuleDef PyedhashModule = {
 
 PyMODINIT_FUNC PyInit_pyedhash(void) {
     PyObject *module =  PyModule_Create(&PyedhashModule);
-    // Following Spec: https://github.com/ethereum/wiki/wiki/Ethash#definitions
+    // Following Spec: https://github.com/Tzunami/wiki/wiki/Edhash#definitions
     PyModule_AddIntConstant(module, "REVISION", (long) ETHASH_REVISION);
     PyModule_AddIntConstant(module, "DATASET_BYTES_INIT", (long) ETHASH_DATASET_BYTES_INIT);
     PyModule_AddIntConstant(module, "DATASET_BYTES_GROWTH", (long) ETHASH_DATASET_BYTES_GROWTH);
@@ -251,7 +251,7 @@ PyMODINIT_FUNC PyInit_pyedhash(void) {
 PyMODINIT_FUNC
 initpyedhash(void) {
     PyObject *module = Py_InitModule("pyedhash", PyedhashMethods);
-    // Following Spec: https://github.com/ethereum/wiki/wiki/Ethash#definitions
+    // Following Spec: https://github.com/Tzunami/wiki/wiki/Edhash#definitions
     PyModule_AddIntConstant(module, "REVISION", (long) ETHASH_REVISION);
     PyModule_AddIntConstant(module, "DATASET_BYTES_INIT", (long) ETHASH_DATASET_BYTES_INIT);
     PyModule_AddIntConstant(module, "DATASET_BYTES_GROWTH", (long) ETHASH_DATASET_BYTES_GROWTH);

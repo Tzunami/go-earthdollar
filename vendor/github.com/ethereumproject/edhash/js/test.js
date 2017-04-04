@@ -30,9 +30,9 @@ var edhashParams = edhash.defaultParams();
 // create hasher
 var seed = util.hexStringToBytes("9410b944535a83d9adf6bbdcc80e051f30676173c16ca0d32d6f1263fc246466")
 var startTime = new Date().getTime();
-var hasher = new edhash.Ethash(edhashParams, seed);
-console.log('Ethash startup took: '+(new Date().getTime() - startTime) + "ms");
-console.log('Ethash cache hash: ' + util.bytesToHexString(hasher.cacheDigest()));
+var hasher = new edhash.Edhash(edhashParams, seed);
+console.log('Edhash startup took: '+(new Date().getTime() - startTime) + "ms");
+console.log('Edhash cache hash: ' + util.bytesToHexString(hasher.cacheDigest()));
 
 var testHexString = "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470";
 if (testHexString != util.bytesToHexString(util.hexStringToBytes(testHexString)))

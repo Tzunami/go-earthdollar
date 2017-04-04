@@ -3,7 +3,7 @@ package edhash
 /*  DO NOT EDIT!!!
 
     This code is version controlled at
-    https://github.com/ethereum/cpp-ethereum/blob/develop/libedhash-cl/edhash_cl_miner_kernel.cl
+    https://github.com/Tzunami/cpp-ethereum/blob/develop/libedhash-cl/edhash_cl_miner_kernel.cl
 
     If needed change it there first, then copy over here.
 */

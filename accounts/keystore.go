@@ -204,7 +204,7 @@ func (store keyStore) Update(file string, key *key, secret string) error {
 	return writeKeyFile(file, data)
 }
 
-// https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
+// https://github.com/Tzunami/wiki/wiki/Web3-Secret-Storage-Definition
 
 // web3v3 is a version 3 encrypted key store record.
 type web3v3 struct {

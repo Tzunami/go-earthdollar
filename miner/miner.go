@@ -161,7 +161,7 @@ func (self *Miner) Pending() (*types.Block, *state.StateDB) {
 	return self.worker.pending()
 }
 
-func (self *Miner) SetEtherbase(addr common.Address) {
+func (self *Miner) SetEarthbase(addr common.Address) {
 	self.coinbase = addr
-	self.worker.setEtherbase(addr)
+	self.worker.setEarthbase(addr)
 }

@@ -298,7 +298,7 @@ BOOST_AUTO_TEST_CASE(test_edhash_get_default_dirname) {
 	char homedir[256];
 	BOOST_REQUIRE(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, (CHAR*)homedir)));
 	BOOST_REQUIRE(edhash_get_default_dirname(result, 256));
-	std::string res = std::string(homedir) + std::string("\\AppData\\Local\\Ethash\\");
+	std::string res = std::string(homedir) + std::string("\\AppData\\Local\\Edhash\\");
 #else
 	char* homedir = getenv("HOME");
 	BOOST_REQUIRE(edhash_get_default_dirname(result, 256));

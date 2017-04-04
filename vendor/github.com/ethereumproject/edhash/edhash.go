@@ -66,7 +66,7 @@ func defaultDir() string {
 		home = user.HomeDir
 	}
 	if runtime.GOOS == "windows" {
-		return filepath.Join(home, "AppData", "Ethash")
+		return filepath.Join(home, "AppData", "Edhash")
 	}
 	return filepath.Join(home, ".edhash")
 }
@@ -140,7 +140,7 @@ func (l *Light) Verify(block pow.Block) bool {
 	/* Cannot happen if block header diff is validated prior to PoW, but can
 		 happen if PoW is checked first due to parallel PoW checking.
 		 We could check the minimum valid difficulty but for SoC we avoid (duplicating)
-	   Ethereum protocol consensus rules here which are not in scope of Ethash
+	   Ethereum protocol consensus rules here which are not in scope of Edhash
 	*/
 	if difficulty.Cmp(common.Big0) == 0 {
 		glog.V(logger.Debug).Infof("invalid block difficulty")
@@ -369,7 +369,7 @@ func (pow *Full) Search(block pow.Block, stop <-chan struct{}, index int) (nonce
 			ret := C.edhash_full_compute(dag.ptr, hash, C.uint64_t(nonce))
 			result := h256ToHash(ret.result).Big()
 
-			// TODO: disagrees with the spec https://github.com/ethereum/wiki/wiki/Ethash#mining
+			// TODO: disagrees with the spec https://github.com/Tzunami/wiki/wiki/Edhash#mining
 			if ret.success && result.Cmp(target) <= 0 {
 				mixDigest = C.GoBytes(unsafe.Pointer(&ret.mix_hash), C.int(32))
 				atomic.AddInt32(&pow.hashRate, -previousHashrate)
@@ -393,22 +393,22 @@ func (pow *Full) Turbo(on bool) {
 	pow.turbo = on
 }
 
-// Ethash combines block verification with Light and
+// Edhash combines block verification with Light and
 // nonce searching with Full into a single proof of work.
-type Ethash struct {
+type Edhash struct {
 	*Light
 	*Full
 }
 
 // New creates an instance of the proof of work.
-func New() *Ethash {
-	return &Ethash{new(Light), &Full{turbo: true}}
+func New() *Edhash {
+	return &Edhash{new(Light), &Full{turbo: true}}
 }
 
 // NewShared creates an instance of the proof of work., where a single instance
 // of the Light cache is shared across all instances created with NewShared.
-func NewShared() *Ethash {
-	return &Ethash{sharedLight, &Full{turbo: true}}
+func NewShared() *Edhash {
+	return &Edhash{sharedLight, &Full{turbo: true}}
 }
 
 // NewForTesting creates a proof of work for use in unit tests.
@@ -417,12 +417,12 @@ func NewShared() *Ethash {
 //
 // Nonces found by a testing instance are not verifiable with a
 // regular-size cache.
-func NewForTesting() (*Ethash, error) {
+func NewForTesting() (*Edhash, error) {
 	dir, err := ioutil.TempDir("", "edhash-test")
 	if err != nil {
 		return nil, err
 	}
-	return &Ethash{&Light{test: true}, &Full{Dir: dir, test: true}}, nil
+	return &Edhash{&Light{test: true}, &Full{Dir: dir, test: true}}, nil
 }
 
 func GetSeedHash(blockNum uint64) ([]byte, error) {

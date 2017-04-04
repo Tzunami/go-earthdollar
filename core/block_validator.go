@@ -278,7 +278,7 @@ func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, 
 	}
 }
 func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
-	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
+	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -326,7 +326,7 @@ func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *bi
 }
 
 func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int, explosionBlock *big.Int) *big.Int {
-	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
+	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -377,7 +377,7 @@ func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *
 }
 
 func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
-	// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2.mediawiki
+	// https://github.com/Tzunami/EIPs/blob/master/EIPS/eip-2.mediawiki
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))

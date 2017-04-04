@@ -2174,14 +2174,14 @@ var getValueOfUnit = function (unit) {
 };
 
 /**
- * Takes a number of wei and converts it to any other eder unit.
+ * Takes a number of seed and converts it to any other eder unit.
  *
  * Possible units are:
  *   SI Short   SI Full        Effigy       Other
- * - kwei       femtoeder     babbage
- * - mwei       picoeder      lovelace
- * - gwei       nanoeder      shannon      nano
- * - --         microeder     szabo        micro
+ * - kseed       femtoeder     babbage
+ * - mseed       picoeder      lovelace
+ * - gseed       nanoeder      shannon      nano
+ * - --         microeder     rajpal        micro
  * - --         millieder     kam       milli
  * - eder      --             --
  * - keder                    --           grand
@@ -2201,15 +2201,15 @@ var fromSeed = function(number, unit) {
 };
 
 /**
- * Takes a number of a unit and converts it to wei.
+ * Takes a number of a unit and converts it to seed.
  *
  * Possible units are:
  *   SI Short   SI Full        Effigy       Other
- * - kwei       femtoeder     babbage
- * - mwei       picoeder      lovelace
- * - gwei       nanoeder      shannon      nano
- * - --         microeder     szabo        micro
- * - --         microeder     szabo        micro
+ * - kseed       femtoeder     babbage
+ * - mseed       picoeder      lovelace
+ * - gseed       nanoeder      shannon      nano
+ * - --         microeder     rajpal        micro
+ * - --         microeder     rajpal        micro
  * - --         millieder     kam       milli
  * - eder      --             --
  * - keder                    --           grand

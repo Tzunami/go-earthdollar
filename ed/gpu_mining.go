@@ -25,7 +25,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereumproject/edhash"
+	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/logger"
@@ -34,9 +34,9 @@ import (
 )
 
 func (s *Ethereum) StartMining(threads int, gpus string) error {
-	eb, err := s.Etherbase()
+	eb, err := s.Earthbase()
 	if err != nil {
-		err = fmt.Errorf("Cannot start mining without etherbase address: %v", err)
+		err = fmt.Errorf("Cannot start mining without earthbase address: %v", err)
 		glog.V(logger.Error).Infoln(err)
 		return err
 	}

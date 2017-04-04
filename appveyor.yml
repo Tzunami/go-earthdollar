@@ -1,5 +1,5 @@
 platform: x64
-clone_folder: c:\gopath\src\github.com\ethereumproject\go-earthdollar
+clone_folder: c:\gopath\src\github.com\Tzunami\go-earthdollar
 os: Visual Studio 2015
 environment:
   GOPATH: c:\gopath
@@ -25,7 +25,7 @@ deploy:
     username: splix
     api_key:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
-    subject: ethereumproject
+    subject: Tzunami
     repo: GoEthereumClassic
     package: go-earthdollar
     version: master
@@ -37,7 +37,7 @@ deploy:
     username: splix
     api_key:
       secure: yBy4Pe1aiUnBXLheSJNzRQxvVUm+g7etLEdKDWv82XvxAup4wg2nKZ/ogTyJkWxx
-    subject: ethereumproject
+    subject: Tzunami
     repo: GoEthereumClassic
     package: go-earthdollar
     version: "%VERSION%"

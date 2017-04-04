@@ -26,7 +26,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereumproject/edhash"
+	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
@@ -38,7 +38,7 @@ import (
 	"github.com/hashicorp/golang-lru"
 )
 
-// GenesisBlockForTesting creates a block in which addr has the given wei balance.
+// GenesisBlockForTesting creates a block in which addr has the given seed balance.
 // The state trie of the block is written to db. the passed db needs to contain a state root
 func GenesisBlockForTesting(db eddb.Database, addr common.Address, balance *big.Int) *types.Block {
 	statedb, err := state.New(common.Hash{}, db)

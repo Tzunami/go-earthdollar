@@ -48,10 +48,10 @@ import (
   This code have two main entry points:
 
   1. The initCL(...)  function configures one or more OpenCL device
-     (for now only GPU) and loads the Ethash DAG onto device memory
+     (for now only GPU) and loads the Edhash DAG onto device memory
 
-  2. The Search(...) function loads a Ethash nonce into device(s) memory and
-     executes the Ethash OpenCL kernel.
+  2. The Search(...) function loads a Edhash nonce into device(s) memory and
+     executes the Edhash OpenCL kernel.
 
   Throughout the code, we refer to "host memory" and "device memory".
   For most systems (e.g. regular PC GPU miner) the host memory is RAM and
@@ -59,8 +59,8 @@ import (
 
   References mentioned in code comments:
 
-  1. https://github.com/ethereum/wiki/wiki/Ethash
-  2. https://github.com/ethereum/cpp-ethereum/blob/develop/libedhash-cl/edhash_cl_miner.cpp
+  1. https://github.com/Tzunami/wiki/wiki/Edhash
+  2. https://github.com/Tzunami/cpp-ethereum/blob/develop/libedhash-cl/edhash_cl_miner.cpp
   3. https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/
   4. http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_OpenCL_Programming_User_Guide.pdf
 
@@ -72,7 +72,7 @@ type OpenCLDevice struct {
 	openCL11 bool // OpenCL version 1.1 and 1.2 are handled a bit different
 	openCL12 bool
 
-	dagBuf        *cl.MemObject // Ethash full DAG in device mem
+	dagBuf        *cl.MemObject // Edhash full DAG in device mem
 	headerBuf     *cl.MemObject // Hash of block-to-mine in device mem
 	searchBuffers []*cl.MemObject
 
@@ -90,7 +90,7 @@ type OpenCLDevice struct {
 type OpenCLMiner struct {
 	mu sync.Mutex
 
-	edhash *Ethash // Ethash full DAG & cache in host mem
+	edhash *Edhash // Edhash full DAG & cache in host mem
 
 	deviceIds []int
 	devices   []*OpenCLDevice
@@ -557,7 +557,7 @@ func (c *OpenCLMiner) Search(block pow.Block, stop <-chan struct{}, index int) (
 				checkNonce = p.startNonce + upperNonce
 				if checkNonce != 0 {
 					// We verify that the nonce is indeed a solution by
-					// executing the Ethash verification function (on the CPU).
+					// executing the Edhash verification function (on the CPU).
 					cache := c.edhash.Light.getCache(block.NumberU64())
 					ok, mixDigest, result := cache.compute(c.dagSize, headerHash, checkNonce)
 

@@ -27,7 +27,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereumproject/edhash"
+	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/common/compiler"
@@ -75,7 +75,7 @@ type Config struct {
 	PowShared bool
 
 	AccountManager *accounts.Manager
-	Etherbase      common.Address
+	Earthbase      common.Address
 	GasPrice       *big.Int
 	MinerThreads   int
 	SolcPath       string
@@ -105,7 +105,7 @@ type Ethereum struct {
 	txMu            sync.Mutex
 	blockchain      *core.BlockChain
 	accountManager  *accounts.Manager
-	pow             *edhash.Ethash
+	pow             *edhash.Edhash
 	protocolManager *ProtocolManager
 	SolcPath        string
 	solc            *compiler.Solidity
@@ -188,7 +188,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 		dappDb:                  dappDb,
 		eventMux:                ctx.EventMux,
 		accountManager:          config.AccountManager,
-		ederbase:               config.Etherbase,
+		ederbase:               config.Earthbase,
 		netVersionId:            config.NetworkId,
 		NatSpec:                 config.NatSpec,
 		MinerThreads:            config.MinerThreads,
@@ -336,7 +336,7 @@ func (s *Ethereum) ResetWithGenesisBlock(gb *types.Block) {
 	s.blockchain.ResetWithGenesisBlock(gb)
 }
 
-func (s *Ethereum) Etherbase() (eb common.Address, err error) {
+func (s *Ethereum) Earthbase() (eb common.Address, err error) {
 	eb = s.ederbase
 	if (eb == common.Address{}) {
 		firstAccount, err := s.AccountManager().AccountByIndex(0)
@@ -349,9 +349,9 @@ func (s *Ethereum) Etherbase() (eb common.Address, err error) {
 }
 
 // set in js console via admin interface or wrapper from cli flags
-func (self *Ethereum) SetEtherbase(ederbase common.Address) {
+func (self *Ethereum) SetEarthbase(ederbase common.Address) {
 	self.ederbase = ederbase
-	self.miner.SetEtherbase(ederbase)
+	self.miner.SetEarthbase(ederbase)
 }
 
 func (s *Ethereum) StopMining()         { s.miner.Stop() }

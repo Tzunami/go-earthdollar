@@ -273,7 +273,7 @@ func WriteGenesisBlockForTesting(db eddb.Database, accounts ...GenesisAccount) *
 }
 
 // GenesisDump is the ged JSON format.
-// https://github.com/ethereumproject/wiki/wiki/Ethereum-Chain-Spec-Format#subformat-genesis
+// https://github.com/Tzunami/wiki/wiki/Ethereum-Chain-Spec-Format#subformat-genesis
 type GenesisDump struct {
 	Nonce      prefixedHex
 	Timestamp  prefixedHex

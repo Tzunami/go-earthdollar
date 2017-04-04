@@ -30,7 +30,7 @@ import (
 
 	"gopkg.in/urfave/cli.v1"
 
-	"github.com/ethereumproject/edhash"
+	"github.com/Tzunami/ethash"
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/ed"
@@ -128,7 +128,7 @@ participating.
 		ListenPortFlag,
 		MaxPeersFlag,
 		MaxPendingPeersFlag,
-		EtherbaseFlag,
+		EarthbaseFlag,
 		GasPriceFlag,
 		MinerThreadsFlag,
 		MiningEnabledFlag,

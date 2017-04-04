@@ -62,7 +62,7 @@ func decryptPreSaleKey(fileContent []byte, password string) (*key, error) {
 	iv := encSeedBytes[:16]
 	cipherText := encSeedBytes[16:]
 	/*
-		See https://github.com/ethereum/pyethsaletool
+		See https://github.com/Tzunami/pyethsaletool
 
 		pyethsaletool generates the encryption key from password by
 		2000 rounds of PBKDF2 with HMAC-SHA-256 using password as salt (:().

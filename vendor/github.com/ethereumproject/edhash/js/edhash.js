@@ -137,7 +137,7 @@ exports.defaultParams = function()
 	};
 };
 
-exports.Ethash = function(params, seed)
+exports.Edhash = function(params, seed)
 {
 	// precompute cache and related values
 	seed = convertSeed(seed);
