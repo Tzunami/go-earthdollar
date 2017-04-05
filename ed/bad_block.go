@@ -32,7 +32,7 @@ import (
 
 const (
 	// The Earthdollar main network genesis block.
-	defaultGenesisHash = "0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3"
+	defaultGenesisHash = "0x7681afe3b75795d46e5b6c3944452b2b45d2682404cf3c19bcff7a619b0bd3e9"
 	// !EPROJECT We will need a bad block API
 	badBlocksURL = "https://badblocks.eddev.com"
 )
