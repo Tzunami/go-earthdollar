@@ -105,6 +105,7 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 		Difficulty string
 		GasLimit   string
 		Time       *big.Int
+                Mint       string //earthdollar
 		Extra      string
 	}
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -116,6 +117,7 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 	h.Coinbase = common.HexToAddress(ext.Coinbase)
 	h.Difficulty = common.String2Big(ext.Difficulty)
 	h.Time = ext.Time
+        h.Mint = common.String2Big(ext.Mint)
 	h.Extra = []byte(ext.Extra)
 	return nil
 }
@@ -240,6 +242,9 @@ func CopyHeader(h *Header) *Header {
 	if cpy.Time = new(big.Int); h.Time != nil {
 		cpy.Time.Set(h.Time)
 	}
+        if cpy.Mint = new(big.Int); h.Mint != nil {  //earthdollar
+		cpy.Mint.Set(h.Mint)
+	} 
 	if cpy.Difficulty = new(big.Int); h.Difficulty != nil {
 		cpy.Difficulty.Set(h.Difficulty)
 	}
@@ -433,8 +438,9 @@ func (h *Header) String() string {
 	GasLimit:	    %v
 	GasUsed:	    %v
 	Time:		    %v
+        Mint:               %v
 	Extra:		    %s
-	MixDigest:      %x
+	MixDigest:          %x
 	Nonce:		    %x
 ]`, h.Hash(), h.ParentHash, h.UncleHash, h.Coinbase, h.Root, h.TxHash, h.ReceiptHash, h.Bloom, h.Difficulty, h.Number, h.GasLimit, h.GasUsed, h.Time, h.Extra, h.MixDigest, h.Nonce)
 }
