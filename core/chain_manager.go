@@ -134,6 +134,11 @@ func (b *BlockGen) Number() *big.Int {
 	return new(big.Int).Set(b.header.Number)
 }
 
+// Mint returns the total coins left to mint. // not inplemented
+func (b *BlockGen) Mint() *big.Int {
+	return new(big.Int).Set(b.header.Mint)
+}
+
 // AddUncheckedReceipts forcefully adds a receipts to the block without a
 // backing transaction.
 //
@@ -244,6 +249,7 @@ func makeHeader(config *ChainConfig, parent *types.Block, state *state.StateDB) 
 		GasUsed:    new(big.Int),
 		Number:     new(big.Int).Add(parent.Number(), common.Big1),
 		Time:       time,
+                Mint:       new(big.Int).Add(parent.Number(), common.Big1),  //earthdollar
 	}
 }
 
