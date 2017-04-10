@@ -39,7 +39,7 @@ func (self PrecompiledAccount) Call(in []byte) []byte {
 // Precompiled contains the default set of earthdollar contracts
 var Precompiled = PrecompiledContracts()
 
-// PrecompiledContracts returns the default set of precompiled ethereum
+// PrecompiledContracts returns the default set of precompiled earthdollar
 // contracts defined by the earthdollar yellow paper.
 func PrecompiledContracts() map[string]*PrecompiledAccount {
 	return map[string]*PrecompiledAccount{

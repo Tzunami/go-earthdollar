@@ -139,7 +139,7 @@ func newTester(t *testing.T, confOverride func(*ed.Config)) *tester {
 	return &tester{
 		workspace: workspace,
 		stack:     stack,
-		ethereum:  ethereum,
+		ethereum:  earthdollar,
 		console:   console,
 		input:     prompter,
 		output:    printer,

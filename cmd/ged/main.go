@@ -258,10 +258,10 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 
 	// Unlock any account specifically requested
 	var earthdollar *ed.Earthdollar
-	if err := stack.Service(&ethereum); err != nil {
-		log.Fatal("ethereum service not running: ", err)
+	if err := stack.Service(&earthdollar); err != nil {
+		log.Fatal("earthdollar service not running: ", err)
 	}
-	accman := ethereum.AccountManager()
+	accman := earthdollar.AccountManager()
 	passwords := MakePasswordList(ctx)
 
 	accounts := strings.Split(ctx.GlobalString(UnlockedAccountFlag.Name), ",")
@@ -272,7 +272,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	}
 	// Start auxiliary services if enabled
 	if ctx.GlobalBool(MiningEnabledFlag.Name) {
-		if err := ethereum.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
+		if err := earthdollar.StartMining(ctx.GlobalInt(MinerThreadsFlag.Name), ctx.GlobalString(MiningGPUFlag.Name)); err != nil {
 			log.Fatalf("Failed to start mining: ", err)
 		}
 	}
