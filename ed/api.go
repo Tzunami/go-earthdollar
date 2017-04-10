@@ -265,9 +265,9 @@ func (s *PrivateMinerAPI) SetGasPrice(gasPrice rpc.HexNumber) bool {
 	return true
 }
 
-// SetEarthbase sets the ederbase of the miner
-func (s *PrivateMinerAPI) SetEarthbase(ederbase common.Address) bool {
-	s.e.SetEarthbase(ederbase)
+// SetEarthbase sets the earthbase of the miner
+func (s *PrivateMinerAPI) SetEarthbase(earthbase common.Address) bool {
+	s.e.SetEarthbase(earthbase)
 	return true
 }
 

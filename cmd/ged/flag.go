@@ -678,13 +678,13 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	switch {
 	case ctx.GlobalBool(OlympicFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			edConf.NetworkId = 1
+			edConf.NetworkId = 88
 		}
 		edConf.Genesis = core.OlympicGenesis
 
 	case ctx.GlobalBool(TestNetFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			edConf.NetworkId = 2
+			edConf.NetworkId = 88
 		}
 		edConf.Genesis = core.TestNetGenesis
 		state.StartingNonce = 1048576 // (2**20)
@@ -794,9 +794,9 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainCo
 	}
 
 	if ctx.GlobalBool(TestNetFlag.Name) {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar (ETC) Testnet\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar Testnet\x1b[39m blockchain!")
 	} else {
-		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEarthdollar (ETC) Classic\x1b[39m blockchain!")
+		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[32mEarthdollar \x1b[39m blockchain!")
 	}
 	glog.V(logger.Warn).Info(separator)
 	return c

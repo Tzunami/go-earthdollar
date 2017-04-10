@@ -223,11 +223,11 @@ resources (consider running on a single thread, no need for multiple ones either
 instance for mining, run it with all your usual flags, extended by:
 
 ```
-$ ged <usual-flags> --mine --minerthreads=1 --ederbase=0x0000000000000000000000000000000000000000
+$ ged <usual-flags> --mine --minerthreads=1 --earthbase=0x0000000000000000000000000000000000000000
 ```
 
 Which will start mining blocks and transactions on a single CPU thread, crediting all proceedings to
-the account specified by `--ederbase`. You can further tune the mining by changing the default gas
+the account specified by `--earthbase`. You can further tune the mining by changing the default gas
 limit blocks converge to (`--targetgaslimit`) and the price transactions are accepted at (`--gasprice`).
 
 ## Contribution

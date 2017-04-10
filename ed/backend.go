@@ -129,7 +129,7 @@ type Earthdollar struct {
 	AutoDAG       bool
 	PowTest       bool
 	autodagquit   chan bool
-	ederbase     common.Address
+	earthbase     common.Address
 	netVersionId  int
 	netRPCService *PublicNetAPI
 }
@@ -188,7 +188,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 		dappDb:                  dappDb,
 		eventMux:                ctx.EventMux,
 		accountManager:          config.AccountManager,
-		ederbase:               config.Earthbase,
+		earthbase:               config.Earthbase,
 		netVersionId:            config.NetworkId,
 		NatSpec:                 config.NatSpec,
 		MinerThreads:            config.MinerThreads,
@@ -337,21 +337,21 @@ func (s *Earthdollar) ResetWithGenesisBlock(gb *types.Block) {
 }
 
 func (s *Earthdollar) Earthbase() (eb common.Address, err error) {
-	eb = s.ederbase
+	eb = s.earthbase
 	if (eb == common.Address{}) {
 		firstAccount, err := s.AccountManager().AccountByIndex(0)
 		eb = firstAccount.Address
 		if err != nil {
-			return eb, fmt.Errorf("ederbase address must be explicitly specified")
+			return eb, fmt.Errorf("earthbase address must be explicitly specified")
 		}
 	}
 	return eb, nil
 }
 
 // set in js console via admin interface or wrapper from cli flags
-func (self *Earthdollar) SetEarthbase(ederbase common.Address) {
-	self.ederbase = ederbase
-	self.miner.SetEarthbase(ederbase)
+func (self *Earthdollar) SetEarthbase(earthbase common.Address) {
+	self.earthbase = earthbase
+	self.miner.SetEarthbase(earthbase)
 }
 
 func (s *Earthdollar) StopMining()         { s.miner.Stop() }
