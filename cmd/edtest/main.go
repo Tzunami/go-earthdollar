@@ -53,7 +53,7 @@ var (
 		Name:   "file",
 		Usage:  "Test file or directory. Directories are searched for .json files 1 level deep",
 		Value:  defaultDir,
-		EnvVar: "ETHEREUM_TEST_PATH",
+		EnvVar: "EARTHDOLLAR_TEST_PATH",
 	}
 	ContinueOnErrorFlag = cli.BoolFlag{
 		Name:  "continue",
