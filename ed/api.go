@@ -143,7 +143,7 @@ func (s *PublicEarthdollarAPI) Coinbase() (common.Address, error) {
 
 // ProtocolVersion returns the current Earthdollar protocol version this node supports
 func (s *PublicEarthdollarAPI) ProtocolVersion() *rpc.HexNumber {
-	return rpc.NewHexNumber(s.e.EthVersion())
+	return rpc.NewHexNumber(s.e.EdVersion())
 }
 
 // Hashrate returns the POW hashrate

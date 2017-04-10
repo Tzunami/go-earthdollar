@@ -362,10 +362,10 @@ func (s *Earthdollar) AccountManager() *accounts.Manager  { return s.accountMana
 func (s *Earthdollar) BlockChain() *core.BlockChain       { return s.blockchain }
 func (s *Earthdollar) TxPool() *core.TxPool               { return s.txPool }
 func (s *Earthdollar) EventMux() *event.TypeMux           { return s.eventMux }
-func (s *Earthdollar) ChainDb() eddb.Database            { return s.chainDb }
-func (s *Earthdollar) DappDb() eddb.Database             { return s.dappDb }
+func (s *Earthdollar) ChainDb() eddb.Database             { return s.chainDb }
+func (s *Earthdollar) DappDb() eddb.Database              { return s.dappDb }
 func (s *Earthdollar) IsListening() bool                  { return true } // Always listening
-func (s *Earthdollar) EthVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
+func (s *Earthdollar) EdVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
 func (s *Earthdollar) NetVersion() int                    { return s.netVersionId }
 func (s *Earthdollar) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
 
