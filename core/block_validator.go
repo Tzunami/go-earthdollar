@@ -265,8 +265,10 @@ func ValidateHeader(config *ChainConfig, pow pow.PoW, header *types.Header, pare
 func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
 	// This is a placeholder for testing. The calcDiff function should
 	// be determined by a config flag
-	num := new(big.Int).Add(parentNumber, common.Big1)
-	if config.IsDiehard(num) && !config.IsExplosion(num) {
+	//num := new(big.Int).Add(parentNumber, common.Big1)
+	//earthdollar
+        return calcDifficultyOriginal(time, parentTime, parentNumber, parentDiff)
+        /*if config.IsDiehard(num) && !config.IsExplosion(num) {
 		return calcDifficultyDiehard(time, parentTime, parentNumber, parentDiff, config.Fork("Diehard").Block)
 	} else if config.IsExplosion(num) {
 		return calcDifficultyExplosion(time, parentTime, parentNumber, parentDiff,
@@ -275,8 +277,9 @@ func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, 
 		return calcDifficultyHomestead(time, parentTime, parentNumber, parentDiff)
 	} else {
 		return calcDifficultyFrontier(time, parentTime, parentNumber, parentDiff)
-	}
+	}*/
 }
+/*
 func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
 	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
 	// algorithm:
@@ -423,9 +426,9 @@ func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *
 	}
 
 	return x
-}
+}*/
 
-func calcDifficultyFrontier(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
+func calcDifficultyOriginal(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
 	diff := new(big.Int)
 	adjust := new(big.Int).Div(parentDiff, DifficultyBoundDivisor)
 	bigTime := new(big.Int)
