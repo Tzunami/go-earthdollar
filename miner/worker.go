@@ -582,10 +582,11 @@ func (env *Work) commitTransactions(mux *event.TypeMux, transactions types.Trans
 		from, _ := types.Sender(env.signer, tx)
 		// Check wheder the tx is replay protected. If we're not in the EIP155 hf
 		// phase, start ignoring the sender until we do.
+                /* earthdollar
 		if tx.Protected() && !env.config.IsDiehard(env.header.Number) {
 			glog.V(logger.Detail).Infof("Transaction (%x) is replay protected, but we haven't yet hardforked. Transaction will be ignored until we hardfork.\n", tx.Hash())
 			continue
-		}
+		}*/
 
 		// Check if it falls within margin. Txs from owned accounts are always processed.
 		if tx.GasPrice().Cmp(gasPrice) < 0 && !env.ownedAccounts.Has(from) {
