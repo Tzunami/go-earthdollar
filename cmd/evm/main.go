@@ -247,6 +247,7 @@ func (self *VMEnv) Origin() common.Address    { return *self.transactor }
 func (self *VMEnv) BlockNumber() *big.Int     { return common.Big0 }
 func (self *VMEnv) Coinbase() common.Address  { return *self.transactor }
 func (self *VMEnv) Time() *big.Int            { return self.time }
+func (self *VMEnv) Mint() *big.Int            { return self.mint }
 func (self *VMEnv) Difficulty() *big.Int      { return common.Big1 }
 func (self *VMEnv) BlockHash() []byte         { return make([]byte, 32) }
 func (self *VMEnv) Value() *big.Int           { return self.value }

@@ -199,6 +199,7 @@ type Env struct {
 
 	number     *big.Int
 	time       *big.Int
+        mint       *big.Int //earthdollar
 	difficulty *big.Int
 	gasLimit   *big.Int
 
@@ -223,6 +224,7 @@ func NewEnvFromMap(ruleSet RuleSet, state *state.StateDB, envValues map[string]s
 	env.coinbase = common.HexToAddress(envValues["currentCoinbase"])
 	env.number = common.Big(envValues["currentNumber"])
 	env.time = common.Big(envValues["currentTimestamp"])
+        env.mint = common.Big(envValues["currentMint"])
 	env.difficulty = common.Big(envValues["currentDifficulty"])
 	env.gasLimit = common.Big(envValues["currentGasLimit"])
 	env.Gas = new(big.Int)
@@ -238,6 +240,7 @@ func (self *Env) Origin() common.Address   { return self.origin }
 func (self *Env) BlockNumber() *big.Int    { return self.number }
 func (self *Env) Coinbase() common.Address { return self.coinbase }
 func (self *Env) Time() *big.Int           { return self.time }
+func (self *Env) Mint() *big.Int           { return self.mint }
 func (self *Env) Difficulty() *big.Int     { return self.difficulty }
 func (self *Env) Db() vm.Database          { return self.state }
 func (self *Env) GasLimit() *big.Int       { return self.gasLimit }

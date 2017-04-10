@@ -67,6 +67,7 @@ func (self *Env) Origin() common.Address   { return self.origin }
 func (self *Env) BlockNumber() *big.Int    { return self.number }
 func (self *Env) Coinbase() common.Address { return self.coinbase }
 func (self *Env) Time() *big.Int           { return self.time }
+func (self *Env) Mint() *big.Int           { return self.mint }
 func (self *Env) Difficulty() *big.Int     { return self.difficulty }
 func (self *Env) Db() vm.Database          { return self.state }
 func (self *Env) GasLimit() *big.Int       { return self.gasLimit }
