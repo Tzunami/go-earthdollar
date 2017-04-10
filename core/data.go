@@ -156,7 +156,7 @@ var TestConfig = &ChainConfig{
 	BadHashes: []*BadHash{
 		{
 			// consensus issue at Testnet #383792
-			// http://ethereum.stackexchange.com/questions/10183/upgraded-to-ged-1-5-0-bad-block-383792
+			// http://earthdollar.stackexchange.com/questions/10183/upgraded-to-ged-1-5-0-bad-block-383792
 			Block: big.NewInt(383792),
 			Hash:  common.HexToHash("9690db54968a760704d99b8118bf79d565711669cefad24b51b5b1013d827808"),
 		},

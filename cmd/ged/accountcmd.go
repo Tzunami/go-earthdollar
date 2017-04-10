@@ -32,7 +32,7 @@ import (
 var (
 	walletCommand = cli.Command{
 		Name:  "wallet",
-		Usage: "ethereum presale wallet",
+		Usage: "earthdollar presale wallet",
 		Subcommands: []cli.Command{
 			{
 				Action: importWallet,

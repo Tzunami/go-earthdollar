@@ -678,7 +678,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	switch {
 	case ctx.GlobalBool(OlympicFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			edConf.NetworkId = 88
+			edConf.NetworkId = 1
 		}
 		edConf.Genesis = core.OlympicGenesis
 
