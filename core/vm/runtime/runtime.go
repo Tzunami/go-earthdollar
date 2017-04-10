@@ -54,6 +54,7 @@ type Config struct {
 	Coinbase    common.Address
 	BlockNumber *big.Int
 	Time        *big.Int
+        Mint        *big.Int
 	GasLimit    *big.Int
 	GasPrice    *big.Int
 	Value       *big.Int

@@ -204,6 +204,7 @@ type VMEnv struct {
 	depth int
 	Gas   *big.Int
 	time  *big.Int
+        mint  *big.Int
 
 	evm *vm.EVM
 }

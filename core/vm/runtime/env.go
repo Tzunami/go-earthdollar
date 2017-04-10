@@ -36,6 +36,7 @@ type Env struct {
 
 	number     *big.Int
 	time       *big.Int
+        mint       *big.Int
 	difficulty *big.Int
 	gasLimit   *big.Int
 
@@ -53,6 +54,7 @@ func NewEnv(cfg *Config, state *state.StateDB) vm.Environment {
 		coinbase:   cfg.Coinbase,
 		number:     cfg.BlockNumber,
 		time:       cfg.Time,
+                mint:       cfg.Mint,  
 		difficulty: cfg.Difficulty,
 		gasLimit:   cfg.GasLimit,
 	}
