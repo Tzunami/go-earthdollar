@@ -277,6 +277,7 @@ func WriteGenesisBlockForTesting(db eddb.Database, accounts ...GenesisAccount) *
 type GenesisDump struct {
 	Nonce      prefixedHex
 	Timestamp  prefixedHex
+        Mint       prefixedHex
 	ParentHash prefixedHex
 	ExtraData  prefixedHex
 	GasLimit   prefixedHex
