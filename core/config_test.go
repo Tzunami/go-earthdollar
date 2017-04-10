@@ -14,7 +14,7 @@ func TestConfigErrorProperties(t *testing.T) {
 	}
 }
 
-func TestBombWait(t *testing.T) {
+/*func TestBombWait(t *testing.T) {
 	config := DefaultConfig
 
 	if config.IsHomestead(big.NewInt(10000)) {
@@ -101,4 +101,4 @@ func TestBombExplode(t *testing.T) {
 		t.Errorf("Expected for %d", 5000001)
 	}
 
-}
+}*/

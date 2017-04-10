@@ -138,17 +138,17 @@ type VmTest struct {
 }
 
 type RuleSet struct {
-	HomesteadBlock           *big.Int
+	/*HomesteadBlock           *big.Int
 	HomesteadGasRepriceBlock *big.Int
 	DiehardBlock             *big.Int
-	ExplosionBlock           *big.Int
+	ExplosionBlock           *big.Int*/ // earthdollar
 }
 
-func (r RuleSet) IsHomestead(n *big.Int) bool {
+/*func (r RuleSet) IsHomestead(n *big.Int) bool {
 	return n.Cmp(r.HomesteadBlock) >= 0
-}
+}*/ // earthdollar
 func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
-	if r.HomesteadGasRepriceBlock == nil || num == nil || num.Cmp(r.HomesteadGasRepriceBlock) < 0 {
+	/*if r.HomesteadGasRepriceBlock == nil || num == nil || num.Cmp(r.HomesteadGasRepriceBlock) < 0 {
 		return &vm.GasTable{
 			ExtcodeSize:     big.NewInt(20),
 			ExtcodeCopy:     big.NewInt(20),
@@ -171,7 +171,7 @@ func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
 			ExpByte:         big.NewInt(10),
 			CreateBySuicide: big.NewInt(25000),
 		}
-	}
+	}*/
 
 	return &vm.GasTable{
 		ExtcodeSize:     big.NewInt(700),

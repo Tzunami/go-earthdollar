@@ -108,9 +108,9 @@ func (pool *TxPool) eventLoop() {
 		switch ev := ev.Data.(type) {
 		case ChainHeadEvent:
 			pool.mu.Lock()
-			if ev.Block != nil && pool.config.IsHomestead(ev.Block.Number()) {
+			/*if ev.Block != nil && pool.config.IsHomestead(ev.Block.Number()) {
 				pool.homestead = true
-			}
+			}*/ // earthdollar
 
 			pool.resetState()
 			pool.mu.Unlock()

@@ -52,6 +52,8 @@ type Environment interface {
 	Coinbase() common.Address
 	// The current time (block time)
 	Time() *big.Int
+        // The current Mint
+	Mint() *big.Int
 	// Difficulty set on the current block
 	Difficulty() *big.Int
 	// The gas limit of the block

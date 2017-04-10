@@ -31,7 +31,7 @@ import (
 // The default, always homestead, rule set for the vm env
 type ruleSet struct{}
 
-func (ruleSet) IsHomestead(*big.Int) bool { return true }
+//func (ruleSet) IsHomestead(*big.Int) bool { return true }
 func (ruleSet) GasTable(*big.Int) *vm.GasTable {
 	return &vm.GasTable{
 		ExtcodeSize:     big.NewInt(700),

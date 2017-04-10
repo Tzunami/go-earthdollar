@@ -58,7 +58,7 @@ type BadHash struct {
 	Block *big.Int
 	Hash  common.Hash
 }
-
+/*
 // IsHomestead returns whether num is either equal to the homestead block or greater.
 func (c *ChainConfig) IsHomestead(num *big.Int) bool {
 	if c.Fork("Homestead").Block == nil || num == nil {
@@ -84,7 +84,7 @@ func (c *ChainConfig) IsExplosion(num *big.Int) bool {
 	}
 	block := big.NewInt(0).Add(fork.Block, fork.Length)
 	return num.Cmp(block) >= 0
-}
+}*/
 
 func (c *ChainConfig) Fork(name string) *Fork {
 	for i := range c.Forks {
@@ -121,9 +121,9 @@ func (c *ChainConfig) HeaderCheck(h *types.Header) error {
 }
 
 func (c *ChainConfig) GetSigner(blockNumber *big.Int) types.Signer {
-	if c.IsDiehard(blockNumber) {
+	/*if c.IsDiehard(blockNumber) {
 		return types.NewChainIdSigner(c.ChainId)
-	}
+	}*/
 	return types.BasicSigner{}
 }
 

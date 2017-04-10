@@ -30,9 +30,11 @@ func newJumpTable(ruleset RuleSet, blockNumber *big.Int) vmJumpTable {
 
 	// when initialising a new VM execution we must first check the homestead
 	// changes.
-	if ruleset.IsHomestead(blockNumber) {
-		jumpTable[DELEGATECALL] = jumpPtr{opDelegateCall, true}
-	}
+
+        //earthdollar
+	//if ruleset.IsHomestead(blockNumber) {
+		//jumpTable[DELEGATECALL] = jumpPtr{opDelegateCall, true}
+	//}
 
 	jumpTable[ADD] = jumpPtr{opAdd, true}
 	jumpTable[SUB] = jumpPtr{opSub, true}
