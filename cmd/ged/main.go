@@ -30,7 +30,7 @@ import (
 
 	"gopkg.in/urfave/cli.v1"
 
-	"github.com/Tzunami/ethash"
+	"github.com/Tzunami/edhash"
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/ed"

@@ -30,7 +30,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Tzunami/ethash"
+	"github.com/Tzunami/edhash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/common/compiler"
