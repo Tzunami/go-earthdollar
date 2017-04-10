@@ -3,7 +3,7 @@
 [![Build
 Status](https://travis-ci.org/Tzunami/go-earthdollar.png?branch=master)](https://travis-ci.org/ethereum/go-earthdollar)
 
-The common package contains the ethereum utility library.
+The common package contains the earthdollar utility library.
 
 # Installation
 

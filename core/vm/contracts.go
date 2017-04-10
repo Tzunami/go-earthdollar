@@ -25,7 +25,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 )
 
-// PrecompiledAccount represents a native ethereum contract
+// PrecompiledAccount represents a native earthdollar contract
 type PrecompiledAccount struct {
 	Gas func(l int) *big.Int
 	fn  func(in []byte) []byte
@@ -36,11 +36,11 @@ func (self PrecompiledAccount) Call(in []byte) []byte {
 	return self.fn(in)
 }
 
-// Precompiled contains the default set of ethereum contracts
+// Precompiled contains the default set of earthdollar contracts
 var Precompiled = PrecompiledContracts()
 
 // PrecompiledContracts returns the default set of precompiled ethereum
-// contracts defined by the ethereum yellow paper.
+// contracts defined by the earthdollar yellow paper.
 func PrecompiledContracts() map[string]*PrecompiledAccount {
 	return map[string]*PrecompiledAccount{
 		// ECRECOVER

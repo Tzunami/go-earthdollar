@@ -655,7 +655,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 		BlockChainVersion:       ctx.GlobalInt(BlockchainVersionFlag.Name),
 		DatabaseCache:           ctx.GlobalInt(CacheFlag.Name),
 		DatabaseHandles:         MakeDatabaseHandles(),
-		NetworkId:               ctx.GlobalInt(NetworkIdFlag.Name),
+		NetworkId:               ctx.GlobalInt(NetworkIdFlag.Name), //here 88
 		AccountManager:          accman,
 		Earthbase:               MakeEarthbase(accman, ctx),
 		MinerThreads:            ctx.GlobalInt(MinerThreadsFlag.Name),
@@ -684,7 +684,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 
 	case ctx.GlobalBool(TestNetFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			edConf.NetworkId = 88
+			edConf.NetworkId = 2
 		}
 		edConf.Genesis = core.TestNetGenesis
 		state.StartingNonce = 1048576 // (2**20)
@@ -692,7 +692,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	case ctx.GlobalBool(DevModeFlag.Name):
 		// Override the base network stack configs
 		if !ctx.GlobalIsSet(DataDirFlag.Name) {
-			stackConf.DataDir = filepath.Join(os.TempDir(), "/ethereum_dev_mode")
+			stackConf.DataDir = filepath.Join(os.TempDir(), "/earthdollar_dev_mode")
 		}
 		if !ctx.GlobalIsSet(MaxPeersFlag.Name) {
 			stackConf.MaxPeers = 0

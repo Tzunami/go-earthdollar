@@ -37,7 +37,7 @@ var (
 			{
 				Action: importWallet,
 				Name:   "import",
-				Usage:  "import ethereum presale wallet",
+				Usage:  "import earthdollar presale wallet",
 			},
 		},
 		Description: `
@@ -72,7 +72,7 @@ Note that exporting your key in unencrypted format is NOT supported.
 
 Keys are stored under <DATADIR>/keystore.
 It is safe to transfer the entire directory or the individual keys therein
-between ethereum nodes by simply copying.
+between earthdollar nodes by simply copying.
 Make sure you backup your keys regularly.
 
 In order to use your account to send transactions, you need to unlock them using
@@ -96,7 +96,7 @@ And finally. DO NOT FORGET YOUR PASSWORD.
 				Usage:  "create a new account",
 				Description: `
 
-    ethereum account new
+    earthdollar account new
 
 Creates a new account. Prints the address.
 
@@ -106,7 +106,7 @@ You must remember this passphrase to unlock your account in the future.
 
 For non-interactive use the passphrase can be specified with the --password flag:
 
-    ethereum --password <passwordfile> account new
+    earthdollar --password <passwordfile> account new
 
 Note, this is meant to be used for testing only, it is a bad idea to save your
 password to file or expose in any other way.
@@ -118,7 +118,7 @@ password to file or expose in any other way.
 				Usage:  "update an existing account",
 				Description: `
 
-    ethereum account update <address>
+    earthdollar account update <address>
 
 Update an existing account.
 
@@ -130,7 +130,7 @@ format to the newest format or change the password for an account.
 
 For non-interactive use the passphrase can be specified with the --password flag:
 
-    ethereum --password <passwordfile> account update <address>
+    earthdollar --password <passwordfile> account update <address>
 
 Since only one password can be given, only format update can be performed,
 changing your password is only possible interactively.
@@ -142,7 +142,7 @@ changing your password is only possible interactively.
 				Usage:  "import a private key into a new account",
 				Description: `
 
-    ethereum account import <keyfile>
+    earthdollar account import <keyfile>
 
 Imports an unencrypted private key from <keyfile> and creates a new account.
 Prints the address.
@@ -155,10 +155,10 @@ You must remember this passphrase to unlock your account in the future.
 
 For non-interactive use the passphrase can be specified with the -password flag:
 
-    ethereum --password <passwordfile> account import <keyfile>
+    earthdollar --password <passwordfile> account import <keyfile>
 
 Note:
-As you can directly copy your encrypted accounts to another ethereum instance,
+As you can directly copy your encrypted accounts to another earthdollar instance,
 this import mechanism is not needed when you transfer an account between
 nodes.
 					`,

@@ -95,7 +95,7 @@ Runs quick benchmark on first GPU found.
 		{
 			Action: version,
 			Name:   "version",
-			Usage:  "print ethereum version numbers",
+			Usage:  "print earthdollar version numbers",
 			Description: `
 The output of this command is supposed to be machine-readable.
 `,
@@ -257,7 +257,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	StartNode(stack)
 
 	// Unlock any account specifically requested
-	var ethereum *ed.Earthdollar
+	var earthdollar *ed.Earthdollar
 	if err := stack.Service(&ethereum); err != nil {
 		log.Fatal("ethereum service not running: ", err)
 	}

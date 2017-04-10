@@ -133,7 +133,7 @@ func newTester(t *testing.T, confOverride func(*ed.Config)) *tester {
 		t.Fatalf("failed to create JavaScript console: %v", err)
 	}
 	// Create the final tester and return
-	var ethereum *ed.Earthdollar
+	var earthdollar *ed.Earthdollar
 	stack.Service(&ethereum)
 
 	return &tester{
