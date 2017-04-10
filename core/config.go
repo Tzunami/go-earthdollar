@@ -306,6 +306,9 @@ func (g *GenesisDump) Header() (*types.Header, error) {
 	if h.Time, err = g.Timestamp.Int(); err != nil {
 		return nil, fmt.Errorf("malformed timestamp: %s", err)
 	}
+        if h.Mint, err = g.Mint.Int(); err != nil {
+		return nil, fmt.Errorf("malformed mint: %s", err)
+        }
 	if err = g.ParentHash.Decode(h.ParentHash[:]); err != nil {
 		return nil, fmt.Errorf("malformed parentHash: %s", err)
 	}
