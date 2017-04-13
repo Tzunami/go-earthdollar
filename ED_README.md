@@ -15,7 +15,7 @@ Official golang implementation of the Earthdollar protocol supporting the
 original chain. A version which can **honestly** offer both a censorship
 resistant and unstoppable application platform for developers.
 
-This is a project migrated from the now hard forked Earthdollar (ETHF) github project, we
+This is a project migrated from the now hard forked Earthdollar (EDF) github project, we
 will need to slowly migrate pieces of the infrastructure required to
 maintain the project. We will apply all upstream patches unrelated to the DAO HF while organizing
 development.

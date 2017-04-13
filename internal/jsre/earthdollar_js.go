@@ -2512,7 +2512,7 @@ module.exports={
 
 var RequestManager = require('./web3/requestmanager');
 var Iban = require('./web3/iban');
-var Eth = require('./web3/medods/ed');
+var Ed = require('./web3/medods/ed');
 var DB = require('./web3/medods/db');
 var Shh = require('./web3/medods/shh');
 var Net = require('./web3/medods/net');
@@ -2532,7 +2532,7 @@ var IpcProvider = require('./web3/ipcprovider');
 function Web3 (provider) {
     this._requestManager = new RequestManager(provider);
     this.currentProvider = provider;
-    this.ed = new Eth(this);
+    this.ed = new Ed(this);
     this.db = new DB(this);
     this.shh = new Shh(this);
     this.net = new Net(this);
@@ -4450,7 +4450,7 @@ Iban.fromBban = function (bban) {
  * @return {Iban} the IBAN object
  */
 Iban.createIndirect = function (options) {
-    return Iban.fromBban('ETH' + options.institution + options.identifier);
+    return Iban.fromBban('ED' + options.institution + options.identifier);
 };
 
 /**
@@ -4472,7 +4472,7 @@ Iban.isValid = function (iban) {
  * @returns {Boolean} true if it is, otherwise false
  */
 Iban.prototype.isValid = function () {
-    return /^XE[0-9]{2}(ETH[0-9A-Z]{13}|[0-9A-Z]{30,31})$/.test(this._iban) &&
+    return /^XE[0-9]{2}(ED[0-9A-Z]{13}|[0-9A-Z]{30,31})$/.test(this._iban) &&
         mod9710(iso13616Prepare(this._iban)) === 1;
 };
 
@@ -5148,7 +5148,7 @@ var uncleCountCall = function (args) {
     return (utils.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'ed_getUncleCountByBlockHash' : 'ed_getUncleCountByBlockNumber';
 };
 
-function Eth(web3) {
+function Ed(web3) {
     this._requestManager = web3._requestManager;
 
     var self = this;
@@ -5168,7 +5168,7 @@ function Eth(web3) {
     this.sendIBANTransaction = transfer.bind(null, this);
 }
 
-Object.defineProperty(Eth.prototype, 'defaultBlock', {
+Object.defineProperty(Ed.prototype, 'defaultBlock', {
     get: function () {
         return c.defaultBlock;
     },
@@ -5178,7 +5178,7 @@ Object.defineProperty(Eth.prototype, 'defaultBlock', {
     }
 });
 
-Object.defineProperty(Eth.prototype, 'defaultAccount', {
+Object.defineProperty(Ed.prototype, 'defaultAccount', {
     get: function () {
         return c.defaultAccount;
     },
@@ -5410,28 +5410,28 @@ var properties = function () {
     ];
 };
 
-Eth.prototype.contract = function (abi) {
+Ed.prototype.contract = function (abi) {
     var factory = new Contract(this, abi);
     return factory;
 };
 
-Eth.prototype.filter = function (fil, callback) {
+Ed.prototype.filter = function (fil, callback) {
     return new Filter(this._requestManager, fil, watches.ed(), formatters.outputLogFormatter, callback);
 };
 
-Eth.prototype.namereg = function () {
+Ed.prototype.namereg = function () {
     return this.contract(namereg.global.abi).at(namereg.global.address);
 };
 
-Eth.prototype.icapNamereg = function () {
+Ed.prototype.icapNamereg = function () {
     return this.contract(namereg.icap.abi).at(namereg.icap.address);
 };
 
-Eth.prototype.isSyncing = function (callback) {
+Ed.prototype.isSyncing = function (callback) {
     return new IsSyncing(this._requestManager, callback);
 };
 
-module.exports = Eth;
+module.exports = Ed;
 
 
 },{"../../utils/config":18,"../../utils/utils":20,"../contract":25,"../filter":29,"../formatters":30,"../iban":33,"../medod":36,"../namereg":43,"../property":44,"../syncing":47,"../transfer":48,"./watches":42}],39:[function(require,module,exports){

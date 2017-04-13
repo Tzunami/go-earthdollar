@@ -14,7 +14,7 @@
 #define PY_CONST_STRING_FORMAT "s"
 #endif
 
-#define MIX_WORDS (ETHASH_MIX_BYTES/4)
+#define MIX_WORDS (EDHASH_MIX_BYTES/4)
 
 static PyObject *
 mkcache_bytes(PyObject *self, PyObject *args) {
@@ -47,9 +47,9 @@ calc_dataset_bytes(PyObject *self, PyObject *args) {
         return 0;
     }
 
-    if (cache_size % ETHASH_HASH_BYTES != 0) {
+    if (cache_size % EDHASH_HASH_BYTES != 0) {
         char error_message[1024];
-        sprintf(error_message, "The size of the cache must be a multiple of %i bytes (was %i)", ETHASH_HASH_BYTES, cache_size);
+        sprintf(error_message, "The size of the cache must be a multiple of %i bytes (was %i)", EDHASH_HASH_BYTES, cache_size);
         PyErr_SetString(PyExc_ValueError, error_message);
         return 0;
     }
@@ -188,9 +188,9 @@ get_seedhash(PyObject *self, PyObject *args) {
     unsigned long block_number;
     if (!PyArg_ParseTuple(args, "k", &block_number))
         return 0;
-    if (block_number >= ETHASH_EPOCH_LENGTH * 2048) {
+    if (block_number >= EDHASH_EPOCH_LENGTH * 2048) {
         char error_message[1024];
-        sprintf(error_message, "Block number must be less than %i (was %lu)", ETHASH_EPOCH_LENGTH * 2048, block_number);
+        sprintf(error_message, "Block number must be less than %i (was %lu)", EDHASH_EPOCH_LENGTH * 2048, block_number);
 
         PyErr_SetString(PyExc_ValueError, error_message);
         return 0;
@@ -234,17 +234,17 @@ static struct PyModuleDef PyedhashModule = {
 PyMODINIT_FUNC PyInit_pyedhash(void) {
     PyObject *module =  PyModule_Create(&PyedhashModule);
     // Following Spec: https://github.com/Tzunami/wiki/wiki/Edhash#definitions
-    PyModule_AddIntConstant(module, "REVISION", (long) ETHASH_REVISION);
-    PyModule_AddIntConstant(module, "DATASET_BYTES_INIT", (long) ETHASH_DATASET_BYTES_INIT);
-    PyModule_AddIntConstant(module, "DATASET_BYTES_GROWTH", (long) ETHASH_DATASET_BYTES_GROWTH);
-    PyModule_AddIntConstant(module, "CACHE_BYTES_INIT", (long) ETHASH_CACHE_BYTES_INIT);
-    PyModule_AddIntConstant(module, "CACHE_BYTES_GROWTH", (long) ETHASH_CACHE_BYTES_GROWTH);
-    PyModule_AddIntConstant(module, "EPOCH_LENGTH", (long) ETHASH_EPOCH_LENGTH);
-    PyModule_AddIntConstant(module, "MIX_BYTES", (long) ETHASH_MIX_BYTES);
-    PyModule_AddIntConstant(module, "HASH_BYTES", (long) ETHASH_HASH_BYTES);
-    PyModule_AddIntConstant(module, "DATASET_PARENTS", (long) ETHASH_DATASET_PARENTS);
-    PyModule_AddIntConstant(module, "CACHE_ROUNDS", (long) ETHASH_CACHE_ROUNDS);
-    PyModule_AddIntConstant(module, "ACCESSES", (long) ETHASH_ACCESSES);
+    PyModule_AddIntConstant(module, "REVISION", (long) EDHASH_REVISION);
+    PyModule_AddIntConstant(module, "DATASET_BYTES_INIT", (long) EDHASH_DATASET_BYTES_INIT);
+    PyModule_AddIntConstant(module, "DATASET_BYTES_GROWTH", (long) EDHASH_DATASET_BYTES_GROWTH);
+    PyModule_AddIntConstant(module, "CACHE_BYTES_INIT", (long) EDHASH_CACHE_BYTES_INIT);
+    PyModule_AddIntConstant(module, "CACHE_BYTES_GROWTH", (long) EDHASH_CACHE_BYTES_GROWTH);
+    PyModule_AddIntConstant(module, "EPOCH_LENGTH", (long) EDHASH_EPOCH_LENGTH);
+    PyModule_AddIntConstant(module, "MIX_BYTES", (long) EDHASH_MIX_BYTES);
+    PyModule_AddIntConstant(module, "HASH_BYTES", (long) EDHASH_HASH_BYTES);
+    PyModule_AddIntConstant(module, "DATASET_PARENTS", (long) EDHASH_DATASET_PARENTS);
+    PyModule_AddIntConstant(module, "CACHE_ROUNDS", (long) EDHASH_CACHE_ROUNDS);
+    PyModule_AddIntConstant(module, "ACCESSES", (long) EDHASH_ACCESSES);
     return module;
 }
 #else
@@ -252,16 +252,16 @@ PyMODINIT_FUNC
 initpyedhash(void) {
     PyObject *module = Py_InitModule("pyedhash", PyedhashMethods);
     // Following Spec: https://github.com/Tzunami/wiki/wiki/Edhash#definitions
-    PyModule_AddIntConstant(module, "REVISION", (long) ETHASH_REVISION);
-    PyModule_AddIntConstant(module, "DATASET_BYTES_INIT", (long) ETHASH_DATASET_BYTES_INIT);
-    PyModule_AddIntConstant(module, "DATASET_BYTES_GROWTH", (long) ETHASH_DATASET_BYTES_GROWTH);
-    PyModule_AddIntConstant(module, "CACHE_BYTES_INIT", (long) ETHASH_CACHE_BYTES_INIT);
-    PyModule_AddIntConstant(module, "CACHE_BYTES_GROWTH", (long) ETHASH_CACHE_BYTES_GROWTH);
-    PyModule_AddIntConstant(module, "EPOCH_LENGTH", (long) ETHASH_EPOCH_LENGTH);
-    PyModule_AddIntConstant(module, "MIX_BYTES", (long) ETHASH_MIX_BYTES);
-    PyModule_AddIntConstant(module, "HASH_BYTES", (long) ETHASH_HASH_BYTES);
-    PyModule_AddIntConstant(module, "DATASET_PARENTS", (long) ETHASH_DATASET_PARENTS);
-    PyModule_AddIntConstant(module, "CACHE_ROUNDS", (long) ETHASH_CACHE_ROUNDS);
-    PyModule_AddIntConstant(module, "ACCESSES", (long) ETHASH_ACCESSES);
+    PyModule_AddIntConstant(module, "REVISION", (long) EDHASH_REVISION);
+    PyModule_AddIntConstant(module, "DATASET_BYTES_INIT", (long) EDHASH_DATASET_BYTES_INIT);
+    PyModule_AddIntConstant(module, "DATASET_BYTES_GROWTH", (long) EDHASH_DATASET_BYTES_GROWTH);
+    PyModule_AddIntConstant(module, "CACHE_BYTES_INIT", (long) EDHASH_CACHE_BYTES_INIT);
+    PyModule_AddIntConstant(module, "CACHE_BYTES_GROWTH", (long) EDHASH_CACHE_BYTES_GROWTH);
+    PyModule_AddIntConstant(module, "EPOCH_LENGTH", (long) EDHASH_EPOCH_LENGTH);
+    PyModule_AddIntConstant(module, "MIX_BYTES", (long) EDHASH_MIX_BYTES);
+    PyModule_AddIntConstant(module, "HASH_BYTES", (long) EDHASH_HASH_BYTES);
+    PyModule_AddIntConstant(module, "DATASET_PARENTS", (long) EDHASH_DATASET_PARENTS);
+    PyModule_AddIntConstant(module, "CACHE_ROUNDS", (long) EDHASH_CACHE_ROUNDS);
+    PyModule_AddIntConstant(module, "ACCESSES", (long) EDHASH_ACCESSES);
 }
 #endif

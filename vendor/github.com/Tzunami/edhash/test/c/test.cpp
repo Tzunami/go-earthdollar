@@ -155,15 +155,15 @@ BOOST_AUTO_TEST_CASE(test_swap_endian64) {
 BOOST_AUTO_TEST_CASE(edhash_params_init_genesis_check) {
 	uint64_t full_size = edhash_get_datasize(0);
 	uint64_t cache_size = edhash_get_cachesize(0);
-	BOOST_REQUIRE_MESSAGE(full_size < ETHASH_DATASET_BYTES_INIT,
+	BOOST_REQUIRE_MESSAGE(full_size < EDHASH_DATASET_BYTES_INIT,
 			"\nfull size: " << full_size << "\n"
-					<< "should be less than or equal to: " << ETHASH_DATASET_BYTES_INIT << "\n");
-	BOOST_REQUIRE_MESSAGE(full_size + 20 * ETHASH_MIX_BYTES >= ETHASH_DATASET_BYTES_INIT,
-			"\nfull size + 20*MIX_BYTES: " << full_size + 20 * ETHASH_MIX_BYTES << "\n"
-					<< "should be greater than or equal to: " << ETHASH_DATASET_BYTES_INIT << "\n");
-	BOOST_REQUIRE_MESSAGE(cache_size < ETHASH_DATASET_BYTES_INIT / 32,
+					<< "should be less than or equal to: " << EDHASH_DATASET_BYTES_INIT << "\n");
+	BOOST_REQUIRE_MESSAGE(full_size + 20 * EDHASH_MIX_BYTES >= EDHASH_DATASET_BYTES_INIT,
+			"\nfull size + 20*MIX_BYTES: " << full_size + 20 * EDHASH_MIX_BYTES << "\n"
+					<< "should be greater than or equal to: " << EDHASH_DATASET_BYTES_INIT << "\n");
+	BOOST_REQUIRE_MESSAGE(cache_size < EDHASH_DATASET_BYTES_INIT / 32,
 			"\ncache size: " << cache_size << "\n"
-					<< "should be less than or equal to: " << ETHASH_DATASET_BYTES_INIT / 32 << "\n");
+					<< "should be less than or equal to: " << EDHASH_DATASET_BYTES_INIT / 32 << "\n");
 }
 
 BOOST_AUTO_TEST_CASE(edhash_params_init_genesis_calcifide_check) {
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(test_edhash_dir_creation) {
 	FILE *f = NULL;
 	memset(&seedhash, 0, 32);
 	BOOST_REQUIRE_EQUAL(
-		ETHASH_IO_MEMO_MISMATCH,
+		EDHASH_IO_MEMO_MISMATCH,
 		edhash_io_prepare("./test_edhash_directory/", seedhash, &f, 64, false)
 	);
 	BOOST_REQUIRE(f);
@@ -256,7 +256,7 @@ BOOST_AUTO_TEST_CASE(test_edhash_io_memo_file_match) {
 	edhash_full_delete(full);
 	// and check that we have a match when checking again
 	BOOST_REQUIRE_EQUAL(
-		ETHASH_IO_MEMO_MATCH,
+		EDHASH_IO_MEMO_MATCH,
 		edhash_io_prepare("./test_edhash_directory/", seed, &f, full_size, false)
 	);
 	BOOST_REQUIRE(f);
@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_CASE(test_edhash_io_memo_file_size_mismatch) {
 	edhash_h256_t seedhash = edhash_get_seedhash(blockn);
 	FILE *f = NULL;
 	BOOST_REQUIRE_EQUAL(
-		ETHASH_IO_MEMO_MISMATCH,
+		EDHASH_IO_MEMO_MISMATCH,
 		edhash_io_prepare("./test_edhash_directory/", seedhash, &f, 64, false)
 	);
 	BOOST_REQUIRE(f);
@@ -282,7 +282,7 @@ BOOST_AUTO_TEST_CASE(test_edhash_io_memo_file_size_mismatch) {
 	BOOST_REQUIRE(fs::is_directory(fs::path("./test_edhash_directory/")));
 	// and check that we get the size mismatch detected if we request diffferent size
 	BOOST_REQUIRE_EQUAL(
-		ETHASH_IO_MEMO_SIZE_MISMATCH,
+		EDHASH_IO_MEMO_SIZE_MISMATCH,
 		edhash_io_prepare("./test_edhash_directory/", seedhash, &f, 65, false)
 	);
 
@@ -447,7 +447,7 @@ BOOST_AUTO_TEST_CASE(edhash_full_new_when_dag_exists_with_wrong_size) {
 	// first make a DAG file of "wrong size"
 	FILE *f;
 	BOOST_REQUIRE_EQUAL(
-		ETHASH_IO_MEMO_MISMATCH,
+		EDHASH_IO_MEMO_MISMATCH,
 		edhash_io_prepare("./test_edhash_directory/", seed, &f, 64, false)
 	);
 	fclose(f);
@@ -593,7 +593,7 @@ BOOST_AUTO_TEST_CASE(test_incomplete_dag_file) {
 	FILE *f = NULL;
 	// confirm that we get a size_mismatch because the magic number is missing
 	BOOST_REQUIRE_EQUAL(
-		ETHASH_IO_MEMO_SIZE_MISMATCH,
+		EDHASH_IO_MEMO_SIZE_MISMATCH,
 		edhash_io_prepare("./test_edhash_directory/", seed, &f, full_size, false)
 	);
 	edhash_light_delete(light);
