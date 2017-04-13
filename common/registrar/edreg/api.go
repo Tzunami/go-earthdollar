@@ -186,7 +186,7 @@ func (be *registryAPIBackend) Call(fromStr, toStr, valueStr, gasStr, gasPriceStr
 	}
 
 	if msg.gasPrice.Cmp(big.NewInt(0)) == 0 {
-		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Shannon)
+		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Chief)
 	}
 
 	header := be.bc.CurrentBlock().Header()

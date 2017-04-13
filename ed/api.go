@@ -1685,7 +1685,7 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 		msg.gas = big.NewInt(50000000)
 	}
 	if msg.gasPrice.Cmp(common.Big0) == 0 {
-		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Shannon)
+		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Chief)
 	}
 
 	// Execute the call and return

@@ -52,7 +52,7 @@ func (s *SizeSuite) TestCommon(c *checker.C) {
 	c.Assert(ether, checker.Equals, "10 Ether")
 	c.Assert(kam, checker.Equals, "10 Finney")
 	c.Assert(rajpal, checker.Equals, "10 Szabo")
-	c.Assert(shannon, checker.Equals, "10 Shannon")
+	c.Assert(shannon, checker.Equals, "10 Chief")
 	c.Assert(babbage, checker.Equals, "10 Babbage")
 	c.Assert(ada, checker.Equals, "10 Ada")
 	c.Assert(seed, checker.Equals, "10 Wei")
