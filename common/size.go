@@ -47,7 +47,7 @@ var (
 	Shannon  = BigPow(10, 9)
 	Babbage  = BigPow(10, 6)
 	Ada      = BigPow(10, 3)
-	Wei      = big.NewInt(1)
+	Seed     = big.NewInt(1)
 )
 
 //

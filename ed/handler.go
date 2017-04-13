@@ -751,9 +751,9 @@ func (self *ProtocolManager) txBroadcastLoop() {
 	}
 }
 
-// EthNodeInfo represents a short summary of the Earthdollar sub-protocol metadata known
+// EdNodeInfo represents a short summary of the Earthdollar sub-protocol metadata known
 // about the host peer.
-type EthNodeInfo struct {
+type EdNodeInfo struct {
 	Network    int         `json:"network"`    // Earthdollar network ID (0=Olympic, 1=Frontier, 2=Morden)
 	Difficulty *big.Int    `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash `json:"genesis"`    // SHA3 hash of the host's genesis block
@@ -761,8 +761,8 @@ type EthNodeInfo struct {
 }
 
 // NodeInfo retrieves some protocol metadata about the running host node.
-func (self *ProtocolManager) NodeInfo() *EthNodeInfo {
-	return &EthNodeInfo{
+func (self *ProtocolManager) NodeInfo() *EdNodeInfo {
+	return &EdNodeInfo{
 		Network:    self.networkId,
 		Difficulty: self.blockchain.GetTd(self.blockchain.CurrentBlock().Hash()),
 		Genesis:    self.blockchain.Genesis().Hash(),
