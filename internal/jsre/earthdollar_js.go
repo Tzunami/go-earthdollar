@@ -3341,7 +3341,7 @@ module.exports = SolidityEvent;
 },{"../solidity/coder":7,"../utils/sha3":19,"../utils/utils":20,"./filter":29,"./formatters":30,"./methods/watches":42}],28:[function(require,module,exports){
 var formatters = require('./formatters');
 var utils = require('./../utils/utils');
-var Medod = require('./method');
+var Method = require('./method');
 var Property = require('./property');
 
 // TODO: refactor, so the input params are not altered.
@@ -3377,7 +3377,7 @@ var extend = function (web3) {
 
     ex.formatters = formatters;
     ex.utils = utils;
-    ex.Medod = Medod;
+    ex.Method = Method;
     ex.Property = Property;
 
     return ex;
@@ -4880,7 +4880,7 @@ module.exports = Jsonrpc;
 var utils = require('../utils/utils');
 var errors = require('./errors');
 
-var Medod = function (options) {
+var Method = function (options) {
     this.name = options.name;
     this.call = options.call;
     this.params = options.params || 0;
@@ -4889,7 +4889,7 @@ var Medod = function (options) {
     this.requestManager = null;
 };
 
-Medod.prototype.setRequestManager = function (rm) {
+Method.prototype.setRequestManager = function (rm) {
     this.requestManager = rm;
 };
 
@@ -4900,7 +4900,7 @@ Medod.prototype.setRequestManager = function (rm) {
  * @param {Array} arguments
  * @return {String} name of jsonrpc method
  */
-Medod.prototype.getCall = function (args) {
+Method.prototype.getCall = function (args) {
     return utils.isFunction(this.call) ? this.call(args) : this.call;
 };
 
@@ -4911,7 +4911,7 @@ Medod.prototype.getCall = function (args) {
  * @param {Array} arguments
  * @return {Function|Null} callback, if exists
  */
-Medod.prototype.extractCallback = function (args) {
+Method.prototype.extractCallback = function (args) {
     if (utils.isFunction(args[args.length - 1])) {
         return args.pop(); // modify the args array!
     }
@@ -4924,7 +4924,7 @@ Medod.prototype.extractCallback = function (args) {
  * @param {Array} arguments
  * @throws {Error} if it is not
  */
-Medod.prototype.validateArgs = function (args) {
+Method.prototype.validateArgs = function (args) {
     if (args.length !== this.params) {
         throw errors.InvalidNumberOfParams();
     }
@@ -4937,7 +4937,7 @@ Medod.prototype.validateArgs = function (args) {
  * @param {Array}
  * @return {Array}
  */
-Medod.prototype.formatInput = function (args) {
+Method.prototype.formatInput = function (args) {
     if (!this.inputFormatter) {
         return args;
     }
@@ -4954,7 +4954,7 @@ Medod.prototype.formatInput = function (args) {
  * @param {Object}
  * @return {Object}
  */
-Medod.prototype.formatOutput = function (result) {
+Method.prototype.formatOutput = function (result) {
     return this.outputFormatter && result ? this.outputFormatter(result) : result;
 };
 
@@ -4965,7 +4965,7 @@ Medod.prototype.formatOutput = function (result) {
  * @param {Array} args
  * @return {Object}
  */
-Medod.prototype.toPayload = function (args) {
+Method.prototype.toPayload = function (args) {
     var call = this.getCall(args);
     var callback = this.extractCallback(args);
     var params = this.formatInput(args);
@@ -4978,7 +4978,7 @@ Medod.prototype.toPayload = function (args) {
     };
 };
 
-Medod.prototype.attachToObject = function (obj) {
+Method.prototype.attachToObject = function (obj) {
     var func = this.buildCall();
     func.call = this.call; // TODO!!! that's ugly. filter.js uses it
     var name = this.name.split('.');
@@ -4990,7 +4990,7 @@ Medod.prototype.attachToObject = function (obj) {
     }
 };
 
-Medod.prototype.buildCall = function() {
+Method.prototype.buildCall = function() {
     var method = this;
     var send = function () {
         var payload = method.toPayload(Array.prototype.slice.call(arguments));
@@ -5012,13 +5012,13 @@ Medod.prototype.buildCall = function() {
  * @param {...} params
  * @return {Object} jsonrpc request
  */
-Medod.prototype.request = function () {
+Method.prototype.request = function () {
     var payload = this.toPayload(Array.prototype.slice.call(arguments));
     payload.format = this.formatOutput.bind(this);
     return payload;
 };
 
-module.exports = Medod;
+module.exports = Method;
 
 
 },{"../utils/utils":20,"./errors":26}],37:[function(require,module,exports){
@@ -5044,7 +5044,7 @@ module.exports = Medod;
  * @date 2015
  */
 
-var Medod = require('../method');
+var Method = require('../method');
 
 var DB = function (web3) {
     this._requestManager = web3._requestManager;
@@ -5058,25 +5058,25 @@ var DB = function (web3) {
 };
 
 var methods = function () {
-    var putString = new Medod({
+    var putString = new Method({
         name: 'putString',
         call: 'db_putString',
         params: 3
     });
 
-    var getString = new Medod({
+    var getString = new Method({
         name: 'getString',
         call: 'db_getString',
         params: 2
     });
 
-    var putHex = new Medod({
+    var putHex = new Method({
         name: 'putHex',
         call: 'db_putHex',
         params: 3
     });
 
-    var getHex = new Medod({
+    var getHex = new Method({
         name: 'getHex',
         call: 'db_getHex',
         params: 2
@@ -5117,7 +5117,7 @@ module.exports = DB;
 
 var formatters = require('../formatters');
 var utils = require('../../utils/utils');
-var Medod = require('../method');
+var Method = require('../method');
 var Property = require('../property');
 var c = require('../../utils/config');
 var Contract = require('../contract');
@@ -5189,7 +5189,7 @@ Object.defineProperty(Ed.prototype, 'defaultAccount', {
 });
 
 var methods = function () {
-    var getBalance = new Medod({
+    var getBalance = new Method({
         name: 'getBalance',
         call: 'ed_getBalance',
         params: 2,
@@ -5197,21 +5197,21 @@ var methods = function () {
         outputFormatter: formatters.outputBigNumberFormatter
     });
 
-    var getStorageAt = new Medod({
+    var getStorageAt = new Method({
         name: 'getStorageAt',
         call: 'ed_getStorageAt',
         params: 3,
         inputFormatter: [null, utils.toHex, formatters.inputDefaultBlockNumberFormatter]
     });
 
-    var getCode = new Medod({
+    var getCode = new Method({
         name: 'getCode',
         call: 'ed_getCode',
         params: 2,
         inputFormatter: [formatters.inputAddressFormatter, formatters.inputDefaultBlockNumberFormatter]
     });
 
-    var getBlock = new Medod({
+    var getBlock = new Method({
         name: 'getBlock',
         call: blockCall,
         params: 2,
@@ -5219,7 +5219,7 @@ var methods = function () {
         outputFormatter: formatters.outputBlockFormatter
     });
 
-    var getUncle = new Medod({
+    var getUncle = new Method({
         name: 'getUncle',
         call: uncleCall,
         params: 2,
@@ -5228,13 +5228,13 @@ var methods = function () {
 
     });
 
-    var getCompilers = new Medod({
+    var getCompilers = new Method({
         name: 'getCompilers',
         call: 'ed_getCompilers',
         params: 0
     });
 
-    var getBlockTransactionCount = new Medod({
+    var getBlockTransactionCount = new Method({
         name: 'getBlockTransactionCount',
         call: getBlockTransactionCountCall,
         params: 1,
@@ -5242,7 +5242,7 @@ var methods = function () {
         outputFormatter: utils.toDecimal
     });
 
-    var getBlockUncleCount = new Medod({
+    var getBlockUncleCount = new Method({
         name: 'getBlockUncleCount',
         call: uncleCountCall,
         params: 1,
@@ -5250,14 +5250,14 @@ var methods = function () {
         outputFormatter: utils.toDecimal
     });
 
-    var getTransaction = new Medod({
+    var getTransaction = new Method({
         name: 'getTransaction',
         call: 'ed_getTransactionByHash',
         params: 1,
         outputFormatter: formatters.outputTransactionFormatter
     });
 
-    var getTransactionFromBlock = new Medod({
+    var getTransactionFromBlock = new Method({
         name: 'getTransactionFromBlock',
         call: transactionFromBlockCall,
         params: 2,
@@ -5265,14 +5265,14 @@ var methods = function () {
         outputFormatter: formatters.outputTransactionFormatter
     });
 
-    var getTransactionReceipt = new Medod({
+    var getTransactionReceipt = new Method({
         name: 'getTransactionReceipt',
         call: 'ed_getTransactionReceipt',
         params: 1,
         outputFormatter: formatters.outputTransactionReceiptFormatter
     });
 
-    var getTransactionCount = new Medod({
+    var getTransactionCount = new Method({
         name: 'getTransactionCount',
         call: 'ed_getTransactionCount',
         params: 2,
@@ -5280,35 +5280,35 @@ var methods = function () {
         outputFormatter: utils.toDecimal
     });
 
-    var sendRawTransaction = new Medod({
+    var sendRawTransaction = new Method({
         name: 'sendRawTransaction',
         call: 'ed_sendRawTransaction',
         params: 1,
         inputFormatter: [null]
     });
 
-    var sendTransaction = new Medod({
+    var sendTransaction = new Method({
         name: 'sendTransaction',
         call: 'ed_sendTransaction',
         params: 1,
         inputFormatter: [formatters.inputTransactionFormatter]
     });
 
-    var sign = new Medod({
+    var sign = new Method({
         name: 'sign',
         call: 'ed_sign',
         params: 2,
         inputFormatter: [formatters.inputAddressFormatter, null]
     });
 
-    var call = new Medod({
+    var call = new Method({
         name: 'call',
         call: 'ed_call',
         params: 2,
         inputFormatter: [formatters.inputCallFormatter, formatters.inputDefaultBlockNumberFormatter]
     });
 
-    var estimateGas = new Medod({
+    var estimateGas = new Method({
         name: 'estimateGas',
         call: 'ed_estimateGas',
         params: 1,
@@ -5316,31 +5316,31 @@ var methods = function () {
         outputFormatter: utils.toDecimal
     });
 
-    var compileSolidity = new Medod({
+    var compileSolidity = new Method({
         name: 'compile.solidity',
         call: 'ed_compileSolidity',
         params: 1
     });
 
-    var compileLLL = new Medod({
+    var compileLLL = new Method({
         name: 'compile.lll',
         call: 'ed_compileLLL',
         params: 1
     });
 
-    var compileSerpent = new Medod({
+    var compileSerpent = new Method({
         name: 'compile.serpent',
         call: 'ed_compileSerpent',
         params: 1
     });
 
-    var submitWork = new Medod({
+    var submitWork = new Method({
         name: 'submitWork',
         call: 'ed_submitWork',
         params: 3
     });
 
-    var getWork = new Medod({
+    var getWork = new Method({
         name: 'getWork',
         call: 'ed_getWork',
         params: 0
@@ -5514,7 +5514,7 @@ module.exports = Net;
 
 "use strict";
 
-var Medod = require('../method');
+var Method = require('../method');
 var Property = require('../property');
 var formatters = require('../formatters');
 
@@ -5535,21 +5535,21 @@ function Personal(web3) {
 }
 
 var methods = function () {
-    var newAccount = new Medod({
+    var newAccount = new Method({
         name: 'newAccount',
         call: 'personal_newAccount',
         params: 1,
         inputFormatter: [null]
     });
 
-    var unlockAccount = new Medod({
+    var unlockAccount = new Method({
         name: 'unlockAccount',
         call: 'personal_unlockAccount',
         params: 3,
         inputFormatter: [formatters.inputAddressFormatter, null, null]
     });
 
-    var lockAccount = new Medod({
+    var lockAccount = new Method({
         name: 'lockAccount',
         call: 'personal_lockAccount',
         params: 1,
@@ -5598,7 +5598,7 @@ module.exports = Personal;
  * @date 2015
  */
 
-var Medod = require('../method');
+var Method = require('../method');
 var formatters = require('../formatters');
 var Filter = require('../filter');
 var watches = require('./watches');
@@ -5620,32 +5620,32 @@ Shh.prototype.filter = function (fil, callback) {
 
 var methods = function () {
 
-    var post = new Medod({
+    var post = new Method({
         name: 'post',
         call: 'shh_post',
         params: 1,
         inputFormatter: [formatters.inputPostFormatter]
     });
 
-    var newIdentity = new Medod({
+    var newIdentity = new Method({
         name: 'newIdentity',
         call: 'shh_newIdentity',
         params: 0
     });
 
-    var hasIdentity = new Medod({
+    var hasIdentity = new Method({
         name: 'hasIdentity',
         call: 'shh_hasIdentity',
         params: 1
     });
 
-    var newGroup = new Medod({
+    var newGroup = new Method({
         name: 'newGroup',
         call: 'shh_newGroup',
         params: 0
     });
 
-    var addToGroup = new Medod({
+    var addToGroup = new Method({
         name: 'addToGroup',
         call: 'shh_addToGroup',
         params: 0
@@ -5686,7 +5686,7 @@ module.exports = Shh;
  * @date 2015
  */
 
-var Medod = require('../method');
+var Method = require('../method');
 
 /// @returns an array of objects describing web3.ed.filter api methods
 var ed = function () {
@@ -5707,25 +5707,25 @@ var ed = function () {
         }
     };
 
-    var newFilter = new Medod({
+    var newFilter = new Method({
         name: 'newFilter',
         call: newFilterCall,
         params: 1
     });
 
-    var uninstallFilter = new Medod({
+    var uninstallFilter = new Method({
         name: 'uninstallFilter',
         call: 'ed_uninstallFilter',
         params: 1
     });
 
-    var getLogs = new Medod({
+    var getLogs = new Method({
         name: 'getLogs',
         call: 'ed_getFilterLogs',
         params: 1
     });
 
-    var poll = new Medod({
+    var poll = new Method({
         name: 'poll',
         call: 'ed_getFilterChanges',
         params: 1
@@ -5741,25 +5741,25 @@ var ed = function () {
 
 /// @returns an array of objects describing web3.shh.watch api methods
 var shh = function () {
-    var newFilter = new Medod({
+    var newFilter = new Method({
         name: 'newFilter',
         call: 'shh_newFilter',
         params: 1
     });
 
-    var uninstallFilter = new Medod({
+    var uninstallFilter = new Method({
         name: 'uninstallFilter',
         call: 'shh_uninstallFilter',
         params: 1
     });
 
-    var getLogs = new Medod({
+    var getLogs = new Method({
         name: 'getLogs',
         call: 'shh_getMessages',
         params: 1
     });
 
-    var poll = new Medod({
+    var poll = new Method({
         name: 'poll',
         call: 'shh_getFilterChanges',
         params: 1
@@ -9728,7 +9728,7 @@ module.exports = transfer;
 }(this, function (CryptoJS) {
 
 	/**
-	 * ISO/IEC 9797-1 Padding Medod 2.
+	 * ISO/IEC 9797-1 Padding Method 2.
 	 */
 	CryptoJS.pad.Iso97971 = {
 	    pad: function (data, blockSize) {
