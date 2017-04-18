@@ -762,14 +762,14 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainCo
 		c = core.TestConfig
 	}
 
-	for i := range c.Forks {  //earthdollar, remove
+	/*for i := range c.Forks {  //earthdollar, remove
 		// Force override any existing configs if explicitly requested
 		if c.Forks[i].Name == "ETF" {
 			if ctx.GlobalBool(ETFChain.Name) {
 				c.Forks[i].Support = true
 			}
 		}
-	}
+	}*/
 
 	separator := strings.Repeat("-", 110)
 	glog.V(logger.Warn).Info(separator)
@@ -784,14 +784,14 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainCo
 	glog.V(logger.Warn).Info(fmt.Sprintf("%v blockchain hard-forks associated with this genesis block:", len(c.Forks)))
 
 	netsplitChoice := ""
-	for i := range c.Forks {
+	/*for i := range c.Forks {
 		if c.Forks[i].NetworkSplit {
 			netsplitChoice = fmt.Sprintf("resulted in a network split (support: %t)", c.Forks[i].Support)
 		} else {
 			netsplitChoice = ""
 		}
 		glog.V(logger.Warn).Info(fmt.Sprintf(" %7v %v hard-fork %v", c.Forks[i].Block, c.Forks[i].Name, netsplitChoice))
-	}
+	}*/
 
 	if ctx.GlobalBool(TestNetFlag.Name) {
 		glog.V(logger.Warn).Info("Ged is configured to use the \x1b[33mEarthdollar Testnet\x1b[39m blockchain!")
