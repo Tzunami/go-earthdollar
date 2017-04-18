@@ -88,7 +88,7 @@ func stateAndBlockByNumber(m *miner.Miner, bc *core.BlockChain, blockNr rpc.Bloc
 }
 
 // PublicEarthdollarAPI provides an API to access Earthdollar related information.
-// It offers only medods that operate on public data that is freely available to anyone.
+// It offers only methods that operate on public data that is freely available to anyone.
 type PublicEarthdollarAPI struct {
 	e   *Earthdollar
 	gpo *GasPriceOracle
@@ -176,7 +176,7 @@ func (s *PublicEarthdollarAPI) Syncing() (interface{}, error) {
 }
 
 // PublicMinerAPI provides an API to control the miner.
-// It offers only medods that operate on data that pose no security risk when it is publicly accessible.
+// It offers only methods that operate on data that pose no security risk when it is publicly accessible.
 type PublicMinerAPI struct {
 	e     *Earthdollar
 	agent *miner.RemoteAgent
@@ -226,8 +226,8 @@ func (s *PublicMinerAPI) SubmitHashrate(hashrate rpc.HexNumber, id common.Hash) 
 	return true
 }
 
-// PrivateMinerAPI provides private RPC medods to control the miner.
-// These medods can be abused by external users and must be considered insecure for use by untrusted users.
+// PrivateMinerAPI provides private RPC methods to control the miner.
+// These methods can be abused by external users and must be considered insecure for use by untrusted users.
 type PrivateMinerAPI struct {
 	e *Earthdollar
 }
@@ -386,7 +386,7 @@ func (s *PublicTxPoolAPI) Inspect() map[string]map[string]map[string][]string {
 }
 
 // PublicAccountAPI provides an API to access accounts managed by this node.
-// It offers only medods that can retrieve accounts.
+// It offers only methods that can retrieve accounts.
 type PublicAccountAPI struct {
 	am *accounts.Manager
 }
@@ -402,7 +402,7 @@ func (s *PublicAccountAPI) Accounts() []accounts.Account {
 }
 
 // PrivateAccountAPI provides an API to access accounts managed by this node.
-// It offers medods to create, (un)lock en list accounts. Some medods accept
+// It offers methods to create, (un)lock en list accounts. Some methods accept
 // passwords and are therefore considered private by default.
 type PrivateAccountAPI struct {
 	bc     *core.BlockChain
@@ -505,7 +505,7 @@ func (s *PrivateAccountAPI) SignAndSendTransaction(args SendTxArgs, passwd strin
 }
 
 // PublicBlockChainAPI provides an API to access the Earthdollar blockchain.
-// It offers only medods that operate on public data that is freely available to anyone.
+// It offers only methods that operate on public data that is freely available to anyone.
 type PublicBlockChainAPI struct {
 	config                  *core.ChainConfig
 	bc                      *core.BlockChain
@@ -519,7 +519,7 @@ type PublicBlockChainAPI struct {
 	gpo                     *GasPriceOracle
 }
 
-// NewPublicBlockChainAPI creates a new Etheruem blockchain API.
+// NewPublicBlockChainAPI creates a new Ederuem blockchain API.
 func NewPublicBlockChainAPI(config *core.ChainConfig, bc *core.BlockChain, m *miner.Miner, chainDb eddb.Database, gpo *GasPriceOracle, eventMux *event.TypeMux, am *accounts.Manager) *PublicBlockChainAPI {
 	api := &PublicBlockChainAPI{
 		config:   config,
@@ -647,7 +647,7 @@ type NewBlocksArgs struct {
 }
 
 // NewBlocks triggers a new block event each time a block is appended to the chain. It accepts an argument which allows
-// the caller to specify wheder the output should contain transactions and in what format.
+// the caller to specify whether the output should contain transactions and in what format.
 func (s *PublicBlockChainAPI) NewBlocks(ctx context.Context, args NewBlocksArgs) (rpc.Subscription, error) {
 	notifier, supported := rpc.NotifierFromContext(ctx)
 	if !supported {
@@ -924,7 +924,7 @@ func newRPCTransaction(b *types.Block, txHash common.Hash) (*RPCTransaction, err
 	return nil, nil
 }
 
-// PublicTransactionPoolAPI exposes medods for the RPC interface
+// PublicTransactionPoolAPI exposes methods for the RPC interface
 type PublicTransactionPoolAPI struct {
 	eventMux        *event.TypeMux
 	chainDb         eddb.Database
@@ -938,7 +938,7 @@ type PublicTransactionPoolAPI struct {
 	pendingTxSubs   map[string]rpc.Subscription
 }
 
-// NewPublicTransactionPoolAPI creates a new RPC service with medods specific for the transaction pool.
+// NewPublicTransactionPoolAPI creates a new RPC service with methods specific for the transaction pool.
 func NewPublicTransactionPoolAPI(e *Earthdollar) *PublicTransactionPoolAPI {
 	api := &PublicTransactionPoolAPI{
 		eventMux:      e.eventMux,
@@ -1492,13 +1492,13 @@ func (s *PublicTransactionPoolAPI) Resend(tx Tx, gasPrice, gasLimit *rpc.HexNumb
 	return common.Hash{}, fmt.Errorf("Transaction %#x not found", tx.Hash)
 }
 
-// PrivateAdminAPI is the collection of Etheruem APIs exposed over the private
+// PrivateAdminAPI is the collection of Ederuem APIs exposed over the private
 // admin endpoint.
 type PrivateAdminAPI struct {
 	ed *Earthdollar
 }
 
-// NewPrivateAdminAPI creates a new API definition for the private admin medods
+// NewPrivateAdminAPI creates a new API definition for the private admin methods
 // of the Earthdollar service.
 func NewPrivateAdminAPI(ed *Earthdollar) *PrivateAdminAPI {
 	return &PrivateAdminAPI{ed: ed}
@@ -1581,13 +1581,13 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 	return true, nil
 }
 
-// PublicDebugAPI is the collection of Etheruem APIs exposed over the public
+// PublicDebugAPI is the collection of Ederuem APIs exposed over the public
 // debugging endpoint.
 type PublicDebugAPI struct {
 	ed *Earthdollar
 }
 
-// NewPublicDebugAPI creates a new API definition for the public debug medods
+// NewPublicDebugAPI creates a new API definition for the public debug methods
 // of the Earthdollar service.
 func NewPublicDebugAPI(ed *Earthdollar) *PublicDebugAPI {
 	return &PublicDebugAPI{ed: ed}
@@ -1699,7 +1699,7 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 	}, nil
 }
 
-// PublicNetAPI offers network related RPC medods
+// PublicNetAPI offers network related RPC methods
 type PublicNetAPI struct {
 	net            *p2p.Server
 	networkVersion int
@@ -1720,7 +1720,7 @@ func (s *PublicNetAPI) PeerCount() *rpc.HexNumber {
 	return rpc.NewHexNumber(s.net.PeerCount())
 }
 
-// Version returns the current edereum protocol version.
+// Version returns the current earthdollar protocol version.
 func (s *PublicNetAPI) Version() string {
 	return fmt.Sprintf("%d", s.networkVersion)
 }

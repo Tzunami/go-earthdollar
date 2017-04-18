@@ -86,7 +86,7 @@ type peer struct {
 	getReceipts receiptFetcherFn // [ed/63] Method to retrieve a batch of block transaction receipts
 	getNodeData stateFetcherFn   // [ed/63] Method to retrieve a batch of state trie data
 
-	version int // Eth protocol version number to switch strategies
+	version int // Ed protocol version number to switch strategies
 	lock    sync.RWMutex
 }
 

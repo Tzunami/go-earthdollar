@@ -90,7 +90,8 @@ func New(config Config) (*Console, error) {
 		prompter: config.Prompter,
 		printer:  config.Printer,
 		histPath: filepath.Join(config.DataDir, HistoryFile),
-	}
+	}       
+
 	if err := console.init(config.Preload); err != nil {
 		return nil, err
 	}
@@ -100,7 +101,7 @@ func New(config Config) (*Console, error) {
 // init retrieves the available APIs from the remote RPC provider and initializes
 // the console's JavaScript namespaces based on the exposed modules.
 func (c *Console) init(preload []string) error {
-	// Initialize the JavaScript <-> Go RPC bridge
+	// Initialize the JavaScript <-> Go RPC bridge           
 	bridge := newBridge(c.client, c.prompter, c.printer)
 	c.jsre.Set("jed", struct{}{})
 
@@ -129,7 +130,7 @@ func (c *Console) init(preload []string) error {
 	apis, err := c.client.SupportedModules()
 	if err != nil {
 		return fmt.Errorf("api modules: %v", err)
-	}
+	}    
 	flatten := "var ed = web3.ed; var personal = web3.personal; "
 	for api := range apis {
 		if api == "web3" {
@@ -139,7 +140,7 @@ func (c *Console) init(preload []string) error {
 			if err = c.jsre.Compile(fmt.Sprintf("%s.js", api), file); err != nil {
 				return fmt.Errorf("%s.js: %v", api, err)
 			}
-			flatten += fmt.Sprintf("var %s = web3.%s; ", api, api)
+			flatten += fmt.Sprintf("var %s = web3.%s; ", api, api)            
 		}
 	}
 	if _, err = c.jsre.Run(flatten); err != nil {

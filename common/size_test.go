@@ -49,11 +49,11 @@ func (s *SizeSuite) TestCommon(c *checker.C) {
 	ada := CurrencyToString(BigPow(10, 4))
 	seed := CurrencyToString(big.NewInt(10))
 
-	c.Assert(ether, checker.Equals, "10 Ether")
+	c.Assert(ether, checker.Equals, "10 Tree")
 	c.Assert(kam, checker.Equals, "10 Finney")
 	c.Assert(rajpal, checker.Equals, "10 Szabo")
 	c.Assert(shannon, checker.Equals, "10 Chief")
 	c.Assert(babbage, checker.Equals, "10 Babbage")
 	c.Assert(ada, checker.Equals, "10 Ada")
-	c.Assert(seed, checker.Equals, "10 Wei")
+	c.Assert(seed, checker.Equals, "10 Seed")
 }

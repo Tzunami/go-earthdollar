@@ -74,7 +74,7 @@ func (l *P2PDisconnected) EventName() string {
 	return "p2p.disconnected"
 }
 
-type EthMinerNewBlock struct {
+type EdMinerNewBlock struct {
 	BlockHash     string   `json:"block_hash"`
 	BlockNumber   *big.Int `json:"block_number"`
 	ChainHeadHash string   `json:"chain_head_hash"`
@@ -82,11 +82,11 @@ type EthMinerNewBlock struct {
 	LogEvent
 }
 
-func (l *EthMinerNewBlock) EventName() string {
+func (l *EdMinerNewBlock) EventName() string {
 	return "ed.miner.new_block"
 }
 
-type EthChainReceivedNewBlock struct {
+type EdChainReceivedNewBlock struct {
 	BlockHash     string   `json:"block_hash"`
 	BlockNumber   *big.Int `json:"block_number"`
 	ChainHeadHash string   `json:"chain_head_hash"`
@@ -95,11 +95,11 @@ type EthChainReceivedNewBlock struct {
 	LogEvent
 }
 
-func (l *EthChainReceivedNewBlock) EventName() string {
+func (l *EdChainReceivedNewBlock) EventName() string {
 	return "ed.chain.received.new_block"
 }
 
-type EthChainNewHead struct {
+type EdChainNewHead struct {
 	BlockHash     string   `json:"block_hash"`
 	BlockNumber   *big.Int `json:"block_number"`
 	ChainHeadHash string   `json:"chain_head_hash"`
@@ -107,17 +107,17 @@ type EthChainNewHead struct {
 	LogEvent
 }
 
-func (l *EthChainNewHead) EventName() string {
+func (l *EdChainNewHead) EventName() string {
 	return "ed.chain.new_head"
 }
 
-type EthTxReceived struct {
+type EdTxReceived struct {
 	TxHash   string `json:"tx_hash"`
 	RemoteId string `json:"remote_id"`
 	LogEvent
 }
 
-func (l *EthTxReceived) EventName() string {
+func (l *EdTxReceived) EventName() string {
 	return "ed.tx.received"
 }
 
@@ -204,29 +204,29 @@ func (l *EthTxReceived) EventName() string {
 // 	return "p2p.disconnecting.dht"
 // }
 
-// type P2PEthDisconnectingBadBlock struct {
+// type P2PEdDisconnectingBadBlock struct {
 // 	Reason         string `json:"reason"`
 // 	RemoteId       string `json:"remote_id"`
 // 	NumConnections int    `json:"num_connections"`
 // 	LogEvent
 // }
 
-// func (l *P2PEthDisconnectingBadBlock) EventName() string {
+// func (l *P2PEdDisconnectingBadBlock) EventName() string {
 // 	return "p2p.ed.disconnecting.bad_block"
 // }
 
-// type P2PEthDisconnectingBadTx struct {
+// type P2PEdDisconnectingBadTx struct {
 // 	Reason         string `json:"reason"`
 // 	RemoteId       string `json:"remote_id"`
 // 	NumConnections int    `json:"num_connections"`
 // 	LogEvent
 // }
 
-// func (l *P2PEthDisconnectingBadTx) EventName() string {
+// func (l *P2PEdDisconnectingBadTx) EventName() string {
 // 	return "p2p.ed.disconnecting.bad_tx"
 // }
 
-// type EthNewBlockBroadcasted struct {
+// type EdNewBlockBroadcasted struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -235,11 +235,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockBroadcasted) EventName() string {
+// func (l *EdNewBlockBroadcasted) EventName() string {
 // 	return "ed.newblock.broadcasted"
 // }
 
-// type EthNewBlockIsKnown struct {
+// type EdNewBlockIsKnown struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -248,11 +248,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockIsKnown) EventName() string {
+// func (l *EdNewBlockIsKnown) EventName() string {
 // 	return "ed.newblock.is_known"
 // }
 
-// type EthNewBlockIsNew struct {
+// type EdNewBlockIsNew struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -261,11 +261,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockIsNew) EventName() string {
+// func (l *EdNewBlockIsNew) EventName() string {
 // 	return "ed.newblock.is_new"
 // }
 
-// type EthNewBlockMissingParent struct {
+// type EdNewBlockMissingParent struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -274,11 +274,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockMissingParent) EventName() string {
+// func (l *EdNewBlockMissingParent) EventName() string {
 // 	return "ed.newblock.missing_parent"
 // }
 
-// type EthNewBlockIsInvalid struct {
+// type EdNewBlockIsInvalid struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -287,11 +287,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockIsInvalid) EventName() string {
+// func (l *EdNewBlockIsInvalid) EventName() string {
 // 	return "ed.newblock.is_invalid"
 // }
 
-// type EthNewBlockChainIsOlder struct {
+// type EdNewBlockChainIsOlder struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -300,11 +300,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockChainIsOlder) EventName() string {
+// func (l *EdNewBlockChainIsOlder) EventName() string {
 // 	return "ed.newblock.chain.is_older"
 // }
 
-// type EthNewBlockChainIsCanonical struct {
+// type EdNewBlockChainIsCanonical struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -313,11 +313,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockChainIsCanonical) EventName() string {
+// func (l *EdNewBlockChainIsCanonical) EventName() string {
 // 	return "ed.newblock.chain.is_cannonical"
 // }
 
-// type EthNewBlockChainNotCanonical struct {
+// type EdNewBlockChainNotCanonical struct {
 // 	BlockNumber     int    `json:"block_number"`
 // 	HeadHash        string `json:"head_hash"`
 // 	BlockHash       string `json:"block_hash"`
@@ -326,11 +326,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthNewBlockChainNotCanonical) EventName() string {
+// func (l *EdNewBlockChainNotCanonical) EventName() string {
 // 	return "ed.newblock.chain.not_cannonical"
 // }
 
-// type EthTxCreated struct {
+// type EdTxCreated struct {
 // 	TxHash    string `json:"tx_hash"`
 // 	TxSender  string `json:"tx_sender"`
 // 	TxAddress string `json:"tx_address"`
@@ -339,11 +339,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthTxCreated) EventName() string {
+// func (l *EdTxCreated) EventName() string {
 // 	return "ed.tx.created"
 // }
 
-// type EthTxBroadcasted struct {
+// type EdTxBroadcasted struct {
 // 	TxHash    string `json:"tx_hash"`
 // 	TxSender  string `json:"tx_sender"`
 // 	TxAddress string `json:"tx_address"`
@@ -351,11 +351,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthTxBroadcasted) EventName() string {
+// func (l *EdTxBroadcasted) EventName() string {
 // 	return "ed.tx.broadcasted"
 // }
 
-// type EthTxValidated struct {
+// type EdTxValidated struct {
 // 	TxHash    string `json:"tx_hash"`
 // 	TxSender  string `json:"tx_sender"`
 // 	TxAddress string `json:"tx_address"`
@@ -363,11 +363,11 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthTxValidated) EventName() string {
+// func (l *EdTxValidated) EventName() string {
 // 	return "ed.tx.validated"
 // }
 
-// type EthTxIsInvalid struct {
+// type EdTxIsInvalid struct {
 // 	TxHash    string `json:"tx_hash"`
 // 	TxSender  string `json:"tx_sender"`
 // 	TxAddress string `json:"tx_address"`
@@ -376,6 +376,6 @@ func (l *EthTxReceived) EventName() string {
 // 	LogEvent
 // }
 
-// func (l *EthTxIsInvalid) EventName() string {
+// func (l *EdTxIsInvalid) EventName() string {
 // 	return "ed.tx.is_invalid"
 // }

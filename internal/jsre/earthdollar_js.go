@@ -679,9 +679,9 @@ var SolidityCoder = function (types) {
 };
 
 /**
- * This medod should be used to transform type to SolidityType
+ * This method should be used to transform type to SolidityType
  *
- * @medod _requireType
+ * @method _requireType
  * @param {String} type
  * @returns {SolidityType}
  * @throws {Error} throws if no matching type is found
@@ -701,7 +701,7 @@ SolidityCoder.prototype._requireType = function (type) {
 /**
  * Should be used to encode plain param
  *
- * @medod encodeParam
+ * @method encodeParam
  * @param {String} type
  * @param {Object} plain param
  * @return {String} encoded plain param
@@ -713,7 +713,7 @@ SolidityCoder.prototype.encodeParam = function (type, param) {
 /**
  * Should be used to encode list of params
  *
- * @medod encodeParams
+ * @method encodeParams
  * @param {Array} types
  * @param {Array} params
  * @return {String} encoded list of params
@@ -833,7 +833,7 @@ SolidityCoder.prototype.encodeWithOffset = function (type, solidityType, encoded
 /**
  * Should be used to decode bytes to plain param
  *
- * @medod decodeParam
+ * @method decodeParam
  * @param {String} type
  * @param {String} bytes
  * @return {Object} plain param
@@ -845,7 +845,7 @@ SolidityCoder.prototype.decodeParam = function (type, bytes) {
 /**
  * Should be used to decode list of params
  *
- * @medod decodeParam
+ * @method decodeParam
  * @param {Array} types
  * @param {String} bytes
  * @return {Array} array of plain params
@@ -959,7 +959,7 @@ var SolidityParam = require('./param');
  * If value is negative, return it's two's complement
  * If the value is floating point, round it down
  *
- * @medod formatInputInt
+ * @method formatInputInt
  * @param {String|Number|BigNumber} value that needs to be formatted
  * @returns {SolidityParam}
  */
@@ -972,7 +972,7 @@ var formatInputInt = function (value) {
 /**
  * Formats input bytes
  *
- * @medod formatInputBytes
+ * @method formatInputBytes
  * @param {String}
  * @returns {SolidityParam}
  */
@@ -986,7 +986,7 @@ var formatInputBytes = function (value) {
 /**
  * Formats input bytes
  *
- * @medod formatDynamicInputBytes
+ * @method formatDynamicInputBytes
  * @param {String}
  * @returns {SolidityParam}
  */
@@ -1001,7 +1001,7 @@ var formatInputDynamicBytes = function (value) {
 /**
  * Formats input value to byte representation of string
  *
- * @medod formatInputString
+ * @method formatInputString
  * @param {String}
  * @returns {SolidityParam}
  */
@@ -1016,7 +1016,7 @@ var formatInputString = function (value) {
 /**
  * Formats input value to byte representation of bool
  *
- * @medod formatInputBool
+ * @method formatInputBool
  * @param {Boolean}
  * @returns {SolidityParam}
  */
@@ -1029,7 +1029,7 @@ var formatInputBool = function (value) {
  * Formats input value to byte representation of real
  * Values are multiplied by 2^m and encoded as integers
  *
- * @medod formatInputReal
+ * @method formatInputReal
  * @param {String|Number|BigNumber}
  * @returns {SolidityParam}
  */
@@ -1040,7 +1040,7 @@ var formatInputReal = function (value) {
 /**
  * Check if input value is negative
  *
- * @medod signedIsNegative
+ * @method signedIsNegative
  * @param {String} value is hex format
  * @returns {Boolean} true if it is negative, otherwise false
  */
@@ -1051,7 +1051,7 @@ var signedIsNegative = function (value) {
 /**
  * Formats right-aligned output bytes to int
  *
- * @medod formatOutputInt
+ * @method formatOutputInt
  * @param {SolidityParam} param
  * @returns {BigNumber} right-aligned output bytes formatted to big number
  */
@@ -1069,7 +1069,7 @@ var formatOutputInt = function (param) {
 /**
  * Formats right-aligned output bytes to uint
  *
- * @medod formatOutputUInt
+ * @method formatOutputUInt
  * @param {SolidityParam}
  * @returns {BigNumeber} right-aligned output bytes formatted to uint
  */
@@ -1081,7 +1081,7 @@ var formatOutputUInt = function (param) {
 /**
  * Formats right-aligned output bytes to real
  *
- * @medod formatOutputReal
+ * @method formatOutputReal
  * @param {SolidityParam}
  * @returns {BigNumber} input bytes formatted to real
  */
@@ -1092,7 +1092,7 @@ var formatOutputReal = function (param) {
 /**
  * Formats right-aligned output bytes to ureal
  *
- * @medod formatOutputUReal
+ * @method formatOutputUReal
  * @param {SolidityParam}
  * @returns {BigNumber} input bytes formatted to ureal
  */
@@ -1103,7 +1103,7 @@ var formatOutputUReal = function (param) {
 /**
  * Should be used to format output bool
  *
- * @medod formatOutputBool
+ * @method formatOutputBool
  * @param {SolidityParam}
  * @returns {Boolean} right-aligned input bytes formatted to bool
  */
@@ -1114,7 +1114,7 @@ var formatOutputBool = function (param) {
 /**
  * Should be used to format output bytes
  *
- * @medod formatOutputBytes
+ * @method formatOutputBytes
  * @param {SolidityParam} left-aligned hex representation of string
  * @returns {String} hex string
  */
@@ -1125,7 +1125,7 @@ var formatOutputBytes = function (param) {
 /**
  * Should be used to format output bytes
  *
- * @medod formatOutputDynamicBytes
+ * @method formatOutputDynamicBytes
  * @param {SolidityParam} left-aligned hex representation of string
  * @returns {String} hex string
  */
@@ -1137,7 +1137,7 @@ var formatOutputDynamicBytes = function (param) {
 /**
  * Should be used to format output string
  *
- * @medod formatOutputString
+ * @method formatOutputString
  * @param {SolidityParam} left-aligned hex representation of string
  * @returns {String} ascii string
  */
@@ -1149,7 +1149,7 @@ var formatOutputString = function (param) {
 /**
  * Should be used to format output address
  *
- * @medod formatOutputAddress
+ * @method formatOutputAddress
  * @param {SolidityParam} right-aligned input bytes
  * @returns {String} address
  */
@@ -1250,9 +1250,9 @@ var SolidityParam = function (value, offset) {
 };
 
 /**
- * This medod should be used to get length of params's dynamic part
+ * This method should be used to get length of params's dynamic part
  *
- * @medod dynamicPartLength
+ * @method dynamicPartLength
  * @returns {Number} length of dynamic part (in bytes)
  */
 SolidityParam.prototype.dynamicPartLength = function () {
@@ -1260,9 +1260,9 @@ SolidityParam.prototype.dynamicPartLength = function () {
 };
 
 /**
- * This medod should be used to create copy of solidity param with different offset
+ * This method should be used to create copy of solidity param with different offset
  *
- * @medod withOffset
+ * @method withOffset
  * @param {Number} offset length in bytes
  * @returns {SolidityParam} new solidity param with applied offset
  */
@@ -1271,10 +1271,10 @@ SolidityParam.prototype.withOffset = function (offset) {
 };
 
 /**
- * This medod should be used to combine solidity params togeder
+ * This method should be used to combine solidity params together
  * eg. when appending an array
  *
- * @medod combine
+ * @method combine
  * @param {SolidityParam} param with which we should combine
  * @param {SolidityParam} result of combination
  */
@@ -1283,10 +1283,10 @@ SolidityParam.prototype.combine = function (param) {
 };
 
 /**
- * This medod should be called to check if param has dynamic size.
+ * This method should be called to check if param has dynamic size.
  * If it has, it returns true, otherwise false
  *
- * @medod isDynamic
+ * @method isDynamic
  * @returns {Boolean}
  */
 SolidityParam.prototype.isDynamic = function () {
@@ -1294,9 +1294,9 @@ SolidityParam.prototype.isDynamic = function () {
 };
 
 /**
- * This medod should be called to transform offset to bytes
+ * This method should be called to transform offset to bytes
  *
- * @medod offsetAsBytes
+ * @method offsetAsBytes
  * @returns {String} bytes representation of offset
  */
 SolidityParam.prototype.offsetAsBytes = function () {
@@ -1304,9 +1304,9 @@ SolidityParam.prototype.offsetAsBytes = function () {
 };
 
 /**
- * This medod should be called to get static part of param
+ * This method should be called to get static part of param
  *
- * @medod staticPart
+ * @method staticPart
  * @returns {String} offset if it is a dynamic param, otherwise value
  */
 SolidityParam.prototype.staticPart = function () {
@@ -1317,9 +1317,9 @@ SolidityParam.prototype.staticPart = function () {
 };
 
 /**
- * This medod should be called to get dynamic part of param
+ * This method should be called to get dynamic part of param
  *
- * @medod dynamicPart
+ * @method dynamicPart
  * @returns {String} returns a value if it is a dynamic param, otherwise empty string
  */
 SolidityParam.prototype.dynamicPart = function () {
@@ -1327,9 +1327,9 @@ SolidityParam.prototype.dynamicPart = function () {
 };
 
 /**
- * This medod should be called to encode param
+ * This method should be called to encode param
  *
- * @medod encode
+ * @method encode
  * @returns {String}
  */
 SolidityParam.prototype.encode = function () {
@@ -1337,9 +1337,9 @@ SolidityParam.prototype.encode = function () {
 };
 
 /**
- * This medod should be called to encode array of params
+ * This method should be called to encode array of params
  *
- * @medod encodeList
+ * @method encodeList
  * @param {Array[SolidityParam]} params
  * @returns {String}
  */
@@ -1449,23 +1449,23 @@ var SolidityType = function (config) {
 /**
  * Should be used to determine if this SolidityType do match given name
  *
- * @medod isType
+ * @method isType
  * @param {String} name
  * @return {Bool} true if type match this SolidityType, otherwise false
  */
 SolidityType.prototype.isType = function (name) {
-    throw "this medod should be overrwritten for type " + name;
+    throw "this method should be overrwritten for type " + name;
 };
 
 /**
  * Should be used to determine what is the length of static part in given type
  *
- * @medod staticPartLength
+ * @method staticPartLength
  * @param {String} name
  * @return {Number} length of static part in bytes
  */
 SolidityType.prototype.staticPartLength = function (name) {
-    throw "this medod should be overrwritten for type: " + name;
+    throw "this method should be overrwritten for type: " + name;
 };
 
 /**
@@ -1474,7 +1474,7 @@ SolidityType.prototype.staticPartLength = function (name) {
  * "type[]" => true
  * "type[4]" => false
  *
- * @medod isDynamicArray
+ * @method isDynamicArray
  * @param {String} name
  * @return {Bool} true if the type is dynamic array
  */
@@ -1489,7 +1489,7 @@ SolidityType.prototype.isDynamicArray = function (name) {
  * "type[]" => false
  * "type[4]" => true
  *
- * @medod isStaticArray
+ * @method isStaticArray
  * @param {String} name
  * @return {Bool} true if the type is static array
  */
@@ -1508,7 +1508,7 @@ SolidityType.prototype.isStaticArray = function (name) {
  * "int[1]" => 1
  * "int[]" => 1
  *
- * @medod staticArrayLength
+ * @method staticArrayLength
  * @param {String} name
  * @return {Number} static array length
  */
@@ -1529,7 +1529,7 @@ SolidityType.prototype.staticArrayLength = function (name) {
  * "int" => "int"
  * "int[]" => "int"
  *
- * @medod nestedName
+ * @method nestedName
  * @param {String} name
  * @return {String} nested name
  */
@@ -1547,7 +1547,7 @@ SolidityType.prototype.nestedName = function (name) {
  * Should return true if type has dynamic size by default
  * such types are "string", "bytes"
  *
- * @medod isDynamicType
+ * @method isDynamicType
  * @param {String} name
  * @return {Bool} true if is dynamic, otherwise false
  */
@@ -1562,7 +1562,7 @@ SolidityType.prototype.isDynamicType = function () {
  * "int[] => ["[]"]
  * "int" => null
  *
- * @medod nestedTypes
+ * @method nestedTypes
  * @param {String} name
  * @return {Array} array of nested types
  */
@@ -1574,7 +1574,7 @@ SolidityType.prototype.nestedTypes = function (name) {
 /**
  * Should be used to encode the value
  *
- * @medod encode
+ * @method encode
  * @param {Object} value
  * @param {String} name
  * @return {String} encoded value
@@ -1619,7 +1619,7 @@ SolidityType.prototype.encode = function (value, name) {
 /**
  * Should be used to decode value from bytes
  *
- * @medod decode
+ * @method decode
  * @param {String} bytes
  * @param {Number} offset in bytes
  * @param {String} name type name
@@ -1952,7 +1952,7 @@ var unitMap = {
 /**
  * Should be called to pad string to expected length
  *
- * @medod padLeft
+ * @method padLeft
  * @param {String} string to be padded
  * @param {Number} characters that result string should have
  * @param {String} sign, by default 0
@@ -1965,7 +1965,7 @@ var padLeft = function (string, chars, sign) {
 /**
  * Should be called to pad string to expected length
  *
- * @medod padRight
+ * @method padRight
  * @param {String} string to be padded
  * @param {Number} characters that result string should have
  * @param {String} sign, by default 0
@@ -1978,7 +1978,7 @@ var padRight = function (string, chars, sign) {
 /**
  * Should be called to get utf8 from it's hex representation
  *
- * @medod toUtf8
+ * @method toUtf8
  * @param {String} string in hex
  * @returns {String} ascii string representation of hex value
  */
@@ -2002,7 +2002,7 @@ var toUtf8 = function(hex) {
 /**
  * Should be called to get ascii from it's hex representation
  *
- * @medod toAscii
+ * @method toAscii
  * @param {String} string in hex
  * @returns {String} ascii string representation of hex value
  */
@@ -2024,7 +2024,7 @@ var toAscii = function(hex) {
 /**
  * Should be called to get hex representation (prefixed by 0x) of utf8 string
  *
- * @medod fromUtf8
+ * @method fromUtf8
  * @param {String} string
  * @param {Number} optional padding
  * @returns {String} hex representation of input string
@@ -2046,7 +2046,7 @@ var fromUtf8 = function(str) {
 /**
  * Should be called to get hex representation (prefixed by 0x) of ascii string
  *
- * @medod fromAscii
+ * @method fromAscii
  * @param {String} string
  * @param {Number} optional padding
  * @returns {String} hex representation of input string
@@ -2065,7 +2065,7 @@ var fromAscii = function(str) {
 /**
  * Should be used to create full function/event name from json abi
  *
- * @medod transformToFullName
+ * @method transformToFullName
  * @param {Object} json-abi
  * @return {String} full fnction/event name
  */
@@ -2081,7 +2081,7 @@ var transformToFullName = function (json) {
 /**
  * Should be called to get display name of contract function
  *
- * @medod extractDisplayName
+ * @method extractDisplayName
  * @param {String} name of function/event
  * @returns {String} display name for function/event eg. multiply(uint256) -> multiply
  */
@@ -2100,7 +2100,7 @@ var extractTypeName = function (name) {
 /**
  * Converts value to it's decimal representation in string
  *
- * @medod toDecimal
+ * @method toDecimal
  * @param {String|Number|BigNumber}
  * @return {String}
  */
@@ -2111,7 +2111,7 @@ var toDecimal = function (value) {
 /**
  * Converts value to it's hex representation
  *
- * @medod fromDecimal
+ * @method fromDecimal
  * @param {String|Number|BigNumber}
  * @return {String}
  */
@@ -2127,7 +2127,7 @@ var fromDecimal = function (value) {
  *
  * And even stringifys objects before.
  *
- * @medod toHex
+ * @method toHex
  * @param {String|Number|BigNumber|Object}
  * @return {String}
  */
@@ -2157,15 +2157,15 @@ var toHex = function (val) {
 };
 
 /**
- * Returns value of unit in Wei
+ * Returns value of unit in Seed
  *
- * @medod getValueOfUnit
- * @param {String} unit the unit to convert to, default eder
- * @returns {BigNumber} value of the unit (in Wei)
+ * @method getValueOfUnit
+ * @param {String} unit the unit to convert to, default tree
+ * @returns {BigNumber} value of the unit (in Seed)
  * @throws error if the unit is not correct:w
  */
 var getValueOfUnit = function (unit) {
-    unit = unit ? unit.toLowerCase() : 'eder';
+    unit = unit ? unit.toLowerCase() : 'tree';
     var unitValue = unitMap[unit];
     if (unitValue === undefined) {
         throw new Error('This unit doesn\'t exists, please use the one of the following units' + JSON.stringify(unitMap, null, 2));
@@ -2174,24 +2174,24 @@ var getValueOfUnit = function (unit) {
 };
 
 /**
- * Takes a number of seed and converts it to any other eder unit.
+ * Takes a number of seed and converts it to any other tree unit.
  *
  * Possible units are:
  *   SI Short   SI Full        Effigy       Other
- * - kseed       femtoeder     babbage
- * - mseed       picoeder      lovelace
- * - gseed       nanoeder      shannon      nano
- * - --         microeder     rajpal        micro
- * - --         millieder     kam       milli
- * - eder      --             --
- * - keder                    --           grand
- * - meder
- * - geder
- * - teder
+ * - kseed       femtotree     babbage
+ * - mseed       picotree      lovelace
+ * - gseed       nanotree      shannon      nano
+ * - --         microtree     rajpal        micro
+ * - --         millitree     kam       milli
+ * - tree      --             --
+ * - ktree                    --           grand
+ * - mtree
+ * - gtree
+ * - ttree
  *
- * @medod fromSeed
+ * @method fromSeed
  * @param {Number|String} number can be a number, number string or a HEX of a decimal
- * @param {String} unit the unit to convert to, default eder
+ * @param {String} unit the unit to convert to, default tree
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
 var fromSeed = function(number, unit) {
@@ -2205,21 +2205,21 @@ var fromSeed = function(number, unit) {
  *
  * Possible units are:
  *   SI Short   SI Full        Effigy       Other
- * - kseed       femtoeder     babbage
- * - mseed       picoeder      lovelace
- * - gseed       nanoeder      shannon      nano
- * - --         microeder     rajpal        micro
- * - --         microeder     rajpal        micro
- * - --         millieder     kam       milli
- * - eder      --             --
- * - keder                    --           grand
- * - meder
- * - geder
- * - teder
+ * - kseed       femtotree     babbage
+ * - mseed       picotree      lovelace
+ * - gseed       nanotree      shannon      nano
+ * - --         microtree     rajpal        micro
+ * - --         microtree     rajpal        micro
+ * - --         millitree     kam       milli
+ * - tree      --             --
+ * - ktree                    --           grand
+ * - mtree
+ * - gtree
+ * - ttree
  *
- * @medod toSeed
+ * @method toSeed
  * @param {Number|String|BigNumber} number can be a number, number string or a HEX of a decimal
- * @param {String} unit the unit to convert from, default eder
+ * @param {String} unit the unit to convert from, default tree
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
 var toSeed = function(number, unit) {
@@ -2231,7 +2231,7 @@ var toSeed = function(number, unit) {
 /**
  * Takes an input and transforms it into an bignumber
  *
- * @medod toBigNumber
+ * @method toBigNumber
  * @param {Number|String|BigNumber} a number, string, HEX string or BigNumber
  * @return {BigNumber} BigNumber
 */
@@ -2251,7 +2251,7 @@ var toBigNumber = function(number) {
 /**
  * Takes and input transforms it into bignumber and if it is negative value, into two's complement
  *
- * @medod toTwosComplement
+ * @method toTwosComplement
  * @param {Number|String|BigNumber}
  * @return {BigNumber}
  */
@@ -2266,7 +2266,7 @@ var toTwosComplement = function (number) {
 /**
  * Checks if the given string is strictly an address
  *
- * @medod isStrictAddress
+ * @method isStrictAddress
  * @param {String} address the given HEX adress
  * @return {Boolean}
 */
@@ -2277,7 +2277,7 @@ var isStrictAddress = function (address) {
 /**
  * Checks if the given string is an address
  *
- * @medod isAddress
+ * @method isAddress
  * @param {String} address the given HEX adress
  * @return {Boolean}
 */
@@ -2299,7 +2299,7 @@ var isAddress = function (address) {
 /**
  * Checks if the given string is a checksummed address
  *
- * @medod isChecksumAddress
+ * @method isChecksumAddress
  * @param {String} address the given HEX adress
  * @return {Boolean}
 */
@@ -2322,7 +2322,7 @@ var isChecksumAddress = function (address) {
 /**
  * Makes a checksum address
  *
- * @medod toChecksumAddress
+ * @method toChecksumAddress
  * @param {String} address the given HEX adress
  * @return {String}
 */
@@ -2347,7 +2347,7 @@ var toChecksumAddress = function (address) {
 /**
  * Transforms given string to valid 20 bytes-length addres with 0x prefix
  *
- * @medod toAddress
+ * @method toAddress
  * @param {String} address
  * @return {String} formatted address
  */
@@ -2366,7 +2366,7 @@ var toAddress = function (address) {
 /**
  * Returns true if object is BigNumber, otherwise false
  *
- * @medod isBigNumber
+ * @method isBigNumber
  * @param {Object}
  * @return {Boolean}
  */
@@ -2378,7 +2378,7 @@ var isBigNumber = function (object) {
 /**
  * Returns true if object is string, otherwise false
  *
- * @medod isString
+ * @method isString
  * @param {Object}
  * @return {Boolean}
  */
@@ -2390,7 +2390,7 @@ var isString = function (object) {
 /**
  * Returns true if object is function, otherwise false
  *
- * @medod isFunction
+ * @method isFunction
  * @param {Object}
  * @return {Boolean}
  */
@@ -2401,7 +2401,7 @@ var isFunction = function (object) {
 /**
  * Returns true if object is Objet, otherwise false
  *
- * @medod isObject
+ * @method isObject
  * @param {Object}
  * @return {Boolean}
  */
@@ -2412,7 +2412,7 @@ var isObject = function (object) {
 /**
  * Returns true if object is boolean, otherwise false
  *
- * @medod isBoolean
+ * @method isBoolean
  * @param {Object}
  * @return {Boolean}
  */
@@ -2423,7 +2423,7 @@ var isBoolean = function (object) {
 /**
  * Returns true if object is array, otherwise false
  *
- * @medod isArray
+ * @method isArray
  * @param {Object}
  * @return {Boolean}
  */
@@ -2434,7 +2434,7 @@ var isArray = function (object) {
 /**
  * Returns true if given string is valid json object
  *
- * @medod isJson
+ * @method isJson
  * @param {String}
  * @return {Boolean}
  */
@@ -2512,11 +2512,11 @@ module.exports={
 
 var RequestManager = require('./web3/requestmanager');
 var Iban = require('./web3/iban');
-var Ed = require('./web3/medods/ed');
-var DB = require('./web3/medods/db');
-var Shh = require('./web3/medods/shh');
-var Net = require('./web3/medods/net');
-var Personal = require('./web3/medods/personal');
+var Ed = require('./web3/methods/ed');
+var DB = require('./web3/methods/db');
+var Shh = require('./web3/methods/shh');
+var Net = require('./web3/methods/net');
+var Personal = require('./web3/methods/personal');
 var Settings = require('./web3/settings');
 var version = require('./version.json');
 var utils = require('./utils/utils');
@@ -2630,7 +2630,7 @@ Web3.prototype.createBatch = function () {
 module.exports = Web3;
 
 
-},{"./utils/sha3":19,"./utils/utils":20,"./version.json":21,"./web3/batch":24,"./web3/extend":28,"./web3/httpprovider":32,"./web3/iban":33,"./web3/ipcprovider":34,"./web3/medods/db":37,"./web3/medods/ed":38,"./web3/medods/net":39,"./web3/medods/personal":40,"./web3/medods/shh":41,"./web3/property":44,"./web3/requestmanager":45,"./web3/settings":46}],23:[function(require,module,exports){
+},{"./utils/sha3":19,"./utils/utils":20,"./version.json":21,"./web3/batch":24,"./web3/extend":28,"./web3/httpprovider":32,"./web3/iban":33,"./web3/ipcprovider":34,"./web3/methods/db":37,"./web3/methods/ed":38,"./web3/methods/net":39,"./web3/methods/personal":40,"./web3/methods/shh":41,"./web3/property":44,"./web3/requestmanager":45,"./web3/settings":46}],23:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -2658,7 +2658,7 @@ var SolidityEvent = require('./event');
 var formatters = require('./formatters');
 var utils = require('../utils/utils');
 var Filter = require('./filter');
-var watches = require('./medods/watches');
+var watches = require('./methods/watches');
 
 var AllSolidityEvents = function (requestManager, json, address) {
     this._requestManager = requestManager;
@@ -2720,7 +2720,7 @@ AllSolidityEvents.prototype.attachToContract = function (contract) {
 module.exports = AllSolidityEvents;
 
 
-},{"../utils/sha3":19,"../utils/utils":20,"./event":27,"./filter":29,"./formatters":30,"./medods/watches":42}],24:[function(require,module,exports){
+},{"../utils/sha3":19,"../utils/utils":20,"./event":27,"./filter":29,"./formatters":30,"./methods/watches":42}],24:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -2754,7 +2754,7 @@ var Batch = function (web3) {
 /**
  * Should be called to add create new request to batch request
  *
- * @medod add
+ * @method add
  * @param {Object} jsonrpc requet object
  */
 Batch.prototype.add = function (request) {
@@ -2764,7 +2764,7 @@ Batch.prototype.add = function (request) {
 /**
  * Should be called to execute batch request
  *
- * @medod execute
+ * @method execute
  */
 Batch.prototype.execute = function () {
     var requests = this.requests;
@@ -2820,7 +2820,7 @@ var AllEvents = require('./allevents');
 /**
  * Should be called to encode constructor params
  *
- * @medod encodeConstructorParams
+ * @method encodeConstructorParams
  * @param {Array} abi
  * @param {Array} constructor params
  */
@@ -2839,7 +2839,7 @@ var encodeConstructorParams = function (abi, params) {
 /**
  * Should be called to add functions to contract object
  *
- * @medod addFunctionsToContract
+ * @method addFunctionsToContract
  * @param {Contract} contract
  * @param {Array} abi
  */
@@ -2856,7 +2856,7 @@ var addFunctionsToContract = function (contract) {
 /**
  * Should be called to add events to contract object
  *
- * @medod addEventsToContract
+ * @method addEventsToContract
  * @param {Contract} contract
  * @param {Array} abi
  */
@@ -2879,7 +2879,7 @@ var addEventsToContract = function (contract) {
 /**
  * Should be called to check if the contract gets properly deployed on the blockchain.
  *
- * @medod checkForContractAddress
+ * @method checkForContractAddress
  * @param {Object} contract
  * @param {Function} callback
  * @returns {Undefined}
@@ -2925,7 +2925,7 @@ var checkForContractAddress = function(contract, callback){
 
                                 contract.address = receipt.contractAddress;
 
-                                // attach events and medods again after we have
+                                // attach events and methods again after we have
                                 addFunctionsToContract(contract);
                                 addEventsToContract(contract);
 
@@ -2950,7 +2950,7 @@ var checkForContractAddress = function(contract, callback){
 /**
  * Should be called to create new ContractFactory instance
  *
- * @medod ContractFactory
+ * @method ContractFactory
  * @param {Array} abi
  */
 var ContractFactory = function (ed, abi) {
@@ -2960,7 +2960,7 @@ var ContractFactory = function (ed, abi) {
     /**
      * Should be called to create new contract on a blockchain
      *
-     * @medod new
+     * @method new
      * @param {Any} contract constructor param1 (optional)
      * @param {Any} contract constructor param2 (optional)
      * @param {Object} contract transaction object (required)
@@ -3019,7 +3019,7 @@ var ContractFactory = function (ed, abi) {
 /**
  * Should be called to create new ContractFactory
  *
- * @medod contract
+ * @method contract
  * @param {Array} abi
  * @returns {ContractFactory} new contract factory
  */
@@ -3032,7 +3032,7 @@ var ContractFactory = function (ed, abi) {
 /**
  * Should be called to get access to existing contract on a blockchain
  *
- * @medod at
+ * @method at
  * @param {Address} contract address (required)
  * @param {Function} callback {optional)
  * @returns {Contract} returns contract if no callback was passed,
@@ -3055,7 +3055,7 @@ ContractFactory.prototype.at = function (address, callback) {
 /**
  * Gets the data, which is data to deploy plus constructor params
  *
- * @medod getData
+ * @method getData
  */
 ContractFactory.prototype.getData = function () {
     var options = {}; // required!
@@ -3075,7 +3075,7 @@ ContractFactory.prototype.getData = function () {
 /**
  * Should be called to create new contract instance
  *
- * @medod Contract
+ * @method Contract
  * @param {Array} abi
  * @param {Address} contract address
  */
@@ -3156,7 +3156,7 @@ var coder = require('../solidity/coder');
 var formatters = require('./formatters');
 var sha3 = require('../utils/sha3');
 var Filter = require('./filter');
-var watches = require('./medods/watches');
+var watches = require('./methods/watches');
 
 /**
  * This prototype should be used to create event filters
@@ -3172,7 +3172,7 @@ var SolidityEvent = function (requestManager, json, address) {
 /**
  * Should be used to get filtered param types
  *
- * @medod types
+ * @method types
  * @param {Bool} decide if returned typed should be indexed
  * @return {Array} array of types
  */
@@ -3187,7 +3187,7 @@ SolidityEvent.prototype.types = function (indexed) {
 /**
  * Should be used to get event display name
  *
- * @medod displayName
+ * @method displayName
  * @return {String} event display name
  */
 SolidityEvent.prototype.displayName = function () {
@@ -3197,7 +3197,7 @@ SolidityEvent.prototype.displayName = function () {
 /**
  * Should be used to get event type name
  *
- * @medod typeName
+ * @method typeName
  * @return {String} event type name
  */
 SolidityEvent.prototype.typeName = function () {
@@ -3207,7 +3207,7 @@ SolidityEvent.prototype.typeName = function () {
 /**
  * Should be used to get event signature
  *
- * @medod signature
+ * @method signature
  * @return {String} event signature
  */
 SolidityEvent.prototype.signature = function () {
@@ -3217,10 +3217,10 @@ SolidityEvent.prototype.signature = function () {
 /**
  * Should be used to encode indexed params and options to one final object
  *
- * @medod encode
+ * @method encode
  * @param {Object} indexed
  * @param {Object} options
- * @return {Object} everything combined togeder and encoded
+ * @return {Object} everything combined together and encoded
  */
 SolidityEvent.prototype.encode = function (indexed, options) {
     indexed = indexed || {};
@@ -3264,7 +3264,7 @@ SolidityEvent.prototype.encode = function (indexed, options) {
 /**
  * Should be used to decode indexed params and options
  *
- * @medod decode
+ * @method decode
  * @param {Object} data
  * @return {Object} result object with decoded indexed && not indexed params
  */
@@ -3298,7 +3298,7 @@ SolidityEvent.prototype.decode = function (data) {
 /**
  * Should be used to create new filter object from event
  *
- * @medod execute
+ * @method execute
  * @param {Object} indexed
  * @param {Object} options
  * @return {Object} filter object
@@ -3323,7 +3323,7 @@ SolidityEvent.prototype.execute = function (indexed, options, callback) {
 /**
  * Should be used to attach event to contract object
  *
- * @medod attachToContract
+ * @method attachToContract
  * @param {Contract}
  */
 SolidityEvent.prototype.attachToContract = function (contract) {
@@ -3338,10 +3338,10 @@ SolidityEvent.prototype.attachToContract = function (contract) {
 module.exports = SolidityEvent;
 
 
-},{"../solidity/coder":7,"../utils/sha3":19,"../utils/utils":20,"./filter":29,"./formatters":30,"./medods/watches":42}],28:[function(require,module,exports){
+},{"../solidity/coder":7,"../utils/sha3":19,"../utils/utils":20,"./filter":29,"./formatters":30,"./methods/watches":42}],28:[function(require,module,exports){
 var formatters = require('./formatters');
 var utils = require('./../utils/utils');
-var Medod = require('./medod');
+var Medod = require('./method');
 var Property = require('./property');
 
 // TODO: refactor, so the input params are not altered.
@@ -3360,10 +3360,10 @@ var extend = function (web3) {
             extendedObject = web3;
         }
 
-        if (extension.medods) {
-            extension.medods.forEach(function (medod) {
-                medod.attachToObject(extendedObject);
-                medod.setRequestManager(web3._requestManager);
+        if (extension.methods) {
+            extension.methods.forEach(function (method) {
+                method.attachToObject(extendedObject);
+                method.setRequestManager(web3._requestManager);
             });
         }
 
@@ -3388,7 +3388,7 @@ var extend = function (web3) {
 module.exports = extend;
 
 
-},{"./../utils/utils":20,"./formatters":30,"./medod":36,"./property":44}],29:[function(require,module,exports){
+},{"./../utils/utils":20,"./formatters":30,"./method":36,"./property":44}],29:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -3437,7 +3437,7 @@ var toTopic = function(value){
         return utils.fromUtf8(value);
 };
 
-/// This medod should be called on options object, to verify deprecated properties && lazy load dynamic ones
+/// This method should be called on options object, to verify deprecated properties && lazy load dynamic ones
 /// @param should be string or object
 /// @returns options string or object
 var getOptions = function (options) {
@@ -3465,9 +3465,9 @@ var getOptions = function (options) {
 };
 
 /**
-Adds the callback and sets up the medods, to iterate over the results.
+Adds the callback and sets up the methods, to iterate over the results.
 
-@medod getLogsAtStart
+@method getLogsAtStart
 @param {Object} self
 @param {funciton}
 */
@@ -3490,9 +3490,9 @@ var getLogsAtStart = function(self, callback){
 };
 
 /**
-Adds the callback and sets up the medods, to iterate over the results.
+Adds the callback and sets up the methods, to iterate over the results.
 
-@medod pollFilter
+@method pollFilter
 @param {Object} self
 */
 var pollFilter = function(self) {
@@ -3515,18 +3515,18 @@ var pollFilter = function(self) {
     };
 
     self.requestManager.startPolling({
-        medod: self.implementation.poll.call,
+        method: self.implementation.poll.call,
         params: [self.filterId],
     }, self.filterId, onMessage, self.stopWatching.bind(self));
 
 };
 
-var Filter = function (requestManager, options, medods, formatter, callback) {
+var Filter = function (requestManager, options, methods, formatter, callback) {
     var self = this;
     var implementation = {};
-    medods.forEach(function (medod) {
-        medod.setRequestManager(requestManager);
-        medod.attachToObject(implementation);
+    methods.forEach(function (method) {
+        method.setRequestManager(requestManager);
+        method.attachToObject(implementation);
     });
     this.requestManager = requestManager;
     this.options = getOptions(options);
@@ -3606,7 +3606,7 @@ Filter.prototype.get = function (callback) {
         }
     } else {
         if (this.filterId === null) {
-            throw new Error('Filter ID Error: filter().get() can\'t be chained synchronous, please provide a callback for the get() medod.');
+            throw new Error('Filter ID Error: filter().get() can\'t be chained synchronous, please provide a callback for the get() method.');
         }
         var logs = this.implementation.getLogs(this.filterId);
         return logs.map(function (log) {
@@ -3651,7 +3651,7 @@ var Iban = require('./iban');
 /**
  * Should the format output to a big number
  *
- * @medod outputBigNumberFormatter
+ * @method outputBigNumberFormatter
  * @param {String|Number|BigNumber}
  * @returns {BigNumber} object
  */
@@ -3682,7 +3682,7 @@ var inputBlockNumberFormatter = function (blockNumber) {
 /**
  * Formats the input of a transaction and converts all values to HEX
  *
- * @medod inputCallFormatter
+ * @method inputCallFormatter
  * @param {Object} transaction options
  * @returns object
 */
@@ -3710,7 +3710,7 @@ var inputCallFormatter = function (options){
 /**
  * Formats the input of a transaction and converts all values to HEX
  *
- * @medod inputTransactionFormatter
+ * @method inputTransactionFormatter
  * @param {Object} transaction options
  * @returns object
 */
@@ -3735,7 +3735,7 @@ var inputTransactionFormatter = function (options){
 /**
  * Formats the output of a transaction to its proper values
  *
- * @medod outputTransactionFormatter
+ * @method outputTransactionFormatter
  * @param {Object} tx
  * @returns {Object}
 */
@@ -3754,7 +3754,7 @@ var outputTransactionFormatter = function (tx){
 /**
  * Formats the output of a transaction receipt to its proper values
  *
- * @medod outputTransactionReceiptFormatter
+ * @method outputTransactionReceiptFormatter
  * @param {Object} receipt
  * @returns {Object}
 */
@@ -3778,7 +3778,7 @@ var outputTransactionReceiptFormatter = function (receipt){
 /**
  * Formats the output of a block to its proper values
  *
- * @medod outputBlockFormatter
+ * @method outputBlockFormatter
  * @param {Object} block
  * @returns {Object}
 */
@@ -3808,7 +3808,7 @@ var outputBlockFormatter = function(block) {
 /**
  * Formats the output of a log
  *
- * @medod outputLogFormatter
+ * @method outputLogFormatter
  * @param {Object} log object
  * @returns {Object} log
 */
@@ -3826,7 +3826,7 @@ var outputLogFormatter = function(log) {
 /**
  * Formats the input of a whisper post and converts all values to HEX
  *
- * @medod inputPostFormatter
+ * @method inputPostFormatter
  * @param {Object} transaction object
  * @returns {Object}
 */
@@ -3854,7 +3854,7 @@ var inputPostFormatter = function(post) {
 /**
  * Formats the output of a received post message
  *
- * @medod outputPostFormatter
+ * @method outputPostFormatter
  * @param {Object}
  * @returns {Object}
  */
@@ -3985,7 +3985,7 @@ SolidityFunction.prototype.extractDefaultBlock = function (args) {
 /**
  * Should be used to create payload from arguments
  *
- * @medod toPayload
+ * @method toPayload
  * @param {Array} solidity function params
  * @param {Object} optional payload options
  */
@@ -4002,7 +4002,7 @@ SolidityFunction.prototype.toPayload = function (args) {
 /**
  * Should be used to get function signature
  *
- * @medod signature
+ * @method signature
  * @return {String} function signature
  */
 SolidityFunction.prototype.signature = function () {
@@ -4023,7 +4023,7 @@ SolidityFunction.prototype.unpackOutput = function (output) {
 /**
  * Calls a contract function.
  *
- * @medod call
+ * @method call
  * @param {...Object} Contract function arguments
  * @param {function} If the last argument is a function, the contract function
  *   call will be asynchronous, and the callback will be passed the
@@ -4051,7 +4051,7 @@ SolidityFunction.prototype.call = function () {
 /**
  * Should be used to sendTransaction to solidity function
  *
- * @medod sendTransaction
+ * @method sendTransaction
  */
 SolidityFunction.prototype.sendTransaction = function () {
     var args = Array.prototype.slice.call(arguments).filter(function (a) {return a !== undefined; });
@@ -4068,7 +4068,7 @@ SolidityFunction.prototype.sendTransaction = function () {
 /**
  * Should be used to estimateGas of solidity function
  *
- * @medod estimateGas
+ * @method estimateGas
  */
 SolidityFunction.prototype.estimateGas = function () {
     var args = Array.prototype.slice.call(arguments);
@@ -4085,7 +4085,7 @@ SolidityFunction.prototype.estimateGas = function () {
 /**
  * Return the encoded data of the call
  *
- * @medod getData
+ * @method getData
  * @return {String} the encoded data
  */
 SolidityFunction.prototype.getData = function () {
@@ -4098,7 +4098,7 @@ SolidityFunction.prototype.getData = function () {
 /**
  * Should be used to get function display name
  *
- * @medod displayName
+ * @method displayName
  * @return {String} display name of the function
  */
 SolidityFunction.prototype.displayName = function () {
@@ -4108,7 +4108,7 @@ SolidityFunction.prototype.displayName = function () {
 /**
  * Should be used to get function type name
  *
- * @medod typeName
+ * @method typeName
  * @return {String} type name of the function
  */
 SolidityFunction.prototype.typeName = function () {
@@ -4118,7 +4118,7 @@ SolidityFunction.prototype.typeName = function () {
 /**
  * Should be called to get rpc requests from solidity function
  *
- * @medod request
+ * @method request
  * @returns {Object}
  */
 SolidityFunction.prototype.request = function () {
@@ -4128,7 +4128,7 @@ SolidityFunction.prototype.request = function () {
     var format = this.unpackOutput.bind(this);
 
     return {
-        medod: this._constant ? 'ed_call' : 'ed_sendTransaction',
+        method: this._constant ? 'ed_call' : 'ed_sendTransaction',
         callback: callback,
         params: [payload],
         format: format
@@ -4138,7 +4138,7 @@ SolidityFunction.prototype.request = function () {
 /**
  * Should be called to execute function
  *
- * @medod execute
+ * @method execute
  */
 SolidityFunction.prototype.execute = function () {
     var transaction = !this._constant;
@@ -4155,7 +4155,7 @@ SolidityFunction.prototype.execute = function () {
 /**
  * Should be called to attach function to contract
  *
- * @medod attachToContract
+ * @method attachToContract
  * @param {Contract}
  */
 SolidityFunction.prototype.attachToContract = function (contract) {
@@ -4230,7 +4230,7 @@ var HttpProvider = function (host) {
 /**
  * Should be called to prepare new XMLHttpRequest
  *
- * @medod prepareRequest
+ * @method prepareRequest
  * @param {Boolean} true if request should be async
  * @return {XMLHttpRequest} object
  */
@@ -4244,7 +4244,7 @@ HttpProvider.prototype.prepareRequest = function (async) {
 /**
  * Should be called to make sync request
  *
- * @medod send
+ * @method send
  * @param {Object} payload
  * @return {Object} result
  */
@@ -4271,7 +4271,7 @@ HttpProvider.prototype.send = function (payload) {
 /**
  * Should be used to make async request
  *
- * @medod sendAsync
+ * @method sendAsync
  * @param {Object} payload
  * @param {Function} callback triggered on end with (err, result)
  */
@@ -4303,7 +4303,7 @@ HttpProvider.prototype.sendAsync = function (payload, callback) {
 /**
  * Synchronously tries to make Http request
  *
- * @medod isConnected
+ * @method isConnected
  * @return {Boolean} returns true if request haven't failed. Otherwise false
  */
 HttpProvider.prototype.isConnected = function() {
@@ -4311,7 +4311,7 @@ HttpProvider.prototype.isConnected = function() {
         this.send({
             id: 9999999999,
             jsonrpc: '2.0',
-            medod: 'net_listening',
+            method: 'net_listening',
             params: []
         });
         return true;
@@ -4360,7 +4360,7 @@ var padLeft = function (string, bytes) {
  * Prepare an IBAN for mod 97 computation by moving the first 4 chars to the end and transforming the letters to
  * numbers (A = 10, B = 11, ..., Z = 35), as specified in ISO13616.
  *
- * @medod iso13616Prepare
+ * @method iso13616Prepare
  * @param {String} iban the IBAN
  * @returns {String} the prepared IBAN
  */
@@ -4385,7 +4385,7 @@ var iso13616Prepare = function (iban) {
 /**
  * Calculates the MOD 97 10 of the passed IBAN as specified in ISO7064.
  *
- * @medod mod9710
+ * @method mod9710
  * @param {String} iban
  * @returns {Number}
  */
@@ -4411,9 +4411,9 @@ var Iban = function (iban) {
 };
 
 /**
- * This medod should be used to create iban object from edereum address
+ * This method should be used to create iban object from earthdollar address
  *
- * @medod fromAddress
+ * @method fromAddress
  * @param {String} address
  * @return {Iban} the IBAN object
  */
@@ -4427,9 +4427,9 @@ Iban.fromAddress = function (address) {
 /**
  * Convert the passed BBAN to an IBAN for this country specification.
  * Please note that <i>"generation of the IBAN shall be the exclusive responsibility of the bank/branch servicing the account"</i>.
- * This medod implements the preferred algorithm described in http://en.wikipedia.org/wiki/International_Bank_Account_Number#Generating_IBAN_check_digits
+ * This method implements the preferred algorithm described in http://en.wikipedia.org/wiki/International_Bank_Account_Number#Generating_IBAN_check_digits
  *
- * @medod fromBban
+ * @method fromBban
  * @param {String} bban the BBAN to convert to IBAN
  * @returns {Iban} the IBAN object
  */
@@ -4445,7 +4445,7 @@ Iban.fromBban = function (bban) {
 /**
  * Should be used to create IBAN object for given institution and identifier
  *
- * @medod createIndirect
+ * @method createIndirect
  * @param {Object} options, required options are "institution" and "identifier"
  * @return {Iban} the IBAN object
  */
@@ -4454,9 +4454,9 @@ Iban.createIndirect = function (options) {
 };
 
 /**
- * Thos medod should be used to check if given string is valid iban object
+ * Thos method should be used to check if given string is valid iban object
  *
- * @medod isValid
+ * @method isValid
  * @param {String} iban string
  * @return {Boolean} true if it is valid IBAN
  */
@@ -4468,7 +4468,7 @@ Iban.isValid = function (iban) {
 /**
  * Should be called to check if iban is correct
  *
- * @medod isValid
+ * @method isValid
  * @returns {Boolean} true if it is, otherwise false
  */
 Iban.prototype.isValid = function () {
@@ -4479,7 +4479,7 @@ Iban.prototype.isValid = function () {
 /**
  * Should be called to check if iban number is direct
  *
- * @medod isDirect
+ * @method isDirect
  * @returns {Boolean} true if it is, otherwise false
  */
 Iban.prototype.isDirect = function () {
@@ -4489,7 +4489,7 @@ Iban.prototype.isDirect = function () {
 /**
  * Should be called to check if iban number if indirect
  *
- * @medod isIndirect
+ * @method isIndirect
  * @returns {Boolean} true if it is, otherwise false
  */
 Iban.prototype.isIndirect = function () {
@@ -4500,7 +4500,7 @@ Iban.prototype.isIndirect = function () {
  * Should be called to get iban checksum
  * Uses the mod-97-10 checksumming protocol (ISO/IEC 7064:2003)
  *
- * @medod checksum
+ * @method checksum
  * @returns {String} checksum
  */
 Iban.prototype.checksum = function () {
@@ -4511,7 +4511,7 @@ Iban.prototype.checksum = function () {
  * Should be called to get institution identifier
  * eg. XREG
  *
- * @medod institution
+ * @method institution
  * @returns {String} institution identifier
  */
 Iban.prototype.institution = function () {
@@ -4522,7 +4522,7 @@ Iban.prototype.institution = function () {
  * Should be called to get client identifier within institution
  * eg. GAVOFYORK
  *
- * @medod client
+ * @method client
  * @returns {String} client identifier
  */
 Iban.prototype.client = function () {
@@ -4532,7 +4532,7 @@ Iban.prototype.client = function () {
 /**
  * Should be called to get client direct address
  *
- * @medod address
+ * @method address
  * @returns {String} client direct address
  */
 Iban.prototype.address = function () {
@@ -4628,7 +4628,7 @@ var IpcProvider = function (path, net) {
 /**
 Will parse the response and make an array out of it.
 
-@medod _parseResponse
+@method _parseResponse
 @param {String} data
 */
 IpcProvider.prototype._parseResponse = function(data) {
@@ -4684,20 +4684,20 @@ IpcProvider.prototype._parseResponse = function(data) {
 Get the adds a callback to the responseCallbacks object,
 which will be called if a response matching the response Id will arrive.
 
-@medod _addResponseCallback
+@method _addResponseCallback
 */
 IpcProvider.prototype._addResponseCallback = function(payload, callback) {
     var id = payload.id || payload[0].id;
-    var medod = payload.medod || payload[0].medod;
+    var method = payload.method || payload[0].method;
 
     this.responseCallbacks[id] = callback;
-    this.responseCallbacks[id].medod = medod;
+    this.responseCallbacks[id].method = method;
 };
 
 /**
 Timeout all requests when the end/error event is fired
 
-@medod _timeout
+@method _timeout
 */
 IpcProvider.prototype._timeout = function() {
     for(var key in this.responseCallbacks) {
@@ -4712,7 +4712,7 @@ IpcProvider.prototype._timeout = function() {
 /**
 Check if the current connection is still valid.
 
-@medod isConnected
+@method isConnected
 */
 IpcProvider.prototype.isConnected = function() {
     var _this = this;
@@ -4744,7 +4744,7 @@ IpcProvider.prototype.send = function (payload) {
         return result;
 
     } else {
-        throw new Error('You tried to send "'+ payload.medod +'" synchronously. Synchronous requests are not supported by the IPC provider.');
+        throw new Error('You tried to send "'+ payload.method +'" synchronously. Synchronous requests are not supported by the IPC provider.');
     }
 };
 
@@ -4805,18 +4805,18 @@ Jsonrpc.getInstance = function () {
 /**
  * Should be called to valid json create payload object
  *
- * @medod toPayload
- * @param {Function} medod of jsonrpc call, required
- * @param {Array} params, an array of medod params, optional
+ * @method toPayload
+ * @param {Function} method of jsonrpc call, required
+ * @param {Array} params, an array of method params, optional
  * @returns {Object} valid jsonrpc payload object
  */
-Jsonrpc.prototype.toPayload = function (medod, params) {
-    if (!medod)
-        console.error('jsonrpc medod should be specified!');
+Jsonrpc.prototype.toPayload = function (method, params) {
+    if (!method)
+        console.error('jsonrpc method should be specified!');
 
     return {
         jsonrpc: '2.0',
-        medod: medod,
+        method: method,
         params: params || [],
         id: this.messageId++
     };
@@ -4825,7 +4825,7 @@ Jsonrpc.prototype.toPayload = function (medod, params) {
 /**
  * Should be called to check if jsonrpc response is valid
  *
- * @medod isValidResponse
+ * @method isValidResponse
  * @param {Object}
  * @returns {Boolean} true if response is valid, otherwise false
  */
@@ -4840,14 +4840,14 @@ Jsonrpc.prototype.isValidResponse = function (response) {
 /**
  * Should be called to create batch payload object
  *
- * @medod toBatchPayload
- * @param {Array} messages, an array of objects with medod (required) and params (optional) fields
+ * @method toBatchPayload
+ * @param {Array} messages, an array of objects with method (required) and params (optional) fields
  * @returns {Array} batch payload
  */
 Jsonrpc.prototype.toBatchPayload = function (messages) {
     var self = this;
     return messages.map(function (message) {
-        return self.toPayload(message.medod, message.params);
+        return self.toPayload(message.method, message.params);
     });
 };
 
@@ -4872,7 +4872,7 @@ module.exports = Jsonrpc;
     along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * @file medod.js
+ * @file method.js
  * @author Marek Kotewicz <marek@eddev.com>
  * @date 2015
  */
@@ -4894,11 +4894,11 @@ Medod.prototype.setRequestManager = function (rm) {
 };
 
 /**
- * Should be used to determine name of the jsonrpc medod based on arguments
+ * Should be used to determine name of the jsonrpc method based on arguments
  *
- * @medod getCall
+ * @method getCall
  * @param {Array} arguments
- * @return {String} name of jsonrpc medod
+ * @return {String} name of jsonrpc method
  */
 Medod.prototype.getCall = function (args) {
     return utils.isFunction(this.call) ? this.call(args) : this.call;
@@ -4907,7 +4907,7 @@ Medod.prototype.getCall = function (args) {
 /**
  * Should be used to extract callback from array of arguments. Modifies input param
  *
- * @medod extractCallback
+ * @method extractCallback
  * @param {Array} arguments
  * @return {Function|Null} callback, if exists
  */
@@ -4920,7 +4920,7 @@ Medod.prototype.extractCallback = function (args) {
 /**
  * Should be called to check if the number of arguments is correct
  *
- * @medod validateArgs
+ * @method validateArgs
  * @param {Array} arguments
  * @throws {Error} if it is not
  */
@@ -4931,9 +4931,9 @@ Medod.prototype.validateArgs = function (args) {
 };
 
 /**
- * Should be called to format input args of medod
+ * Should be called to format input args of method
  *
- * @medod formatInput
+ * @method formatInput
  * @param {Array}
  * @return {Array}
  */
@@ -4948,9 +4948,9 @@ Medod.prototype.formatInput = function (args) {
 };
 
 /**
- * Should be called to format output(result) of medod
+ * Should be called to format output(result) of method
  *
- * @medod formatOutput
+ * @method formatOutput
  * @param {Object}
  * @return {Object}
  */
@@ -4961,7 +4961,7 @@ Medod.prototype.formatOutput = function (result) {
 /**
  * Should create payload from given input args
  *
- * @medod toPayload
+ * @method toPayload
  * @param {Array} args
  * @return {Object}
  */
@@ -4972,7 +4972,7 @@ Medod.prototype.toPayload = function (args) {
     this.validateArgs(params);
 
     return {
-        medod: call,
+        method: call,
         params: params,
         callback: callback
     };
@@ -4991,15 +4991,15 @@ Medod.prototype.attachToObject = function (obj) {
 };
 
 Medod.prototype.buildCall = function() {
-    var medod = this;
+    var method = this;
     var send = function () {
-        var payload = medod.toPayload(Array.prototype.slice.call(arguments));
+        var payload = method.toPayload(Array.prototype.slice.call(arguments));
         if (payload.callback) {
-            return medod.requestManager.sendAsync(payload, function (err, result) {
-                payload.callback(err, medod.formatOutput(result));
+            return method.requestManager.sendAsync(payload, function (err, result) {
+                payload.callback(err, method.formatOutput(result));
             });
         }
-        return medod.formatOutput(medod.requestManager.send(payload));
+        return method.formatOutput(method.requestManager.send(payload));
     };
     send.request = this.request.bind(this);
     return send;
@@ -5008,7 +5008,7 @@ Medod.prototype.buildCall = function() {
 /**
  * Should be called to create pure JSONRPC request which can be used in batch request
  *
- * @medod request
+ * @method request
  * @param {...} params
  * @return {Object} jsonrpc request
  */
@@ -5044,20 +5044,20 @@ module.exports = Medod;
  * @date 2015
  */
 
-var Medod = require('../medod');
+var Medod = require('../method');
 
 var DB = function (web3) {
     this._requestManager = web3._requestManager;
 
     var self = this;
 
-    medods().forEach(function(medod) {
-        medod.attachToObject(self);
-        medod.setRequestManager(web3._requestManager);
+    methods().forEach(function(method) {
+        method.attachToObject(self);
+        method.setRequestManager(web3._requestManager);
     });
 };
 
-var medods = function () {
+var methods = function () {
     var putString = new Medod({
         name: 'putString',
         call: 'db_putString',
@@ -5089,7 +5089,7 @@ var medods = function () {
 
 module.exports = DB;
 
-},{"../medod":36}],38:[function(require,module,exports){
+},{"../method":36}],38:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -5117,7 +5117,7 @@ module.exports = DB;
 
 var formatters = require('../formatters');
 var utils = require('../../utils/utils');
-var Medod = require('../medod');
+var Medod = require('../method');
 var Property = require('../property');
 var c = require('../../utils/config');
 var Contract = require('../contract');
@@ -5153,9 +5153,9 @@ function Ed(web3) {
 
     var self = this;
 
-    medods().forEach(function(medod) {
-        medod.attachToObject(self);
-        medod.setRequestManager(self._requestManager);
+    methods().forEach(function(method) {
+        method.attachToObject(self);
+        method.setRequestManager(self._requestManager);
     });
 
     properties().forEach(function(p) {
@@ -5188,7 +5188,7 @@ Object.defineProperty(Ed.prototype, 'defaultAccount', {
     }
 });
 
-var medods = function () {
+var methods = function () {
     var getBalance = new Medod({
         name: 'getBalance',
         call: 'ed_getBalance',
@@ -5434,7 +5434,7 @@ Ed.prototype.isSyncing = function (callback) {
 module.exports = Ed;
 
 
-},{"../../utils/config":18,"../../utils/utils":20,"../contract":25,"../filter":29,"../formatters":30,"../iban":33,"../medod":36,"../namereg":43,"../property":44,"../syncing":47,"../transfer":48,"./watches":42}],39:[function(require,module,exports){
+},{"../../utils/config":18,"../../utils/utils":20,"../contract":25,"../filter":29,"../formatters":30,"../iban":33,"../method":36,"../namereg":43,"../property":44,"../syncing":47,"../transfer":48,"./watches":42}],39:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -5514,7 +5514,7 @@ module.exports = Net;
 
 "use strict";
 
-var Medod = require('../medod');
+var Medod = require('../method');
 var Property = require('../property');
 var formatters = require('../formatters');
 
@@ -5523,9 +5523,9 @@ function Personal(web3) {
 
     var self = this;
 
-    medods().forEach(function(medod) {
-        medod.attachToObject(self);
-        medod.setRequestManager(self._requestManager);
+    methods().forEach(function(method) {
+        method.attachToObject(self);
+        method.setRequestManager(self._requestManager);
     });
 
     properties().forEach(function(p) {
@@ -5534,7 +5534,7 @@ function Personal(web3) {
     });
 }
 
-var medods = function () {
+var methods = function () {
     var newAccount = new Medod({
         name: 'newAccount',
         call: 'personal_newAccount',
@@ -5575,7 +5575,7 @@ var properties = function () {
 
 module.exports = Personal;
 
-},{"../formatters":30,"../medod":36,"../property":44}],41:[function(require,module,exports){
+},{"../formatters":30,"../method":36,"../property":44}],41:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -5598,7 +5598,7 @@ module.exports = Personal;
  * @date 2015
  */
 
-var Medod = require('../medod');
+var Medod = require('../method');
 var formatters = require('../formatters');
 var Filter = require('../filter');
 var watches = require('./watches');
@@ -5608,9 +5608,9 @@ var Shh = function (web3) {
 
     var self = this;
 
-    medods().forEach(function(medod) {
-        medod.attachToObject(self);
-        medod.setRequestManager(self._requestManager);
+    methods().forEach(function(method) {
+        method.attachToObject(self);
+        method.setRequestManager(self._requestManager);
     });
 };
 
@@ -5618,7 +5618,7 @@ Shh.prototype.filter = function (fil, callback) {
     return new Filter(this._requestManager, fil, watches.shh(), formatters.outputPostFormatter, callback);
 };
 
-var medods = function () {
+var methods = function () {
 
     var post = new Medod({
         name: 'post',
@@ -5663,7 +5663,7 @@ var medods = function () {
 module.exports = Shh;
 
 
-},{"../filter":29,"../formatters":30,"../medod":36,"./watches":42}],42:[function(require,module,exports){
+},{"../filter":29,"../formatters":30,"../method":36,"./watches":42}],42:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -5686,9 +5686,9 @@ module.exports = Shh;
  * @date 2015
  */
 
-var Medod = require('../medod');
+var Medod = require('../method');
 
-/// @returns an array of objects describing web3.ed.filter api medods
+/// @returns an array of objects describing web3.ed.filter api methods
 var ed = function () {
     var newFilterCall = function (args) {
         var type = args[0];
@@ -5739,7 +5739,7 @@ var ed = function () {
     ];
 };
 
-/// @returns an array of objects describing web3.shh.watch api medods
+/// @returns an array of objects describing web3.shh.watch api methods
 var shh = function () {
     var newFilter = new Medod({
         name: 'newFilter',
@@ -5779,7 +5779,7 @@ module.exports = {
 };
 
 
-},{"../medod":36}],43:[function(require,module,exports){
+},{"../method":36}],43:[function(require,module,exports){
 /*
     This file is part of web3.js.
 
@@ -5860,9 +5860,9 @@ Property.prototype.setRequestManager = function (rm) {
 };
 
 /**
- * Should be called to format input args of medod
+ * Should be called to format input args of method
  *
- * @medod formatInput
+ * @method formatInput
  * @param {Array}
  * @return {Array}
  */
@@ -5871,9 +5871,9 @@ Property.prototype.formatInput = function (arg) {
 };
 
 /**
- * Should be called to format output(result) of medod
+ * Should be called to format output(result) of method
  *
- * @medod formatOutput
+ * @method formatOutput
  * @param {Object}
  * @return {Object}
  */
@@ -5884,7 +5884,7 @@ Property.prototype.formatOutput = function (result) {
 /**
  * Should be used to extract callback from array of arguments. Modifies input param
  *
- * @medod extractCallback
+ * @method extractCallback
  * @param {Array} arguments
  * @return {Function|Null} callback, if exists
  */
@@ -5896,9 +5896,9 @@ Property.prototype.extractCallback = function (args) {
 
 
 /**
- * Should attach function to medod
+ * Should attach function to method
  *
- * @medod attachToObject
+ * @method attachToObject
  * @param {Object}
  * @param {Function}
  */
@@ -5928,7 +5928,7 @@ Property.prototype.buildGet = function () {
     var property = this;
     return function get() {
         return property.formatOutput(property.requestManager.send({
-            medod: property.getter
+            method: property.getter
         }));
     };
 };
@@ -5937,7 +5937,7 @@ Property.prototype.buildAsyncGet = function () {
     var property = this;
     var get = function (callback) {
         property.requestManager.sendAsync({
-            medod: property.getter
+            method: property.getter
         }, function (err, result) {
             callback(err, property.formatOutput(result));
         });
@@ -5949,13 +5949,13 @@ Property.prototype.buildAsyncGet = function () {
 /**
  * Should be called to create pure JSONRPC request which can be used in batch request
  *
- * @medod request
+ * @method request
  * @param {...} params
  * @return {Object} jsonrpc request
  */
 Property.prototype.request = function () {
     var payload = {
-        medod: this.getter,
+        method: this.getter,
         params: [],
         callback: this.extractCallback(Array.prototype.slice.call(arguments))
     };
@@ -6000,7 +6000,7 @@ var errors = require('./errors');
 
 /**
  * It's responsible for passing messages to providers
- * It's also responsible for polling the edereum node for incoming messages
+ * It's also responsible for polling the earthdollar node for incoming messages
  * Default poll timeout is 1 second
  * Singleton
  */
@@ -6013,7 +6013,7 @@ var RequestManager = function (provider) {
 /**
  * Should be used to synchronously send request
  *
- * @medod send
+ * @method send
  * @param {Object} data
  * @return {Object}
  */
@@ -6023,7 +6023,7 @@ RequestManager.prototype.send = function (data) {
         return null;
     }
 
-    var payload = Jsonrpc.getInstance().toPayload(data.medod, data.params);
+    var payload = Jsonrpc.getInstance().toPayload(data.method, data.params);
     var result = this.provider.send(payload);
 
     if (!Jsonrpc.getInstance().isValidResponse(result)) {
@@ -6036,7 +6036,7 @@ RequestManager.prototype.send = function (data) {
 /**
  * Should be used to asynchronously send request
  *
- * @medod sendAsync
+ * @method sendAsync
  * @param {Object} data
  * @param {Function} callback
  */
@@ -6045,7 +6045,7 @@ RequestManager.prototype.sendAsync = function (data, callback) {
         return callback(errors.InvalidProvider());
     }
 
-    var payload = Jsonrpc.getInstance().toPayload(data.medod, data.params);
+    var payload = Jsonrpc.getInstance().toPayload(data.method, data.params);
     this.provider.sendAsync(payload, function (err, result) {
         if (err) {
             return callback(err);
@@ -6062,7 +6062,7 @@ RequestManager.prototype.sendAsync = function (data, callback) {
 /**
  * Should be called to asynchronously send batch request
  *
- * @medod sendBatch
+ * @method sendBatch
  * @param {Array} batch data
  * @param {Function} callback
  */
@@ -6089,7 +6089,7 @@ RequestManager.prototype.sendBatch = function (data, callback) {
 /**
  * Should be used to set provider of request manager
  *
- * @medod setProvider
+ * @method setProvider
  * @param {Object}
  */
 RequestManager.prototype.setProvider = function (p) {
@@ -6099,7 +6099,7 @@ RequestManager.prototype.setProvider = function (p) {
 /**
  * Should be used to start polling
  *
- * @medod startPolling
+ * @method startPolling
  * @param {Object} data
  * @param {Number} pollId
  * @param {Function} callback
@@ -6120,7 +6120,7 @@ RequestManager.prototype.startPolling = function (data, pollId, callback, uninst
 /**
  * Should be used to stop polling for filter with given id
  *
- * @medod stopPolling
+ * @method stopPolling
  * @param {Number} pollId
  */
 RequestManager.prototype.stopPolling = function (pollId) {
@@ -6136,7 +6136,7 @@ RequestManager.prototype.stopPolling = function (pollId) {
 /**
  * Should be called to reset the polling mechanism of the request manager
  *
- * @medod reset
+ * @method reset
  */
 RequestManager.prototype.reset = function (keepIsSyncing) {
     /*jshint maxcomplexity:5 */
@@ -6160,7 +6160,7 @@ RequestManager.prototype.reset = function (keepIsSyncing) {
 /**
  * Should be called to poll for changes on filter with given id
  *
- * @medod poll
+ * @method poll
  */
 RequestManager.prototype.poll = function () {
     /*jshint maxcomplexity: 6 */
@@ -6273,9 +6273,9 @@ var utils = require('../utils/utils');
 var count = 1;
 
 /**
-Adds the callback and sets up the medods, to iterate over the results.
+Adds the callback and sets up the methods, to iterate over the results.
 
-@medod pollSyncing
+@method pollSyncing
 @param {Object} self
 */
 var pollSyncing = function(self) {
@@ -6308,7 +6308,7 @@ var pollSyncing = function(self) {
     };
 
     self.requestManager.startPolling({
-        medod: 'ed_syncing',
+        method: 'ed_syncing',
         params: [],
     }, self.pollId, onMessage, self.stopWatching.bind(self));
 
@@ -6368,7 +6368,7 @@ var exchangeAbi = require('../contracts/SmartExchange.json');
 /**
  * Should be used to make Iban transfer
  *
- * @medod transfer
+ * @method transfer
  * @param {String} from
  * @param {String} to iban
  * @param {Value} value to be tranfered
@@ -6398,7 +6398,7 @@ var transfer = function (ed, from, to, value, callback) {
 /**
  * Should be used to transfer funds to certain address
  *
- * @medod transferToAddress
+ * @method transferToAddress
  * @param {String} from
  * @param {String} to
  * @param {Value} value to be tranfered
@@ -6413,9 +6413,9 @@ var transferToAddress = function (ed, from, to, value, callback) {
 };
 
 /**
- * Should be used to deposit funds to generic Exchange contract (must implement deposit(bytes32) medod!)
+ * Should be used to deposit funds to generic Exchange contract (must implement deposit(bytes32) method!)
  *
- * @medod deposit
+ * @method deposit
  * @param {String} from
  * @param {String} to
  * @param {Value} value to be transfered
@@ -7590,7 +7590,7 @@ module.exports = transfer;
 	             *     var MyType = CryptoJS.lib.Base.extend({
 	             *         field: 'value',
 	             *
-	             *         medod: function () {
+	             *         method: function () {
 	             *         }
 	             *     });
 	             */
@@ -7621,7 +7621,7 @@ module.exports = transfer;
 	            },
 
 	            /**
-	             * Extends this object and runs the init medod.
+	             * Extends this object and runs the init method.
 	             * Arguments to create() will be passed to init().
 	             *
 	             * @return {Object} The new object.
@@ -7641,7 +7641,7 @@ module.exports = transfer;
 
 	            /**
 	             * Initializes a newly created object.
-	             * Override this medod to add some logic when your objects are created.
+	             * Override this method to add some logic when your objects are created.
 	             *
 	             * @example
 	             *
@@ -8066,9 +8066,9 @@ module.exports = transfer;
 	        /**
 	         * Processes available data blocks.
 	         *
-	         * This medod invokes _doProcessBlock(offset), which must be implemented by a concrete subtype.
+	         * This method invokes _doProcessBlock(offset), which must be implemented by a concrete subtype.
 	         *
-	         * @param {boolean} doFlush Wheder all blocks and partial blocks should be processed.
+	         * @param {boolean} doFlush Whether all blocks and partial blocks should be processed.
 	         *
 	         * @return {WordArray} The processed data.
 	         *
@@ -13350,13 +13350,13 @@ module.exports = transfer;
             // For MAX_EXP > 1e7, e.g. new BigNumber('1e100000000').plus(1) may be slow.
             MAX_EXP = 1e7,                           // 1 to MAX
 
-            // Wheder BigNumber Errors are ever thrown.
+            // Whether BigNumber Errors are ever thrown.
             ERRORS = true,                           // true or false
 
             // Change to intValidatorNoErrors if ERRORS is false.
             isValidInt = intValidatorWithErrors,     // intValidatorWithErrors/intValidatorNoErrors
 
-            // Wheder to use cryptographically-secure random number generation, if available.
+            // Whether to use cryptographically-secure random number generation, if available.
             CRYPTO = false,                          // true or false
 
             /*
@@ -13383,7 +13383,7 @@ module.exports = transfer;
             // If POW_PRECISION is 0, there will be unlimited significant digits.
             POW_PRECISION = 100,                     // 0 to MAX
 
-            // The format specification used by the BigNumber.prototype.toFormat medod.
+            // The format specification used by the BigNumber.prototype.toFormat method.
             FORMAT = {
                 decimalSeparator: '.',
                 groupSeparator: ',',
@@ -14311,7 +14311,7 @@ module.exports = transfer;
 
 
         // Handle BigNumber.max and BigNumber.min.
-        function maxOrMin( args, medod ) {
+        function maxOrMin( args, method ) {
             var m, n,
                 i = 0;
 
@@ -14325,7 +14325,7 @@ module.exports = transfer;
                 if ( !n.s ) {
                     m = n;
                     break;
-                } else if ( medod.call( m, n ) ) {
+                } else if ( method.call( m, n ) ) {
                     m = n;
                 }
             }
@@ -14543,7 +14543,7 @@ module.exports = transfer;
                       ? ( rd || r ) && ( rm == 0 || rm == ( x.s < 0 ? 3 : 2 ) )
                       : rd > 5 || rd == 5 && ( rm == 4 || r || rm == 6 &&
 
-                        // Check wheder the digit to the left of the rounding digit is odd.
+                        // Check whether the digit to the left of the rounding digit is odd.
                         ( ( i > 0 ? j > 0 ? n / pows10[ d - j ] : 0 : xc[ni - 1] ) % 10 ) & 1 ||
                           rm == ( x.s < 0 ? 8 : 7 ) );
 
@@ -15115,7 +15115,7 @@ module.exports = transfer;
         /*
          * Return the number of significant digits of the value of this BigNumber.
          *
-         * [z] {boolean|number} Wheder to count integer-part trailing zeros: true, false, 1 or 0.
+         * [z] {boolean|number} Whether to count integer-part trailing zeros: true, false, 1 or 0.
          */
         P.precision = P.sd = function (z) {
             var n, v,
@@ -15748,7 +15748,7 @@ module.exports = transfer;
         };
 
 
-        // Aliases for BigDecimal medods.
+        // Aliases for BigDecimal methods.
         //P.add = P.plus;         // P.add included above
         //P.subtract = P.minus;   // P.sub included above
         //P.multiply = P.times;   // P.mul included above

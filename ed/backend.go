@@ -93,7 +93,7 @@ type Config struct {
 
 type Earthdollar struct {
 	chainConfig *core.ChainConfig
-	// Channel for shutting down the edereum
+	// Channel for shutting down the earthdollar
 	shutdownChan chan bool
 
 	// DB interfaces
@@ -226,7 +226,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 		if err != nil {
 			return nil, err
 		}
-		glog.V(logger.Info).Infoln("WARNING: Wrote default edereum genesis block")
+		glog.V(logger.Info).Infoln("WARNING: Wrote default earthdollar genesis block")
 	}
 
 	if config.ChainConfig == nil {
@@ -256,7 +256,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	return ed, nil
 }
 
-// APIs returns the collection of RPC services the edereum package offers.
+// APIs returns the collection of RPC services the earthdollar package offers.
 // NOTE, some of these services probably need to be moved to somewhere else.
 func (s *Earthdollar) APIs() []rpc.API {
 	return []rpc.API{

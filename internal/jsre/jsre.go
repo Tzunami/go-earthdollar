@@ -315,7 +315,7 @@ func (self *JSRE) Evaluate(code string, w io.Writer) error {
 }
 
 // Compile compiles and then runs a piece of JS code.
-func (self *JSRE) Compile(filename string, src interface{}) (err error) {
+func (self *JSRE) Compile(filename string, src interface{}) (err error) {  
 	self.Do(func(vm *otto.Otto) { _, err = compileAndRun(vm, filename, src) })
 	return err
 }

@@ -8519,7 +8519,7 @@
       "value" : "0x0186a0"
     }
   },
-  "suicideSendEtherPostDeath" : {
+  "suicideSendEdPostDeath" : {
     "env" : {
       "currentCoinbase" : "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
       "currentDifficulty" : "0x0100",
@@ -8574,7 +8574,7 @@
       "value" : "0x0186a0"
     }
   },
-  "suicideSendEtherToMe" : {
+  "suicideSendEdToMe" : {
     "env" : {
       "currentCoinbase" : "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
       "currentDifficulty" : "0x0100",

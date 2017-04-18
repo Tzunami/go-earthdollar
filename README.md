@@ -36,7 +36,7 @@ The go-earthdollar project comes with several wrappers/executables found in the 
 | `bootnode` | Stripped down version of our Earthdollar client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
 | `disasm` | Bytecode disassembler to convert EVM (Earthdollar Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Earthdollar Yellow Paper](http://gavwood.com/paper.pdf). |
 | `evm` | Developer utility version of the EVM (Earthdollar Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gedrpctest` | Developer utility tool to support our [edereum/rpc-test](https://github.com/Tzunami/rpc-tests) test suite which validates baseline conformity to the [Earthdollar JSON RPC](https://github.com/Tzunami/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/Tzunami/rpc-tests/blob/master/README.md) for details. |
+| `gedrpctest` | Developer utility tool to support our [earthdollar/rpc-test](https://github.com/Tzunami/rpc-tests) test suite which validates baseline conformity to the [Earthdollar JSON RPC](https://github.com/Tzunami/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/Tzunami/rpc-tests/blob/master/README.md) for details. |
 | `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/Tzunami/wiki/wiki/RLP)) dumps (data encoding used by the Earthdollar protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 
 ## Running ged
@@ -65,7 +65,7 @@ This command will:
    sync times especially for HDD users. This flag is optional and you can set it as high or as low as
    you'd like, though we'd recommend the 512MB - 2GB range.
  * Start up Ged's built-in interactive [JavaScript console](https://github.com/Tzunami/go-earthdollar/wiki/JavaScript-Console),
-   (via the trailing `console` subcommand) through which you can invoke all official [`web3` medods](https://github.com/Tzunami/wiki/wiki/JavaScript-API)
+   (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/Tzunami/wiki/wiki/JavaScript-API)
    as well as Ged's own [management APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs).
    This too is optional and if you leave it out you can always attach to an already running Ged instance
    with `ged --attach`.
@@ -75,7 +75,7 @@ This command will:
 Transitioning towards developers, if you'd like to play around with creating Earthdollar contracts, you
 almost certainly would like to do that without any real money involved until you get the hang of the
 entire system. In other words, instead of attaching to the main network, you want to join the **test**
-network with your node, which is fully equivalent to the main network, but with play-Ether only.
+network with your node, which is fully equivalent to the main network, but with play-ED only.
 
 ```
 $ ged --testnet --fast --cache=512 console
@@ -214,7 +214,7 @@ need to configure a miner to process transactions and create new blocks for you.
 
 Mining on the public Earthdollar network is a complex task as it's only feasible using GPUs, requiring
 an OpenCL or CUDA enabled `edminer` instance. For information on such a setup, please consult the
-[EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp-edereum)
+[EDMining subreddit](https://www.reddit.com/r/EDMining/) and the [Genoil miner](https://github.com/Genoil/cpp-ethereum)
 repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical

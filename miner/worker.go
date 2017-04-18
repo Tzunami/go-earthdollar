@@ -580,7 +580,7 @@ func (env *Work) commitTransactions(mux *event.TypeMux, transactions types.Trans
 		// We use the eip155 signer regardless of the current hf.
 		tx.SetSigner(env.signer)
 		from, _ := types.Sender(env.signer, tx)
-		// Check wheder the tx is replay protected. If we're not in the EIP155 hf
+		// Check whether the tx is replay protected. If we're not in the EIP155 hf
 		// phase, start ignoring the sender until we do.
                 /* earthdollar
 		if tx.Protected() && !env.config.IsDiehard(env.header.Number) {

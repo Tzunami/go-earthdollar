@@ -56,8 +56,8 @@ func errResp(code errCode, format string, v ...interface{}) error {
 type ProtocolManager struct {
 	networkId int
 
-	fastSync uint32 // Flag wheder fast sync is enabled (gets disabled if we already have blocks)
-	synced   uint32 // Flag wheder we're considered synchronised (enables transaction processing)
+	fastSync uint32 // Flag whether fast sync is enabled (gets disabled if we already have blocks)
+	synced   uint32 // Flag whether we're considered synchronised (enables transaction processing)
 
 	txpool      txPool
 	blockchain  *core.BlockChain
@@ -87,8 +87,8 @@ type ProtocolManager struct {
 	badBlockReportingEnabled bool
 }
 
-// NewProtocolManager returns a new edereum sub protocol manager. The Earthdollar sub protocol manages peers capable
-// with the edereum network.
+// NewProtocolManager returns a new earthdollar sub protocol manager. The Earthdollar sub protocol manages peers capable
+// with the earthdollar network.
 func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, mux *event.TypeMux, txpool txPool, pow pow.PoW, blockchain *core.BlockChain, chaindb eddb.Database) (*ProtocolManager, error) {
 	// Create the protocol manager with the base fields
 	manager := &ProtocolManager{
@@ -104,7 +104,7 @@ func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, 
 		txsyncCh:    make(chan *txsync),
 		quitSync:    make(chan struct{}),
 	}
-	// Figure out wheder to allow fast sync or not
+	// Figure out whether to allow fast sync or not
 	if fastSync && blockchain.CurrentBlock().NumberU64() > 0 {
 		glog.V(logger.Info).Infof("blockchain not empty, fast sync disabled")
 		fastSync = false
@@ -216,7 +216,7 @@ func (pm *ProtocolManager) Start() {
 }
 
 func (pm *ProtocolManager) Stop() {
-	glog.V(logger.Info).Infoln("Stopping edereum protocol handler...")
+	glog.V(logger.Info).Infoln("Stopping earthdollar protocol handler...")
 
 	pm.txSub.Unsubscribe()         // quits txBroadcastLoop
 	pm.minedBlockSub.Unsubscribe() // quits blockBroadcastLoop

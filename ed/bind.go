@@ -30,7 +30,7 @@ import (
 // swarm.
 //
 // Internally this backend uses the already exposed API endpoints of the Earthdollar
-// object. These should be rewritten to internal Go medod calls when the Go API
+// object. These should be rewritten to internal Go method calls when the Go API
 // is refactored to support a clean library use.
 type ContractBackend struct {
 	eapi  *PublicEarthdollarAPI        // Wrapper around the Earthdollar object to access metadata
@@ -39,7 +39,7 @@ type ContractBackend struct {
 }
 
 // NewContractBackend creates a new native contract backend using an existing
-// Etheruem object.
+// Ederuem object.
 func NewContractBackend(ed *Earthdollar) *ContractBackend {
 	return &ContractBackend{
 		eapi:  NewPublicEarthdollarAPI(ed),

@@ -48,8 +48,8 @@ type Miner struct {
 	ed      core.Backend
 	pow      pow.PoW
 
-	canStart    int32 // can start indicates wheder we can start the mining operation
-	shouldStart int32 // should start indicates wheder we should start after sync
+	canStart    int32 // can start indicates whether we can start the mining operation
+	shouldStart int32 // should start indicates whether we should start after sync
 }
 
 func New(ed core.Backend, config *core.ChainConfig, mux *event.TypeMux, pow pow.PoW) *Miner {
