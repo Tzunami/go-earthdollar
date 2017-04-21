@@ -276,7 +276,7 @@ func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, 
 	} else if config.IsHomestead(num) {
 		return calcDifficultyHomestead(time, parentTime, parentNumber, parentDiff)
 	} else {
-		return calcDifficultyFrontier(time, parentTime, parentNumber, parentDiff)
+		return calcDifficultyOriginal(time, parentTime, parentNumber, parentDiff)
 	}*/
 }
 /*
@@ -428,7 +428,7 @@ func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *
 	return x
 }*/
 
-func calcDifficultyFrontier(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
+func calcDifficultyOriginal(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
 	diff := new(big.Int)
 	adjust := new(big.Int).Div(parentDiff, DifficultyBoundDivisor)
 	bigTime := new(big.Int)
