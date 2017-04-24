@@ -192,9 +192,9 @@ var OlympicGenesis = &GenesisDump{}
 
 // DefaultGenesis representing the default Earthdollar genesis block.
 var DefaultGenesis = &GenesisDump{
-	Difficulty: "0x0400000000",
-	GasLimit:   "0x1388",
-	Nonce:      "0x0000000000000042",
+	Difficulty: "0x020000",
+	GasLimit:   "0x47E7C4",
+	Nonce:      "0x000000000000002a",
 	Alloc: map[hex]*GenesisDumpAlloc{
                 "e856f883f4862cb7f55a35a5b554451798902d16":  {Balance: "100000000000000000000000000"},  
                 "4e32fb7cb1d33861aa2677d7ff32da16027e7e08":  {Balance: "100000000000000000000000000"},

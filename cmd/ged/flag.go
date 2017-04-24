@@ -100,7 +100,7 @@ var (
 		Usage: "Network identifier (integer, 0=Olympic, 1=Homestead, 2=Morden)",
 		Value: ed.NetworkId,
 	}
-	OlympicFlag = cli.BoolFlag{
+	OlympicFlag = cli.BoolFlag{ 
 		Name:  "olympic",
 		Usage: "Olympic network: pre-configured pre-release test network",
 	}
@@ -648,14 +648,14 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 
 	// Configure the Earthdollar service
 	accman := MakeAccountManager(ctx)
-
+glog.V(logger.Info).Infoln(fmt.Sprintf("-------------ctx:", ctx))
 	edConf := &ed.Config{
 		ChainConfig:             MustMakeChainConfig(ctx),
 		FastSync:                ctx.GlobalBool(FastSyncFlag.Name),
 		BlockChainVersion:       ctx.GlobalInt(BlockchainVersionFlag.Name),
 		DatabaseCache:           ctx.GlobalInt(CacheFlag.Name),
 		DatabaseHandles:         MakeDatabaseHandles(),
-		NetworkId:               ctx.GlobalInt(NetworkIdFlag.Name), //here 88
+		NetworkId:               ctx.GlobalInt(NetworkIdFlag.Name), 
 		AccountManager:          accman,
 		Earthbase:               MakeEarthbase(accman, ctx),
 		MinerThreads:            ctx.GlobalInt(MinerThreadsFlag.Name),
@@ -748,15 +748,15 @@ func SetupNetwork(ctx *cli.Context) {
 }
 
 // MustMakeChainConfig reads the chain configuration from the database in ctx.Datadir.
-func MustMakeChainConfig(ctx *cli.Context) *core.ChainConfig {
-	db := MakeChainDatabase(ctx)
+func MustMakeChainConfig(ctx *cli.Context) *core.ChainConfig {  
+ 	db := MakeChainDatabase(ctx)
 	defer db.Close()
 
 	return MustMakeChainConfigFromDb(ctx, db)
 }
 
 // MustMakeChainConfigFromDb reads the chain configuration from the given database.
-func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainConfig {
+func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainConfig {  
 	c := core.DefaultConfig
 	if ctx.GlobalBool(TestNetFlag.Name) {
 		c = core.TestConfig
@@ -776,6 +776,7 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainCo
 	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Ged \x1b[32m%s\x1b[39m", ctx.App.Version))
 
 	genesis := core.GetBlock(db, core.GetCanonicalHash(db, 0))
+glog.V(logger.Info).Infoln(fmt.Sprintf("genesis=", genesis))
 	genesisHash := ""
 	if genesis != nil {
 		genesisHash = genesis.Hash().Hex()
@@ -809,7 +810,6 @@ func MakeChainDatabase(ctx *cli.Context) eddb.Database {
 		cache   = ctx.GlobalInt(CacheFlag.Name)
 		handles = MakeDatabaseHandles()
 	)
-
 	chainDb, err := eddb.NewLDBDatabase(filepath.Join(datadir, "chaindata"), cache, handles)
 	if err != nil {
 		log.Fatal("Could not open database: ", err)

@@ -267,6 +267,7 @@ func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, 
 	// be determined by a config flag
 	//num := new(big.Int).Add(parentNumber, common.Big1)
 	//earthdollar
+       
         return calcDifficultyOriginal(time, parentTime, parentNumber, parentDiff)
         /*if config.IsDiehard(num) && !config.IsExplosion(num) {
 		return calcDifficultyDiehard(time, parentTime, parentNumber, parentDiff, config.Fork("Diehard").Block)
