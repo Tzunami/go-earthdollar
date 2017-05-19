@@ -17,7 +17,7 @@
 package rpc
 
 import (
-	"context"
+	"golang.org/x/net/context"
 	"crypto/rand"
 	"encoding/hex"
 	"errors"

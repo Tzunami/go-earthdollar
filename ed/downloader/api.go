@@ -17,7 +17,7 @@
 package downloader
 
 import (
-	"context"
+	"golang.org/x/net/context"
 	"sync"
 
 	"github.com/Tzunami/go-earthdollar/event"

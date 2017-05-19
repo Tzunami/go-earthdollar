@@ -18,7 +18,7 @@ package ed
 
 import (
 	"bytes"
-	"context"
+	"golang.org/x/net/context"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
