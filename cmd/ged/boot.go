@@ -23,7 +23,7 @@ import "github.com/Tzunami/go-earthdollar/p2p/discover"
 var HomesteadBootNodes = []*discover.Node{
 	// EPROJECT Upgrade by supplying a default list, parsing oracle & random selection
 	discover.MustParseNode("enode://bcdf724a9b59d00fb5392b49d62a04a1b46a3e3fb66ff376dd4f3d2cfd0c255afdff3f83b934a57016df7d121fdb83628431aefbb437ac14580290ce1121b960@52.60.210.252:20203"),//Canada
-	//discover.MustParseNode("enode://b4a1a7248a3ba1d0fd14f033e0a27514514899ef8e1b6315bf951f123e428a43a0a69dbbb40d5888f865a81401ebb2a967c7cc57d8345f03410b5b4b5d2095a2@35.154.34.226:20203"),// India
+	discover.MustParseNode("enode://4a1a7248a3ba1d0fd14f033e0a27514514899ef8e1b6315bf951f123e428a43a0a69dbbb40d5888f865a81401ebb2a967c7cc57d8345f03410b5b4b5d2095a2c@35.154.34.226:20203"),// India
         discover.MustParseNode("enode://fd205125bae923b64021f276ab0a7f5f790c4a40c3837cc4d94b25863be83985cca0f1b45783e84194309136304efc51bc51abb5e7bf8e277fc78091b91de7c8@52.57.244.196:20203"),//Germany
 	//discover.MustParseNode("enode://5fbfb426fbb46f8b8c1bd3dd140f5b511da558cd37d60844b525909ab82e13a25ee722293c829e52cb65c2305b1637fa9a2ea4d6634a224d5f400bfe244ac0de@162.243.55.45:30303"),   //pys-
 	//discover.MustParseNode("enode://42d8f29d1db5f4b2947cd5c3d76c6d0d3697e6b9b3430c3d41e46b4bb77655433aeedc25d4b4ea9d8214b6a43008ba67199374a9b53633301bca0cd20c6928ab@104.155.176.151:30303"), //boot.gastracker.io
