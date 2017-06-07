@@ -776,7 +776,7 @@ func MustMakeChainConfigFromDb(ctx *cli.Context, db eddb.Database) *core.ChainCo
 	glog.V(logger.Warn).Info(fmt.Sprintf("Starting Ged \x1b[32m%s\x1b[39m", ctx.App.Version))
 
 	genesis := core.GetBlock(db, core.GetCanonicalHash(db, 0))
-glog.V(logger.Info).Infoln(fmt.Sprintf("genesis=", genesis))
+
 	genesisHash := ""
 	if genesis != nil {
 		genesisHash = genesis.Hash().Hex()
