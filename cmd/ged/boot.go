@@ -23,12 +23,10 @@ import "github.com/Tzunami/go-earthdollar/p2p/discover"
 var HomesteadBootNodes = []*discover.Node{
 	// EPROJECT Upgrade by supplying a default list, parsing oracle & random selection
 	discover.MustParseNode("enode://bcdf724a9b59d00fb5392b49d62a04a1b46a3e3fb66ff376dd4f3d2cfd0c255afdff3f83b934a57016df7d121fdb83628431aefbb437ac14580290ce1121b960@52.60.68.21:20203"),//Canada
-	//discover.MustParseNode("enode://4a1a7248a3ba1d0fd14f033e0a27514514899ef8e1b6315bf951f123e428a43a0a69dbbb40d5888f865a81401ebb2a967c7cc57d8345f03410b5b4b5d2095a2c@13.126.74.243:20203"),// India
+	discover.MustParseNode("enode://4a1a7248a3ba1d0fd14f033e0a27514514899ef8e1b6315bf951f123e428a43a0a69dbbb40d5888f865a81401ebb2a967c7cc57d8345f03410b5b4b5d2095a2c@13.126.74.243:20203"),// India
         discover.MustParseNode("enode://fd205125bae923b64021f276ab0a7f5f790c4a40c3837cc4d94b25863be83985cca0f1b45783e84194309136304efc51bc51abb5e7bf8e277fc78091b91de7c8@35.156.76.0:20203"),//Germany
-	discover.MustParseNode("enode://353b84ba90365a0b56249429a4eb7b31101a6ea8efbaeb395b9eaf8f82bcfa5673ab6dbdb72612393ccff85da54e2f6694ff0de22699c3b7ec7a0586ca215c04@35.182.15.33 :20203"), //mike 1
-	discover.MustParseNode("enode://bcdf724a9b59d00fb5392b49d62a04a1b46a3e3fb66ff376dd4f3d2cfd0c255afdff3f83b934a57016df7d121fdb83628431aefbb437ac14580290ce1121b960@35.182.2.114:20203"), //mike 2
-	//discover.MustParseNode("enode://814920f1ec9510aa9ea1c8f79d8b6e6a462045f09caa2ae4055b0f34f7416fca6facd3dd45f1cf1673c0209e0503f02776b8ff94020e98b6679a0dc561b4eba0@104.154.136.117:30303"), //boot1.etcdevteam.com
-	//discover.MustParseNode("enode://72e445f4e89c0f476d404bc40478b0df83a5b500d2d2e850e08eb1af0cd464ab86db6160d0fde64bd77d5f0d33507ae19035671b3c74fec126d6e28787669740@104.198.71.200:30303"),  //boot2.etcdevteam.com
+	//discover.MustParseNode("enode://353b84ba90365a0b56249429a4eb7b31101a6ea8efbaeb395b9eaf8f82bcfa5673ab6dbdb72612393ccff85da54e2f6694ff0de22699c3b7ec7a0586ca215c04@35.182.15.33 :20203"), //mike 1
+	//discover.MustParseNode("enode://bcdf724a9b59d00fb5392b49d62a04a1b46a3e3fb66ff376dd4f3d2cfd0c255afdff3f83b934a57016df7d121fdb83628431aefbb437ac14580290ce1121b960@35.182.2.114:20203"), //mike 2	
 }
 
 // TestNetBootNodes are the enode URLs of the P2P bootstrap nodes running on the
