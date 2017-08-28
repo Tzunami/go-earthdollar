@@ -23,12 +23,12 @@ import "github.com/Tzunami/go-earthdollar/p2p/discover"
 var HomesteadBootNodes = []*discover.Node{
 	// EPROJECT Upgrade by supplying a default list, parsing oracle & random selection
 
-	//discover.MustParseNode("enode://bcdf724a9b59d00fb5392b49d62a04a1b46a3e3fb66ff376dd4f3d2cfd0c255afdff3f83b934a57016df7d121fdb83628431aefbb437ac14580290ce1121b960@52.60.68.21:20203"),//Canada
+	discover.MustParseNode("enode://bcdf724a9b59d00fb5392b49d62a04a1b46a3e3fb66ff376dd4f3d2cfd0c255afdff3f83b934a57016df7d121fdb83628431aefbb437ac14580290ce1121b960@52.60.68.21:20203"),//Canada
         discover.MustParseNode("enode://839ab987e9a2d093761f796be3a493f93da89fe89c99851a045b026a6524ffbcacf22eeb046d38aea82a2e98adfaebab15d9667be17fddad864f02b0cf15a71e@35.182.142.37:20203"), //Canada
-	//discover.MustParseNode("enode://4a1a7248a3ba1d0fd14f033e0a27514514899ef8e1b6315bf951f123e428a43a0a69dbbb40d5888f865a81401ebb2a967c7cc57d8345f03410b5b4b5d2095a2c@13.126.74.243:20203"),// India
+	discover.MustParseNode("enode://4a1a7248a3ba1d0fd14f033e0a27514514899ef8e1b6315bf951f123e428a43a0a69dbbb40d5888f865a81401ebb2a967c7cc57d8345f03410b5b4b5d2095a2c@13.126.74.243:20203"),// India
         discover.MustParseNode("enode://b689025552ef44b8c77c5aa3270371b85027a8d985aae6e743a186fd7cec106139b8ae933baefb83d70100e09daecd208602b89b02636a175b9c86afc25d6e49@52.58.22.43:20203"),// India
 
-        //discover.MustParseNode("enode://fd205125bae923b64021f276ab0a7f5f790c4a40c3837cc4d94b25863be83985cca0f1b45783e84194309136304efc51bc51abb5e7bf8e277fc78091b91de7c8@35.156.76.0:20203"),//Germany
+        discover.MustParseNode("enode://fd205125bae923b64021f276ab0a7f5f790c4a40c3837cc4d94b25863be83985cca0f1b45783e84194309136304efc51bc51abb5e7bf8e277fc78091b91de7c8@35.156.76.0:20203"),//Germany
         discover.MustParseNode("enode://b689025552ef44b8c77c5aa3270371b85027a8d985aae6e743a186fd7cec106139b8ae933baefb83d70100e09daecd208602b89b02636a175b9c86afc25d6e49@35.154.120.185:20203"),//Germany
 	//discover.MustParseNode("enode://353b84ba90365a0b56249429a4eb7b31101a6ea8efbaeb395b9eaf8f82bcfa5673ab6dbdb72612393ccff85da54e2f6694ff0de22699c3b7ec7a0586ca215c04@35.182.15.33 :20203"), //mike 1
 	//discover.MustParseNode("enode://bcdf724a9b59d00fb5392b49d62a04a1b46a3e3fb66ff376dd4f3d2cfd0c255afdff3f83b934a57016df7d121fdb83628431aefbb437ac14580290ce1121b960@35.182.2.114:20203"), //mike 2	
