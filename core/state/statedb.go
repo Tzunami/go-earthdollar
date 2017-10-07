@@ -48,6 +48,9 @@ const (
 
 	// Number of codehash->size associations to keep.
 	codeSizeCacheSize = 100000
+
+	// Default StartingNonce for Morden Testnet
+	DefaultTestnetStartingNonce = uint64(1048576)
 )
 
 type revision struct {
@@ -223,7 +226,7 @@ func (self *StateDB) GetBalance(addr common.Address) *big.Int {
 	if stateObject != nil {
 		return stateObject.Balance()
 	}
-	return common.Big0
+	return new(big.Int)
 }
 
 func (self *StateDB) GetNonce(addr common.Address) uint64 {
@@ -369,12 +372,16 @@ func (self *StateDB) deleteStateObject(stateObject *StateObject) {
 // Retrieve a state object given my the address. Returns nil if not found.
 func (self *StateDB) GetStateObject(addr common.Address) (stateObject *StateObject) {
 	// Prefer 'live' objects.
+	self.lock.Lock()
 	if obj := self.stateObjects[addr]; obj != nil {
+		self.lock.Unlock()
 		if obj.deleted {
+
 			return nil
 		}
 		return obj
 	}
+	self.lock.Unlock()
 
 	// Load the object from the database.
 	enc := self.trie.Get(addr[:])
@@ -393,7 +400,9 @@ func (self *StateDB) GetStateObject(addr common.Address) (stateObject *StateObje
 }
 
 func (self *StateDB) setStateObject(object *StateObject) {
+	self.lock.Lock()
 	self.stateObjects[object.Address()] = object
+	self.lock.Unlock()
 }
 
 // Retrieve a state object or create a new state object if nil
@@ -418,11 +427,23 @@ func (self *StateDB) createObject(addr common.Address) (newobj, prev *StateObjec
 	newobj = newObject(self, addr, Account{}, self.MarkStateObjectDirty)
 	newobj.setNonce(StartingNonce) // sets the object to dirty
 	if prev == nil {
-		if glog.V(logger.Core) {
+		if logger.MlogEnabled() {
+			mlogState.Send(mlogStateCreateObject.SetDetailValues(
+				newobj.address.Hex(),
+				prev,
+			))
+		}
+		if glog.V(logger.Debug) {
 			glog.Infof("(+) %x\n", addr)
 		}
 		self.journal = append(self.journal, createObjectChange{account: &addr})
 	} else {
+		if logger.MlogEnabled() {
+			mlogState.Send(mlogStateCreateObject.SetDetailValues(
+				newobj.address.Hex(),
+				prev.address.Hex(),
+			))
+		}
 		self.journal = append(self.journal, resetObjectChange{prev: prev})
 	}
 	self.setStateObject(newobj)

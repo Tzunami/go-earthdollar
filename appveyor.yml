@@ -3,13 +3,21 @@ clone_folder: c:\gopath\src\github.com\Tzunami\go-earthdollar
 os: Visual Studio 2015
 environment:
   GOPATH: c:\gopath
+  GCP_PASSWD:
+    secure: erzLJz7qT0kCJa+jZG6Sf9wwkfLYO2UDLzydkKTdwqA=
 install:
-  - git describe --tags > version.txt
-  - set /p VERSION=<version.txt
-  - echo %VERSION%
+  - set PATH=%GOPATH%\bin;c:\go\bin;C:\msys64\mingw64\bin;C:\msys64\usr\bin\;%PATH%
+
+  # Install janus.
+  - curl -sL https://raw.githubusercontent.com/ethereumproject/janus/master/get-windows.sh | bash
+  - set PATH=./janusbin;%PATH%
+
+  - ps: $env:VERSION_BASE = "$(janus.exe version -format='v%M.%m.x')"
+  - ps: $env:VERSION = "$(janus.exe version -format='TAG_OR_NIGHTLY')"
+
+  - echo %VERSION_BASE% %VERSION%
   - echo %PATH%
   - echo %GOPATH%
-  - set PATH=%GOPATH%\bin;c:\go\bin;C:\msys64\mingw64\bin;C:\msys64\usr\bin\;%PATH%
   - go version
   - go env
   - go get golang.org/x/sys/windows
@@ -19,6 +27,7 @@ build_script:
   - 7z a ged-classic-win64-%VERSION%.zip ged.exe
 artifacts:
   - path: '*.zip'
+<<<<<<< HEAD
     name: ged
 deploy:
   - provider: BinTray
@@ -45,3 +54,16 @@ deploy:
     override: false
     on:
       appveyor_repo_tag: true
+=======
+    name: geth
+before_deploy:
+  # Set up GCP upload.
+  - nuget install secure-file -ExcludeVersion
+  - secure-file\tools\secure-file -decrypt gcloud-appveyor.json.enc -secret %GCP_PASSWD% -out .gcloud.json
+deploy_script:
+  - ps: >-
+      If ($env:APPVEYOR_REPO_BRANCH -eq 'master') {
+        janus.exe deploy -to="builds.etcdevteam.com/go-ethereum/$env:VERSION_BASE/" -files="./*.zip" -key="./.gcloud.json"
+      }
+
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3

@@ -39,6 +39,14 @@ func MakeChainConfig() *ChainConfig {
 			{
 				Name:  "Homestead",
 				Block: big.NewInt(0),
+				Features: []*ForkFeature{
+					{
+						ID: "difficulty",
+						Options: ChainFeatureConfigOptions{
+							"type": "homestead",
+						},
+					},
+				},
 			},
 		},
 	}
@@ -46,12 +54,31 @@ func MakeChainConfig() *ChainConfig {
 
 func MakeDiehardChainConfig() *ChainConfig {
 	return &ChainConfig{
-		ChainId: big.NewInt(63),
 		Forks: []*Fork{
 			{
 				Name:   "Diehard",
 				Block:  big.NewInt(0),
-				Length: big.NewInt(1000),
+				Features: []*ForkFeature{
+					{
+						ID: "eip155",
+						Options: ChainFeatureConfigOptions{
+							"chainID": 63,
+						},
+					},
+					{ // ecip1010 bomb delay
+						ID:    "gastable",
+						Options: ChainFeatureConfigOptions{
+							"type": "eip160",
+						},
+					},
+					{ // ecip1010 bomb delay
+						ID:    "difficulty",
+						Options: ChainFeatureConfigOptions{
+							"type": "ecip1010",
+							"length": 2000000,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -205,13 +232,13 @@ func GenerateChain(config *ChainConfig, parent *types.Block, db eddb.Database, n
 
 		// Mutate the state and block according to any hard-fork specs
 		if config == nil {
-			config = MakeChainConfig()
+			config = DefaultConfigMainnet.ChainConfig // MakeChainConfig()
 		}
 		// Execute any user modifications to the block and finalize it
 		if gen != nil {
 			gen(i, b)
 		}
-		AccumulateRewards(statedb, h, b.uncles)
+		AccumulateRewards(config, statedb, h, b.uncles)
 		root, err := statedb.Commit()
 		if err != nil {
 			panic(fmt.Sprintf("state write error: %v", err))
@@ -258,7 +285,11 @@ func makeHeader(config *ChainConfig, parent *types.Block, state *state.StateDB) 
 // header only chain.
 func newCanonical(config *ChainConfig, n int, full bool) (eddb.Database, *BlockChain, error) {
 	// Create the new chain database
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		return nil, nil, err
 	}
@@ -266,7 +297,11 @@ func newCanonical(config *ChainConfig, n int, full bool) (eddb.Database, *BlockC
 	evmux := &event.TypeMux{}
 
 	// Initialize a fresh chain with only a genesis block
+<<<<<<< HEAD
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
+=======
+	genesis, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		return nil, nil, err
 	}

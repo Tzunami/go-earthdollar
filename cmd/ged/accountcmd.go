@@ -30,9 +30,17 @@ import (
 )
 
 var (
+	AccountsIndexFlag = cli.BoolFlag{
+		Name: "index-accounts,indexaccounts",
+		Usage: "Enable key-value db store for indexing large amounts of key files",
+	}
 	walletCommand = cli.Command{
 		Name:  "wallet",
+<<<<<<< HEAD:cmd/ged/accountcmd.go
 		Usage: "earthdollar presale wallet",
+=======
+		Usage: "Ethereum presale wallet",
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/accountcmd.go
 		Subcommands: []cli.Command{
 			{
 				Action: importWallet,
@@ -52,7 +60,7 @@ passwordfile as argument containing the wallet password in plaintext.
 	accountCommand = cli.Command{
 		Action: accountList,
 		Name:   "account",
-		Usage:  "manage accounts",
+		Usage:  "Manage accounts",
 		Description: `
 
 Manage accounts lets you create new accounts, list all existing accounts,
@@ -88,15 +96,19 @@ And finally. DO NOT FORGET YOUR PASSWORD.
 			{
 				Action: accountList,
 				Name:   "list",
-				Usage:  "print account addresses",
+				Usage:  "Print account addresses",
 			},
 			{
 				Action: accountCreate,
 				Name:   "new",
-				Usage:  "create a new account",
+				Usage:  "Create a new account",
 				Description: `
 
+<<<<<<< HEAD:cmd/ged/accountcmd.go
     earthdollar account new
+=======
+    geth account new
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/accountcmd.go
 
 Creates a new account. Prints the address.
 
@@ -115,10 +127,14 @@ password to file or expose in any other way.
 			{
 				Action: accountUpdate,
 				Name:   "update",
-				Usage:  "update an existing account",
+				Usage:  "Update an existing account",
 				Description: `
 
+<<<<<<< HEAD:cmd/ged/accountcmd.go
     earthdollar account update <address>
+=======
+    geth account update <address>
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/accountcmd.go
 
 Update an existing account.
 
@@ -130,7 +146,11 @@ format to the newest format or change the password for an account.
 
 For non-interactive use the passphrase can be specified with the --password flag:
 
+<<<<<<< HEAD:cmd/ged/accountcmd.go
     earthdollar --password <passwordfile> account update <address>
+=======
+    geth --password <passwordfile> account update <address>
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/accountcmd.go
 
 Since only one password can be given, only format update can be performed,
 changing your password is only possible interactively.
@@ -139,10 +159,14 @@ changing your password is only possible interactively.
 			{
 				Action: accountImport,
 				Name:   "import",
-				Usage:  "import a private key into a new account",
+				Usage:  "Import a private key into a new account",
 				Description: `
 
+<<<<<<< HEAD:cmd/ged/accountcmd.go
     earthdollar account import <keyfile>
+=======
+    geth account import <keyfile>
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/accountcmd.go
 
 Imports an unencrypted private key from <keyfile> and creates a new account.
 Prints the address.
@@ -155,7 +179,11 @@ You must remember this passphrase to unlock your account in the future.
 
 For non-interactive use the passphrase can be specified with the -password flag:
 
+<<<<<<< HEAD:cmd/ged/accountcmd.go
     earthdollar --password <passwordfile> account import <keyfile>
+=======
+    geth --password <passwordfile> account import <keyfile>
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/accountcmd.go
 
 Note:
 As you can directly copy your encrypted accounts to another earthdollar instance,
@@ -163,13 +191,49 @@ this import mechanism is not needed when you transfer an account between
 nodes.
 					`,
 			},
+			{
+				Action: accountIndex,
+				Name:   "index",
+				Usage:  "Build persistent account index",
+				Description: `
+
+    geth --index-accounts account index
+
+Create keystore directory index cache database (keystore/accounts.db). Relevant for use with large amounts of key files (>10,000).
+
+While idempotent, this command is only designed to segregate work and setup time for initial index creation.
+
+It is only useful to run once when it's your first time using '--index-accounts' flag option, and MUST be run in conjunction
+with that option.
+
+It indexes all key files from keystore/* (non-recursively).
+					`,
+			},
 		},
 	}
 )
 
+func accountIndex(ctx *cli.Context) error {
+	n := aliasableName(AccountsIndexFlag.Name, ctx)
+	if !ctx.GlobalBool(n) {
+		log.Fatalf("Use: $ geth --%v account index\n (missing '%v' flag)", n, n)
+	}
+	am := MakeAccountManager(ctx)
+	errs := am.BuildIndexDB()
+	if len(errs) > 0 {
+		for _, e := range errs {
+			if e != nil {
+				glog.V(logger.Error).Infof("init cache db err: %v", e)
+			}
+		}
+	}
+	return nil
+}
+
 func accountList(ctx *cli.Context) error {
 	accman := MakeAccountManager(ctx)
 	for i, acct := range accman.Accounts() {
+
 		fmt.Printf("Account #%d: {%x} %s\n", i, acct.Address, acct.File)
 	}
 	return nil
@@ -297,7 +361,6 @@ func importWallet(ctx *cli.Context) error {
 	if err != nil {
 		log.Fatal("Could not read wallet file: ", err)
 	}
-
 	accman := MakeAccountManager(ctx)
 	passphrase := getPassPhrase("", false, 0, MakePasswordList(ctx))
 

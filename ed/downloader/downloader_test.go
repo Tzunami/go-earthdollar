@@ -26,6 +26,7 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD:ed/downloader/downloader_test.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -38,6 +39,20 @@ import (
 
 var (
 	testdb      eddb.Database
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/trie"
+)
+
+var (
+	testdb      ethdb.Database
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/downloader/downloader_test.go
 	testKey     *ecdsa.PrivateKey
 	testAddress common.Address
 	genesis     *types.Block
@@ -54,7 +69,11 @@ func init() {
 	}
 	testAddress = crypto.PubkeyToAddress(testKey.PublicKey)
 
+<<<<<<< HEAD:ed/downloader/downloader_test.go
 	testdb, err = eddb.NewMemDatabase()
+=======
+	testdb, err = ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/downloader/downloader_test.go
 	if err != nil {
 		panic(err)
 	}
@@ -82,7 +101,7 @@ func init() {
 // reassembly.
 func makeChain(n int, seed byte, parent *types.Block, parentReceipts types.Receipts, heavy bool) ([]common.Hash, map[common.Hash]*types.Header, map[common.Hash]*types.Block, map[common.Hash]types.Receipts) {
 	// Generate the block chain
-	blocks, receipts := core.GenerateChain(core.TestConfig, parent, testdb, n, func(i int, block *core.BlockGen) {
+	blocks, receipts := core.GenerateChain(core.DefaultConfigMorden.ChainConfig, parent, testdb, n, func(i int, block *core.BlockGen) {
 		block.SetCoinbase(common.Address{seed})
 
 		// If a heavy chain is requested, delay blocks to raise difficulty
@@ -1169,6 +1188,8 @@ func testMissingHeaderAttack(t *testing.T, protocol int, mode SyncMode) {
 	if err := tester.sync("valid", nil, mode); err != nil {
 		t.Fatalf("failed to synchronise blocks: %v", err)
 	}
+	// Wait to make sure all data is set after sync
+	time.Sleep(400 * time.Millisecond)
 	assertOwnChain(t, tester, targetBlocks+1)
 }
 
@@ -1441,6 +1462,9 @@ func testSyncProgress(t *testing.T, protocol int, mode SyncMode) {
 	progress <- struct{}{}
 	pending.Wait()
 
+	// Wait to make sure all data is set after sync
+	time.Sleep(400 * time.Millisecond)
+
 	// Check final progress after successful sync
 	if origin, current, latest, _, _ := tester.downloader.Progress(); origin != uint64(targetBlocks/2+1) || current != uint64(targetBlocks) || latest != uint64(targetBlocks) {
 		t.Fatalf("Final progress mismatch: have %v/%v/%v, want %v/%v/%v", origin, current, latest, targetBlocks/2+1, targetBlocks, targetBlocks)
@@ -1516,6 +1540,9 @@ func testForkedSyncProgress(t *testing.T, protocol int, mode SyncMode) {
 	}
 	progress <- struct{}{}
 	pending.Wait()
+
+	// Wait to make sure all data is set after sync
+	time.Sleep(400 * time.Millisecond)
 
 	// Check final progress after successful sync
 	if origin, current, latest, _, _ := tester.downloader.Progress(); origin != uint64(common) || current != uint64(len(hashesB)-1) || latest != uint64(len(hashesB)-1) {
@@ -1595,6 +1622,9 @@ func testFailedSyncProgress(t *testing.T, protocol int, mode SyncMode) {
 	progress <- struct{}{}
 	pending.Wait()
 
+	// Wait to make sure all data is set after sync
+	time.Sleep(500 * time.Millisecond)
+
 	// Check final progress after successful sync
 	if origin, current, latest, _, _ := tester.downloader.Progress(); origin > uint64(targetBlocks/2) || current != uint64(targetBlocks) || latest != uint64(targetBlocks) {
 		t.Fatalf("Final progress mismatch: have %v/%v/%v, want 0-%v/%v/%v", origin, current, latest, targetBlocks/2, targetBlocks, targetBlocks)
@@ -1671,7 +1701,11 @@ func testFakedSyncProgress(t *testing.T, protocol int, mode SyncMode) {
 		t.Fatalf("Completing progress mismatch: have %v/%v/%v, want %v/0-%v/%v", origin, current, latest, 0, targetBlocks, targetBlocks)
 	}
 	progress <- struct{}{}
+
 	pending.Wait()
+
+	// Wait to make sure all data is set after sync
+	time.Sleep(400 * time.Millisecond)
 
 	// Check final progress after successful sync
 	if origin, current, latest, _, _ := tester.downloader.Progress(); origin > uint64(targetBlocks) || current != uint64(targetBlocks) || latest != uint64(targetBlocks) {
@@ -1755,7 +1789,7 @@ func testFastCriticalRestarts(t *testing.T, protocol int) {
 		if err := tester.sync("peer", nil, FastSync); err == nil {
 			t.Fatalf("failing fast sync succeeded: %v", err)
 		}
-		time.Sleep(100 * time.Millisecond) // Make sure no in-flight requests remain
+		time.Sleep(800 * time.Millisecond) // Make sure no in-flight requests remain
 
 		// If it's the first failure, pivot should be locked => reenable all others to detect pivot changes
 		if i == 0 {
@@ -1764,6 +1798,10 @@ func testFastCriticalRestarts(t *testing.T, protocol int) {
 			tester.lock.Unlock()
 		}
 	}
+
+	// Wait to make sure all data is set after sync
+	time.Sleep(400 * time.Millisecond)
+
 	// Retry limit exhausted, downloader will switch to full sync, should succeed
 	if err := tester.sync("peer", nil, FastSync); err != nil {
 		t.Fatalf("failed to synchronise blocks in slow sync: %v", err)

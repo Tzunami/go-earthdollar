@@ -85,13 +85,31 @@ func NewHeaderChain(chainDb eddb.Database, config *ChainConfig, getValidator get
 		getValidator:  getValidator,
 	}
 
+	gen := DefaultConfigMainnet.Genesis
+	genname := "mainnet"
+	// Check if ChainConfig is mainnet or testnet and write genesis accordingly.
+	// If it's neither (custom), write default (this will be overwritten or avoided,
+	// but maintains consistent implementation.
+	if config == DefaultConfigMorden.ChainConfig {
+		gen = DefaultConfigMorden.Genesis
+		genname = "morden testnet"
+	}
+
 	hc.genesisHeader = hc.GetHeaderByNumber(0)
 	if hc.genesisHeader == nil {
+<<<<<<< HEAD
 		genesisBlock, err := WriteGenesisBlock(chainDb, DefaultGenesis)
 		if err != nil {
 			return nil, err
 		}
 		glog.V(logger.Info).Infoln("WARNING: Wrote default Earthdollar genesis block")
+=======
+		genesisBlock, err := WriteGenesisBlock(chainDb, gen)
+		if err != nil {
+			return nil, err
+		}
+		glog.V(logger.Info).Infof("WARNING: Wrote default ethereum %v genesis block", genname)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		hc.genesisHeader = genesisBlock.Header()
 	}
 
@@ -318,7 +336,7 @@ func (hc *HeaderChain) GetBlockHashesFromHash(hash common.Hash, max uint64) []co
 			break
 		}
 		chain = append(chain, next)
-		if header.Number.Cmp(common.Big0) == 0 {
+		if header.Number.Sign() == 0 {
 			break
 		}
 	}

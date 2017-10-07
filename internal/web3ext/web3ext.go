@@ -208,7 +208,8 @@ web3._extend({
 		new web3._extend.Method({
 			name: 'metrics',
 			call: 'debug_metrics',
-			params: 1
+			params: 1,
+			inputFormatter: [web3._extend.formatters.inputOptionalBoolFormatter]
 		}),
 		new web3._extend.Method({
 			name: 'verbosity',
@@ -295,6 +296,11 @@ web3._extend({
 			name: 'traceTransaction',
 			call: 'debug_traceTransaction',
 			params: 1
+		}),
+		new web3._extend.Method({
+			name: 'accountExist',
+			call: 'debug_accountExist',
+			params: 2
 		})
 	],
 	properties: []
@@ -335,6 +341,11 @@ web3._extend({
 			call: 'ed_submitTransaction',
 			params: 1,
 			inputFormatter: [web3._extend.formatters.inputTransactionFormatter]
+		}),
+		new web3._extend.Method({
+			name: 'chainId',
+			call: 'eth_chainId',
+			params: 0
 		})
 	],
 	properties:

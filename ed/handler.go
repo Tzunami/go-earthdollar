@@ -106,7 +106,7 @@ func NewProtocolManager(config *core.ChainConfig, fastSync bool, networkId int, 
 	}
 	// Figure out whether to allow fast sync or not
 	if fastSync && blockchain.CurrentBlock().NumberU64() > 0 {
-		glog.V(logger.Info).Infof("blockchain not empty, fast sync disabled")
+		glog.V(logger.Warn).Infof("Fast sync: disabled: blockchain not empty")
 		fastSync = false
 	}
 	if fastSync {
@@ -281,19 +281,20 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	var fork *core.Fork
 	for i := range pm.chainConfig.Forks {
 		fork = pm.chainConfig.Forks[i]
-		if fork.NetworkSplit {
-			if fork.Support {
-				// Request the peer's fork block header for extra-dat
-				if err := p.RequestHeadersByNumber(fork.Block.Uint64(), 1, 0, false); err != nil {
-					glog.V(logger.Warn).Infof("%v: error requesting headers by number ", p)
-					return err
-				}
-				// Start a timer to disconnect if the peer doesn't reply in time
-				p.timeout = time.AfterFunc((500 * time.Millisecond), func() {
-					glog.V(logger.Warn).Infof("%v: timed out fork-check, dropping", p)
-					pm.removePeer(p.id)
-				})
+		if _, height := p.Head(); height.Cmp(fork.Block) < 0 {
+			break
+		}
+		if !fork.RequiredHash.IsEmpty() {
+			// Request the peer's fork block header for extra-dat
+			if err := p.RequestHeadersByNumber(fork.Block.Uint64(), 1, 0, false); err != nil {
+				glog.V(logger.Warn).Infof("%v: error requesting headers by number ", p)
+				return err
 			}
+			// Start a timer to disconnect if the peer doesn't reply in time
+			p.timeout = time.AfterFunc((5 * time.Second), func() {
+				glog.V(logger.Debug).Infof("%v: timed out fork-check, dropping", p)
+				pm.removePeer(p.id)
+			})
 			// Make sure it's cleaned up if the peer dies off
 			defer func() {
 				if p.timeout != nil {
@@ -403,35 +404,26 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		if err := msg.Decode(&headers); err != nil {
 			return errResp(ErrDecode, "msg %v: %v", msg, err)
 		}
-		// If no headers were received, but we're expending a fork check, maybe it's that
+		// Good will assumption. Even if the peer is ahead of the fork check header but returns
+		// empty header response, it might be that the peer is a light client which only keeps
+		// the last 256 block headers. Besides it does not prevent network attacks. See #313 for
+		// an explaination.
 		if len(headers) == 0 && p.timeout != nil {
-			// Possibly an empty reply to the fork header checks, sanity check total difficulty
-			forkPeer := true
-			// If we already have a header, we can check the peer's total difficulty against it. If
-			// the peer's ahead of this, it too must have a reply to the check
-			// DAO Split big.NewInt(1920000)
-			if splitHeader := pm.blockchain.GetHeaderByNumber(pm.chainConfig.Fork("ETF").Block.Uint64()); splitHeader != nil {
-				if _, td := p.Head(); td.Cmp(pm.blockchain.GetTd(splitHeader.Hash())) >= 0 {
-					forkPeer = false
-				}
-			}
-			// If we're seemingly on the same chain, disable the drop timer
-			if forkPeer {
-				// Disable the fork drop timeout
-				p.timeout.Stop()
-				p.timeout = nil
-				return nil
-			}
+			// Disable the fork drop timeout
+			p.timeout.Stop()
+			p.timeout = nil
+			return nil
 		}
 		// Filter out any explicitly requested headers, deliver the rest to the downloader
 		filter := len(headers) == 1
 		if filter {
+			if p.timeout != nil {
+				// Disable the fork drop timeout
+				p.timeout.Stop()
+				p.timeout = nil
+			}
 			if err := pm.chainConfig.HeaderCheck(headers[0]); err != nil {
-				if p.timeout != nil {
-					// Disable the fork drop timeout
-					p.timeout.Stop()
-					p.timeout = nil
-				}
+				pm.removePeer(p.id)
 				return err
 			}
 			// Irrelevant of the fork checks, send the header to the fetcher just in case
@@ -753,8 +745,13 @@ func (self *ProtocolManager) txBroadcastLoop() {
 
 // EdNodeInfo represents a short summary of the Earthdollar sub-protocol metadata known
 // about the host peer.
+<<<<<<< HEAD:ed/handler.go
 type EdNodeInfo struct {
 	Network    int         `json:"network"`    // Earthdollar network ID (0=Olympic, 1=Frontier, 2=Morden)
+=======
+type EthNodeInfo struct {
+	Network    int         `json:"network"`    // Ethereum network ID (1=Mainnet, 2=Morden)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/handler.go
 	Difficulty *big.Int    `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Head       common.Hash `json:"head"`       // SHA3 hash of the host's best owned block

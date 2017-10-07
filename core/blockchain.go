@@ -105,7 +105,11 @@ type BlockChain struct {
 }
 
 // NewBlockChain returns a fully initialised block chain using information
+<<<<<<< HEAD
 // available in the database. It initialiser the default Earthdollar Validator and
+=======
+// available in the database. It initialises the default Ethereum Validator and
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 // Processor.
 func NewBlockChain(chainDb eddb.Database, config *ChainConfig, pow pow.PoW, mux *event.TypeMux) (*BlockChain, error) {
 	bodyCache, _ := lru.New(bodyCacheLimit)
@@ -747,6 +751,32 @@ func (self *BlockChain) InsertReceiptChain(blockChain types.Blocks, receiptChain
 
 // WriteBlock writes the block to the chain.
 func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err error) {
+
+	if logger.MlogEnabled() {
+		defer func(status WriteStatus, err error) {
+			mlogWriteStatus := "UNKNOWN"
+			switch status {
+			case NonStatTy:
+				mlogWriteStatus = "NONE"
+			case CanonStatTy:
+				mlogWriteStatus = "CANON"
+			case SideStatTy:
+				mlogWriteStatus = "SIDE"
+			}
+			mlogBlockchain.Send(mlogBlockchainWriteBlock.SetDetailValues(
+				mlogWriteStatus,
+				err,
+				block.Number(),
+				block.Hash().Hex(),
+				block.Size().Int64(),
+				block.Transactions().Len(),
+				block.GasUsed(),
+				block.Coinbase().Hex(),
+				block.Time(),
+			))
+		}(status, err)
+	}
+
 	self.wg.Add(1)
 	defer self.wg.Done()
 
@@ -793,6 +823,19 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 // InsertChain inserts the given chain into the canonical chain or, otherwise, create a fork.
 // If the err return is not nil then chainIndex points to the cause in chain.
 func (self *BlockChain) InsertChain(chain types.Blocks) (chainIndex int, err error) {
+	// EPROJECT
+	// Do a sanity check that the provided chain is actually ordered and linked
+	for i := 1; i < len(chain); i++ {
+		if chain[i].NumberU64() != chain[i-1].NumberU64()+1 || chain[i].ParentHash() != chain[i-1].Hash() {
+			// Chain broke ancestry, log a messge (programming error) and skip insertion
+			glog.V(logger.Error).Infof("Non contiguous block insert", "number", chain[i].Number(), "hash", chain[i].Hash(),
+				"parent", chain[i].ParentHash(), "prevnumber", chain[i-1].Number(), "prevhash", chain[i-1].Hash())
+
+			return 0, fmt.Errorf("non contiguous insert: item %d is #%d [%x…], item %d is #%d [%x…] (parent [%x…])", i-1, chain[i-1].NumberU64(),
+				chain[i-1].Hash().Bytes()[:4], i, chain[i].NumberU64(), chain[i].Hash().Bytes()[:4], chain[i].ParentHash().Bytes()[:4])
+		}
+	}
+
 	self.wg.Add(1)
 	defer self.wg.Done()
 
@@ -944,7 +987,27 @@ func (self *BlockChain) InsertChain(chain types.Blocks) (chainIndex int, err err
 	if (stats.queued > 0 || stats.processed > 0 || stats.ignored > 0) && bool(glog.V(logger.Info)) {
 		tend := time.Since(tstart)
 		start, end := chain[0], chain[len(chain)-1]
-		glog.Infof("imported %d block(s) (%d queued %d ignored) including %d txs in %v. #%v [%x / %x]\n", stats.processed, stats.queued, stats.ignored, txcount, tend, end.Number(), start.Hash().Bytes()[:4], end.Hash().Bytes()[:4])
+		if logger.MlogEnabled() {
+			mlogBlockchain.Send(mlogBlockchainInsertBlocks.SetDetailValues(
+				stats.processed,
+				stats.queued,
+				stats.ignored,
+				txcount,
+				end.Number(),
+				start.Hash().Hex(),
+				end.Hash().Hex(),
+				tend,
+			))
+		}
+		glog.V(logger.Info).Infof("imported %d block(s) (%d queued %d ignored) including %d txs in %v. #%v [%x / %x]\n",
+			stats.processed,
+			stats.queued,
+			stats.ignored,
+			txcount,
+			tend,
+			end.Number(),
+			start.Hash().Bytes()[:4],
+			end.Hash().Bytes()[:4])
 	}
 	go self.postChainEvents(events, coalescedLogs)
 

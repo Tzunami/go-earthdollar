@@ -20,16 +20,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"runtime"
-	"strconv"
-	"strings"
 
 	"gopkg.in/urfave/cli.v1"
 
+<<<<<<< HEAD:cmd/ged/main.go
 	"github.com/Tzunami/edhash"
 	"github.com/Tzunami/go-earthdollar/console"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -39,14 +37,22 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/metrics"
 	"github.com/Tzunami/go-earthdollar/node"
+=======
+	"github.com/ethereumproject/go-ethereum/console"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/eth"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/metrics"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/main.go
 )
 
 // Version is the application revision identifier. It can be set with the linker
 // as in: go build -ldflags "-X main.Version="`git describe --tags`
-var Version = "unknown"
+var Version = "source"
 
-func main() {
-	app := cli.NewApp()
+func makeCLIApp() (app *cli.App) {
+	app = cli.NewApp()
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
 	app.Usage = "the go-earthdollar command line interface"
@@ -56,19 +62,29 @@ func main() {
 	app.Commands = []cli.Command{
 		importCommand,
 		exportCommand,
+		dumpChainConfigCommand,
 		upgradedbCommand,
 		removedbCommand,
 		dumpCommand,
+		rollbackCommand,
 		monitorCommand,
 		accountCommand,
 		walletCommand,
 		consoleCommand,
 		attachCommand,
 		javascriptCommand,
+		statusCommand,
 		{
+<<<<<<< HEAD:cmd/ged/main.go
 			Action: makedag,
 			Name:   "makedag",
 			Usage:  "generate edhash dag (for testing)",
+=======
+			Action:  makedag,
+			Name:    "make-dag",
+			Aliases: []string{"makedag"},
+			Usage:   "Generate ethash dag (for testing)",
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/main.go
 			Description: `
 The makedag command generates an edhash DAG in /tmp/dag.
 
@@ -77,17 +93,19 @@ Regular users do not need to execute it.
 `,
 		},
 		{
-			Action: gpuinfo,
-			Name:   "gpuinfo",
-			Usage:  "gpuinfo",
+			Action:  gpuinfo,
+			Name:    "gpu-info",
+			Aliases: []string{"gpuinfo"},
+			Usage:   "GPU info",
 			Description: `
 Prints OpenCL device info for all found GPUs.
 `,
 		},
 		{
-			Action: gpubench,
-			Name:   "gpubench",
-			Usage:  "benchmark GPU",
+			Action:  gpubench,
+			Name:    "gpu-bench",
+			Aliases: []string{"gpubench"},
+			Usage:   "Benchmark GPU",
 			Description: `
 Runs quick benchmark on first GPU found.
 `,
@@ -95,32 +113,46 @@ Runs quick benchmark on first GPU found.
 		{
 			Action: version,
 			Name:   "version",
+<<<<<<< HEAD:cmd/ged/main.go
 			Usage:  "print earthdollar version numbers",
+=======
+			Usage:  "Print ethereum version numbers",
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/main.go
 			Description: `
 The output of this command is supposed to be machine-readable.
 `,
 		},
 		{
-			Action: initGenesis,
-			Name:   "init",
-			Usage:  "bootstraps and initialises a new genesis block (JSON)",
+			Action: makeMLogDocumentation,
+			Name:   "mdoc",
+			Usage:  "Generate mlog documentation",
 			Description: `
-The init command initialises a new genesis block and definition for the network.
-This is a destructive action and changes the network in which you will be
-participating.
+Auto-generates documentation for all available mlog lines.
+Use -md switch to toggle markdown output (eg. for wiki).
+Arguments may be used to specify exclusive candidate components;
+so 'geth mdoc -md discover' will generate markdown documentation only
+for the 'discover' component.
 `,
+			Flags: []cli.Flag{
+				cli.BoolFlag{
+					Name: "md",
+					Usage: "Toggle markdown formatting",
+				},
+			},
 		},
 	}
 
 	app.Flags = []cli.Flag{
-		IdentityFlag,
+		NodeNameFlag,
 		UnlockedAccountFlag,
 		PasswordFileFlag,
+		AccountsIndexFlag,
 		BootnodesFlag,
 		DataDirFlag,
+		DocRootFlag,
 		KeyStoreDirFlag,
+		ChainIdentityFlag,
 		BlockchainVersionFlag,
-		OlympicFlag,
 		FastSyncFlag,
 		CacheFlag,
 		LightKDFFlag,
@@ -161,6 +193,11 @@ participating.
 		RPCCORSDomainFlag,
 		VerbosityFlag,
 		VModuleFlag,
+		LogDirFlag,
+		LogStatusFlag,
+		MLogFlag,
+		MLogDirFlag,
+		MLogComponentsFlag,
 		BacktraceAtFlag,
 		MetricsFlag,
 		FakePoWFlag,
@@ -176,13 +213,41 @@ participating.
 	}
 
 	app.Before = func(ctx *cli.Context) error {
+
+		// It's a patch.
+		// Don't know why urfave/cli isn't catching the unknown command on its own.
+		if ctx.Args().Present() {
+			commandExists := false
+			for _, cmd := range app.Commands {
+				if cmd.HasName(ctx.Args().First()) {
+					commandExists = true
+				}
+			}
+			if !commandExists {
+				if e := cli.ShowCommandHelp(ctx, ctx.Args().First()); e != nil {
+					return e
+				}
+			}
+		}
+
 		runtime.GOMAXPROCS(runtime.NumCPU())
 
 		glog.CopyStandardLogTo("INFO")
-		glog.SetToStderr(true)
+
+		if ctx.GlobalIsSet(aliasableName(LogDirFlag.Name, ctx)) {
+			if p := ctx.GlobalString(aliasableName(LogDirFlag.Name, ctx)); p != "" {
+				if e := os.MkdirAll(p, os.ModePerm); e != nil {
+					return e
+				}
+				glog.SetLogDir(p)
+				glog.SetAlsoToStderr(true)
+			}
+		} else {
+			glog.SetToStderr(true)
+		}
 
 		if s := ctx.String("metrics"); s != "" {
-			go metrics.Collect(s)
+			go metrics.CollectToFile(s)
 		}
 
 		// This should be the only place where reporting is enabled
@@ -191,7 +256,22 @@ participating.
 		// for chains with the main network genesis block and network id 1.
 		ed.EnableBadBlockReporting = true
 
-		SetupNetwork(ctx)
+		// (whilei): I use `log` instead of `glog` because git diff tells me:
+		// > The output of this command is supposed to be machine-readable.
+		gasLimit := ctx.GlobalString(aliasableName(TargetGasLimitFlag.Name, ctx))
+		if _, ok := core.TargetGasLimit.SetString(gasLimit, 0); !ok {
+			log.Fatalf("malformed %s flag value %q", aliasableName(TargetGasLimitFlag.Name, ctx), gasLimit)
+		}
+
+		// Set morden chain by default for dev mode.
+		if ctx.GlobalBool(aliasableName(DevModeFlag.Name, ctx)) {
+			if !ctx.GlobalIsSet(aliasableName(ChainIdentityFlag.Name, ctx)) {
+				if e := ctx.Set(aliasableName(ChainIdentityFlag.Name, ctx), "morden"); e != nil {
+					log.Fatalf("failed to set chain value: %v", e)
+				}
+			}
+		}
+
 		return nil
 	}
 
@@ -201,6 +281,16 @@ participating.
 		return nil
 	}
 
+	app.CommandNotFound = func(c *cli.Context, command string) {
+		fmt.Fprintf(c.App.Writer, "Invalid command: %q. Please find `geth` usage below. \n", command)
+		cli.ShowAppHelp(c)
+		os.Exit(3)
+	}
+	return app
+}
+
+func main() {
+	app := makeCLIApp()
 	if err := app.Run(os.Args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -210,6 +300,7 @@ participating.
 // ged is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
+<<<<<<< HEAD:cmd/ged/main.go
 func ged(ctx *cli.Context) error {
 	node := MakeSystemNode(Version, ctx)
 	startNode(ctx, node)
@@ -342,6 +433,17 @@ func version(c *cli.Context) error {
 	fmt.Println("OS:", runtime.GOOS)
 	fmt.Printf("GOPATH=%s\n", os.Getenv("GOPATH"))
 	fmt.Printf("GOROOT=%s\n", runtime.GOROOT())
+=======
+func geth(ctx *cli.Context) error {
+	n := MakeSystemNode(Version, ctx)
+	ethe := startNode(ctx, n)
+
+	if ctx.GlobalIsSet(LogStatusFlag.Name) {
+		dispatchStatusLogs(ctx, ethe)
+	}
+
+	n.Wait()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/main.go
 
 	return nil
 }

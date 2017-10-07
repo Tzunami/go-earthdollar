@@ -22,10 +22,17 @@ import (
 	"math/big"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (
@@ -38,7 +45,11 @@ type VirtualMachine interface {
 	Run(*Contract, []byte) ([]byte, error)
 }
 
+<<<<<<< HEAD
 // EVM is used to run Earthdollar based contracts and will utilise the
+=======
+// EVM is used to run Ethereum based contracts and will utilise the
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 // passed environment to query external sources for state information.
 // The EVM will run the byte code VM or JIT VM based on the passed
 // configuration.
@@ -151,7 +162,7 @@ func (evm *EVM) Run(contract *Contract, input []byte) (ret []byte, err error) {
 				case JUMPI:
 					pos, cond := stack.pop(), stack.pop()
 
-					if cond.Cmp(common.BigTrue) >= 0 {
+					if cond.Sign() != 0 {
 						if err := jump(pc, pos); err != nil {
 							return nil, err
 						}

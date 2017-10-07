@@ -19,10 +19,17 @@ package vm
 import (
 	"math/big"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 // PrecompiledAccount represents a native earthdollar contract
@@ -83,10 +90,10 @@ func ecrecoverFunc(in []byte) []byte {
 	// "in" is (hash, v, r, s), each 32 bytes
 	// but for ecrecover we want (r, s, v)
 
-	r := common.BytesToBig(in[64:96])
-	s := common.BytesToBig(in[96:128])
+	r := new(big.Int).SetBytes(in[64:96])
+	s := new(big.Int).SetBytes(in[96:128])
 	// Treat V as a 256bit integer
-	vbig := common.Bytes2Big(in[32:64])
+	vbig := new(big.Int).SetBytes(in[32:64])
 	v := byte(vbig.Uint64())
 
 	// tighter sig s values in homestead only apply to tx sigs

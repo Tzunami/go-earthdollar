@@ -29,6 +29,7 @@ import (
 	"sync/atomic"
 	"time"
 
+<<<<<<< HEAD:ed/downloader/downloader.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/eddb"
@@ -37,6 +38,16 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/metrics"
 	"github.com/Tzunami/go-earthdollar/trie"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/metrics"
+	"github.com/ethereumproject/go-ethereum/trie"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/downloader/downloader.go
 )
 
 const (
@@ -250,6 +261,15 @@ func (d *Downloader) Synchronising() bool {
 	return atomic.LoadInt32(&d.synchronising) > 0
 }
 
+// Experimental getter functions for new logging.
+func (d *Downloader) GetMode() SyncMode {
+	return d.mode
+}
+
+func (d *Downloader) GetPeers() *peerSet {
+	return d.peers
+}
+
 // RegisterPeer injects a new download peer into the set of block source to be
 // used for fetching hashes and blocks from.
 func (d *Downloader) RegisterPeer(id string, version int, currentHead currentHeadRetrievalFn,
@@ -299,7 +319,7 @@ func (d *Downloader) Synchronise(id string, head common.Hash, td *big.Int, mode 
 		return true
 
 	case errBusy:
-		log.Print("sync busy")
+		glog.V(logger.Debug).Info("sync busy")
 
 	case errTimeout, errBadPeer, errStallingPeer, errEmptyHashSet,
 		errEmptyHeaderSet, errPeersUnavailable, errTooOld,
@@ -507,8 +527,7 @@ func (d *Downloader) spawnSync(origin uint64, fetchers ...func() error) error {
 	return nil
 }
 
-// cancel cancels all of the operations and resets the queue. It returns true
-// if the cancel operation was completed.
+// cancel cancels all of the operations and resets the queue.
 func (d *Downloader) cancel() {
 	// Close the current cancel channel
 	d.cancelLock.Lock()

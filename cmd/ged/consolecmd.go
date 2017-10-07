@@ -52,7 +52,11 @@ This command allows to open a console on a running ged node.
 	javascriptCommand = cli.Command{
 		Action: ephemeralConsole,
 		Name:   "js",
+<<<<<<< HEAD:cmd/ged/consolecmd.go
 		Usage:  `executes the given JavaScript files in the Ged JavaScript VM`,
+=======
+		Usage:  `Executes the given JavaScript files in the Geth JavaScript VM`,
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/consolecmd.go
 		Description: `
 The JavaScript VM exposes a node admin interface as well as the Ðapp
 JavaScript API. See https://github.com/Tzunami/go-earthdollar/wiki/Javascipt-Console
@@ -100,8 +104,14 @@ func localConsole(ctx *cli.Context) error {
 // remoteConsole will connect to a remote ged instance, attaching a JavaScript
 // console to it.
 func remoteConsole(ctx *cli.Context) error {
+<<<<<<< HEAD:cmd/ged/consolecmd.go
 	// Attach to a remotely running ged instance and start the JavaScript console
 	var uri = "ipc:" + node.DefaultIPCEndpoint()
+=======
+	// Attach to a remotely running geth instance and start the JavaScript console
+	chainDir := MustMakeChainDataDir(ctx)
+	var uri = "ipc:" + node.DefaultIPCEndpoint(chainDir)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/consolecmd.go
 	if ctx.Args().Present() {
 		uri = ctx.Args().First()
 	}
@@ -111,7 +121,7 @@ func remoteConsole(ctx *cli.Context) error {
 	}
 
 	config := console.Config{
-		DataDir: MustMakeDataDir(ctx),
+		DataDir: chainDir,
 		DocRoot: ctx.GlobalString(JSpathFlag.Name),
 		Client:  client,
 		Preload: MakeConsolePreloads(ctx),

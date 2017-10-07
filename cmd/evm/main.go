@@ -19,6 +19,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/big"
 	"os"
 	"path/filepath"
@@ -27,6 +28,7 @@ import (
 
 	"gopkg.in/urfave/cli.v1"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -35,6 +37,16 @@ import (
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 // Version is the application revision identifier. It can be set with the linker
@@ -127,7 +139,11 @@ func run(ctx *cli.Context) error {
 	statedb, _ := state.New(common.Hash{}, db)
 	sender := statedb.CreateAccount(common.StringToAddress("sender"))
 
-	vmenv := NewEnv(statedb, common.StringToAddress("evmuser"), common.Big(ctx.GlobalString(ValueFlag.Name)))
+	valueFlag, _ := new(big.Int).SetString(ctx.GlobalString(ValueFlag.Name), 0)
+	if valueFlag == nil {
+		log.Fatalf("malformed %s flag value %q", ValueFlag.Name, ctx.GlobalString(ValueFlag.Name))
+	}
+	vmenv := NewEnv(statedb, common.StringToAddress("evmuser"), valueFlag)
 
 	tstart := time.Now()
 
@@ -136,34 +152,30 @@ func run(ctx *cli.Context) error {
 		err error
 	)
 
+	gasFlag, _ := new(big.Int).SetString(ctx.GlobalString(GasFlag.Name), 0)
+	if gasFlag == nil {
+		log.Fatalf("malformed %s flag value %q", GasFlag.Name, ctx.GlobalString(GasFlag.Name))
+	}
+	priceFlag, _ := new(big.Int).SetString(ctx.GlobalString(PriceFlag.Name), 0)
+	if priceFlag == nil {
+		log.Fatalf("malformed %s flag value %q", PriceFlag.Name, ctx.GlobalString(PriceFlag.Name))
+	}
+
 	if ctx.GlobalBool(CreateFlag.Name) {
 		input := append(common.Hex2Bytes(ctx.GlobalString(CodeFlag.Name)), common.Hex2Bytes(ctx.GlobalString(InputFlag.Name))...)
-		ret, _, err = vmenv.Create(
-			sender,
-			input,
-			common.Big(ctx.GlobalString(GasFlag.Name)),
-			common.Big(ctx.GlobalString(PriceFlag.Name)),
-			common.Big(ctx.GlobalString(ValueFlag.Name)),
-		)
+		ret, _, err = vmenv.Create(sender, input, gasFlag, priceFlag, valueFlag)
 	} else {
 		receiver := statedb.CreateAccount(common.StringToAddress("receiver"))
 
 		code := common.Hex2Bytes(ctx.GlobalString(CodeFlag.Name))
 		receiver.SetCode(crypto.Keccak256Hash(code), code)
-		ret, err = vmenv.Call(
-			sender,
-			receiver.Address(),
-			common.Hex2Bytes(ctx.GlobalString(InputFlag.Name)),
-			common.Big(ctx.GlobalString(GasFlag.Name)),
-			common.Big(ctx.GlobalString(PriceFlag.Name)),
-			common.Big(ctx.GlobalString(ValueFlag.Name)),
-		)
+		ret, err = vmenv.Call(sender, receiver.Address(), common.Hex2Bytes(ctx.GlobalString(InputFlag.Name)), gasFlag, priceFlag, valueFlag)
 	}
 	vmdone := time.Since(tstart)
 
 	if ctx.GlobalBool(DumpFlag.Name) {
 		statedb.Commit()
-		fmt.Println(string(statedb.Dump()))
+		fmt.Println(string(statedb.Dump([]common.Address{})))
 	}
 
 	if ctx.GlobalBool(SysStatFlag.Name) {
@@ -224,7 +236,11 @@ func NewEnv(state *state.StateDB, transactor common.Address, value *big.Int) *VM
 // ruleSet implements vm.RuleSet and will always default to the homestead rule set.
 type ruleSet struct{}
 
+<<<<<<< HEAD
 //func (ruleSet) IsHomestead(*big.Int) bool { return true }
+=======
+func (ruleSet) IsHomestead(*big.Int) bool { return true }
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 func (ruleSet) GasTable(*big.Int) *vm.GasTable {
 	return &vm.GasTable{
@@ -245,7 +261,7 @@ func (self *VMEnv) Db() vm.Database           { return self.state }
 func (self *VMEnv) SnapshotDatabase() int     { return self.state.Snapshot() }
 func (self *VMEnv) RevertToSnapshot(snap int) { self.state.RevertToSnapshot(snap) }
 func (self *VMEnv) Origin() common.Address    { return *self.transactor }
-func (self *VMEnv) BlockNumber() *big.Int     { return common.Big0 }
+func (self *VMEnv) BlockNumber() *big.Int     { return new(big.Int) }
 func (self *VMEnv) Coinbase() common.Address  { return *self.transactor }
 func (self *VMEnv) Time() *big.Int            { return self.time }
 func (self *VMEnv) Mint() *big.Int            { return self.mint }

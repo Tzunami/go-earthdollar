@@ -26,6 +26,7 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD:ed/fetcher/fetcher_test.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -36,6 +37,18 @@ import (
 
 var (
 	testdb       eddb.Database
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+)
+
+var (
+	testdb       ethdb.Database
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/fetcher/fetcher_test.go
 	testKey      *ecdsa.PrivateKey
 	testAddress  common.Address
 	genesis      *types.Block
@@ -50,7 +63,11 @@ func init() {
 	}
 	testAddress = crypto.PubkeyToAddress(testKey.PublicKey)
 
+<<<<<<< HEAD:ed/fetcher/fetcher_test.go
 	testdb, err = eddb.NewMemDatabase()
+=======
+	testdb, err = ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/fetcher/fetcher_test.go
 	if err != nil {
 		panic(err)
 	}
@@ -78,7 +95,7 @@ func init() {
 // contains a transaction and every 5th an uncle to allow testing correct block
 // reassembly.
 func makeChain(n int, seed byte, parent *types.Block) ([]common.Hash, map[common.Hash]*types.Block) {
-	blocks, _ := core.GenerateChain(core.TestConfig, parent, testdb, n, func(i int, block *core.BlockGen) {
+	blocks, _ := core.GenerateChain(core.DefaultConfigMorden.ChainConfig, parent, testdb, n, func(i int, block *core.BlockGen) {
 		block.SetCoinbase(common.Address{seed})
 
 		// If the block number is multiple of 3, send a bonus transaction to the miner

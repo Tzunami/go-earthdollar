@@ -20,7 +20,9 @@ import (
 	"bytes"
 	"fmt"
 	"math/big"
+	"strconv"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -29,6 +31,16 @@ import (
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 func init() {
@@ -107,8 +119,16 @@ func insertAccount(state *state.StateDB, saddr string, account Account) {
 	}
 	addr := common.HexToAddress(saddr)
 	state.SetCode(addr, common.Hex2Bytes(account.Code))
-	state.SetNonce(addr, common.Big(account.Nonce).Uint64())
-	state.SetBalance(addr, common.Big(account.Balance))
+	if i, err := strconv.ParseUint(account.Nonce, 0, 64); err != nil {
+		panic(err)
+	} else {
+		state.SetNonce(addr, i)
+	}
+	if i, ok := new(big.Int).SetString(account.Balance, 0); !ok {
+		panic("malformed account balance")
+	} else {
+		state.SetBalance(addr, i)
+	}
 	for a, v := range account.Storage {
 		state.SetState(addr, common.HexToHash(a), common.HexToHash(v))
 	}
@@ -146,9 +166,15 @@ type RuleSet struct {
 
 /*func (r RuleSet) IsHomestead(n *big.Int) bool {
 	return n.Cmp(r.HomesteadBlock) >= 0
+<<<<<<< HEAD
 }*/ // earthdollar
 func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
 	/*if r.HomesteadGasRepriceBlock == nil || num == nil || num.Cmp(r.HomesteadGasRepriceBlock) < 0 {
+=======
+}
+func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
+	if r.HomesteadGasRepriceBlock == nil || num == nil || num.Cmp(r.HomesteadGasRepriceBlock) < 0 {
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		return &vm.GasTable{
 			ExtcodeSize:     big.NewInt(20),
 			ExtcodeCopy:     big.NewInt(20),
@@ -171,6 +197,7 @@ func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
 			ExpByte:         big.NewInt(10),
 			CreateBySuicide: big.NewInt(25000),
 		}
+<<<<<<< HEAD
 	}*/
 
 	return &vm.GasTable{
@@ -183,6 +210,20 @@ func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
 		ExpByte:         big.NewInt(50),
 		CreateBySuicide: big.NewInt(25000),
 	}
+=======
+	}
+
+	return &vm.GasTable{
+		ExtcodeSize:     big.NewInt(700),
+		ExtcodeCopy:     big.NewInt(700),
+		Balance:         big.NewInt(400),
+		SLoad:           big.NewInt(200),
+		Calls:           big.NewInt(700),
+		Suicide:         big.NewInt(5000),
+		ExpByte:         big.NewInt(50),
+		CreateBySuicide: big.NewInt(25000),
+	}
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 }
 
 type Env struct {
@@ -222,11 +263,30 @@ func NewEnvFromMap(ruleSet RuleSet, state *state.StateDB, envValues map[string]s
 	env.origin = common.HexToAddress(exeValues["caller"])
 	env.parent = common.HexToHash(envValues["previousHash"])
 	env.coinbase = common.HexToAddress(envValues["currentCoinbase"])
+<<<<<<< HEAD
 	env.number = common.Big(envValues["currentNumber"])
 	env.time = common.Big(envValues["currentTimestamp"])
         env.mint = common.Big(envValues["currentMint"])
 	env.difficulty = common.Big(envValues["currentDifficulty"])
 	env.gasLimit = common.Big(envValues["currentGasLimit"])
+=======
+	env.number, _ = new(big.Int).SetString(envValues["currentNumber"], 0)
+	if env.number == nil {
+		panic("malformed current number")
+	}
+	env.time, _ = new(big.Int).SetString(envValues["currentTimestamp"], 0)
+	if env.time == nil {
+		panic("malformed current timestamp")
+	}
+	env.difficulty, _ = new(big.Int).SetString(envValues["currentDifficulty"], 0)
+	if env.difficulty == nil {
+		panic("malformed current difficulty")
+	}
+	env.gasLimit, _ = new(big.Int).SetString(envValues["currentGasLimit"], 0)
+	if env.gasLimit == nil {
+		panic("malformed current gas limit")
+	}
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	env.Gas = new(big.Int)
 
 	env.evm = vm.New(env)

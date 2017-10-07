@@ -20,7 +20,6 @@ import (
 	"fmt"
 	"log"
 	"math"
-	"reflect"
 	"runtime"
 	"strings"
 	"time"
@@ -31,12 +30,16 @@ import (
 	"github.com/Tzunami/go-earthdollar/rpc"
 	"github.com/gizak/termui"
 	"gopkg.in/urfave/cli.v1"
+	"github.com/ethereumproject/go-ethereum/common"
+	"path/filepath"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"regexp"
 )
 
 var (
 	monitorCommandAttachFlag = cli.StringFlag{
 		Name:  "attach",
-		Value: "ipc:" + node.DefaultIPCEndpoint(),
+		Value: "ipc:" + node.DefaultIPCEndpoint(filepath.Join(common.DefaultDataDir(), "mainnet")),
 		Usage: "API endpoint to attach to",
 	}
 	monitorCommandRowsFlag = cli.IntFlag{
@@ -68,8 +71,18 @@ to display multiple metrics simultaneously.
 
 // monitor starts a terminal UI based monitoring tool for the requested metrics.
 func monitor(ctx *cli.Context) error {
+<<<<<<< HEAD:cmd/ged/monitorcmd.go
 	// Attach to an Earthdollar node over IPC or RPC
 	client, err := rpc.NewClient(ctx.String(monitorCommandAttachFlag.Name))
+=======
+	// Attach to an Ethereum node over IPC or RPC
+	endpoint := ctx.String(monitorCommandAttachFlag.Name)
+	// Set defaults (no arg value) to chain contextual path (via --chain or --testnet, since default val is mainnet)
+	if ctx.GlobalString(monitorCommandAttachFlag.Name) == "" {
+		endpoint = "ipc:" + node.DefaultIPCEndpoint(MustMakeChainDataDir(ctx))
+	}
+	client, err := rpc.NewClient(endpoint)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/monitorcmd.go
 	if err != nil {
 		log.Fatal("attach to remote ged: ", err)
 	}
@@ -86,7 +99,10 @@ func monitor(ctx *cli.Context) error {
 		sort.Strings(list)
 
 		if len(list) > 0 {
-			log.Fatalf("No metrics specified. Available: %q", list)
+			if len(ctx.Args()) == 0 {
+				log.Fatalf("No metrics specified. Available: \n%s", listWithNewlines(list))
+			}
+			log.Fatalf("No metrics found matching that pattern. Available metrics: \n%s", listWithNewlines(list))
 		} else {
 			log.Fatal("No metrics collected by ged (--metrics).")
 		}
@@ -153,9 +169,19 @@ func monitor(ctx *cli.Context) error {
 	return nil
 }
 
+<<<<<<< HEAD:cmd/ged/monitorcmd.go
 // retrieveMetrics contacts the attached ged node and retrieves the entire set
+=======
+// listWithNewlines is a convenience function for showing available
+// metrics in case there are none specified or no matches
+func listWithNewlines(availableMetrics []string) string {
+	return strings.Join(availableMetrics, "\n")
+}
+
+// retrieveMetrics contacts the attached geth node and retrieves the entire set
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/geth/monitorcmd.go
 // of collected system metrics.
-func retrieveMetrics(client rpc.Client) (map[string]interface{}, error) {
+func retrieveMetrics(client rpc.Client) (map[string]float64, error) {
 	req := map[string]interface{}{
 		"id":      new(int64),
 		"method":  "debug_metrics",
@@ -173,8 +199,13 @@ func retrieveMetrics(client rpc.Client) (map[string]interface{}, error) {
 	}
 
 	if res.Result != nil {
-		if mets, ok := res.Result.(map[string]interface{}); ok {
-			return mets, nil
+		r, ok := res.Result.(map[string]interface{})
+		if !ok {
+			glog.Fatalln("Could not convert resulting JSON response to type map[string]interface{}")
+		}
+
+		if ok {
+			return flattenToFloat(r), nil
 		}
 	}
 
@@ -183,7 +214,12 @@ func retrieveMetrics(client rpc.Client) (map[string]interface{}, error) {
 
 // resolveMetrics takes a list of input metric patterns, and resolves each to one
 // or more canonical metric names.
-func resolveMetrics(metrics map[string]interface{}, patterns []string) []string {
+// 'patterns' are user-inputed arguments
+// eg.
+// $ geth monitor [--attach=api-endpoint] metric1 metric2 ... metricN
+//
+// Where a metric may be: a REGEX to match available metrics paths/strings/names
+func resolveMetrics(metrics map[string]float64, patterns []string) []string {
 	res := []string{}
 	for _, pattern := range patterns {
 		res = append(res, resolveMetric(metrics, pattern, "")...)
@@ -193,72 +229,60 @@ func resolveMetrics(metrics map[string]interface{}, patterns []string) []string 
 
 // resolveMetrics takes a single of input metric pattern, and resolves it to one
 // or more canonical metric names.
-func resolveMetric(metrics map[string]interface{}, pattern string, path string) []string {
-	results := []string{}
-
-	// If a nested metric was requested, recurse optionally branching (via comma)
-	parts := strings.SplitN(pattern, "/", 2)
-	if len(parts) > 1 {
-		for _, variation := range strings.Split(parts[0], ",") {
-			if submetrics, ok := metrics[variation].(map[string]interface{}); !ok {
-				log.Fatalf("%s: failed to retrieve system metrics: %q", path, variation)
-			} else {
-				results = append(results, resolveMetric(submetrics, parts[1], path+variation+"/")...)
-			}
-		}
-		return results
-	}
-	// Depending what the last link is, return or expand
-	for _, variation := range strings.Split(pattern, ",") {
-		switch metric := metrics[variation].(type) {
-		case float64:
-			// Final metric value found, return as singleton
-			results = append(results, path+variation)
-
-		case map[string]interface{}:
-			results = append(results, expandMetrics(metric, path+variation+"/")...)
-
-		default:
-			log.Fatal("Metric pattern resolved to unexpected type:", reflect.TypeOf(metric))
+func resolveMetric(metrics map[string]float64, pattern string, path string) []string {
+	var out []string
+	re := regexp.MustCompile(pattern)
+	for met := range metrics {
+		if re.MatchString(met) {
+			out = append(out, met)
 		}
 	}
-	return results
+	return out
 }
 
 // expandMetrics expands the entire tree of metrics into a flat list of paths.
-func expandMetrics(metrics map[string]interface{}, path string) []string {
-	// Iterate over all fields and expand individually
-	list := []string{}
-	for name, metric := range metrics {
-		switch metric := metric.(type) {
-		case float64:
-			// Final metric value found, append to list
-			list = append(list, path+name)
-
-		case map[string]interface{}:
-			// Tree of metrics found, expand recursively
-			list = append(list, expandMetrics(metric, path+name+"/")...)
-
-		default:
-			log.Fatalf("%s: Metric pattern %q resolved to unexpected type: %v", path, name, reflect.TypeOf(metric))
-		}
+func expandMetrics(metrics map[string]float64, path string) []string {
+	var list []string
+	for k := range metrics {
+		list = append(list, k)
 	}
 	return list
 }
 
-// fetchMetric iterates over the metrics map and retrieves a specific one.
-func fetchMetric(metrics map[string]interface{}, metric string) float64 {
-	parts, found := strings.Split(metric, "/"), true
-	for _, part := range parts[:len(parts)-1] {
-		metrics, found = metrics[part].(map[string]interface{})
-		if !found {
-			return 0
+// flattenToFloat takes:
+/*
+p2p/bytes/in: map[string]interface{}
+where interface{} val is:
+map{
+  15m.rate: 0
+  5m.rate: 4
+  1m.rate: 1.3
+  mean.rate: 0.7222
+  count: 14
+}
+
+and returns:
+map{
+p2p/bytes/in/15m.rate: 0
+p2p/bytes/in/5m.rate: 4
+p2p/bytes/in/1m.rate: 1.3
+p2p/bytes/in/mean.rate: 0.7222
+p2p/bytes/in/count: 14
+}
+
+*/
+func flattenToFloat(rawMets map[string]interface{}) map[string]float64 {
+	var mets = make(map[string]float64)
+	for k, v := range rawMets {
+		if vi, ok := v.(map[string]interface{}); ok {
+			for vk, vv := range vi {
+				if f, fok := vv.(float64); fok {
+					mets[k + "/" + vk] = f
+				}
+			}
 		}
 	}
-	if v, ok := metrics[parts[len(parts)-1]].(float64); ok {
-		return v
-	}
-	return 0
+	return mets
 }
 
 // refreshCharts retrieves a next batch of metrics, and inserts all the new
@@ -267,9 +291,9 @@ func refreshCharts(client rpc.Client, metrics []string, data [][]float64, units 
 	values, err := retrieveMetrics(client)
 	for i, metric := range metrics {
 		if len(data) < 512 {
-			data[i] = append([]float64{fetchMetric(values, metric)}, data[i]...)
+			data[i] = append([]float64{values[metric]}, data[i]...)
 		} else {
-			data[i] = append([]float64{fetchMetric(values, metric)}, data[i][:len(data[i])-1]...)
+			data[i] = append([]float64{values[metric]}, data[i][:len(data[i])-1]...)
 		}
 		if updateChart(metric, data[i], &units[i], charts[i], err) {
 			realign = true
@@ -359,4 +383,14 @@ func updateFooter(ctx *cli.Context, err error, footer *termui.Par) {
 		footer.Text = fmt.Sprintf("Error: %v.", err)
 		footer.TextFgColor = termui.ColorRed | termui.AttrBold
 	}
+}
+
+// sliceContainsStrings is a convenience helper function for resolving metrics paths
+func sliceContainsString(slice []string, s string) bool {
+	for _, sl := range slice {
+		if sl == s {
+			return true
+		}
+	}
+	return false
 }

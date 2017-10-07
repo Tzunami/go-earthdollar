@@ -134,7 +134,7 @@ func storeNewKey(store *keyStore, secret string) (*key, Account, error) {
 }
 
 type keyStore struct {
-	baseDir string
+	baseDir string // absolute filepath to default/flagged value for eg datadir/mainnet/keystore
 	scryptN int
 	scryptP int
 }
@@ -156,6 +156,14 @@ func newKeyStore(dir string, scryptN, scryptP int) (*keyStore, error) {
 		scryptN: scryptN,
 		scryptP: scryptP,
 	}, nil
+}
+
+func (store *keyStore) DecryptKey(data []byte, secret string) (*key, error) {
+	key, err := decryptKey(data, secret)
+	if err != nil {
+		return nil, err
+	}
+	return key, nil
 }
 
 func (store *keyStore) Lookup(file string, secret string) (*key, error) {

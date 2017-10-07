@@ -23,6 +23,8 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
+	"strings"
+	"bufio"
 
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/console"
@@ -37,12 +39,12 @@ var (
 	importCommand = cli.Command{
 		Action: importChain,
 		Name:   "import",
-		Usage:  `import a blockchain file`,
+		Usage:  `Import a blockchain file`,
 	}
 	exportCommand = cli.Command{
 		Action: exportChain,
 		Name:   "export",
-		Usage:  `export blockchain into file`,
+		Usage:  `Export blockchain into file`,
 		Description: `
 Requires a first argument of the file to write to.
 Optional second and third arguments control the first and
@@ -51,23 +53,54 @@ if already existing.
 		`,
 	}
 	upgradedbCommand = cli.Command{
-		Action: upgradeDB,
-		Name:   "upgradedb",
-		Usage:  "upgrade chainblock database",
+		Action:  upgradeDB,
+		Name:    "upgrade-db",
+		Aliases: []string{"upgradedb"},
+		Usage:   "Upgrade chainblock database",
 	}
 	removedbCommand = cli.Command{
-		Action: removeDB,
-		Name:   "removedb",
-		Usage:  "Remove blockchain and state databases",
+		Action:  removeDB,
+		Name:    "remove-db",
+		Aliases: []string{"removedb"},
+		Usage:   "Remove blockchain and state databases",
 	}
 	dumpCommand = cli.Command{
 		Action: dump,
 		Name:   "dump",
-		Usage:  `dump a specific block from storage`,
+		Usage:  `Dump a specific block from storage`,
 		Description: `
 The arguments are interpreted as block numbers or hashes.
 Use "earthdollar dump 0" to dump the genesis block.
 `,
+	}
+	dumpChainConfigCommand = cli.Command{
+		Action:  dumpChainConfig,
+		Name:    "dump-chain-config",
+		Aliases: []string{"dumpchainconfig"},
+		Usage:   "Dump current chain configuration to JSON file [REQUIRED argument: filepath.json]",
+		Description: `
+		The dump external configuration command writes a JSON file containing pertinent configuration data for
+		the configuration of a chain database. It includes genesis block data as well as chain fork settings.
+		`,
+	}
+	rollbackCommand = cli.Command{
+		Action:  rollback,
+		Name:    "rollback",
+		Aliases: []string{"roll-back", "set-head", "sethead"},
+		Usage:   "Set current head for blockchain, purging antecedent blocks",
+		Description: `
+		Rollback set the current head block for block chain already in the database.
+		This is a destructive action, purging any block more recent than the index specified.
+		Syncing will require downloading contemporary block information from the index onwards.
+		`,
+	}
+	statusCommand = cli.Command{
+		Action: status,
+		Name:   "status",
+		Usage:  "Display the status of the current node",
+		Description: `
+		Show the status of the current configuration.
+		`,
 	}
 )
 
@@ -168,28 +201,98 @@ func upgradeDB(ctx *cli.Context) error {
 	return nil
 }
 
+// Original use allows n hashes|ints as space-separated arguments, dumping entire state for each block n[x].
+// $ geth dump [hash|num] [hash|num] ... [hash|num]
+// $ geth dump 0x234234234234233 42 43 0xlksdf234r23r234223
+//
+// Revised use allows n hashes|ints as comma-separated first argument and n addresses as comma-separated second argument,
+// dumping only state information for given addresses if they're present.
+// revised use: $ geth dump [hash|num],[hash|num],...,[hash|num] [address],[address],...,[address]
+//
+// Added unsorted/sorted dumping algorithms.
+// unsorted dump is used by default.
+// revised use: $ geth dump [sorted] [hash|num],[hash|num],...,[hash|num] [address],[address],...,[address]
+
 func dump(ctx *cli.Context) error {
+
+	if ctx.NArg() == 0 {
+		return fmt.Errorf("%v: use: $ geth dump [blockHash|blockNum],[blockHash|blockNum] [[addressHex|addressPrefixedHex],[addressHex|addressPrefixedHex]]", ErrInvalidFlag)
+	}
+
+	firstArg := 0
+	sorted := ctx.Args()[0] == "sorted"
+	if sorted {
+		firstArg = 1
+	}
+
+	blocks := strings.Split(ctx.Args()[firstArg], ",")
+	addresses := []common.Address{}
+	argaddress := ""
+	if ctx.NArg() > firstArg+1 {
+		argaddress = ctx.Args()[firstArg+1]
+	}
+
+	if argaddress != "" {
+		argaddresses := strings.Split(argaddress, ",")
+		for _, a := range argaddresses {
+			addresses = append(addresses, common.HexToAddress(strings.TrimSpace(a)))
+		}
+	}
+
 	chain, chainDb := MakeChain(ctx)
-	for _, arg := range ctx.Args() {
+	defer chainDb.Close()
+
+	prefix := ""
+	indent := "    "
+
+	out := bufio.NewWriter(os.Stdout)
+
+	if len(blocks) > 1 {
+		prefix = indent
+		out.WriteString("[\n")
+	}
+
+	for n, b := range blocks {
+		b = strings.TrimSpace(b)
 		var block *types.Block
-		if hashish(arg) {
-			block = chain.GetBlock(common.HexToHash(arg))
+		if hashish(b) {
+			block = chain.GetBlock(common.HexToHash(b))
 		} else {
-			num, _ := strconv.Atoi(arg)
+			num, _ := strconv.Atoi(b)
 			block = chain.GetBlockByNumber(uint64(num))
 		}
 		if block == nil {
-			fmt.Println("{}")
+			out.WriteString("{}\n")
 			log.Fatal("block not found")
 		} else {
 			state, err := state.New(block.Root(), chainDb)
 			if err != nil {
-				log.Fatal("could not create new state: ", err)
+				return fmt.Errorf("could not create new state: %v", err)
 			}
-			fmt.Printf("%s\n", state.Dump())
+
+			if n != 0 {
+				out.WriteString(",\n")
+			}
+
+			if sorted {
+				err = state.SortedDump(addresses, prefix, indent, out)
+			} else {
+				err = state.UnsortedDump(addresses,prefix,indent,out)
+			}
+
+			if err != nil {
+				return err
+			}
 		}
 	}
-	chainDb.Close()
+
+	if len(blocks) > 1 {
+		out.WriteString("\n]")
+	}
+
+	out.WriteString("\n")
+	out.Flush()
+
 	return nil
 }
 

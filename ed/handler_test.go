@@ -21,6 +21,7 @@ import (
 	"math/rand"
 	"testing"
 
+<<<<<<< HEAD:ed/handler_test.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -30,6 +31,16 @@ import (
 	"github.com/Tzunami/go-earthdollar/ed/downloader"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/p2p"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/eth/downloader"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/p2p"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/handler_test.go
 )
 
 // Tests that protocol versions and modes of operations are matched up properly.
@@ -63,10 +74,11 @@ func TestProtocolCompatibility(t *testing.T) {
 
 // Tests that block headers can be retrieved from a remote chain based on user queries.
 func TestGetBlockHeaders62(t *testing.T) {
-	core.TestConfig.Forks = []*core.Fork{
+	core.DefaultConfigMorden.ChainConfig.Forks = []*core.Fork{
 		{
 			Name:  "Homestead",
 			Block: big.NewInt(0),
+<<<<<<< HEAD:ed/handler_test.go
 			GasTable: &vm.GasTable{
 				ExtcodeSize:     big.NewInt(20),
 				ExtcodeCopy:     big.NewInt(20),
@@ -76,6 +88,18 @@ func TestGetBlockHeaders62(t *testing.T) {
 				Suicide:         big.NewInt(0),
 				ExpByte:         big.NewInt(10),
 				CreateBySuicide: nil,
+=======
+			Features: []*core.ForkFeature{
+				{
+					ID: "homestead",
+					Options: core.ChainFeatureConfigOptions{
+						"difficulty": `{
+							"name": "homestead",
+							"options": {}
+						}`,
+					},
+				},
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/handler_test.go
 			},
 		},
 	}

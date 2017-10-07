@@ -21,17 +21,29 @@ import (
 	"math/big"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/eddb"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 // The default, always homestead, rule set for the vm env
 type ruleSet struct{}
 
+<<<<<<< HEAD
 //func (ruleSet) IsHomestead(*big.Int) bool { return true }
+=======
+func (ruleSet) IsHomestead(*big.Int) bool { return true }
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 func (ruleSet) GasTable(*big.Int) *vm.GasTable {
 	return &vm.GasTable{
 		ExtcodeSize:     big.NewInt(700),

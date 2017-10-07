@@ -20,10 +20,17 @@ import (
 	"fmt"
 	"math/big"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (
@@ -83,6 +90,7 @@ func MessageCreatesContract(msg Message) bool {
 // with the given data.
 func IntrinsicGas(data []byte, contractCreation bool) *big.Int {
 	igas := new(big.Int)
+<<<<<<< HEAD
         //earthdollar
         igas.Set(TxGas)
         /*if contractCreation && homestead {
@@ -90,6 +98,13 @@ func IntrinsicGas(data []byte, contractCreation bool) *big.Int {
 	} else {
 		igas.Set(TxGas)
 	}*/
+=======
+	if contractCreation && homestead {
+		igas.Set(TxGasContractCreation)
+	} else {
+		igas.Set(TxGas)
+	}
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if len(data) > 0 {
 		var nz int64
 		for _, byt := range data {
@@ -241,11 +256,17 @@ func (self *StateTransition) TransitionDb() (ret []byte, requiredGas, usedGas *b
 	//var addr common.Address
 	if contractCreation {
 		ret, _, err = vmenv.Create(sender, self.data, self.gas, self.gasPrice, self.value)
+<<<<<<< HEAD
 		
                 //earthdollar
                 /*if homestead && err == vm.CodeStoreOutOfGasError {
 			self.gas = big.NewInt(0)
 		}*/
+=======
+		if homestead && err == vm.CodeStoreOutOfGasError {
+			self.gas = big.NewInt(0)
+		}
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 		if err != nil {
 			ret = nil

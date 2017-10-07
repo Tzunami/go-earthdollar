@@ -26,6 +26,7 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/edhash"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -41,6 +42,23 @@ import (
 // GenesisBlockForTesting creates a block in which addr has the given seed balance.
 // The state trie of the block is written to db. the passed db needs to contain a state root
 func GenesisBlockForTesting(db eddb.Database, addr common.Address, balance *big.Int) *types.Block {
+=======
+	"github.com/ethereumproject/ethash"
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/rlp"
+	"github.com/hashicorp/golang-lru"
+)
+
+// GenesisBlockForTesting creates a block in which addr has the given wei balance.
+// The state trie of the block is written to db. the passed db needs to contain a state root
+func GenesisBlockForTesting(db ethdb.Database, addr common.Address, balance *big.Int) *types.Block {
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	statedb, err := state.New(common.Hash{}, db)
 	if err != nil {
 		panic(err)
@@ -60,14 +78,23 @@ func GenesisBlockForTesting(db eddb.Database, addr common.Address, balance *big.
 	}, nil, nil, nil)
 }
 
+<<<<<<< HEAD
 func theBlockChain(db eddb.Database, t *testing.T) *BlockChain {
 	pow, err := edhash.NewForTesting()
+=======
+func theBlockChain(db ethdb.Database, t *testing.T) *BlockChain {
+	pow, err := ethash.NewForTesting()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	var eventMux event.TypeMux
+<<<<<<< HEAD
 	if _, err := WriteGenesisBlock(db, TestNetGenesis); err != nil {
+=======
+	if _, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis); err != nil {
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		t.Fatal(err)
 	}
 	blockchain, err := NewBlockChain(db, testChainConfig(), pow, &eventMux)
@@ -209,7 +236,11 @@ func insertChain(done chan bool, blockchain *BlockChain, chain types.Blocks, t *
 }
 
 func TestLastBlock(t *testing.T) {
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -359,7 +390,11 @@ func testBrokenChain(t *testing.T, full bool) {
 func TestChainInsertions(t *testing.T) {
 	t.Skip("Skipped: outdated test files")
 
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -398,7 +433,11 @@ func TestChainInsertions(t *testing.T) {
 func TestChainMultipleInsertions(t *testing.T) {
 	t.Skip("Skipped: outdated test files")
 
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -483,7 +522,11 @@ func makeBlockChainWithDiff(genesis *types.Block, d []int, seed byte) []*types.B
 	return chain
 }
 
+<<<<<<< HEAD
 func chm(t testing.TB, genesis *types.Block, db eddb.Database) *BlockChain {
+=======
+func chm(t testing.TB, genesis *types.Block, db ethdb.Database) *BlockChain {
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	var eventMux event.TypeMux
 	config := testChainConfig()
 	bc := &BlockChain{
@@ -542,11 +585,19 @@ func testReorgShort(t *testing.T, full bool) {
 
 func testReorg(t *testing.T, first, second []int, td int64, full bool) {
 	// Create a pristine block chain
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
+=======
+	db, err := ethdb.NewMemDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+	genesis, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -590,11 +641,19 @@ func testReorg(t *testing.T, first, second []int, td int64, full bool) {
 }
 
 func TestInsertHeaderChainBadHash(t *testing.T) {
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
+=======
+	db, err := ethdb.NewMemDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+	genesis, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -614,11 +673,19 @@ func TestInsertHeaderChainBadHash(t *testing.T) {
 }
 
 func TestInsertChainBadHash(t *testing.T) {
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
+=======
+	db, err := ethdb.NewMemDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+	genesis, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -644,11 +711,19 @@ func TestReorgBadBlockHashes(t *testing.T)  { testReorgBadHashes(t, true) }
 
 func testReorgBadHashes(t *testing.T, full bool) {
 	// Create a pristine block chain
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
+=======
+	db, err := ethdb.NewMemDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+	genesis, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -779,7 +854,11 @@ func testInsertNonceError(t *testing.T, full bool) {
 // classical full block processing.
 func TestFastVsFullChains(t *testing.T) {
 	// Configure and generate a sample block chain
+<<<<<<< HEAD
 	gendb, err := eddb.NewMemDatabase()
+=======
+	gendb, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -813,7 +892,11 @@ func TestFastVsFullChains(t *testing.T) {
 		}
 	})
 	// Import the chain as an archive node for the comparison baseline
+<<<<<<< HEAD
 	archiveDb, err := eddb.NewMemDatabase()
+=======
+	archiveDb, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -828,7 +911,11 @@ func TestFastVsFullChains(t *testing.T) {
 		t.Fatalf("failed to process block %d: %v", n, err)
 	}
 	// Fast import the chain as a non-archive node to test
+<<<<<<< HEAD
 	fastDb, err := eddb.NewMemDatabase()
+=======
+	fastDb, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -881,7 +968,11 @@ func TestFastVsFullChains(t *testing.T) {
 // positions.
 func TestLightVsFastVsFullChainHeads(t *testing.T) {
 	// Configure and generate a sample block chain
+<<<<<<< HEAD
 	gendb, err := eddb.NewMemDatabase()
+=======
+	gendb, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -915,7 +1006,11 @@ func TestLightVsFastVsFullChainHeads(t *testing.T) {
 		}
 	}
 	// Import the chain as an archive node and ensure all pointers are updated
+<<<<<<< HEAD
 	archiveDb, err := eddb.NewMemDatabase()
+=======
+	archiveDb, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -934,7 +1029,11 @@ func TestLightVsFastVsFullChainHeads(t *testing.T) {
 	assert(t, "archive", archive, height/2, height/2, height/2)
 
 	// Import the chain as a non-archive node and ensure all pointers are updated
+<<<<<<< HEAD
 	fastDb, err := eddb.NewMemDatabase()
+=======
+	fastDb, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -959,7 +1058,11 @@ func TestLightVsFastVsFullChainHeads(t *testing.T) {
 	assert(t, "fast", fast, height/2, height/2, 0)
 
 	// Import the chain as a light node and ensure all pointers are updated
+<<<<<<< HEAD
 	lightDb, err := eddb.NewMemDatabase()
+=======
+	lightDb, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -993,7 +1096,11 @@ func TestChainTxReorgs(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1124,7 +1231,11 @@ func TestLogReorgs(t *testing.T) {
 	// this code generates a log
 	code := common.Hex2Bytes("60606040525b7f24ec1d3ff24c2f6ff210738839dbc339cd45a5294d85c79361016243157aae7b60405180905060405180910390a15b600a8060416000396000f360606040526008565b00")
 	signer := types.NewChainIdSigner(big.NewInt(63))
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1170,7 +1281,11 @@ func TestReorgSideEvent(t *testing.T) {
 		t.Fatal(err)
 	}
 	addr1 := crypto.PubkeyToAddress(key1.PublicKey)
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1254,7 +1369,11 @@ done:
 // Tests if the canonical block can be fetched from the database during chain insertion.
 func TestCanonicalBlockRetrieval(t *testing.T) {
 	t.Skip("Skipped: needs updating")
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1296,7 +1415,11 @@ func TestCanonicalBlockRetrieval(t *testing.T) {
 
 func TestEIP155Transition(t *testing.T) {
 	// Configure and generate a sample block chain
+<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
+=======
+	db, err := ethdb.NewMemDatabase()
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1309,15 +1432,49 @@ func TestEIP155Transition(t *testing.T) {
 		funds   = big.NewInt(1000000000)
 		genesis = WriteGenesisBlockForTesting(db, GenesisAccount{address, funds})
 		config  = &ChainConfig{
-			ChainId: big.NewInt(1),
 			Forks: []*Fork{
 				{
 					Name:  "Homestead",
 					Block: big.NewInt(0),
+					Features: []*ForkFeature{
+						{
+							ID: "difficulty",
+							Options: ChainFeatureConfigOptions{
+								"type": "homestead",
+							},
+						},
+						{
+							ID: "gastable",
+							Options: ChainFeatureConfigOptions{
+								"type": "homestead",
+							},
+						},
+					},
 				},
 				{
 					Name:  "Diehard",
 					Block: big.NewInt(2),
+					Features: []*ForkFeature{
+						{
+							ID: "eip155",
+							Options: ChainFeatureConfigOptions{
+								"chainID": 1,
+							},
+						},
+						{ // ecip1010 bomb delay
+							ID: "gastable",
+							Options: ChainFeatureConfigOptions{
+								"type": "eip160",
+							},
+						},
+						{ // ecip1010 bomb delay
+							ID: "difficulty",
+							Options: ChainFeatureConfigOptions{
+								"type":   "ecip1010",
+								"length": 2000000,
+							},
+						},
+					},
 				},
 			},
 		}
@@ -1352,7 +1509,7 @@ func TestEIP155Transition(t *testing.T) {
 			}
 			block.AddTx(tx)
 
-			tx, err = basicTx(types.NewChainIdSigner(config.ChainId))
+			tx, err = basicTx(types.NewChainIdSigner(config.GetChainID()))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -1364,7 +1521,7 @@ func TestEIP155Transition(t *testing.T) {
 			}
 			block.AddTx(tx)
 
-			tx, err = basicTx(types.NewChainIdSigner(config.ChainId))
+			tx, err = basicTx(types.NewChainIdSigner(config.GetChainID()))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -1393,15 +1550,49 @@ func TestEIP155Transition(t *testing.T) {
 
 	// generate an invalid chain id transaction
 	config = &ChainConfig{
-		ChainId: big.NewInt(2),
 		Forks: []*Fork{
 			{
 				Name:  "Homestead",
 				Block: big.NewInt(0),
+				Features: []*ForkFeature{
+					{
+						ID: "difficulty",
+						Options: ChainFeatureConfigOptions{
+							"type": "homestead",
+						},
+					},
+					{
+						ID: "gastable",
+						Options: ChainFeatureConfigOptions{
+							"type": "homestead",
+						},
+					},
+				},
 			},
 			{
 				Name:  "Diehard",
 				Block: big.NewInt(2),
+				Features: []*ForkFeature{
+					{
+						ID: "eip155",
+						Options: ChainFeatureConfigOptions{
+							"chainID": 2,
+						},
+					},
+					{ // ecip1010 bomb delay
+						ID: "gastable",
+						Options: ChainFeatureConfigOptions{
+							"type": "eip160",
+						},
+					},
+					{ // ecip1010 bomb delay
+						ID: "difficulty",
+						Options: ChainFeatureConfigOptions{
+							"type":   "ecip1010",
+							"length": 2000000,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -1417,7 +1608,7 @@ func TestEIP155Transition(t *testing.T) {
 		)
 		switch i {
 		case 0:
-			tx, err = basicTx(types.NewChainIdSigner(big.NewInt(2)))
+			tx, err = basicTx(types.NewChainIdSigner(config.GetChainID()))
 			if err != nil {
 				t.Fatal(err)
 			}

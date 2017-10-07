@@ -88,7 +88,7 @@ func newTester(t *testing.T, confOverride func(*ed.Config)) *tester {
 	if err != nil {
 		t.Fatalf("failed to create temporary keystore: %v", err)
 	}
-	accman, err := accounts.NewManager(filepath.Join(workspace, "keystore"), accounts.LightScryptN, accounts.LightScryptP)
+	accman, err := accounts.NewManager(filepath.Join(workspace, "keystore"), accounts.LightScryptN, accounts.LightScryptP, false)
 	if err != nil {
 		t.Fatalf("failed to create account manager: %s", err)
 	}
@@ -98,9 +98,15 @@ func newTester(t *testing.T, confOverride func(*ed.Config)) *tester {
 	if err != nil {
 		t.Fatalf("failed to create node: %v", err)
 	}
+<<<<<<< HEAD
 	edConf := &ed.Config{
 		ChainConfig:    core.DefaultConfig,
 		Earthbase:      common.HexToAddress(testAddress),
+=======
+	ethConf := &eth.Config{
+		ChainConfig:    core.DefaultConfigMainnet.ChainConfig,
+		Etherbase:      common.HexToAddress(testAddress),
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		AccountManager: accman,
 		PowTest:        true,
 	}

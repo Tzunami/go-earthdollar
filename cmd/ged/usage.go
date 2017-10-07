@@ -56,12 +56,11 @@ var AppHelpFlagGroups = []flagGroup{
 		Name: "EARTHDOLLAR",
 		Flags: []cli.Flag{
 			DataDirFlag,
+			ChainIdentityFlag,
 			KeyStoreDirFlag,
 			NetworkIdFlag,
-			OlympicFlag,
-			TestNetFlag,
 			DevModeFlag,
-			IdentityFlag,
+			NodeNameFlag,
 			FastSyncFlag,
 			LightKDFFlag,
 			CacheFlag,
@@ -73,6 +72,7 @@ var AppHelpFlagGroups = []flagGroup{
 		Flags: []cli.Flag{
 			UnlockedAccountFlag,
 			PasswordFileFlag,
+			AccountsIndexFlag,
 		},
 	},
 	{
@@ -138,6 +138,11 @@ var AppHelpFlagGroups = []flagGroup{
 		Flags: []cli.Flag{
 			VerbosityFlag,
 			VModuleFlag,
+			LogDirFlag,
+			LogStatusFlag,
+			MLogFlag,
+			MLogDirFlag,
+			MLogComponentsFlag,
 			BacktraceAtFlag,
 			MetricsFlag,
 			FakePoWFlag,
@@ -148,6 +153,13 @@ var AppHelpFlagGroups = []flagGroup{
 		Flags: []cli.Flag{
 			WhisperEnabledFlag,
 			NatspecEnabledFlag,
+		},
+	},
+	{
+		Name: "LEGACY",
+		Flags: []cli.Flag{
+			TestNetFlag,
+			Unused1,
 		},
 	},
 	{

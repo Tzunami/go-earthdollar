@@ -18,6 +18,7 @@
 package miner
 
 import (
+	"errors"
 	"math/big"
 	"sync/atomic"
 
@@ -91,13 +92,20 @@ out:
 	}
 }
 
-func (m *Miner) SetGasPrice(price *big.Int) {
-	// FIXME block tests set a nil gas price. Quick dirty fix
+func (m *Miner) SetGasPrice(price *big.Int) error {
+
 	if price == nil {
-		return
+		return nil
+	}
+
+	if m.MinAcceptedGasPrice != nil && price.Cmp(m.MinAcceptedGasPrice) == -1 {
+		priceTooLowError := errors.New("Gas price lower than minimum allowed.")
+		return priceTooLowError
 	}
 
 	m.worker.setGasPrice(price)
+
+	return nil
 }
 
 func (self *Miner) Start(coinbase common.Address, threads int) {
@@ -117,6 +125,10 @@ func (self *Miner) Start(coinbase common.Address, threads int) {
 		self.worker.register(NewCpuAgent(i, self.pow))
 	}
 
+	mlogMiner.Send(mlogMinerStart.SetDetailValues(
+		coinbase.Hex(),
+		threads,
+	))
 	glog.V(logger.Info).Infof("Starting mining operation (CPU=%d TOT=%d)\n", threads, len(self.worker.agents))
 
 	self.worker.start()
@@ -128,6 +140,12 @@ func (self *Miner) Stop() {
 	self.worker.stop()
 	atomic.StoreInt32(&self.mining, 0)
 	atomic.StoreInt32(&self.shouldStart, 0)
+	if logger.MlogEnabled() {
+		mlogMiner.Send(mlogMinerStop.SetDetailValues(
+			self.coinbase.Hex(),
+			self.threads,
+		))
+	}
 }
 
 func (self *Miner) Register(agent Agent) {

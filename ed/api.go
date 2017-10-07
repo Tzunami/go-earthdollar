@@ -30,6 +30,7 @@ import (
 	"sync"
 	"time"
 
+<<<<<<< HEAD:ed/api.go
 	"github.com/Tzunami/edhash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
@@ -47,6 +48,26 @@ import (
 	"github.com/Tzunami/go-earthdollar/p2p"
 	"github.com/Tzunami/go-earthdollar/rlp"
 	"github.com/Tzunami/go-earthdollar/rpc"
+=======
+	"github.com/ethereumproject/ethash"
+	"github.com/ethereumproject/go-ethereum/accounts"
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/common/compiler"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/core/vm"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/event"
+	"github.com/ethereumproject/go-ethereum/logger"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/miner"
+	"github.com/ethereumproject/go-ethereum/p2p"
+	"github.com/ethereumproject/go-ethereum/rlp"
+	"github.com/ethereumproject/go-ethereum/rpc"
+	ethMetrics "github.com/ethereumproject/go-ethereum/metrics"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/api.go
 )
 
 const defaultGas = uint64(90000)
@@ -173,6 +194,15 @@ func (s *PublicEarthdollarAPI) Syncing() (interface{}, error) {
 		"pulledStates":  rpc.NewHexNumber(pulled),
 		"knownStates":   rpc.NewHexNumber(known),
 	}, nil
+}
+
+// ChainId returns the chain-configured value for EIP-155 chain id, used in signing protected txs.
+// If EIP-155 is not configured it will return 0.
+// Number will be returned as a string in hexadecimal format.
+// 61 - Mainnet $((0x3d))
+// 62 - Morden $((0x3e))
+func (s *PublicEthereumAPI) ChainId() *big.Int {
+	return s.e.chainConfig.GetChainID()
 }
 
 // PublicMinerAPI provides an API to control the miner.
@@ -576,7 +606,7 @@ func (s *PublicBlockChainAPI) GetBlockByNumber(blockNr rpc.BlockNumber, fullTx b
 		response, err := s.rpcOutputBlock(block, true, fullTx)
 		if err == nil && blockNr == rpc.PendingBlockNumber {
 			// Pending blocks need to nil out a few fields
-			for _, field := range []string{"hash", "nonce", "logsBloom", "miner"} {
+			for _, field := range []string{"hash", "nonce", "miner"} {
 				response[field] = nil
 			}
 		}
@@ -827,7 +857,7 @@ func (s *PublicBlockChainAPI) rpcOutputBlock(b *types.Block, inclTx bool, fullTx
 		if fullTx {
 			formatTx = func(tx *types.Transaction) (interface{}, error) {
 				if tx.Protected() {
-					tx.SetSigner(types.NewChainIdSigner(s.bc.Config().ChainId))
+					tx.SetSigner(types.NewChainIdSigner(s.bc.Config().GetChainID()))
 				}
 				return newRPCTransaction(b, tx.Hash())
 			}
@@ -867,21 +897,32 @@ type RPCTransaction struct {
 	To               *common.Address `json:"to"`
 	TransactionIndex *rpc.HexNumber  `json:"transactionIndex"`
 	Value            *rpc.HexNumber  `json:"value"`
+	ReplayProtected  bool            `json:"replayProtected"`
+	ChainId          *big.Int        `json:"chainId,omitempty"`
 }
 
 // newRPCPendingTransaction returns a pending transaction that will serialize to the RPC representation
 func newRPCPendingTransaction(tx *types.Transaction) *RPCTransaction {
 	from, _ := tx.From()
 
+	var protected bool
+	var chainId *big.Int
+	if tx.Protected() {
+		protected = true
+		chainId = tx.ChainId()
+	}
+
 	return &RPCTransaction{
-		From:     from,
-		Gas:      rpc.NewHexNumber(tx.Gas()),
-		GasPrice: rpc.NewHexNumber(tx.GasPrice()),
-		Hash:     tx.Hash(),
-		Input:    fmt.Sprintf("0x%x", tx.Data()),
-		Nonce:    rpc.NewHexNumber(tx.Nonce()),
-		To:       tx.To(),
-		Value:    rpc.NewHexNumber(tx.Value()),
+		From:            from,
+		Gas:             rpc.NewHexNumber(tx.Gas()),
+		GasPrice:        rpc.NewHexNumber(tx.GasPrice()),
+		Hash:            tx.Hash(),
+		Input:           fmt.Sprintf("0x%x", tx.Data()),
+		Nonce:           rpc.NewHexNumber(tx.Nonce()),
+		To:              tx.To(),
+		Value:           rpc.NewHexNumber(tx.Value()),
+		ReplayProtected: protected,
+		ChainId:         chainId,
 	}
 }
 
@@ -890,8 +931,12 @@ func newRPCTransactionFromBlockIndex(b *types.Block, txIndex int) (*RPCTransacti
 	if txIndex >= 0 && txIndex < len(b.Transactions()) {
 		tx := b.Transactions()[txIndex]
 		var signer types.Signer = types.BasicSigner{}
+		var protected bool
+		var chainId *big.Int
 		if tx.Protected() {
 			signer = types.NewChainIdSigner(tx.ChainId())
+			protected = true
+			chainId = tx.ChainId()
 		}
 		from, _ := types.Sender(signer, tx)
 
@@ -907,6 +952,8 @@ func newRPCTransactionFromBlockIndex(b *types.Block, txIndex int) (*RPCTransacti
 			To:               tx.To(),
 			TransactionIndex: rpc.NewHexNumber(txIndex),
 			Value:            rpc.NewHexNumber(tx.Value()),
+			ReplayProtected:  protected,
+			ChainId:          chainId,
 		}, nil
 	}
 
@@ -1594,6 +1641,7 @@ func NewPublicDebugAPI(ed *Earthdollar) *PublicDebugAPI {
 }
 
 // DumpBlock retrieves the entire state of the database at a given block.
+// TODO: update to be able to dump for specific addresses?
 func (api *PublicDebugAPI) DumpBlock(number uint64) (state.Dump, error) {
 	block := api.ed.BlockChain().GetBlockByNumber(number)
 	if block == nil {
@@ -1603,7 +1651,20 @@ func (api *PublicDebugAPI) DumpBlock(number uint64) (state.Dump, error) {
 	if err != nil {
 		return state.Dump{}, err
 	}
-	return stateDb.RawDump(), nil
+	return stateDb.RawDump([]common.Address{}), nil
+}
+
+// AccountExist checks whether an address is considered exists at a given block.
+func (api *PublicDebugAPI) AccountExist(address common.Address, number uint64) (bool, error) {
+	block := api.eth.BlockChain().GetBlockByNumber(number)
+	if block == nil {
+		return false, fmt.Errorf("block #%d not found", number)
+	}
+	stateDb, err := api.eth.BlockChain().StateAt(block.Root())
+	if err != nil {
+		return false, err
+	}
+	return stateDb.Exist(address), nil
 }
 
 // GetBlockRlp retrieves the RLP encoded for of a single block.
@@ -1641,6 +1702,70 @@ func (api *PublicDebugAPI) SeedHash(number uint64) (string, error) {
 	return fmt.Sprintf("0x%x", hash), nil
 }
 
+// Metrics return all available registered metrics for the client.
+// See https://github.com/ethereumproject/go-ethereum/wiki/Metrics-and-Monitoring for prophetic documentation.
+func (api *PublicDebugAPI) Metrics(raw bool) (map[string]interface{}, error) {
+
+	// Create a rate formatter
+	units := []string{"", "K", "M", "G", "T", "E", "P"}
+	round := func(value float64, prec int) string {
+		unit := 0
+		for value >= 1000 {
+			unit, value, prec = unit+1, value/1000, 2
+		}
+		return fmt.Sprintf(fmt.Sprintf("%%.%df%s", prec, units[unit]), value)
+	}
+	format := func(total float64, rate float64) string {
+		return fmt.Sprintf("%s (%s/s)", round(total, 0), round(rate, 2))
+	}
+
+	var b []byte
+	var err error
+
+	b, err = ethMetrics.CollectToJSON()
+	if err != nil {
+		return nil, err
+	}
+
+	out := make(map[string]interface{})
+	err = json.Unmarshal(b, &out)
+	if err != nil {
+		return nil, err
+	}
+
+	// human friendly if specified
+	if !raw {
+		rout := out
+		for k, v := range out {
+			if m, ok := v.(map[string]interface{}); ok {
+				// This is one way of differentiating Meters, Timers, and Gauges.
+				// whilei: (having some trouble with *metrics.StandardTimer(etc) type switches)
+				// If new types metrics are introduced, they should have their relevant values added here.
+				if _, ok := m["mean.rate"]; ok {
+					h1m := format(m["1m.rate"].(float64)*60, m["1m.rate"].(float64))
+					h5m := format(m["5m.rate"].(float64)*300, m["5m.rate"].(float64))
+					h15m := format(m["15m.rate"].(float64)*900, m["15m.rate"].(float64))
+					hmr := format(m["mean.rate"].(float64), m["mean.rate"].(float64))
+					rout[k] = map[string]interface{}{
+						"1m.rate":   h1m,
+						"5m.rate":   h5m,
+						"15m.rate":  h15m,
+						"mean.rate": hmr,
+						"count":     fmt.Sprintf("%v", m["count"]),
+					}
+				} else if _, ok := m["value"]; ok {
+					rout[k] = map[string]interface{}{
+						"value": fmt.Sprintf("%v", m["value"]),
+					}
+				}
+			}
+		}
+		return rout, nil
+	}
+
+	return out, nil
+}
+
 // ExecutionResult groups all structured logs emitted by the EVM
 // while replaying a transaction in debug mode as well as the amount of
 // gas used and the return value
@@ -1649,7 +1774,7 @@ type ExecutionResult struct {
 	ReturnValue string   `json:"returnValue"`
 }
 
-// TraceCall executes a call and returns the amount of gas, created logs and optionally returned values.
+// TraceCall executes a call and returns the amount of gas and optionally returned values.
 func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) (*ExecutionResult, error) {
 	// Fetch the state associated with the block number
 	stateDb, block, err := stateAndBlockByNumber(s.miner, s.bc, blockNr, s.chainDb)
@@ -1681,11 +1806,16 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 		value:    args.Value.BigInt(),
 		data:     common.FromHex(args.Data),
 	}
-	if msg.gas.Cmp(common.Big0) == 0 {
+	if msg.gas.Sign() == 0 {
 		msg.gas = big.NewInt(50000000)
 	}
+<<<<<<< HEAD:ed/api.go
 	if msg.gasPrice.Cmp(common.Big0) == 0 {
 		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Chief)
+=======
+	if msg.gasPrice.Sign() == 0 {
+		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Shannon)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/api.go
 	}
 
 	// Execute the call and return
@@ -1697,6 +1827,84 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 		Gas:         gas,
 		ReturnValue: fmt.Sprintf("%x", ret),
 	}, nil
+}
+
+// TraceTransaction returns the amount of gas and execution result of the given transaction.
+func (s *PublicDebugAPI) TraceTransaction(txHash common.Hash) (*ExecutionResult, error) {
+	var result *ExecutionResult
+	tx, blockHash, _, txIndex := core.GetTransaction(s.eth.ChainDb(), txHash)
+	if tx == nil {
+		return result, fmt.Errorf("tx '%x' not found", txHash)
+	}
+
+	msg, vmenv, err := s.computeTxEnv(blockHash, int(txIndex))
+	if err != nil {
+		return nil, err
+	}
+
+	gp := new(core.GasPool).AddGas(tx.Gas())
+	ret, gas, err := core.ApplyMessage(vmenv, msg, gp)
+	return &ExecutionResult{
+		Gas: gas,
+		ReturnValue: fmt.Sprintf("%x", ret),
+	}, nil
+}
+
+// computeTxEnv returns the execution environment of a certain transaction.
+func (s *PublicDebugAPI) computeTxEnv(blockHash common.Hash, txIndex int) (core.Message, *core.VMEnv, error) {
+
+	// Create the parent state.
+	block := s.eth.BlockChain().GetBlock(blockHash)
+	if block == nil {
+		return nil, nil, fmt.Errorf("block %x not found", blockHash)
+	}
+	parent := s.eth.BlockChain().GetBlock(block.ParentHash())
+	if parent == nil {
+		return nil, nil, fmt.Errorf("block parent %x not found", block.ParentHash())
+	}
+	statedb, err := s.eth.BlockChain().StateAt(parent.Root())
+	if err != nil {
+		return nil, nil, err
+	}
+	txs := block.Transactions()
+
+	// Recompute transactions up to the target index.
+	for idx, tx := range txs {
+		// Assemble the transaction call message
+		// Retrieve the account state object to interact with
+		var from *state.StateObject
+		fromAddress, e := tx.From()
+		if e != nil {
+			return nil, nil, e
+		}
+		if fromAddress == (common.Address{}) {
+			from = statedb.GetOrNewStateObject(common.Address{})
+		} else {
+			from = statedb.GetOrNewStateObject(fromAddress)
+		}
+
+		msg := callmsg{
+			from: from,
+			to: tx.To(),
+			gas: tx.Gas(),
+			gasPrice: tx.GasPrice(),
+			value: tx.Value(),
+			data: tx.Data(),
+		}
+
+		vmenv := core.NewEnv(statedb, s.eth.chainConfig, s.eth.BlockChain(), msg, block.Header())
+		if idx == txIndex {
+			return msg, vmenv, nil
+		}
+
+		gp := new(core.GasPool).AddGas(tx.Gas())
+		_, _, err := core.ApplyMessage(vmenv, msg, gp)
+		if err != nil {
+			return nil, nil, fmt.Errorf("tx %x failed: %v", tx.Hash(), err)
+		}
+		statedb.DeleteSuicides()
+	}
+	return nil, nil, fmt.Errorf("tx index %d out of range for block %x", txIndex, blockHash)
 }
 
 // PublicNetAPI offers network related RPC methods

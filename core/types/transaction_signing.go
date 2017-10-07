@@ -134,7 +134,14 @@ func NewChainIdSigner(chainId *big.Int) ChainIdSigner {
 
 func (s ChainIdSigner) Equal(s2 Signer) bool {
 	other, ok := s2.(ChainIdSigner)
-	return ok && other.chainId.Cmp(s.chainId) == 0
+	if !ok {
+		return false
+	}
+	if other.chainId == nil || s.chainId == nil {
+		return false
+	}
+
+	return other.chainId.Cmp(s.chainId) == 0
 }
 
 func (s ChainIdSigner) SignECDSA(tx *Transaction, prv *ecdsa.PrivateKey) (*Transaction, error) {
@@ -151,7 +158,8 @@ func (s ChainIdSigner) PublicKey(tx *Transaction) ([]byte, error) {
 	if !tx.Protected() {
 		return (BasicSigner{}).PublicKey(tx)
 	}
-	if tx.ChainId().Cmp(s.chainId) != 0 {
+
+	if tx.ChainId() == nil || s.chainId == nil || tx.ChainId().Cmp(s.chainId) != 0 {
 		return nil, ErrInvalidChainId
 	}
 

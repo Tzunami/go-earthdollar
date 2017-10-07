@@ -171,12 +171,16 @@ func runBlockTest(homesteadBlock, gasPriceFork *big.Int, test *BlockTest) error 
 	core.WriteHeadBlockHash(db, test.Genesis.Hash())
 	evmux := new(event.TypeMux)
 
-	core.DefaultConfig.Fork("Homestead").Block = homesteadBlock
+	core.DefaultConfigMainnet.ChainConfig.ForkByName("Homestead").Block = homesteadBlock
 	if gasPriceFork != nil {
-		core.DefaultConfig.Fork("GasReprice").Block = gasPriceFork
+		core.DefaultConfigMainnet.ChainConfig.ForkByName("GasReprice").Block = gasPriceFork
 	}
 
+<<<<<<< HEAD
 	chain, err := core.NewBlockChain(db, core.DefaultConfig, edhash.NewShared(), evmux)
+=======
+	chain, err := core.NewBlockChain(db, core.DefaultConfigMainnet.ChainConfig, ethash.NewShared(), evmux)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		return err
 	}

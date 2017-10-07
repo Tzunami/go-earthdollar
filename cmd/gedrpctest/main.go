@@ -25,6 +25,7 @@ import (
 	"os"
 	"os/signal"
 
+<<<<<<< HEAD:cmd/gedrpctest/main.go
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -35,6 +36,19 @@ import (
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/tests"
 	"github.com/Tzunami/go-earthdollar/whisper"
+=======
+	"github.com/ethereumproject/go-ethereum/accounts"
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core"
+	"github.com/ethereumproject/go-ethereum/crypto"
+	"github.com/ethereumproject/go-ethereum/eth"
+	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/node"
+	"github.com/ethereumproject/go-ethereum/tests"
+	"github.com/ethereumproject/go-ethereum/whisper"
+	"path/filepath"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/gethrpctest/main.go
 )
 
 // Version is the application revision identifier. It can be set with the linker
@@ -105,7 +119,7 @@ func main() {
 func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node.Node, error) {
 	// Create a networkless protocol stack
 	stack, err := node.New(&node.Config{
-		IPCPath:     node.DefaultIPCEndpoint(),
+		IPCPath:     node.DefaultIPCEndpoint(filepath.Join(common.DefaultDataDir(), "mainnet")),
 		HTTPHost:    common.DefaultHTTPHost,
 		HTTPPort:    common.DefaultHTTPPort,
 		HTTPModules: []string{"admin", "db", "ed", "debug", "miner", "net", "shh", "txpool", "personal", "web3"},
@@ -118,7 +132,7 @@ func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node
 		return nil, err
 	}
 	// Create the keystore and inject an unlocked account if requested
-	accman, err := accounts.NewManager(keydir, accounts.LightScryptN, accounts.LightScryptP)
+	accman, err := accounts.NewManager(keydir, accounts.LightScryptN, accounts.LightScryptP, false)
 	if err != nil {
 		return nil, err
 	}
@@ -144,7 +158,7 @@ func MakeSystemNode(keydir string, privkey string, test *tests.BlockTest) (*node
 	edConf := &ed.Config{
 		TestGenesisState: db,
 		TestGenesisBlock: test.Genesis,
-		ChainConfig:      core.DefaultConfig,
+		ChainConfig:      core.DefaultConfigMainnet.ChainConfig,
 		AccountManager:   accman,
 	}
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) { return ed.New(ctx, edConf) }); err != nil {

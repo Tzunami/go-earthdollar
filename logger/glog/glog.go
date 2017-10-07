@@ -145,6 +145,14 @@ func SetToStderr(toStderr bool) {
 	logging.mu.Unlock()
 }
 
+// SetAlsoToStderr sets global output option
+// for logging to both FS and stderr.
+func SetAlsoToStderr(to bool) {
+	logging.mu.Lock()
+	logging.alsoToStderr = to
+	logging.mu.Unlock()
+}
+
 // GetTraceLocation returns the global TraceLocation flag.
 func GetTraceLocation() *TraceLocation {
 	return &logging.traceLocation
@@ -924,7 +932,7 @@ func (l *loggingT) createFiles(sev severity) error {
 	return nil
 }
 
-const flushInterval = 30 * time.Second
+const flushInterval = 5 * time.Second
 
 // flushDaemon periodically flushes the log file buffers.
 func (l *loggingT) flushDaemon() {
@@ -1090,6 +1098,11 @@ func (v Verbose) Infof(format string, args ...interface{}) {
 	if v {
 		logging.printfmt(infoLog, format, args...)
 	}
+}
+
+// Separator creates a line, ie ---------------------------------
+func Separator(iterable string) string {
+	return strings.Repeat(iterable, 110)
 }
 
 // Info logs to the INFO log.

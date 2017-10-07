@@ -26,8 +26,13 @@ import (
 	"path/filepath"
 	"strings"
 
+<<<<<<< HEAD:cmd/edtest/main.go
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/tests"
+=======
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/tests"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/ethtest/main.go
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -79,9 +84,15 @@ func runTestWithReader(test string, r io.Reader) error {
 	switch strings.ToLower(test) {
 	case "bk", "block", "blocktest", "blockchaintest", "blocktests", "blockchaintests":
 		err = tests.RunBlockTestWithReader(big.NewInt(1150000), nil, r, skipTests)
+<<<<<<< HEAD:cmd/edtest/main.go
 	//case "st", "state", "statetest", "statetests":
 		//rs := tests.RuleSet{HomesteadBlock: big.NewInt(1150000)}
 		//err = tests.RunStateTestWithReader(rs, r, skipTests) earthdollar
+=======
+	case "st", "state", "statetest", "statetests":
+		rs := tests.RuleSet{HomesteadBlock: big.NewInt(1150000)}
+		err = tests.RunStateTestWithReader(rs, r, skipTests)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/ethtest/main.go
 	case "tx", "transactiontest", "transactiontests":
 		err = tests.RunTransactionTestsWithReader(r, skipTests)
 	case "vm", "vmtest", "vmtests":

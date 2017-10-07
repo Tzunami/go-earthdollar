@@ -21,11 +21,19 @@ import (
 	"math/big"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/pow"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/ethereumproject/go-ethereum/core/state"
+	"github.com/ethereumproject/go-ethereum/core/types"
+	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/ethereumproject/go-ethereum/pow"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	"gopkg.in/fatih/set.v0"
 )
 
@@ -37,12 +45,26 @@ var (
 	TargetGasLimit         = big.NewInt(4712388) // The artificial target
 	DifficultyBoundDivisor = big.NewInt(2048)    // The bound divisor of the difficulty, used in the update calculations.
 	GasLimitBoundDivisor   = big.NewInt(1024)    // The bound divisor of the gas limit, used in update calculations.
+<<<<<<< HEAD
+)
+
+var (
+	big10      = big.NewInt(10)
+	bigMinus99 = big.NewInt(-99)
+=======
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (
 	big10      = big.NewInt(10)
 	bigMinus99 = big.NewInt(-99)
 )
+
+// Difficulty allows passing configurable options to a given difficulty algorithm.
+type DifficultyConfig struct {
+	Name string `json:"name"`
+	Options map[string]interface{} `json:"options"`
+}
 
 // BlockValidator is responsible for validating block headers, uncles and
 // processed state.
@@ -263,6 +285,7 @@ func ValidateHeader(config *ChainConfig, pow pow.PoW, header *types.Header, pare
 // the difficulty that a new block should have when created at time
 // given the parent block's time and difficulty.
 func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
+<<<<<<< HEAD
 	// This is a placeholder for testing. The calcDiff function should
 	// be determined by a config flag
 	//num := new(big.Int).Add(parentNumber, common.Big1)
@@ -283,6 +306,42 @@ func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, 
 /*
 func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
 	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
+=======
+
+	num := new(big.Int).Add(parentNumber, common.Big1) // increment block number to current
+
+	f, fork, configured := config.GetFeature(num, "difficulty")
+	if !configured {
+		return calcDifficultyFrontier(time, parentTime, parentNumber, parentDiff)
+	}
+	name, ok := f.GetString("type")
+	if !ok { name = "" } // will fall to default panic
+	switch name {
+		case "ecip1010":
+			if length, ok := f.GetBigInt("length"); ok {
+				explosionBlock := big.NewInt(0).Add(fork.Block, length)
+				if num.Cmp(explosionBlock) < 0 {
+					return calcDifficultyDiehard(time, parentTime, parentDiff,
+						fork.Block)
+				} else {
+					return calcDifficultyExplosion(time, parentTime, parentNumber, parentDiff,
+						fork.Block, explosionBlock)
+				}
+			} else {
+				panic(fmt.Sprintf("Length is not set for diehard difficulty at %v", num))
+			}
+		case "homestead":
+			return calcDifficultyHomestead(time, parentTime, parentNumber, parentDiff)
+		case "frontier":
+			return calcDifficultyFrontier(time, parentTime, parentNumber, parentDiff)
+		default:
+			panic(fmt.Sprintf("Unsupported difficulty '%v' for block: %v", name, num))
+	}
+}
+
+func calcDifficultyDiehard(time, parentTime uint64 , parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
+	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -329,8 +388,13 @@ func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *bi
 	return x
 }
 
+<<<<<<< HEAD
 func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int, explosionBlock *big.Int) *big.Int {
 	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
+=======
+func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *big.Int, delayBlock *big.Int, continueBlock *big.Int) *big.Int {
+	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPs/ECIP-1010.md
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -363,10 +427,11 @@ func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *
 		x.Set(MinimumDifficulty)
 	}
 
-	// for the exponential factor
+	// for the exponential factor...
+
 	delayedCount := new(big.Int).Add(parentNumber, common.Big1)
-	delayedCount.Sub(delayedCount, explosionBlock)
-	delayedCount.Add(delayedCount, diehardBlock)
+	delayedCount.Sub(delayedCount, continueBlock)
+	delayedCount.Add(delayedCount, delayBlock)
 	delayedCount.Div(delayedCount, ExpDiffPeriod)
 
 	// the exponential factor, commonly referred to as "the bomb"

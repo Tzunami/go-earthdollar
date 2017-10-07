@@ -19,6 +19,10 @@ package vm
 import (
 	"fmt"
 	"math/big"
+<<<<<<< HEAD
+=======
+	"reflect"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 const stackLimit = 1024 // maximum size of VM stack allowed.
@@ -71,6 +75,12 @@ func callGas(gasTable *GasTable, availableGas, base, callCost *big.Int) *big.Int
 		}
 	}
 	return callCost
+}
+
+// IsEmpty return true if all values are zero values,
+// which useful for checking JSON-decoded empty state.
+func (g *GasTable) IsEmpty() bool {
+	return reflect.DeepEqual(g, GasTable{})
 }
 
 // baseCheck checks for any stack error underflows
@@ -163,6 +173,7 @@ var _baseCheck = map[OpCode]req{
 	MSIZE:        {0, GasQuickStep, 1},
 	GAS:          {0, GasQuickStep, 1},
 	BLOCKHASH:    {1, GasExtStep, 1},
+<<<<<<< HEAD
 	BALANCE:      {1, Zero, 1},
 	EXTCODESIZE:  {1, Zero, 1},
 	EXTCODECOPY:  {4, Zero, 0},
@@ -177,6 +188,22 @@ var _baseCheck = map[OpCode]req{
 	SUICIDE:      {1, Zero, 0},
 	JUMPDEST:     {0, big.NewInt(1), 0},
 	RETURN:       {2, Zero, 0},
+=======
+	BALANCE:      {1, new(big.Int), 1},
+	EXTCODESIZE:  {1, new(big.Int), 1},
+	EXTCODECOPY:  {4, new(big.Int), 0},
+	SLOAD:        {1, big.NewInt(50), 1},
+	SSTORE:       {2, new(big.Int), 0},
+	SHA3:         {2, big.NewInt(30), 1},
+	CREATE:       {3, big.NewInt(32000), 1},
+	// Zero is calculated in the gasSwitch
+	CALL:         {7, new(big.Int), 1},
+	CALLCODE:     {7, new(big.Int), 1},
+	DELEGATECALL: {6, new(big.Int), 1},
+	SUICIDE:      {1, new(big.Int), 0},
+	JUMPDEST:     {0, big.NewInt(1), 0},
+	RETURN:       {2, new(big.Int), 0},
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	PUSH1:        {0, GasFastestStep, 1},
-	DUP1:         {0, Zero, 1},
+	DUP1:         {0, new(big.Int), 1},
 }

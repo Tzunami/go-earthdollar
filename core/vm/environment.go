@@ -19,7 +19,11 @@ package vm
 import (
 	"math/big"
 
+<<<<<<< HEAD
 	"github.com/Tzunami/go-earthdollar/common"
+=======
+	"github.com/ethereumproject/go-ethereum/common"
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 // RuleSet is an interface that defines the current rule set during the

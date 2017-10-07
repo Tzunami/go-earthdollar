@@ -29,20 +29,67 @@ const (
 	DefaultWSPort    = 8546        // Default TCP port for the websocket RPC server
 )
 
-// DefaultDataDir is the default data directory to use for the databases and other
-// persistence requirements.
-func DefaultDataDir() string {
+
+func defaultDataDirParent() string {
 	// Try to place the data folder in the user's home dir
 	home := HomeDir()
 	if home != "" {
 		if runtime.GOOS == "darwin" {
+<<<<<<< HEAD
 			return filepath.Join(home, "Library", "Earthdollar")
 		} else if runtime.GOOS == "windows" {
 			return filepath.Join(home, "AppData", "Roaming", "Earthdollar")
 		} else {
 			return filepath.Join(home, ".earthdollar")
+=======
+			return filepath.Join(home, "Library")
+		} else if runtime.GOOS == "windows" {
+			return filepath.Join(home, "AppData", "Roaming")
+		} else {
+			return filepath.Join(home)
+>>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		}
 	}
 	// As we cannot guess a stable location, return empty and handle later
 	return ""
+}
+
+func defaultClassicDataDir() string {
+	if runtime.GOOS == "darwin" {
+		return "EthereumClassic"
+	} else if runtime.GOOS == "windows" {
+		return "EthereumClassic"
+	} else {
+		return ".ethereum-classic"
+	}
+}
+
+func defaultUnclassicDataDir() string {
+	if runtime.GOOS == "darwin" {
+		return "Ethereum"
+	} else if runtime.GOOS == "windows" {
+		return "Ethereum"
+	} else {
+		return ".ethereum"
+	}
+}
+
+// DefaultDataDir is the default data directory to use for the databases and other
+// persistence requirements.
+func DefaultDataDir() string {
+	// If the parentDir (os-specific) is available, use that.
+	if parentDir := defaultDataDirParent(); parentDir != "" {
+		return filepath.Join(parentDir, defaultClassicDataDir())
+	} else {
+		return parentDir
+	}
+}
+
+// DefaultUnclassicDataDir is the default data directory to check for preexisting unclassic persisted data.
+func DefaultUnclassicDataDir() string {
+	if parentDir := defaultDataDirParent(); parentDir != "" {
+		return filepath.Join(parentDir, defaultUnclassicDataDir())
+	} else {
+		return parentDir
+	}
 }
