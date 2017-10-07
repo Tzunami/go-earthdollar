@@ -20,17 +20,11 @@ import (
 	"fmt"
 	"math/big"
 
-<<<<<<< HEAD
+
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-=======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (

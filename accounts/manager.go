@@ -29,15 +29,10 @@ import (
 	"sync"
 	"time"
 
-<<<<<<< HEAD
+	"encoding/json"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/crypto"
-=======
-	"encoding/json"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/crypto"
 	"path/filepath"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (
@@ -51,12 +46,8 @@ var (
 // Account represents a stored key.
 // When used as an argument, it selects a unique key file to act on.
 type Account struct {
-<<<<<<< HEAD
 	Address common.Address // Earthdollar account address derived from the key
-=======
-	Address      common.Address // Ethereum account address derived from the key
 	EncryptedKey string         // web3JSON format
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 	// File contains the key file name.
 	// When Acccount is used as an argument to select a key, File can be left blank to

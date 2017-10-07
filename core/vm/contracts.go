@@ -19,17 +19,11 @@ package vm
 import (
 	"math/big"
 
-<<<<<<< HEAD
+
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/crypto"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-=======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 // PrecompiledAccount represents a native earthdollar contract

@@ -20,7 +20,7 @@ import (
 	"math/big"
 	"testing"
 
-<<<<<<< HEAD
+
 	"github.com/Tzunami/edhash"
 
 	"github.com/Tzunami/go-earthdollar/common"
@@ -29,16 +29,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/vm"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/event"
-=======
-	"github.com/ethereumproject/ethash"
-
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/event"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 func testChainConfig() *ChainConfig {
@@ -47,17 +37,6 @@ func testChainConfig() *ChainConfig {
 			{
 				Name:  "Homestead",
 				Block: big.NewInt(0),
-<<<<<<< HEAD
-				GasTable: &vm.GasTable{
-					ExtcodeSize:     big.NewInt(20),
-					ExtcodeCopy:     big.NewInt(20),
-					Balance:         big.NewInt(20),
-					SLoad:           big.NewInt(50),
-					Calls:           big.NewInt(40),
-					Suicide:         big.NewInt(0),
-					ExpByte:         big.NewInt(10),
-					CreateBySuicide: nil,
-=======
 				Features: []*ForkFeature{
 					{
 						ID: "gastable",
@@ -111,7 +90,7 @@ func proc(t testing.TB) (Validator, *BlockChain) {
 	}
 	_, err = WriteGenesisBlock(db, TestNetGenesis)
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -172,7 +151,7 @@ func TestPutReceipt(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)

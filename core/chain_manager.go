@@ -288,7 +288,7 @@ func newCanonical(config *ChainConfig, n int, full bool) (eddb.Database, *BlockC
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		return nil, nil, err

@@ -4,8 +4,8 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/eddb"
 	"path/filepath"
 )
 
@@ -136,7 +136,7 @@ func sameGenesisDumpAllocationsBalances(gd1, gd2 *GenesisDump) bool {
 // TestMakeGenesisDump is a unit-ish test for MakeGenesisDump()
 func TestMakeGenesisDump(t *testing.T) {
 	// setup so we have a genesis block in this test db
-	db, _ := ethdb.NewMemDatabase()
+	db, _ := eddb.NewMemDatabase()
 	genesisDump := &GenesisDump{
 		Nonce:      "0x0000000000000042",
 		Timestamp:  "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -206,7 +206,7 @@ func TestMakeGenesisDump(t *testing.T) {
 func TestMakeGenesisDump2(t *testing.T) {
 	// setup so we have a genesis block in this test db
 	for i, gen := range []*GenesisDump{DefaultConfigMainnet.Genesis, DefaultConfigMorden.Genesis} {
-		db, _ := ethdb.NewMemDatabase()
+		db, _ := eddb.NewMemDatabase()
 		genesisDump := gen
 		gBlock1, err := WriteGenesisBlock(db, genesisDump)
 		if err != nil {

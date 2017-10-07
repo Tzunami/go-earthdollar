@@ -1,6 +1,6 @@
 package miner
 
-import "github.com/ethereumproject/go-ethereum/logger"
+import "github.com/Tzunami/go-earthdollar/logger"
 
 var mlogMiner = logger.MLogRegisterAvailable("miner", mlogMinerLines)
 

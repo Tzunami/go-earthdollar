@@ -18,15 +18,10 @@ package core
 
 import (
 	hexlib "encoding/hex"
-<<<<<<< HEAD
-	"errors"
-	"fmt"
-=======
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	"math/big"
 	"os"
 	"sort"
@@ -35,7 +30,7 @@ import (
 	"path/filepath"
 	"reflect"
 
-<<<<<<< HEAD
+
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
@@ -43,18 +38,9 @@ import (
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/logger"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
-=======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/p2p/discover"
+	"github.com/Tzunami/go-earthdollar/p2p/discover"
 	"strings"
 	"io"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (
@@ -649,7 +635,7 @@ type Fork struct {
 }
 
 // WriteGenesisBlock writes the genesis block to the database as block number 0
-func WriteGenesisBlock(chainDb ethdb.Database, genesis *GenesisDump) (*types.Block, error) {
+func WriteGenesisBlock(chainDb eddb.Database, genesis *GenesisDump) (*types.Block, error) {
 	statedb, err := state.New(common.Hash{}, chainDb)
 	if err != nil {
 		return nil, err
@@ -725,7 +711,7 @@ func WriteGenesisBlock(chainDb ethdb.Database, genesis *GenesisDump) (*types.Blo
 	return block, nil
 }
 
-func WriteGenesisBlockForTesting(db ethdb.Database, accounts ...GenesisAccount) *types.Block {
+func WriteGenesisBlockForTesting(db eddb.Database, accounts ...GenesisAccount) *types.Block {
 	dump := GenesisDump{
 		GasLimit:   "0x47E7C4",
 		Difficulty: "0x020000",
@@ -746,7 +732,7 @@ func WriteGenesisBlockForTesting(db ethdb.Database, accounts ...GenesisAccount) 
 }
 
 // MakeGenesisDump makes a genesis dump
-func MakeGenesisDump(chaindb ethdb.Database) (*GenesisDump, error) {
+func MakeGenesisDump(chaindb eddb.Database) (*GenesisDump, error) {
 
 	genesis := GetBlock(chaindb, GetCanonicalHash(chaindb, 0))
 	if genesis == nil {

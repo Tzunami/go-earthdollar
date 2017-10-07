@@ -19,10 +19,7 @@ package vm
 import (
 	"fmt"
 	"math/big"
-<<<<<<< HEAD
-=======
 	"reflect"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 const stackLimit = 1024 // maximum size of VM stack allowed.

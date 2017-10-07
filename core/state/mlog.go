@@ -1,6 +1,6 @@
 package state
 
-import "github.com/ethereumproject/go-ethereum/logger"
+import "github.com/Tzunami/go-earthdollar/logger"
 
 var mlogState = logger.MLogRegisterAvailable("state", mlogStateLines)
 

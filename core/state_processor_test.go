@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/ethdb"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/core/state"
+	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/eddb"
 	"fmt"
 )
 
@@ -404,7 +404,7 @@ func TestAccumulateRewards1(t *testing.T) {
 			t.Error("No era length configured, is required.")
 		}
 
-		db, _ := ethdb.NewMemDatabase()
+		db, _ := eddb.NewMemDatabase()
 
 		stateDB, err := state.New(common.Hash{}, db)
 		if err != nil {
@@ -526,7 +526,7 @@ func TestAccumulateRewards2_2Uncles(t *testing.T) {
 	for i, config := range configs {
 		// Here's where cases slice is assign according to config slice.
 		for _, c := range cases[i] {
-			db, _ := ethdb.NewMemDatabase()
+			db, _ := eddb.NewMemDatabase()
 			stateDB, err := state.New(common.Hash{}, db)
 			if err != nil {
 				t.Fatalf("could not open statedb: %v", err)
@@ -624,7 +624,7 @@ func TestAccumulateRewards3_1Uncle(t *testing.T) {
 	for i, config := range configs {
 		for _, c := range cases[i] {
 
-			db, _ := ethdb.NewMemDatabase()
+			db, _ := eddb.NewMemDatabase()
 			stateDB, err := state.New(common.Hash{}, db)
 			if err != nil {
 				t.Fatalf("could not open statedb: %v", err)
@@ -710,7 +710,7 @@ func TestAccumulateRewards4_0Uncles(t *testing.T) {
 	for i, config := range configs {
 		for _, c := range cases[i] {
 
-			db, _ := ethdb.NewMemDatabase()
+			db, _ := eddb.NewMemDatabase()
 			stateDB, err := state.New(common.Hash{}, db)
 			if err != nil {
 				t.Fatalf("could not open statedb: %v", err)

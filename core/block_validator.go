@@ -21,19 +21,12 @@ import (
 	"math/big"
 	"time"
 
-<<<<<<< HEAD
+
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/pow"
-=======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/pow"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	"gopkg.in/fatih/set.v0"
 )
 
@@ -45,14 +38,6 @@ var (
 	TargetGasLimit         = big.NewInt(4712388) // The artificial target
 	DifficultyBoundDivisor = big.NewInt(2048)    // The bound divisor of the difficulty, used in the update calculations.
 	GasLimitBoundDivisor   = big.NewInt(1024)    // The bound divisor of the gas limit, used in update calculations.
-<<<<<<< HEAD
-)
-
-var (
-	big10      = big.NewInt(10)
-	bigMinus99 = big.NewInt(-99)
-=======
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (

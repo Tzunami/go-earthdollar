@@ -26,13 +26,8 @@ import (
 	"path/filepath"
 	"strings"
 
-<<<<<<< HEAD:cmd/edtest/main.go
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/tests"
-=======
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/tests"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/ethtest/main.go
 	"gopkg.in/urfave/cli.v1"
 )
 

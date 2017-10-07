@@ -20,7 +20,7 @@ package accounts
 
 import (
 	"time"
-	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/Tzunami/go-earthdollar/common"
 	"fmt"
 	"os"
 	"strings"

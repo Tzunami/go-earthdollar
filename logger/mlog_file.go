@@ -22,7 +22,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
+	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"os"
 	"os/user"
 	"path/filepath"

@@ -19,13 +19,9 @@ package vm
 import (
 	"math/big"
 
-<<<<<<< HEAD
+
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/crypto"
-=======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/crypto"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var callStipend = big.NewInt(2300) // Free gas given at beginning of call.

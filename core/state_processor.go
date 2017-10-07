@@ -21,7 +21,7 @@ import (
 
 	"errors"
 	"fmt"
-<<<<<<< HEAD
+
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/core/vm"
@@ -30,19 +30,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 )
 
-var (
-	BlockReward = big.NewInt(5e+18)
-	big8        = big.NewInt(8)
-	big32       = big.NewInt(32)
-=======
-
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/logger"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-)
 
 var (
 	MaximumBlockReward       = big.NewInt(5e+18) // that's shiny 5 ether
@@ -52,7 +39,6 @@ var (
 	DisinflationRateDivisor  = big.NewInt(5)
 
 	ErrConfiguration = errors.New("invalid configuration")
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 // StateProcessor is a basic Processor, which takes care of transitioning

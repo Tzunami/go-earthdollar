@@ -22,14 +22,8 @@ import (
 	"reflect"
 	"testing"
 
-<<<<<<< HEAD
-	"fmt"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/rlp"
-=======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/rlp"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 // from bcValidBlockTest.json, "SimpleTx"

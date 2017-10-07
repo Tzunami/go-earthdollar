@@ -40,18 +40,18 @@ import (
 var (
 	testdb      eddb.Database
 =======
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/trie"
+	"github.com/Tzunami/go-earthdollar/common"
+	"github.com/Tzunami/go-earthdollar/core"
+	"github.com/Tzunami/go-earthdollar/core/state"
+	"github.com/Tzunami/go-earthdollar/core/types"
+	"github.com/Tzunami/go-earthdollar/crypto"
+	"github.com/Tzunami/go-earthdollar/eddb"
+	"github.com/Tzunami/go-earthdollar/event"
+	"github.com/Tzunami/go-earthdollar/trie"
 )
 
 var (
-	testdb      ethdb.Database
+	testdb      eddb.Database
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/downloader/downloader_test.go
 	testKey     *ecdsa.PrivateKey
 	testAddress common.Address
@@ -72,7 +72,7 @@ func init() {
 <<<<<<< HEAD:ed/downloader/downloader_test.go
 	testdb, err = eddb.NewMemDatabase()
 =======
-	testdb, err = ethdb.NewMemDatabase()
+	testdb, err = eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/downloader/downloader_test.go
 	if err != nil {
 		panic(err)

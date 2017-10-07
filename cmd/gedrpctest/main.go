@@ -25,7 +25,7 @@ import (
 	"os"
 	"os/signal"
 
-<<<<<<< HEAD:cmd/gedrpctest/main.go
+
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
@@ -36,19 +36,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/node"
 	"github.com/Tzunami/go-earthdollar/tests"
 	"github.com/Tzunami/go-earthdollar/whisper"
-=======
-	"github.com/ethereumproject/go-ethereum/accounts"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/eth"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/logger/glog"
-	"github.com/ethereumproject/go-ethereum/node"
-	"github.com/ethereumproject/go-ethereum/tests"
-	"github.com/ethereumproject/go-ethereum/whisper"
 	"path/filepath"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/gethrpctest/main.go
 )
 
 // Version is the application revision identifier. It can be set with the linker

@@ -26,7 +26,6 @@ import (
 	"testing"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/Tzunami/edhash"
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -42,23 +41,6 @@ import (
 // GenesisBlockForTesting creates a block in which addr has the given seed balance.
 // The state trie of the block is written to db. the passed db needs to contain a state root
 func GenesisBlockForTesting(db eddb.Database, addr common.Address, balance *big.Int) *types.Block {
-=======
-	"github.com/ethereumproject/ethash"
-	"github.com/ethereumproject/go-ethereum/common"
-	"github.com/ethereumproject/go-ethereum/core/state"
-	"github.com/ethereumproject/go-ethereum/core/types"
-	"github.com/ethereumproject/go-ethereum/core/vm"
-	"github.com/ethereumproject/go-ethereum/crypto"
-	"github.com/ethereumproject/go-ethereum/ethdb"
-	"github.com/ethereumproject/go-ethereum/event"
-	"github.com/ethereumproject/go-ethereum/rlp"
-	"github.com/hashicorp/golang-lru"
-)
-
-// GenesisBlockForTesting creates a block in which addr has the given wei balance.
-// The state trie of the block is written to db. the passed db needs to contain a state root
-func GenesisBlockForTesting(db ethdb.Database, addr common.Address, balance *big.Int) *types.Block {
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	statedb, err := state.New(common.Hash{}, db)
 	if err != nil {
 		panic(err)
@@ -78,23 +60,15 @@ func GenesisBlockForTesting(db ethdb.Database, addr common.Address, balance *big
 	}, nil, nil, nil)
 }
 
-<<<<<<< HEAD
+
 func theBlockChain(db eddb.Database, t *testing.T) *BlockChain {
-	pow, err := edhash.NewForTesting()
-=======
-func theBlockChain(db ethdb.Database, t *testing.T) *BlockChain {
 	pow, err := ethash.NewForTesting()
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	var eventMux event.TypeMux
-<<<<<<< HEAD
-	if _, err := WriteGenesisBlock(db, TestNetGenesis); err != nil {
-=======
 	if _, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis); err != nil {
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		t.Fatal(err)
 	}
 	blockchain, err := NewBlockChain(db, testChainConfig(), pow, &eventMux)
@@ -239,7 +213,7 @@ func TestLastBlock(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -393,7 +367,7 @@ func TestChainInsertions(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -436,7 +410,7 @@ func TestChainMultipleInsertions(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -525,7 +499,7 @@ func makeBlockChainWithDiff(genesis *types.Block, d []int, seed byte) []*types.B
 <<<<<<< HEAD
 func chm(t testing.TB, genesis *types.Block, db eddb.Database) *BlockChain {
 =======
-func chm(t testing.TB, genesis *types.Block, db ethdb.Database) *BlockChain {
+func chm(t testing.TB, genesis *types.Block, db eddb.Database) *BlockChain {
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	var eventMux event.TypeMux
 	config := testChainConfig()
@@ -592,7 +566,7 @@ func testReorg(t *testing.T, first, second []int, td int64, full bool) {
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -648,7 +622,7 @@ func TestInsertHeaderChainBadHash(t *testing.T) {
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -680,7 +654,7 @@ func TestInsertChainBadHash(t *testing.T) {
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -718,7 +692,7 @@ func testReorgBadHashes(t *testing.T, full bool) {
 	}
 	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -857,7 +831,7 @@ func TestFastVsFullChains(t *testing.T) {
 <<<<<<< HEAD
 	gendb, err := eddb.NewMemDatabase()
 =======
-	gendb, err := ethdb.NewMemDatabase()
+	gendb, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -895,7 +869,7 @@ func TestFastVsFullChains(t *testing.T) {
 <<<<<<< HEAD
 	archiveDb, err := eddb.NewMemDatabase()
 =======
-	archiveDb, err := ethdb.NewMemDatabase()
+	archiveDb, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -914,7 +888,7 @@ func TestFastVsFullChains(t *testing.T) {
 <<<<<<< HEAD
 	fastDb, err := eddb.NewMemDatabase()
 =======
-	fastDb, err := ethdb.NewMemDatabase()
+	fastDb, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -971,7 +945,7 @@ func TestLightVsFastVsFullChainHeads(t *testing.T) {
 <<<<<<< HEAD
 	gendb, err := eddb.NewMemDatabase()
 =======
-	gendb, err := ethdb.NewMemDatabase()
+	gendb, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1009,7 +983,7 @@ func TestLightVsFastVsFullChainHeads(t *testing.T) {
 <<<<<<< HEAD
 	archiveDb, err := eddb.NewMemDatabase()
 =======
-	archiveDb, err := ethdb.NewMemDatabase()
+	archiveDb, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1032,7 +1006,7 @@ func TestLightVsFastVsFullChainHeads(t *testing.T) {
 <<<<<<< HEAD
 	fastDb, err := eddb.NewMemDatabase()
 =======
-	fastDb, err := ethdb.NewMemDatabase()
+	fastDb, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1061,7 +1035,7 @@ func TestLightVsFastVsFullChainHeads(t *testing.T) {
 <<<<<<< HEAD
 	lightDb, err := eddb.NewMemDatabase()
 =======
-	lightDb, err := ethdb.NewMemDatabase()
+	lightDb, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1099,7 +1073,7 @@ func TestChainTxReorgs(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1234,7 +1208,7 @@ func TestLogReorgs(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1284,7 +1258,7 @@ func TestReorgSideEvent(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1372,7 +1346,7 @@ func TestCanonicalBlockRetrieval(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
@@ -1418,7 +1392,7 @@ func TestEIP155Transition(t *testing.T) {
 <<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
 =======
-	db, err := ethdb.NewMemDatabase()
+	db, err := eddb.NewMemDatabase()
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)

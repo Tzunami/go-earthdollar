@@ -19,7 +19,7 @@ package accounts
 import (
 	"fmt"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ethereumproject/go-ethereum/common"
+	"github.com/Tzunami/go-earthdollar/common"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -28,12 +28,6 @@ import (
 	"sort"
 	"testing"
 	"time"
-<<<<<<< HEAD
-
-	"github.com/davecgh/go-spew/spew"
-	"github.com/Tzunami/go-earthdollar/common"
-=======
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 )
 
 var (
