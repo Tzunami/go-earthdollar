@@ -344,7 +344,7 @@ web3._extend({
 		}),
 		new web3._extend.Method({
 			name: 'chainId',
-			call: 'eth_chainId',
+			call: 'ed_chainId',
 			params: 0
 		})
 	],

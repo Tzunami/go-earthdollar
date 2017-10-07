@@ -26,7 +26,7 @@ const (
 	DefaultHTTPHost  = "localhost" // Default host interface for the HTTP RPC server
 	DefaultHTTPPort  = 8811        // Default TCP port for the HTTP RPC server
 	DefaultWSHost    = "localhost" // Default host interface for the websocket RPC server
-	DefaultWSPort    = 8546        // Default TCP port for the websocket RPC server
+	DefaultWSPort    = 8812        // Default TCP port for the websocket RPC server
 )
 
 
@@ -35,19 +35,11 @@ func defaultDataDirParent() string {
 	home := HomeDir()
 	if home != "" {
 		if runtime.GOOS == "darwin" {
-<<<<<<< HEAD
-			return filepath.Join(home, "Library", "Earthdollar")
-		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", "Earthdollar")
-		} else {
-			return filepath.Join(home, ".earthdollar")
-=======
 			return filepath.Join(home, "Library")
 		} else if runtime.GOOS == "windows" {
 			return filepath.Join(home, "AppData", "Roaming")
 		} else {
 			return filepath.Join(home)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		}
 	}
 	// As we cannot guess a stable location, return empty and handle later
@@ -56,21 +48,21 @@ func defaultDataDirParent() string {
 
 func defaultClassicDataDir() string {
 	if runtime.GOOS == "darwin" {
-		return "EthereumClassic"
+		return "Earthdollar"
 	} else if runtime.GOOS == "windows" {
-		return "EthereumClassic"
+		return "Earthdollar"
 	} else {
-		return ".ethereum-classic"
+		return ".earthdollar"
 	}
 }
 
 func defaultUnclassicDataDir() string {
 	if runtime.GOOS == "darwin" {
-		return "Ethereum"
+		return "Earthdollar"
 	} else if runtime.GOOS == "windows" {
-		return "Ethereum"
+		return "Earthdollar"
 	} else {
-		return ".ethereum"
+		return ".earthdollar"
 	}
 }
 

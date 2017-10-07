@@ -68,7 +68,7 @@ type Header struct {
 	GasLimit    *big.Int       // Gas limit
 	GasUsed     *big.Int       // Gas used
 	Time        *big.Int       // Creation time
-        Mint        *big.Int       // Mint
+    Mint        *big.Int       // Mint
 	Extra       []byte         // Freeform descriptor
 	MixDigest   common.Hash    // for quick difficulty verification
 	Nonce       BlockNonce
@@ -92,7 +92,7 @@ func (h *Header) HashNoNonce() common.Hash {
 		h.GasLimit,
 		h.GasUsed,
 		h.Time,
-                h.Mint,
+        h.Mint,
 		h.Extra,
 	})
 }
@@ -104,7 +104,7 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 		Difficulty string
 		GasLimit   string
 		Time       *big.Int
-                Mint       string //earthdollar
+        Mint       string //earthdollar
 		Extra      string
 	}
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -118,7 +118,7 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("malformed difficulty %q", ext.Difficulty)
 	}
 	h.Time = ext.Time
-        h.Mint = common.String2Big(ext.Mint)
+    h.Mint = common.Big(ext.Mint)	
 	h.Extra = []byte(ext.Extra)
 	return nil
 }
@@ -439,9 +439,9 @@ func (h *Header) String() string {
 	GasLimit:	    %v
 	GasUsed:	    %v
 	Time:		    %v
-        Mint:               %v
+    Mint:           %v
 	Extra:		    %s
-	MixDigest:          %x
+	MixDigest:      %x
 	Nonce:		    %x
 ]`, h.Hash(), h.ParentHash, h.UncleHash, h.Coinbase, h.Root, h.TxHash, h.ReceiptHash, h.Bloom, h.Difficulty, h.Number, h.GasLimit, h.GasUsed, h.Time, h.Mint, h.Extra, h.MixDigest, h.Nonce)
 }

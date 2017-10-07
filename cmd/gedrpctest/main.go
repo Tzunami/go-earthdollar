@@ -56,7 +56,7 @@ func main() {
 	flag.Parse()
 
 	if *versionFlag {
-		fmt.Println("gethrpctest version", Version)
+		fmt.Println("gedrpctest version", Version)
 		os.Exit(0)
 	}
 

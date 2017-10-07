@@ -58,7 +58,7 @@ setup() {
 	if [ "$BATS_TEST_NUMBER" -eq 1 ]; then
 
 		TMP_DIR="$BATS_TMPDIR"
-		# Install 1.6 and 1.5 of Earthdollar Geth
+		# Install 1.6 and 1.5 of Earthdollar Ged
 		# Travis Linux+Mac, AppVeyor Windows all use amd64.
 		curl -o "$TMP_DIR/gedf1.6.tar.gz" https://gedstore.blob.core.windows.net/builds/ged-"$TEST_OS_HF"-amd64-1.6.0-facc47cb.tar.gz
 		curl -o "$TMP_DIR/gedf1.5.tar.gz" https://gedstore.blob.core.windows.net/builds/ged-"$TEST_OS_HF"-amd64-1.5.0-c3c58eb6.tar.gz
@@ -67,7 +67,7 @@ setup() {
 		mv "$TMP_DIR/ged-$TEST_OS_HF-amd64-1.6.0-facc47cb/ged" "$CMD_DIR/gedf1.6"
 		mv "$TMP_DIR/ged-$TEST_OS_HF-amd64-1.5.0-c3c58eb6/ged" "$CMD_DIR/gedf1.5"
 
-		# Install 3.3 of Earthdollar Geth
+		# Install 3.3 of Earthdollar Ged
 		curl -L -o "$TMP_DIR/gedc3.3.zip" https://github.com/Tzunami/go-earthdollar/releases/download/v3.3.0/ged-classic-"$TEST_OS_C"-v3.3.0-1-gdd95f05.zip
 		unzip "$TMP_DIR/gedc3.3.zip" -d "$TMP_DIR"
 		mv "$TMP_DIR/ged" "$CMD_DIR/gedc3.3"

@@ -9,7 +9,7 @@ install:
   - set PATH=%GOPATH%\bin;c:\go\bin;C:\msys64\mingw64\bin;C:\msys64\usr\bin\;%PATH%
 
   # Install janus.
-  - curl -sL https://raw.githubusercontent.com/ethereumproject/janus/master/get-windows.sh | bash
+  - curl -sL https://raw.githubusercontent.com.earthdollarproject/janus/master/get-windows.sh | bash
   - set PATH=./janusbin;%PATH%
 
   - ps: $env:VERSION_BASE = "$(janus.exe version -format='v%M.%m.x')"
@@ -55,7 +55,7 @@ deploy:
     on:
       appveyor_repo_tag: true
 =======
-    name: geth
+    name: ged
 before_deploy:
   # Set up GCP upload.
   - nuget install secure-file -ExcludeVersion
@@ -63,7 +63,7 @@ before_deploy:
 deploy_script:
   - ps: >-
       If ($env:APPVEYOR_REPO_BRANCH -eq 'master') {
-        janus.exe deploy -to="builds.etcdevteam.com/go-ethereum/$env:VERSION_BASE/" -files="./*.zip" -key="./.gcloud.json"
+        janus.exe deploy -to="builds.etcdevteam.com/go.earthdollar/$env:VERSION_BASE/" -files="./*.zip" -key="./.gcloud.json"
       }
 
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3

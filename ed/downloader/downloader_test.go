@@ -26,7 +26,6 @@ import (
 	"testing"
 	"time"
 
-<<<<<<< HEAD:ed/downloader/downloader_test.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -39,20 +38,6 @@ import (
 
 var (
 	testdb      eddb.Database
-=======
-	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/core"
-	"github.com/Tzunami/go-earthdollar/core/state"
-	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/crypto"
-	"github.com/Tzunami/go-earthdollar/eddb"
-	"github.com/Tzunami/go-earthdollar/event"
-	"github.com/Tzunami/go-earthdollar/trie"
-)
-
-var (
-	testdb      eddb.Database
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/downloader/downloader_test.go
 	testKey     *ecdsa.PrivateKey
 	testAddress common.Address
 	genesis     *types.Block

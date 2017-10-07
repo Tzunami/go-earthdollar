@@ -325,7 +325,7 @@ func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *bi
 }
 
 func calcDifficultyDiehard(time, parentTime uint64 , parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
-	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
+	// https://github.com.earthdollarproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	// algorithm:
 	// diff = (parent_diff +
@@ -378,7 +378,7 @@ func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *
 	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
 =======
 func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *big.Int, delayBlock *big.Int, continueBlock *big.Int) *big.Int {
-	// https://github.com/ethereumproject/ECIPs/blob/master/ECIPs/ECIP-1010.md
+	// https://github.com.earthdollarproject/ECIPs/blob/master/ECIPs/ECIP-1010.md
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	// algorithm:
 	// diff = (parent_diff +

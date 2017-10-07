@@ -23,26 +23,26 @@ Rolling builds for the master branch may be found at [builds.etcdevteam.com](bui
 ## [4.0.0] - 2017-09-05
 
 #### Consensus
-- [ECIP-1017](https://github.com/ethereumproject/ECIPs/blob/master/ECIPs/ECIP-1017.md) - implement monetary policy on Morden Testnet (2 million block era) and Mainnet (5 million block era)
+- [ECIP-1017](https://github.com.earthdollarproject/ECIPs/blob/master/ECIPs/ECIP-1017.md) - implement monetary policy on Morden Testnet (2 million block era) and Mainnet (5 million block era)
 
 #### Added
 - JSON-RPC: `debug_traceTransaction` method
-- JSON-RPC: `eth_chainId` method; returns configured Ethereum EIP-155 chain id for signing protected txs. For congruent behavior in Ethereum Foundation and Parity clients, please see https://github.com/ethereum/EIPs/pull/695 and https://github.com/paritytech/parity/pull/6329.
+- JSON-RPC: `ed_chainId` method; returns configured Ethereum EIP-155 chain id for signing protected txs. For congruent behavior in Ethereum Foundation and Parity clients, please see https://github.com.earthdollar/EIPs/pull/695 and https://github.com/paritytech/parity/pull/6329.
 - P2P: improve peer discovery by allowing "good-will" for peers with unknown HF blocks
 - _Option_: `--log-status` - enable interval-based status logging, e.g. `--log-status="sync=10"`, where `sync` is the context (currently the only one implemented) and `10` is interval in seconds.
 
 #### Fixed
-- geth/cmd: Improve chain configuration file handling to allow specifying a file instead
+- ged/cmd: Improve chain configuration file handling to allow specifying a file instead
   of chain identity and allow flag overrides for bootnodes and network-id.
 - _Command_: `monitor` - enables sexy terminal-based graphs for metrics around
   a specified set of modules, e.g.
 
   ```
-  $ geth
+  $ ged
   ```
 
   ```
-  $ geth monitor "p2p/.*/(count|average)" "msg/txn/out/.*/count"
+  $ ged monitor "p2p/.*/(count|average)" "msg/txn/out/.*/count"
   ```
 
 - P2P: Improve wording for logging as-yet-unknown nodes.
@@ -55,7 +55,7 @@ Rolling builds for the master branch may be found at [builds.etcdevteam.com](bui
     - `"state": { "startingNonce": NUMBER }` - _optional_ (mainnet: 0, morden: 1048576) - "dirty" starting world state
     - `"network": NUMBER` - _required_ (mainnet: 1, morden: 2) - network id used to identify valid peers
     - `"consensus": STRING` - _optional_ (default: "ethash", optional: "ethash-test") - specify smaller and faster pow algorithm, e.g. `--dev` mode sets "ethash-test"
-    > See cmd/geth/config/*.json for updated examples.
+    > See cmd/ged/config/*.json for updated examples.
 
 - Dev mode (`--dev`) made compatible with `--chain`
 - `debug_AccountExist` method added to RPC and web3 extension methods (thanks @sorpaas)
@@ -67,7 +67,7 @@ Rolling builds for the master branch may be found at [builds.etcdevteam.com](bui
 - _Option_: `--chain <chainIdentifier|mychain.json>` - specify chain identifier OR path to JSON configuration file
 
 #### Fixed
-- `geth attach` command uses chain subdirectory schema by default, e.g. `datadir/mainnet/geth.ipc` instead of `datadir/geth.ipc`
+- `ged attach` command uses chain subdirectory schema by default, e.g. `datadir/mainnet/ged.ipc` instead of `datadir/ged.ipc`
 - Sometimes ungraceful stopping on SIGTERM, potentially causing corrupted chaindata
 - PublicKey method for protected transactions with malformed chain id causing SIGSEGV
 - Concurrent map read/writes for State Objects
@@ -84,7 +84,7 @@ Wiki: https://github.com/Tzunami/go-earthdollar/wiki/Release-3.5.0-Notes
 - _Option_: `--index-accounts` - use persistent keystore key file indexing (recommended for use with greater than ~10k-100k+ key files)
 - _Command_: `--index-accounts account index` - build or rebuild persisent key file index
 - _Option_: `--log-dir` - specify directory in which to redirect logs to files
-- _Command_: `status` - retrieve contextual status for node, ethereum, and chain configuration
+- _Command_: `status` - retrieve contextual status for node,.earthdollar, and chain configuration
 #### Changed
 - _Command_: `dump <blockHash|blockNum>,<|blockHash|blockNum> <|address>,<|address>` - specify dump for _n_ block(s) for optionally _a_ address(es)
 - _Option__: `--chain` replaces `--chain-config` and expects consistent custom external chain config JSON path
@@ -102,7 +102,7 @@ Wiki: https://github.com/Tzunami/go-earthdollar/wiki/Release-3.4.0-Notes
 - _Option_: `--chain <name>` - specify default or custom chain configuration by subdirectory
 - _Option_: `--chain-config <path>` - specify an external JSON file to define chain configuration
 - _Command_: `dump-chain-config <path>` - specify an external JSON file location in which to dump current chain configuration
-- Default data directory now at `~/Library/EthereumClassic` or OS-sensible equivalent.
+- Default data directory now at `~/Library/Earthdollar` or OS-sensible equivalent.
 - Chaindata saves to respective subdirectory under parent data dir, _ie_ `/mainnet`.
 #### Changed
 - Commands and flags using compound/concatenated words (_ie_ `--datadir`) aliased to hypenated equivalent (_ie_ `--data-dir`).

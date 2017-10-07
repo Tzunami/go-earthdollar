@@ -8,7 +8,7 @@ https://github.com/Tzunami/wiki/wiki/Edhash
 
 ### Coding Style for C++ code:
 
-Follow the same exact style as in [cpp-ethereum](https://github.com/Tzunami/cpp-ethereum/blob/develop/CodingStandards.txt)
+Follow the same exact style as in [cpp.earthdollar](https://github.com/Tzunami/cpp.earthdollar/blob/develop/CodingStandards.txt)
 
 ### Coding Style for C code:
 

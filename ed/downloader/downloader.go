@@ -29,7 +29,6 @@ import (
 	"sync/atomic"
 	"time"
 
-<<<<<<< HEAD:ed/downloader/downloader.go
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/eddb"
@@ -38,16 +37,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/logger/glog"
 	"github.com/Tzunami/go-earthdollar/metrics"
 	"github.com/Tzunami/go-earthdollar/trie"
-=======
-	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/eddb"
-	"github.com/Tzunami/go-earthdollar/event"
-	"github.com/Tzunami/go-earthdollar/logger"
-	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/metrics"
-	"github.com/Tzunami/go-earthdollar/trie"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/downloader/downloader.go
 )
 
 const (

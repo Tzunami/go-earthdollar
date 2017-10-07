@@ -44,7 +44,7 @@ The go-earthdollar project comes with several wrappers/executables found in the 
 | `bootnode` | Stripped down version of our Earthdollar client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
 | `disasm` | Bytecode disassembler to convert EVM (Earthdollar Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Earthdollar Yellow Paper](http://gavwood.com/paper.pdf). |
 | `evm` | Developer utility version of the EVM (Earthdollar Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gethrpctest` | Developer utility tool to support our [earthdollar/rpc-test](https://github.com/Tzunami/rpc-tests) test suite which validates baseline conformity to the [Earthdollar JSON RPC](https://github.com/Tzunami/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/Tzunami/rpc-tests/blob/master/README.md) for details. |
+| `gedrpctest` | Developer utility tool to support our [earthdollar/rpc-test](https://github.com/Tzunami/rpc-tests) test suite which validates baseline conformity to the [Earthdollar JSON RPC](https://github.com/Tzunami/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/Tzunami/rpc-tests/blob/master/README.md) for details. |
 | `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/Tzunami/wiki/wiki/RLP)) dumps (data encoding used by the Earthdollar protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 
 ## Running ged
@@ -127,7 +127,7 @@ HTTP based JSON-RPC API options:
   * `--rpccorsdomain` Comma separated list of domains from which to accept cross origin requests (browser enforced)
   * `--ws` Enable the WS-RPC server
   * `--wsaddr` WS-RPC server listening interface (default: "localhost")
-  * `--wsport` WS-RPC server listening port (default: 8546)
+  * `--wsport` WS-RPC server listening port (default: 8812)
   * `--wsapi` API's offered over the WS-RPC interface (default: "ed,net,web3")
   * `--wsorigins` Origins from which to accept websockets requests
   * `--ipcdisable` Disable the IPC-RPC server

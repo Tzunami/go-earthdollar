@@ -18,7 +18,7 @@ package ed
 
 import (
 	"bytes"
-	"golang.org/x/net/context"
+	"context"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
@@ -30,7 +30,6 @@ import (
 	"sync"
 	"time"
 
-<<<<<<< HEAD:ed/api.go
 	"github.com/Tzunami/edhash"
 	"github.com/Tzunami/go-earthdollar/accounts"
 	"github.com/Tzunami/go-earthdollar/common"
@@ -48,26 +47,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/p2p"
 	"github.com/Tzunami/go-earthdollar/rlp"
 	"github.com/Tzunami/go-earthdollar/rpc"
-=======
-	"github.com/ethereumproject/ethash"
-	"github.com/Tzunami/go-earthdollar/accounts"
-	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/common/compiler"
-	"github.com/Tzunami/go-earthdollar/core"
-	"github.com/Tzunami/go-earthdollar/core/state"
-	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/core/vm"
-	"github.com/Tzunami/go-earthdollar/crypto"
-	"github.com/Tzunami/go-earthdollar/eddb"
-	"github.com/Tzunami/go-earthdollar/event"
-	"github.com/Tzunami/go-earthdollar/logger"
-	"github.com/Tzunami/go-earthdollar/logger/glog"
-	"github.com/Tzunami/go-earthdollar/miner"
-	"github.com/Tzunami/go-earthdollar/p2p"
-	"github.com/Tzunami/go-earthdollar/rlp"
-	"github.com/Tzunami/go-earthdollar/rpc"
-	ethMetrics "github.com/Tzunami/go-earthdollar/metrics"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/api.go
+	edMetrics "github.com/Tzunami/go-earthdollar/metrics"
 )
 
 const defaultGas = uint64(90000)
@@ -1722,7 +1702,7 @@ func (api *PublicDebugAPI) Metrics(raw bool) (map[string]interface{}, error) {
 	var b []byte
 	var err error
 
-	b, err = ethMetrics.CollectToJSON()
+	b, err = edMetrics.CollectToJSON()
 	if err != nil {
 		return nil, err
 	}

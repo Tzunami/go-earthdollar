@@ -74,8 +74,8 @@ type StateConfig struct {
 	StartingNonce uint64 `json:"startingNonce,omitempty"`
 }
 
-// GenesisDump is the geth JSON format.
-// https://github.com/ethereumproject/wiki/wiki/Ethereum-Chain-Spec-Format#subformat-genesis
+// GenesisDump is the ged JSON format.
+// https://github.com.earthdollarproject/wiki/wiki/Ethereum-Chain-Spec-Format#subformat-genesis
 type GenesisDump struct {
 	Nonce      prefixedHex `json:"nonce"`
 	Timestamp  prefixedHex `json:"timestamp"`

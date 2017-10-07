@@ -15,7 +15,7 @@ teardown() {
 @test "runs with valid command" {
 	run $GED_CMD version
 	[ "$status" -eq 0 ]
-	[[ "$output" == *"Geth"* ]]
+	[[ "$output" == *"Ged"* ]]
 	[[ "$output" == *"Version: "* ]]
 	[[ "$output" == *"Go Version: "* ]]
 	[[ "$output" == *"OS: "* ]]

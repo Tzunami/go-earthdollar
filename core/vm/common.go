@@ -60,20 +60,13 @@ func quadMemGas(mem *Memory, newMemSize, gas *big.Int) {
 			// be careful reusing variables here when changing.
 			// The order has been optimised to reduce allocation
 			oldSize := toWordSize(big.NewInt(int64(mem.Len())))
-<<<<<<< HEAD
-			pow := new(big.Int).Exp(oldSize, common.Big2, Zero)
-=======
-			pow := new(big.Int).Exp(oldSize, common.Big2, new(big.Int))
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
+     		pow := new(big.Int).Exp(oldSize, common.Big2, new(big.Int))
 			linCoef := oldSize.Mul(oldSize, big.NewInt(3))
 			quadCoef := new(big.Int).Div(pow, big.NewInt(512))
 			oldTotalFee := new(big.Int).Add(linCoef, quadCoef)
 
-<<<<<<< HEAD
-			pow.Exp(newMemSizeWords, common.Big2, Zero)
-=======
+			
 			pow.Exp(newMemSizeWords, common.Big2, new(big.Int))
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 			linCoef = linCoef.Mul(newMemSizeWords, big.NewInt(3))
 			quadCoef = quadCoef.Div(pow, big.NewInt(512))
 			newTotalFee := linCoef.Add(linCoef, quadCoef)

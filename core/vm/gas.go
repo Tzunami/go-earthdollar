@@ -170,22 +170,6 @@ var _baseCheck = map[OpCode]req{
 	MSIZE:        {0, GasQuickStep, 1},
 	GAS:          {0, GasQuickStep, 1},
 	BLOCKHASH:    {1, GasExtStep, 1},
-<<<<<<< HEAD
-	BALANCE:      {1, Zero, 1},
-	EXTCODESIZE:  {1, Zero, 1},
-	EXTCODECOPY:  {4, Zero, 0},
-	SLOAD:        {1, big.NewInt(50), 1},
-	SSTORE:       {2, Zero, 0},
-	SHA3:         {2, big.NewInt(30), 1},
-	CREATE:       {3, big.NewInt(32000), 1},
-	// Zero is calculated in the gasSwitch
-	CALL:         {7, Zero, 1},
-	CALLCODE:     {7, Zero, 1},
-	DELEGATECALL: {6, Zero, 1},
-	SUICIDE:      {1, Zero, 0},
-	JUMPDEST:     {0, big.NewInt(1), 0},
-	RETURN:       {2, Zero, 0},
-=======
 	BALANCE:      {1, new(big.Int), 1},
 	EXTCODESIZE:  {1, new(big.Int), 1},
 	EXTCODECOPY:  {4, new(big.Int), 0},
@@ -200,7 +184,6 @@ var _baseCheck = map[OpCode]req{
 	SUICIDE:      {1, new(big.Int), 0},
 	JUMPDEST:     {0, big.NewInt(1), 0},
 	RETURN:       {2, new(big.Int), 0},
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	PUSH1:        {0, GasFastestStep, 1},
 	DUP1:         {0, new(big.Int), 1},
 }

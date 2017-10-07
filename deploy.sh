@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-GETH_ARCHIVE_NAME="geth-classic-$TRAVIS_OS_NAME-$(janus version -format='TAG_OR_NIGHTLY')"
-zip "$GETH_ARCHIVE_NAME.zip" geth
-tar -zcf "$GETH_ARCHIVE_NAME.tar.gz" geth
+GETH_ARCHIVE_NAME="ged-classic-$TRAVIS_OS_NAME-$(janus version -format='TAG_OR_NIGHTLY')"
+zip "$GED_ARCHIVE_NAME.zip" ged
+tar -zcf "$GED_ARCHIVE_NAME.tar.gz" ged
 
 mkdir deploy
 mv *.zip *.tar.gz deploy/
 ls -l deploy/
 
-janus deploy -to="builds.etcdevteam.com/go-ethereum/$(janus version -format='v%M.%m.x')/" -files="./deploy/*" -key="./gcloud-travis.json.enc"
+janus deploy -to="builds.etcdevteam.com/go.earthdollar/$(janus version -format='v%M.%m.x')/" -files="./deploy/*" -key="./gcloud-travis.json.enc"

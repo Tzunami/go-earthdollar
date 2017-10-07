@@ -99,7 +99,7 @@ const (
 )
 
 // NewManager creates a manager for the given directory.
-// keydir is by default /Users/ia/Library/EthereumClassic/mainnet/keystore
+// keydir is by default /Users/ia/Library/Earthdollar/mainnet/keystore
 func NewManager(keydir string, scryptN, scryptP int, wantCacheDB bool) (*Manager, error) {
 	store, err := newKeyStore(keydir, scryptN, scryptP)
 	if err != nil {

@@ -24,11 +24,11 @@ _original_ chain. Ethereum Classic (ETC) offers a censorship-resistant and power
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 ### :rocket: From a release binary
-The simplest way to get started running a node is to visit our [Releases page](https://github.com/Tzunami/go-earthdollar/releases) and download a zipped executable binary (matching your operating system, of course), then moving the unzipped file `geth` to somewhere in your `$PATH`. Now you should be able to open a terminal and run `$ geth help` to make sure it's working. For additional installation instructions please check out the [Installation Wiki](https://github.com/Tzunami/go-earthdollar/wiki/Home#Developers).
+The simplest way to get started running a node is to visit our [Releases page](https://github.com/Tzunami/go-earthdollar/releases) and download a zipped executable binary (matching your operating system, of course), then moving the unzipped file `ged` to somewhere in your `$PATH`. Now you should be able to open a terminal and run `$ ged help` to make sure it's working. For additional installation instructions please check out the [Installation Wiki](https://github.com/Tzunami/go-earthdollar/wiki/Home#Developers).
 
 CLI one-liner for Darwin:
 ```bash
-$ curl -L -o ~/Downloads/geth-classic-3.5.zip https://github.com/Tzunami/go-earthdollar/releases/download/v3.5.0/geth-classic-osx-v3.5.0.zip; unzip ~/Downloads/geth-classic-3.5.zip -d $HOME/bin/
+$ curl -L -o ~/Downloads/ged-classic-3.5.zip https://github.com/Tzunami/go-earthdollar/releases/download/v3.5.0/ged-classic-osx-v3.5.0.zip; unzip ~/Downloads/ged-classic-3.5.zip -d $HOME/bin/
 
 <<<<<<< HEAD
 Building ged requires both a Go and a C compiler.
@@ -56,7 +56,7 @@ Going through all the possible command line flags is out of scope here (please c
 enumerated a few common parameter combos to get you up to speed quickly on how you can run your
 own Ged instance.
 =======
-$ geth help
+$ ged help
 ```
 
 ### :hammer: Building the source
@@ -64,7 +64,7 @@ $ geth help
 If your heart is set on the bleeding edge, install from source. However, please be advised that you may encounter some strange things, and we can't prioritize support beyond the release versions. Recommended for developers only.
 
 #### Dependencies
-Building geth requires both Go >=1.8 and a C compiler.
+Building ged requires both Go >=1.8 and a C compiler.
 
 #### Get source and dependencies
 `$ go get -v github.com/Tzunami/go-earthdollar/...`
@@ -73,7 +73,7 @@ Building geth requires both Go >=1.8 and a C compiler.
 
 To install...
 - the full suite of utilities: `$ go install github.com/Tzunami/go-earthdollar/cmd/...`
-- just __geth__: `$ go install github.com/Tzunami/go-earthdollar/cmd/geth`
+- just __ged__: `$ go install github.com/Tzunami/go-earthdollar/cmd/ged`
 
 Executables built from source will, by default, be installed in `$GOPATH/bin/`.
 
@@ -83,31 +83,31 @@ This repository includes several wrappers/executables found in the `cmd` directo
 
 | Command    | Description |
 |:----------:|-------------|
-| **`geth`** | The main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test-, or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. Please see our [Command Line Options](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options) wiki page for details. |
-| `abigen` | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com/ethereumproject/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps-in-Go) wiki page for details. |
+| **`ged`** | The main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test-, or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. Please see our [Command Line Options](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options) wiki page for details. |
+| `abigen` | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com.earthdollarproject/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps-in-Go) wiki page for details. |
 | `bootnode` | Stripped down version of our Ethereum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
 | `disasm` | Bytecode disassembler to convert EVM (Ethereum Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Ethereum Yellow Paper](http://gavwood.com/paper.pdf). |
 | `evm` | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gethrpctest` | Developer utility tool to support our [ethereum/rpc-test](https://github.com/ethereumproject/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com/ethereumproject/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/ethereumproject/rpc-tests/blob/master/README.md) for details. |
-| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/ethereumproject/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
+| `gedrpctest` | Developer utility tool to support our .earthdollar/rpc-test](https://github.com.earthdollarproject/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com.earthdollarproject/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com.earthdollarproject/rpc-tests/blob/master/README.md) for details. |
+| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com.earthdollarproject/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 
-## :green_book: Geth: the basics
+## :green_book: Ged: the basics
 
 ### Data directory
-By default, geth will store all node and blockchain data in a __parent directory__ depending on your OS:
-- Linux: `$HOME/.ethereum-classic/`
-- Mac: `$HOME/Library/EthereumClassic/`
-- Windows: `$HOME/AppData/Roaming/EthereumClassic/`
+By default, ged will store all node and blockchain data in a __parent directory__ depending on your OS:
+- Linux: `$HOME/.earthdollar/`
+- Mac: `$HOME/Library/Earthdollar/`
+- Windows: `$HOME/AppData/Roaming/Earthdollar/`
 
 __You can specify this directory__ with `--data-dir=$HOME/id/rather/put/it/here`.
 
-Within this parent directory, geth will use a __/subdirectory__ to hold data for each network you run. The defaults are:
+Within this parent directory, ged will use a __/subdirectory__ to hold data for each network you run. The defaults are:
  - `/mainnet` for the Mainnet
  - `/morden` for the Morden Testnet
 
 __You can specify this subdirectory__ with `--chain=mycustomnet`.
 
-> __Migrating__: If you have existing data created prior to the [3.4 Release](https://github.com/Tzunami/go-earthdollar/releases), geth will attempt to migrate your existing standard ETC data to this structure. To learn more about managing this migration please read our [3.4 release notes on our Releases page](https://github.com/Tzunami/go-earthdollar/wiki/Release-3.4.0-Notes).
+> __Migrating__: If you have existing data created prior to the [3.4 Release](https://github.com/Tzunami/go-earthdollar/releases), ged will attempt to migrate your existing standard ETC data to this structure. To learn more about managing this migration please read our [3.4 release notes on our Releases page](https://github.com/Tzunami/go-earthdollar/wiki/Release-3.4.0-Notes).
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 ### Full node on the main Earthdollar network
@@ -119,35 +119,35 @@ the user doesn't care about years-old historical data, so we can fast-sync quick
 state of the network. To do so:
 =======
 ```
-$ geth
+$ ged
 ```
 
-It's that easy! This will establish an ETC blockchain node and download ("sync") the full blocks for the entirety of the ETC blockchain. __However__, before you go ahead with plain ol' `geth`, we would encourage reviewing the following section...
+It's that easy! This will establish an ETC blockchain node and download ("sync") the full blocks for the entirety of the ETC blockchain. __However__, before you go ahead with plain ol' `ged`, we would encourage reviewing the following section...
 
 #### :speedboat: `--fast`
 
 The most common scenario is users wanting to simply interact with the Ethereum Classic network: create accounts; transfer funds; deploy and interact with contracts, and mine. For this particular use-case the user doesn't care about years-old historical data, so we can _fast-sync_ to the current state of the network. To do so:
 
 ```
-$ geth --fast
+$ ged --fast
 ```
 
-Using geth in fast sync mode causes it to download only block _state_ data -- leaving out bulky transaction records -- which avoids a lot of CPU and memory intensive processing. 
+Using ged in fast sync mode causes it to download only block _state_ data -- leaving out bulky transaction records -- which avoids a lot of CPU and memory intensive processing. 
 
 Fast sync will be automatically __disabled__ (and full sync enabled) when:
 - your chain database contains *any* full blocks
 - your node has synced up to the current head of the network blockchain
 
-In case of using `--mine` together with `--fast`, geth will operate as described; syncing in fast mode up to the head, and then begin mining once it has synced its first full block at the head of the chain.
+In case of using `--mine` together with `--fast`, ged will operate as described; syncing in fast mode up to the head, and then begin mining once it has synced its first full block at the head of the chain.
 
-*Note:* To further increase geth's performace, you can use a `--cache=512` flag to bump the memory allowance of the database (e.g. 512MB) which can significantly improve sync times, especially for HDD users. This flag is optional and you can set it as high or as low as you'd like, though we'd recommend the 512MB - 2GB range.
+*Note:* To further increase ged's performace, you can use a `--cache=512` flag to bump the memory allowance of the database (e.g. 512MB) which can significantly improve sync times, especially for HDD users. This flag is optional and you can set it as high or as low as you'd like, though we'd recommend the 512MB - 2GB range.
 
 ### Create or manage account(s)
 
-Geth is able to create, import, update, unlock, and otherwise manage your private (encrypted) key files. Key files are in JSON format and, by default, stored in the respective chain folder's `/keystore` directory; you can specify a custom location with the `--keystore` flag.
+Ged is able to create, import, update, unlock, and otherwise manage your private (encrypted) key files. Key files are in JSON format and, by default, stored in the respective chain folder's `/keystore` directory; you can specify a custom location with the `--keystore` flag.
 
 ```
-$ geth account new
+$ ged account new
 ```
 
 This command will create a new account and prompt you to enter a passphrase to protect your account.
@@ -163,7 +163,7 @@ SUBCOMMANDS:
 
 ```
 
-Learn more at the [Accounts Wiki Page](https://github.com/Tzunami/go-earthdollar/wiki/Managing-Accounts). If you're interested in using geth to manage a lot (~100,000+) of accounts, please visit the [Indexing Accounts Wiki page](https://github.com/Tzunami/go-earthdollar/wiki/Indexing-Accounts).
+Learn more at the [Accounts Wiki Page](https://github.com/Tzunami/go-earthdollar/wiki/Managing-Accounts). If you're interested in using ged to manage a lot (~100,000+) of accounts, please visit the [Indexing Accounts Wiki page](https://github.com/Tzunami/go-earthdollar/wiki/Indexing-Accounts).
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 
@@ -172,11 +172,11 @@ Learn more at the [Accounts Wiki Page](https://github.com/Tzunami/go-earthdollar
 <<<<<<< HEAD
 $ ged --fast --cache=512 console
 =======
-$ geth console
+$ ged console
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 ```
 
-This command will start up Geth's built-in interactive [JavaScript console](https://github.com/Tzunami/go-earthdollar/wiki/JavaScript-Console), through which you can invoke all official [`web3` methods](https://github.com/ethereumproject/wiki/wiki/JavaScript-API) as well as Geth's own [management APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs). This too is optional and if you leave it out you can always attach to an already running Geth instance with `geth attach`.
+This command will start up Ged's built-in interactive [JavaScript console](https://github.com/Tzunami/go-earthdollar/wiki/JavaScript-Console), through which you can invoke all official [`web3` methods](https://github.com.earthdollarproject/wiki/wiki/JavaScript-API) as well as Ged's own [management APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs). This too is optional and if you leave it out you can always attach to an already running Ged instance with `ged attach`.
 
 Learn more at the [Javascript Console Wiki page](https://github.com/Tzunami/go-earthdollar/wiki/JavaScript-Console).
 
@@ -207,14 +207,14 @@ $ ged --testnet --fast --cache=512 console
 =======
 For a comprehensive list of command line options, please consult our [CLI Wiki page](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options).
 
-## :orange_book: Geth: developing and advanced useage
+## :orange_book: Ged: developing and advanced useage
 
 ### Morden Testnet
 If you'd like to play around with creating Ethereum contracts, you
 almost certainly would like to do that without any real money involved until you get the hang of the entire system. In other words, instead of attaching to the main network, you want to join the **test** network with your node, which is fully equivalent to the main network, but with play-Ether only.
 
 ```
-$ geth --chain=morden --fast --cache=512 console
+$ ged --chain=morden --fast --cache=512 console
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 ```
 
@@ -234,14 +234,14 @@ always use separate accounts for play-money and real-money. Unless you manually 
 will by default correctly separate the two networks and will not make any accounts available between
 them.*
 =======
-Specifying the `--chain=morden` flag will reconfigure your Geth instance a bit:
+Specifying the `--chain=morden` flag will reconfigure your Ged instance a bit:
 
- -  As mentioned above, Geth will host its testnet data in a `morden` subfolder (`~/.ethereum-classic/morden`).
+ -  As mentioned above, Ged will host its testnet data in a `morden` subfolder (`~/.earthdollar/morden`).
  - Instead of connecting the main Ethereum network, the client will connect to the test network, which uses different P2P bootnodes, different network IDs and genesis states.
 
 You may also optionally use `--testnet` or `--chain=testnet` to enable this configuration. 
 
-> *Note: Although there are some internal protective measures to prevent transactions from crossing over between the main network and test network (different starting nonces), you should make sure to always use separate accounts for play-money and real-money. Unless you manually move accounts, Geth
+> *Note: Although there are some internal protective measures to prevent transactions from crossing over between the main network and test network (different starting nonces), you should make sure to always use separate accounts for play-money and real-money. Unless you manually move accounts, Ged
 will by default correctly separate the two networks and will not make any accounts available between them.*
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
@@ -258,10 +258,10 @@ The IPC interface is enabled by default and exposes all the APIs supported by Ge
 and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons.
 These can be turned on/off and configured as you'd expect.
 =======
-As a developer, sooner rather than later you'll want to start interacting with Geth and the Ethereum network via your own programs and not manually through the console. To aid this, Geth has built in support for a JSON-RPC based APIs ([standard APIs](https://github.com/ethereumproject/wiki/wiki/JSON-RPC) and
-[Geth specific APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs)). These can be exposed via HTTP, WebSockets and IPC (unix sockets on unix based platroms, and named pipes on Windows).
+As a developer, sooner rather than later you'll want to start interacting with Ged and the Ethereum network via your own programs and not manually through the console. To aid this, Ged has built in support for a JSON-RPC based APIs ([standard APIs](https://github.com.earthdollarproject/wiki/wiki/JSON-RPC) and
+[Ged specific APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs)). These can be exposed via HTTP, WebSockets and IPC (unix sockets on unix based platroms, and named pipes on Windows).
 
-The IPC interface is enabled by default and exposes all the APIs supported by Geth, whereas the HTTP and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons. These can be turned on/off and configured as you'd expect.
+The IPC interface is enabled by default and exposes all the APIs supported by Ged, whereas the HTTP and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons. These can be turned on/off and configured as you'd expect.
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 HTTP based JSON-RPC API options:
@@ -274,7 +274,7 @@ HTTP based JSON-RPC API options:
   * `--rpccorsdomain` Comma separated list of domains from which to accept cross origin requests (browser enforced)
   * `--ws` Enable the WS-RPC server
   * `--wsaddr` WS-RPC server listening interface (default: "localhost")
-  * `--wsport` WS-RPC server listening port (default: 8546)
+  * `--wsport` WS-RPC server listening port (default: 8812)
   * `--wsapi` API's offered over the WS-RPC interface (default: "ed,net,web3")
   * `--wsorigins` Origins from which to accept websockets requests
   * `--ipcdisable` Disable the IPC-RPC server
@@ -320,7 +320,7 @@ and agree upon. This consists of a small JSON file (e.g. call it `genesis.json`)
   * `--rpc-cors-domain` Comma separated list of domains from which to accept cross origin requests (browser enforced)
   * `--ws` Enable the WS-RPC server
   * `--ws-addr` WS-RPC server listening interface (default: "localhost")
-  * `--ws-port` WS-RPC server listening port (default: 8546)
+  * `--ws-port` WS-RPC server listening port (default: 8812)
   * `--ws-api` API's offered over the WS-RPC interface (default: "eth,net,web3")
   * `--ws-origins` Origins from which to accept websockets requests
   * `--ipc-disable` Disable the IPC-RPC server
@@ -328,7 +328,7 @@ and agree upon. This consists of a small JSON file (e.g. call it `genesis.json`)
   * `--ipc-path` Filename for IPC socket/pipe within the datadir (explicit paths escape it)
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
-You'll need to use your own programming environments' capabilities (libraries, tools, etc) to connect via HTTP, WS or IPC to a Geth node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification) on all transports. You can reuse the same connection for multiple requests!
+You'll need to use your own programming environments' capabilities (libraries, tools, etc) to connect via HTTP, WS or IPC to a Ged node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification) on all transports. You can reuse the same connection for multiple requests!
 
 > Note: Please understand the security implications of opening up an HTTP/WS based transport before doing so! Hackers on the internet are actively trying to subvert Ethereum nodes with exposed APIs! Further, all browser tabs can access locally running webservers, so malicious webpages could try to subvert locally available APIs!*
 
@@ -339,7 +339,7 @@ with it prior to starting it up to ensure all blockchain parameters are correctl
 ### Operating a private/custom network
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
-As of [Geth 3.4](https://github.com/Tzunami/go-earthdollar/releases) you are now able to configure a private chain by specifying an __external chain configuration__ JSON file, which includes necessary genesis block data as well as feature configurations for protocol forks, bootnodes, and chainID.
+As of [Ged 3.4](https://github.com/Tzunami/go-earthdollar/releases) you are now able to configure a private chain by specifying an __external chain configuration__ JSON file, which includes necessary genesis block data as well as feature configurations for protocol forks, bootnodes, and chainID.
 
 Please find full [example  external configuration files representing the Mainnet and Morden Testnet specs in the /config subdirectory of this repo](). You can use either of these files as a starting point for your own customizations.
 
@@ -350,10 +350,10 @@ It is important for a private network that all nodes use compatible chains. In t
 Specifying an external chain configuration file will allow fine-grained control over a custom blockchain/network configuration, including the genesis state and extending through bootnodes and fork-based protocol upgrades.
 
 ```shell
-$ geth --chain=morden dump-chain-config <datadir>/customnet/chain.json
+$ ged --chain=morden dump-chain-config <datadir>/customnet/chain.json
 $ sed s/mainnet/customnet/ <datadir>/customnet/chain.json
 $ vi <datadir>/customnet/chain.json # make your custom edits
-$ geth --chain=customnet [--flags] [command]
+$ ged --chain=customnet [--flags] [command]
 ```
 <<<<<<< HEAD
 $ ged init path/to/genesis.json
@@ -372,10 +372,10 @@ The external chain configuration file specifies valid settings for the following
 | `consensus` | _Optional_. Proof of work algorithm to use, either "ethash" or "ethast-test" (for development) |
 | `genesis` | Determines __genesis state__. If running the node for the first time, it will write the genesis block. If configuring an existing chain database with a different genesis block, it will overwrite it. |
 | `chainConfig` | Determines configuration for fork-based __protocol upgrades__, ie _EIP-150_, _EIP-155_, _EIP-160_, _ECIP-1010_, etc ;-). Subkeys are `forks` and `badHashes`. |
-| `bootstrap` | _Optional_. Determines __bootstrap nodes__ in [enode format](https://github.com/ethereumproject/wiki/wiki/enode-url-format). |
+| `bootstrap` | _Optional_. Determines __bootstrap nodes__ in [enode format](https://github.com.earthdollarproject/wiki/wiki/enode-url-format). |
 
 
-*Fields `name`, `state.startingNonce`, and `consensus` are optional. Geth will panic if any required field is missing, invalid, or in conflict with another flag. This renders `--chain` __incompatible__ with `--testnet`. It remains __compatible__ with `--data-dir`.*
+*Fields `name`, `state.startingNonce`, and `consensus` are optional. Ged will panic if any required field is missing, invalid, or in conflict with another flag. This renders `--chain` __incompatible__ with `--testnet`. It remains __compatible__ with `--data-dir`.*
 
 To learn more about external chain configuration, please visit the [External Command Line Options Wiki page](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options).
 
@@ -400,7 +400,7 @@ displayed IP address information (most probably `[::]`) with your externally acc
 
 *Note: You could also use a full fledged Ged node as a bootnode, but it's the less recommended way.*
 
-To learn more about enodes and enode format, visit the [Enode Wiki page](https://github.com/ethereumproject/wiki/wiki/enode-url-format).
+To learn more about enodes and enode format, visit the [Enode Wiki page](https://github.com.earthdollarproject/wiki/wiki/enode-url-format).
 
 <<<<<<< HEAD
 With the bootnode operational and externally reachable (you can try `telnet <ip> <port>` to ensure
@@ -413,10 +413,10 @@ $ ged --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-
 =======
 ##### Starting up your member nodes
 
-With the bootnode operational and externally reachable (you can try `telnet <ip> <port>` to ensure it's indeed reachable), start every subsequent Geth node pointed to the bootnode for peer discovery via the `--bootnodes` flag. It will probably be desirable to keep private network data separate from defaults; to do so, specify a custom `--datadir` and/or `--chain` flag.
+With the bootnode operational and externally reachable (you can try `telnet <ip> <port>` to ensure it's indeed reachable), start every subsequent Ged node pointed to the bootnode for peer discovery via the `--bootnodes` flag. It will probably be desirable to keep private network data separate from defaults; to do so, specify a custom `--datadir` and/or `--chain` flag.
 
 ```
-$ geth --datadir=path/to/custom/data/folder \
+$ ged --datadir=path/to/custom/data/folder \
        --chain=kittynet \
        --bootnodes=<bootnode-enode-url-from-above>
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
@@ -429,7 +429,7 @@ $ geth --datadir=path/to/custom/data/folder \
 <<<<<<< HEAD
 Mining on the public Earthdollar network is a complex task as it's only feasible using GPUs, requiring
 an OpenCL or CUDA enabled `edminer` instance. For information on such a setup, please consult the
-[EDMining subreddit](https://www.reddit.com/r/EDMining/) and the [Genoil miner](https://github.com/Genoil/cpp-ethereum)
+[EDMining subreddit](https://www.reddit.com/r/EDMining/) and the [Genoil miner](https://github.com/Genoil/cpp.earthdollar)
 repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical
@@ -437,9 +437,9 @@ purposes as it can produce a stable stream of blocks at the correct intervals wi
 resources (consider running on a single thread, no need for multiple ones either). To start a Ged
 instance for mining, run it with all your usual flags, extended by:
 =======
-Mining on the public Ethereum network is a complex task as it's only feasible using GPUs, requiring an OpenCL or CUDA enabled `ethminer` instance. For information on such a setup, please consult the [EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp-ethereum) repository.
+Mining on the public Ethereum network is a complex task as it's only feasible using GPUs, requiring an OpenCL or CUDA enabled `ethminer` instance. For information on such a setup, please consult the [EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp.earthdollar) repository.
 
-In a private network setting however, a single CPU miner instance is more than enough for practical purposes as it can produce a stable stream of blocks at the correct intervals without needing heavy resources (consider running on a single thread, no need for multiple ones either). To start a Geth instance for mining, run it with all your usual flags, extended by:
+In a private network setting however, a single CPU miner instance is more than enough for practical purposes as it can produce a stable stream of blocks at the correct intervals without needing heavy resources (consider running on a single thread, no need for multiple ones either). To start a Ged instance for mining, run it with all your usual flags, extended by:
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 ```
@@ -472,7 +472,7 @@ procedures quick and simple.
 The core values of democratic engagement, transparency, and integrity run deep with us. We welcome contributions from everyone, and are grateful for even the smallest of fixes.  :clap:
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
-This project is migrated from the now hard-forked [Ethereum (ETHF) Github project](https://github.com/ethereum), and we will need to incrementally migrate pieces of the infrastructure required to maintain the project. 
+This project is migrated from the now hard-forked [Ethereum (ETHF) Github project](https://github.com.earthdollar), and we will need to incrementally migrate pieces of the infrastructure required to maintain the project. 
 
 <<<<<<< HEAD
  * Code must adhere to the official Go [formatting](https://golang.org/doc/effective_go.html#formatting) guidelines (i.e. uses [gofmt](https://golang.org/cmd/gofmt/)).
@@ -494,13 +494,13 @@ The go-earthdollar binaries (i.e. all code inside of the `cmd` directory) is lic
 [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.en.html), also included
 in our repository in the `COPYING` file.
 =======
-If you'd like to contribute to go-ethereum, please fork, fix, commit and send a pull request for the maintainers to review and merge into the main code base. If you wish to submit more complex changes, please check up with the core devs first on [our Slack channel (#development)](http://ethereumclassic.herokuapp.com/) to ensure those changes are in line with the general philosophy of the project and/or get some early feedback which can make both your efforts much lighter as well as our review and merge procedures quick and simple.
+If you'd like to contribute to go.earthdollar, please fork, fix, commit and send a pull request for the maintainers to review and merge into the main code base. If you wish to submit more complex changes, please check up with the core devs first on [our Slack channel (#development)](http:/.earthdollarclassic.herokuapp.com/) to ensure those changes are in line with the general philosophy of the project and/or get some early feedback which can make both your efforts much lighter as well as our review and merge procedures quick and simple.
 
 Please see the [Wiki](https://github.com/Tzunami/go-earthdollar/wiki) for more details on configuring your environment, managing project dependencies, and testing procedures.
 
 ## License
 
-The go-ethereum library (i.e. all code outside of the `cmd` directory) is licensed under the [GNU Lesser General Public License v3.0](http://www.gnu.org/licenses/lgpl-3.0.en.html), also included in our repository in the `COPYING.LESSER` file.
+The go.earthdollar library (i.e. all code outside of the `cmd` directory) is licensed under the [GNU Lesser General Public License v3.0](http://www.gnu.org/licenses/lgpl-3.0.en.html), also included in our repository in the `COPYING.LESSER` file.
 
-The go-ethereum binaries (i.e. all code inside of the `cmd` directory) is licensed under the [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.en.html), also included in our repository in the `COPYING` file.
+The go.earthdollar binaries (i.e. all code inside of the `cmd` directory) is licensed under the [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.en.html), also included in our repository in the `COPYING` file.
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3

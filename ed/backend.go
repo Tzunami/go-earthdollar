@@ -247,7 +247,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 		if err != nil {
 			return nil, err
 		}
-		glog.V(logger.Info).Infof("Successfully wrote default ethereum mainnet genesis block: %s", genesis.Hash().Hex())
+		glog.V(logger.Info).Infof("Successfully wrote default.earthdollar mainnet genesis block: %s", genesis.Hash().Hex())
 	}
 
 	// Log genesis block information.

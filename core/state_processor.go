@@ -153,7 +153,7 @@ func AccumulateRewards(statedb *state.StateDB, header *types.Header, uncles []*t
 func AccumulateRewards(config *ChainConfig, statedb *state.StateDB, header *types.Header, uncles []*types.Header) {
 
 	// An uncle is a block that would be considered an orphan because its not on the longest chain (it's an alternative block at the same height as your parent).
-	// https://www.reddit.com/r/ethereum/comments/3c9jbf/wtf_are_uncles_and_why_do_they_matter/
+	// https://www.reddit.com/r.earthdollar/comments/3c9jbf/wtf_are_uncles_and_why_do_they_matter/
 
 	// uncle.Number = 2,535,998 // assuming "latest" uncle...
 	// block.Number = 2,534,999 // uncles can be at same height as each other

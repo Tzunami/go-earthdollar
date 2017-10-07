@@ -21,17 +21,6 @@ import (
 	"math/rand"
 	"testing"
 
-<<<<<<< HEAD:ed/handler_test.go
-	"github.com/Tzunami/go-earthdollar/common"
-	"github.com/Tzunami/go-earthdollar/core"
-	"github.com/Tzunami/go-earthdollar/core/state"
-	"github.com/Tzunami/go-earthdollar/core/types"
-	"github.com/Tzunami/go-earthdollar/core/vm"
-	"github.com/Tzunami/go-earthdollar/crypto"
-	"github.com/Tzunami/go-earthdollar/ed/downloader"
-	"github.com/Tzunami/go-earthdollar/eddb"
-	"github.com/Tzunami/go-earthdollar/p2p"
-=======
 	"github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
@@ -40,7 +29,6 @@ import (
 	"github.com/Tzunami/go-earthdollar/eth/downloader"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/p2p"
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/handler_test.go
 )
 
 // Tests that protocol versions and modes of operations are matched up properly.
