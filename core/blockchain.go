@@ -105,11 +105,7 @@ type BlockChain struct {
 }
 
 // NewBlockChain returns a fully initialised block chain using information
-<<<<<<< HEAD
 // available in the database. It initialiser the default Earthdollar Validator and
-=======
-// available in the database. It initialises the default Ethereum Validator and
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 // Processor.
 func NewBlockChain(chainDb eddb.Database, config *ChainConfig, pow pow.PoW, mux *event.TypeMux) (*BlockChain, error) {
 	bodyCache, _ := lru.New(bodyCacheLimit)

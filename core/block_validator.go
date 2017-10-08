@@ -270,29 +270,6 @@ func ValidateHeader(config *ChainConfig, pow pow.PoW, header *types.Header, pare
 // the difficulty that a new block should have when created at time
 // given the parent block's time and difficulty.
 func CalcDifficulty(config *ChainConfig, time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
-<<<<<<< HEAD
-	// This is a placeholder for testing. The calcDiff function should
-	// be determined by a config flag
-	//num := new(big.Int).Add(parentNumber, common.Big1)
-	//earthdollar
-       
-        return calcDifficultyOriginal(time, parentTime, parentNumber, parentDiff)
-        /*if config.IsDiehard(num) && !config.IsExplosion(num) {
-		return calcDifficultyDiehard(time, parentTime, parentNumber, parentDiff, config.Fork("Diehard").Block)
-	} else if config.IsExplosion(num) {
-		return calcDifficultyExplosion(time, parentTime, parentNumber, parentDiff,
-			config.Fork("Diehard").Block, big.NewInt(0).Add(config.Fork("Diehard").Block, config.Fork("Diehard").Length))
-	} else if config.IsHomestead(num) {
-		return calcDifficultyHomestead(time, parentTime, parentNumber, parentDiff)
-	} else {
-		return calcDifficultyOriginal(time, parentTime, parentNumber, parentDiff)
-	}*/
-}
-/*
-func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
-	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
-=======
-
 	num := new(big.Int).Add(parentNumber, common.Big1) // increment block number to current
 
 	f, fork, configured := config.GetFeature(num, "difficulty")
@@ -326,7 +303,6 @@ func calcDifficultyDiehard(time, parentTime uint64, parentNumber, parentDiff *bi
 
 func calcDifficultyDiehard(time, parentTime uint64 , parentDiff *big.Int, diehardBlock *big.Int) *big.Int {
 	// https://github.com.earthdollarproject/ECIPs/blob/master/ECIPS/ECIP-1010.md
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -373,13 +349,8 @@ func calcDifficultyDiehard(time, parentTime uint64 , parentDiff *big.Int, diehar
 	return x
 }
 
-<<<<<<< HEAD
-func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *big.Int, diehardBlock *big.Int, explosionBlock *big.Int) *big.Int {
-	// https://github.com/Tzunami/ECIPs/blob/master/ECIPS/ECIP-1010.md
-=======
 func calcDifficultyExplosion(time, parentTime uint64, parentNumber, parentDiff *big.Int, delayBlock *big.Int, continueBlock *big.Int) *big.Int {
 	// https://github.com.earthdollarproject/ECIPs/blob/master/ECIPs/ECIP-1010.md
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	// algorithm:
 	// diff = (parent_diff +
 	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
@@ -477,7 +448,7 @@ func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *
 	}
 
 	return x
-}*/
+}
 
 func calcDifficultyOriginal(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
 	diff := new(big.Int)

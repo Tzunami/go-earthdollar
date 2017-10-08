@@ -276,7 +276,7 @@ func makeHeader(config *ChainConfig, parent *types.Block, state *state.StateDB) 
 		GasUsed:    new(big.Int),
 		Number:     new(big.Int).Add(parent.Number(), common.Big1),
 		Time:       time,
-                Mint:       new(big.Int).Add(parent.Number(), common.Big1),  //earthdollar add mint value here
+        Mint:       new(big.Int).Add(parent.Number(), common.Big1)  //earthdollar add mint value here
 	}
 }
 

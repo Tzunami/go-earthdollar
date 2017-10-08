@@ -134,22 +134,6 @@ func ApplyTransaction(config *ChainConfig, bc *BlockChain, gp *GasPool, statedb 
 // mining reward. The total reward consists of the static block reward
 // and rewards for included uncles. The coinbase of each uncle block is
 // also rewarded.
-<<<<<<< HEAD
-func AccumulateRewards(statedb *state.StateDB, header *types.Header, uncles []*types.Header) {
-	reward := new(big.Int).Set(BlockReward)
-        //mint := new(big.Int).Set(header.Mint)
-  	//MintBalance.Set(mint)
-	r := new(big.Int)
-	for _, uncle := range uncles {
-		r.Add(uncle.Number, big8)
-		r.Sub(r, header.Number)
-		r.Mul(r, BlockReward)
-		r.Div(r, big8)
-		statedb.AddBalance(uncle.Coinbase, r)
-
-		r.Div(BlockReward, big32)
-		reward.Add(reward, r)
-=======
 func AccumulateRewards(config *ChainConfig, statedb *state.StateDB, header *types.Header, uncles []*types.Header) {
 
 	// An uncle is a block that would be considered an orphan because its not on the longest chain (it's an alternative block at the same height as your parent).
@@ -205,7 +189,6 @@ func AccumulateRewards(config *ChainConfig, statedb *state.StateDB, header *type
 			ur := GetBlockUncleRewardByEra(era, header, uncle)
 			statedb.AddBalance(uncle.Coinbase, ur) // $$
 		}
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	}
 }
 

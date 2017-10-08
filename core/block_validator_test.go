@@ -75,7 +75,6 @@ func testChainConfig() *ChainConfig {
 							"length": 2000000,
 						},
 					},
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 				},
 			},
 		},
@@ -83,13 +82,6 @@ func testChainConfig() *ChainConfig {
 }
 
 func proc(t testing.TB) (Validator, *BlockChain) {
-<<<<<<< HEAD
-	db, err := eddb.NewMemDatabase()
-	if err != nil {
-		t.Fatal(err)
-	}
-	_, err = WriteGenesisBlock(db, TestNetGenesis)
-=======
 	db, err := eddb.NewMemDatabase()
 	if err != nil {
 		t.Fatal(err)
@@ -99,13 +91,6 @@ func proc(t testing.TB) (Validator, *BlockChain) {
 		t.Fatal(err)
 	}
 
-	pow, err := ethash.NewForTesting()
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
-	if err != nil {
-		t.Fatal(err)
-	}
-
-<<<<<<< HEAD
 	pow, err := edhash.NewForTesting()
 	if err != nil {
 		t.Fatal(err)
@@ -115,12 +100,6 @@ func proc(t testing.TB) (Validator, *BlockChain) {
 	blockchain, err := NewBlockChain(db, testChainConfig(), pow, &mux)
 	if err != nil {
 		t.Fatal(err)
-=======
-	var mux event.TypeMux
-	blockchain, err := NewBlockChain(db, testChainConfig(), pow, &mux)
-	if err != nil {
-		t.Fatal(err)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	}
 	return blockchain.validator, blockchain
 }
@@ -148,11 +127,7 @@ func TestNumber(t *testing.T) {
 }
 
 func TestPutReceipt(t *testing.T) {
-<<<<<<< HEAD
 	db, err := eddb.NewMemDatabase()
-=======
-	db, err := eddb.NewMemDatabase()
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -104,7 +104,6 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 		Difficulty string
 		GasLimit   string
 		Time       *big.Int
-        Mint       string //earthdollar
 		Extra      string
 	}
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -118,7 +117,6 @@ func (h *Header) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("malformed difficulty %q", ext.Difficulty)
 	}
 	h.Time = ext.Time
-    h.Mint = common.Big(ext.Mint)	
 	h.Extra = []byte(ext.Extra)
 	return nil
 }
@@ -243,8 +241,8 @@ func CopyHeader(h *Header) *Header {
 	if cpy.Time = new(big.Int); h.Time != nil {
 		cpy.Time.Set(h.Time)
 	}
-        if cpy.Mint = new(big.Int); h.Mint != nil {  //earthdollar
-		cpy.Mint.Set(h.Mint)
+    if cpy.Mint = new(big.Int); h.Mint != nil {  //earthdollar
+	cpy.Mint.Set(h.Mint)
 	} 
 	if cpy.Difficulty = new(big.Int); h.Difficulty != nil {
 		cpy.Difficulty.Set(h.Difficulty)

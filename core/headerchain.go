@@ -138,7 +138,7 @@ func (hc *HeaderChain) WriteHeader(header *types.Header) (status WriteStatus, er
 	var (
 		hash   = header.Hash()
 		number = header.Number.Uint64()
-                //mint   = header.Mint.Uint64() //earthdollar
+        mint   = header.Mint.Uint64() //earthdollar
 	)
 	// Calculate the total difficulty of the header
 	ptd := hc.GetTd(header.ParentHash)
