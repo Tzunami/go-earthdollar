@@ -450,7 +450,7 @@ func calcDifficultyHomestead(time, parentTime uint64, parentNumber, parentDiff *
 	return x
 }
 
-func calcDifficultyOriginal(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
+func calcDifficultyFrontier(time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
 	diff := new(big.Int)
 	adjust := new(big.Int).Div(parentDiff, DifficultyBoundDivisor)
 	bigTime := new(big.Int)

@@ -276,7 +276,7 @@ func makeHeader(config *ChainConfig, parent *types.Block, state *state.StateDB) 
 		GasUsed:    new(big.Int),
 		Number:     new(big.Int).Add(parent.Number(), common.Big1),
 		Time:       time,
-        Mint:       new(big.Int).Add(parent.Number(), common.Big1)  //earthdollar add mint value here
+        Mint:       new(big.Int).Add(parent.Number(), common.Big1),  //earthdollar add mint value here
 	}
 }
 
@@ -285,11 +285,8 @@ func makeHeader(config *ChainConfig, parent *types.Block, state *state.StateDB) 
 // header only chain.
 func newCanonical(config *ChainConfig, n int, full bool) (eddb.Database, *BlockChain, error) {
 	// Create the new chain database
-<<<<<<< HEAD
+
 	db, err := eddb.NewMemDatabase()
-=======
-	db, err := eddb.NewMemDatabase()
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		return nil, nil, err
 	}
@@ -297,11 +294,7 @@ func newCanonical(config *ChainConfig, n int, full bool) (eddb.Database, *BlockC
 	evmux := &event.TypeMux{}
 
 	// Initialize a fresh chain with only a genesis block
-<<<<<<< HEAD
-	genesis, err := WriteGenesisBlock(db, TestNetGenesis)
-=======
 	genesis, err := WriteGenesisBlock(db, DefaultConfigMorden.Genesis)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if err != nil {
 		return nil, nil, err
 	}

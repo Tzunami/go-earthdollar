@@ -51,10 +51,6 @@ var (
 	ErrHashKnownFork = validateError("known fork hash mismatch")
 )
 
-<<<<<<< HEAD
-// ChainConfig is the core config which determines the blockchain settings.
-//
-=======
 // SufficientChainConfig holds necessary data for externalizing a given blockchain configuration.
 type SufficientChainConfig struct {
 	ID              string           `json:"id,omitempty"` // deprecated in favor of 'Identity', method decoding should id -> identity
@@ -102,7 +98,6 @@ type GenesisAccount struct {
 	Balance *big.Int       `json:"balance"`
 }
 
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 // ChainConfig is stored in the database on a per block basis. This means
 // that any network, identified by its genesis block, can have its own
 // set of configuration options.
@@ -158,9 +153,6 @@ type BadHash struct {
 	Block *big.Int
 	Hash  common.Hash
 }
-<<<<<<< HEAD
-/*
-=======
 
 func (c *SufficientChainConfig) IsValid() (string, bool) {
 	// entirely empty
@@ -268,7 +260,6 @@ func (c *ChainConfig) GetChainID() *big.Int {
 	return n
 }
 
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 // IsHomestead returns whether num is either equal to the homestead block or greater.
 func (c *ChainConfig) IsHomestead(num *big.Int) bool {
 	if c.ForkByName("Homestead").Block == nil || num == nil {
@@ -302,14 +293,8 @@ func (c *ChainConfig) IsExplosion(num *big.Int) bool {
 			return num.Cmp(block) >= 0
 		}
 	}
-<<<<<<< HEAD
-	block := big.NewInt(0).Add(fork.Block, fork.Length)
-	return num.Cmp(block) >= 0
-}*/
-=======
 	return false
 }
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 // ForkByName looks up a Fork by its name, assumed to be unique
 func (c *ChainConfig) ForkByName(name string) *Fork {
@@ -389,11 +374,6 @@ func (c *ChainConfig) HeaderCheck(h *types.Header) error {
 }
 
 func (c *ChainConfig) GetSigner(blockNumber *big.Int) types.Signer {
-<<<<<<< HEAD
-	/*if c.IsDiehard(blockNumber) {
-		return types.NewChainIdSigner(c.ChainId)
-	}*/
-=======
 	feature, _, configured := c.GetFeature(blockNumber, "eip155")
 	if configured {
 		if chainId, ok := feature.GetBigInt("chainID"); ok {
@@ -402,30 +382,12 @@ func (c *ChainConfig) GetSigner(blockNumber *big.Int) types.Signer {
 			panic(fmt.Errorf("chainID is not set for EIP-155 at %v", blockNumber))
 		}
 	}
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	return types.BasicSigner{}
 }
 
 // GasTable returns the gas table corresponding to the current fork
 // The returned GasTable's fields shouldn't, under any circumstances, be changed.
 func (c *ChainConfig) GasTable(num *big.Int) *vm.GasTable {
-<<<<<<< HEAD
-	t := &vm.GasTable{
-		ExtcodeSize:     big.NewInt(20),
-		ExtcodeCopy:     big.NewInt(20),
-		Balance:         big.NewInt(20),
-		SLoad:           big.NewInt(50),
-		Calls:           big.NewInt(40),
-		Suicide:         big.NewInt(0),
-		ExpByte:         big.NewInt(10),
-		CreateBySuicide: nil,
-	}
-
-	for _, fork := range c.Forks {
-		if fork.Block.Cmp(num) <= 0 {
-			if fork.GasTable != nil {
-				t = fork.GasTable
-=======
 	f, _, configured := c.GetFeature(num, "gastable")
 	if !configured {
 		return DefaultHomeSteadGasTable
@@ -573,32 +535,10 @@ func (o *ForkFeature) GetBigInt(name string) (*big.Int, bool) {
 		if ok {
 			if vv, ok := val.(*big.Int); ok {
 				return i.Set(vv), true
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 			}
 		}
 	}
 
-<<<<<<< HEAD
-	return t
-}
-
-type Fork struct {
-	Name string
-	// For user notification only
-	Support      bool
-	NetworkSplit bool
-	// Block is the block number where the hard-fork commences on
-	// the Earthdollar network.
-	Block *big.Int
-	// Length of fork, if limited
-	Length *big.Int
-	// RequiredHash to assist in avoiding sync issues
-	// after network split.
-	RequiredHash common.Hash
-	// Gas Price table
-	GasTable *vm.GasTable
-	// TODO Derive Oracle contracts from fork struct (Version, Registrar, Release)
-=======
 	o.optionsLock.RLock()
 	originalValue, ok := o.Options[name]
 	o.optionsLock.RUnlock()
@@ -784,9 +724,8 @@ func MakeGenesisDump(chaindb eddb.Database) (*GenesisDump, error) {
 		}
 	}
 	return dump, nil
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 }
-
+/*
 // WriteGenesisBlock writes the genesis block to the database as block number 0
 func WriteGenesisBlock(chainDb eddb.Database, genesis *GenesisDump) (*types.Block, error) {
 	statedb, err := state.New(common.Hash{}, chainDb)
@@ -1011,4 +950,4 @@ func (h prefixedHex) Int() (*big.Int, error) {
 	}
 
 	return new(big.Int).SetBytes(bytes), nil
-}
+}*/

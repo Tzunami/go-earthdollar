@@ -17,7 +17,7 @@
 package core
 
 import (
-	"math/big"
+	//"math/big"
 
 	//"github.com/Tzunami/go-earthdollar/common"
 	//"github.com/Tzunami/go-earthdollar/core/vm"
@@ -91,7 +91,7 @@ var DefaultConfig = &ChainConfig{
 			//Hash:  common.HexToHash("05bef30ef572270f654746da22639a7a0c97dd97a7050b9e252391996aaeb689"),
 		},
 	},
-	ChainId: big.NewInt(61),
+	//ChainId: big.NewInt(61),
 }
 
 // TestConfig is the semi-official setup for testing purposes.
@@ -169,7 +169,7 @@ var TestConfig = &ChainConfig{
 			//Hash:  common.HexToHash("3bef9997340acebc85b84948d849ceeff74384ddf512a20676d424e972a3c3c4"),
 		},
 	}, 
-	ChainId: big.NewInt(62),
+	//ChainId: big.NewInt(62),
 }
 
 // TestNetGenesis representing the Morden test net genesis block.

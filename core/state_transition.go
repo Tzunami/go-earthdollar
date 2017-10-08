@@ -82,23 +82,13 @@ func MessageCreatesContract(msg Message) bool {
 
 // IntrinsicGas computes the 'intrinsic gas' for a message
 // with the given data.
-func IntrinsicGas(data []byte, contractCreation bool) *big.Int {
+func IntrinsicGas(data []byte, contractCreation, homestead bool) *big.Int {
 	igas := new(big.Int)
-<<<<<<< HEAD
-        //earthdollar
-        igas.Set(TxGas)
-        /*if contractCreation && homestead {
-		igas.Set(TxGasContractCreation)
-	} else {
-		igas.Set(TxGas)
-	}*/
-=======
 	if contractCreation && homestead {
 		igas.Set(TxGasContractCreation)
 	} else {
 		igas.Set(TxGas)
 	}
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	if len(data) > 0 {
 		var nz int64
 		for _, byt := range data {
@@ -239,7 +229,7 @@ func (self *StateTransition) TransitionDb() (ret []byte, requiredGas, usedGas *b
 	msg := self.msg
 	sender, _ := self.from() // err checked in preCheck
 
-	//homestead := self.env.RuleSet().IsHomestead(self.env.BlockNumber())
+	homestead := self.env.RuleSet().IsHomestead(self.env.BlockNumber())
 	contractCreation := MessageCreatesContract(msg)
 	// Pay intrinsic gas
 	if err = self.useGas(IntrinsicGas(self.data, contractCreation/*, homestead*/)); err != nil {
@@ -250,17 +240,9 @@ func (self *StateTransition) TransitionDb() (ret []byte, requiredGas, usedGas *b
 	//var addr common.Address
 	if contractCreation {
 		ret, _, err = vmenv.Create(sender, self.data, self.gas, self.gasPrice, self.value)
-<<<<<<< HEAD
-		
-                //earthdollar
-                /*if homestead && err == vm.CodeStoreOutOfGasError {
-			self.gas = big.NewInt(0)
-		}*/
-=======
 		if homestead && err == vm.CodeStoreOutOfGasError {
 			self.gas = big.NewInt(0)
 		}
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 		if err != nil {
 			ret = nil
