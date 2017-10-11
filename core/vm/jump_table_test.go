@@ -25,11 +25,8 @@ type ruleSet struct {
 	hs *big.Int
 }
 
-<<<<<<< HEAD
-//func (r ruleSet) IsHomestead(n *big.Int) bool { return n.Cmp(r.hs) >= 0 }
-=======
 func (r ruleSet) IsHomestead(n *big.Int) bool { return n.Cmp(r.hs) >= 0 }
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
+
 
 func (r ruleSet) GasTable(*big.Int) *GasTable {
 	return &GasTable{

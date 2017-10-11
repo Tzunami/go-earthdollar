@@ -225,11 +225,7 @@ func NewEnv(state *state.StateDB, transactor common.Address, value *big.Int) *VM
 // ruleSet implements vm.RuleSet and will always default to the homestead rule set.
 type ruleSet struct{}
 
-<<<<<<< HEAD
-//func (ruleSet) IsHomestead(*big.Int) bool { return true }
-=======
 func (ruleSet) IsHomestead(*big.Int) bool { return true }
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
 func (ruleSet) GasTable(*big.Int) *vm.GasTable {
 	return &vm.GasTable{

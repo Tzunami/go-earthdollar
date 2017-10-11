@@ -26,7 +26,7 @@ import (
 // RuleSet is an interface that defines the current rule set during the
 // execution of the EVM instructions (e.g. whether it's homestead)
 type RuleSet interface {
-	//IsHomestead(*big.Int) bool
+	IsHomestead(*big.Int) bool
 	// GasTable returns the gas prices for this phase, which is based on
 	// block number passed in.
 	GasTable(*big.Int) *GasTable

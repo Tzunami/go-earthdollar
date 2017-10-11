@@ -428,12 +428,9 @@ func opCreate(instr instruction, pc *uint64, env Environment, contract *Contract
 	// rule) and treat as an error, if the ruleset is frontier we must
 	// ignore this error and pretend the operation was successful.
 
-        //earthdollar
-	/*if env.RuleSet().IsHomestead(env.BlockNumber()) && suberr == CodeStoreOutOfGasError {
+	if env.RuleSet().IsHomestead(env.BlockNumber()) && suberr == CodeStoreOutOfGasError {
 		stack.push(new(big.Int))
-	} else*/
-        
-        if suberr != nil && suberr != CodeStoreOutOfGasError {
+	} else if suberr != nil && suberr != CodeStoreOutOfGasError {
 		stack.push(new(big.Int))
 	} else {
 		stack.push(addr.Big())

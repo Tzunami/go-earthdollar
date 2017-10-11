@@ -235,7 +235,7 @@ func GetReceipt(db eddb.Database, txHash common.Hash) *types.Receipt {
 }
 
 // WriteCanonicalHash stores the canonical hash for the given block number.
-func WriteCanonicalHash(db eddb.Database, hash common.Hash, number uint64) error {
+func WriteCanonicalHash(db eddb.Database, hash common.Hash, number uint64, mint uint64) error {
 	key := append(blockNumPrefix, big.NewInt(int64(number)).Bytes()...)
 	if err := db.Put(key, hash.Bytes()); err != nil {
 		glog.Fatalf("failed to store number to hash mapping into database: %v", err)

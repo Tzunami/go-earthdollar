@@ -161,13 +161,15 @@ func (hc *HeaderChain) WriteHeader(header *types.Header) (status WriteStatus, er
 			headHash   = header.ParentHash
 			headHeader = hc.GetHeader(headHash)
 			headNumber = headHeader.Number.Uint64()
+			headMint   = headHeader.Mint.Uint64()
 		)
 		for GetCanonicalHash(hc.chainDb, headNumber) != headHash {
-			WriteCanonicalHash(hc.chainDb, headHash, headNumber)
+			WriteCanonicalHash(hc.chainDb, headHash, headNumber, headMint)
 
-			headHash = headHeader.ParentHash
+			headHash   = headHeader.ParentHash
 			headHeader = hc.GetHeader(headHash)
 			headNumber = headHeader.Number.Uint64()
+			headMint   = headHeader.Mint.Uint64()
 		}
 
 		// Extend the canonical chain with the new header
