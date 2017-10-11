@@ -71,7 +71,6 @@ type Message interface {
 	GasPrice() *big.Int
 	Gas() *big.Int
 	Value() *big.Int
-
 	Nonce() uint64
 	Data() []byte
 }
