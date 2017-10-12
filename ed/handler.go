@@ -745,13 +745,9 @@ func (self *ProtocolManager) txBroadcastLoop() {
 
 // EdNodeInfo represents a short summary of the Earthdollar sub-protocol metadata known
 // about the host peer.
-<<<<<<< HEAD:ed/handler.go
+
 type EdNodeInfo struct {
 	Network    int         `json:"network"`    // Earthdollar network ID (0=Olympic, 1=Frontier, 2=Morden)
-=======
-type EthNodeInfo struct {
-	Network    int         `json:"network"`    // Ethereum network ID (1=Mainnet, 2=Morden)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/handler.go
 	Difficulty *big.Int    `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Head       common.Hash `json:"head"`       // SHA3 hash of the host's best owned block

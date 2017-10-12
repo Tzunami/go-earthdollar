@@ -43,7 +43,7 @@ var (
 	NetworkIdFlag = cli.IntFlag{
 		Name:  "network-id, networkid",
 		Usage: "Network identifier (integer: 1=Homestead, 2=Morden)",
-		Value: eth.NetworkId,
+		Value: ed.NetworkId,
 	}
 	TestNetFlag = cli.BoolFlag{
 		Name:  "testnet",
@@ -121,7 +121,7 @@ var (
 	GasPriceFlag = cli.StringFlag{
 		Name:  "gas-price,gasprice",
 		Usage: "Minimal gas price to accept for mining a transactions",
-		Value: new(big.Int).Mul(big.NewInt(20), common.Shannon).String(),
+		Value: new(big.Int).Mul(big.NewInt(20), common.Chief).String(),
 	}
 	ExtraDataFlag = cli.StringFlag{
 		Name:  "extra-data,extradata",
@@ -326,12 +326,12 @@ var (
 	GpoMinGasPriceFlag = cli.StringFlag{
 		Name:  "gpo-min,gpomin",
 		Usage: "Minimum suggested gas price",
-		Value: new(big.Int).Mul(big.NewInt(20), common.Shannon).String(),
+		Value: new(big.Int).Mul(big.NewInt(20), common.Chief).String(),
 	}
 	GpoMaxGasPriceFlag = cli.StringFlag{
 		Name:  "gpo-max,gpomax",
 		Usage: "Maximum suggested gas price",
-		Value: new(big.Int).Mul(big.NewInt(500), common.Shannon).String(),
+		Value: new(big.Int).Mul(big.NewInt(500), common.Chief).String(),
 	}
 	GpoFullBlockRatioFlag = cli.IntFlag{
 		Name:  "gpo-full,gpofull",

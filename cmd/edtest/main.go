@@ -73,21 +73,15 @@ var (
 	}
 )
 
-func runTestWithReader(test string, r io.Reader) error {
+func runTestWithReader(test string, r io.Reader) error { // earthdollar ERROR: Possible Errors
 	glog.Infoln("runTest", test)
 	var err error
 	switch strings.ToLower(test) {
 	case "bk", "block", "blocktest", "blockchaintest", "blocktests", "blockchaintests":
 		err = tests.RunBlockTestWithReader(big.NewInt(1150000), nil, r, skipTests)
-<<<<<<< HEAD:cmd/edtest/main.go
-	//case "st", "state", "statetest", "statetests":
-		//rs := tests.RuleSet{HomesteadBlock: big.NewInt(1150000)}
-		//err = tests.RunStateTestWithReader(rs, r, skipTests) earthdollar
-=======
 	case "st", "state", "statetest", "statetests":
 		rs := tests.RuleSet{HomesteadBlock: big.NewInt(1150000)}
 		err = tests.RunStateTestWithReader(rs, r, skipTests)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:cmd/ethtest/main.go
 	case "tx", "transactiontest", "transactiontests":
 		err = tests.RunTransactionTestsWithReader(r, skipTests)
 	case "vm", "vmtest", "vmtests":

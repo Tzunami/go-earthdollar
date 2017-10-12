@@ -181,7 +181,7 @@ func (s *PublicEarthdollarAPI) Syncing() (interface{}, error) {
 // Number will be returned as a string in hexadecimal format.
 // 61 - Mainnet $((0x3d))
 // 62 - Morden $((0x3e))
-func (s *PublicEthereumAPI) ChainId() *big.Int {
+func (s *PublicEarthdollarAPI) ChainId() *big.Int {
 	return s.e.chainConfig.GetChainID()
 }
 
@@ -1635,11 +1635,11 @@ func (api *PublicDebugAPI) DumpBlock(number uint64) (state.Dump, error) {
 
 // AccountExist checks whether an address is considered exists at a given block.
 func (api *PublicDebugAPI) AccountExist(address common.Address, number uint64) (bool, error) {
-	block := api.eth.BlockChain().GetBlockByNumber(number)
+	block := api.ed.BlockChain().GetBlockByNumber(number)
 	if block == nil {
 		return false, fmt.Errorf("block #%d not found", number)
 	}
-	stateDb, err := api.eth.BlockChain().StateAt(block.Root())
+	stateDb, err := api.ed.BlockChain().StateAt(block.Root())
 	if err != nil {
 		return false, err
 	}
@@ -1790,7 +1790,7 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 	}
 
 	if msg.gasPrice.Sign() == 0 {
-		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Shannon)
+		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Chief) // earthdollar
 	}
 
 	// Execute the call and return
@@ -1807,7 +1807,7 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 // TraceTransaction returns the amount of gas and execution result of the given transaction.
 func (s *PublicDebugAPI) TraceTransaction(txHash common.Hash) (*ExecutionResult, error) {
 	var result *ExecutionResult
-	tx, blockHash, _, txIndex := core.GetTransaction(s.eth.ChainDb(), txHash)
+	tx, blockHash, _, txIndex := core.GetTransaction(s.ed.ChainDb(), txHash)
 	if tx == nil {
 		return result, fmt.Errorf("tx '%x' not found", txHash)
 	}
@@ -1829,15 +1829,15 @@ func (s *PublicDebugAPI) TraceTransaction(txHash common.Hash) (*ExecutionResult,
 func (s *PublicDebugAPI) computeTxEnv(blockHash common.Hash, txIndex int) (core.Message, *core.VMEnv, error) {
 
 	// Create the parent state.
-	block := s.eth.BlockChain().GetBlock(blockHash)
+	block := s.ed.BlockChain().GetBlock(blockHash)
 	if block == nil {
 		return nil, nil, fmt.Errorf("block %x not found", blockHash)
 	}
-	parent := s.eth.BlockChain().GetBlock(block.ParentHash())
+	parent := s.ed.BlockChain().GetBlock(block.ParentHash())
 	if parent == nil {
 		return nil, nil, fmt.Errorf("block parent %x not found", block.ParentHash())
 	}
-	statedb, err := s.eth.BlockChain().StateAt(parent.Root())
+	statedb, err := s.ed.BlockChain().StateAt(parent.Root())
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1867,7 +1867,7 @@ func (s *PublicDebugAPI) computeTxEnv(blockHash common.Hash, txIndex int) (core.
 			data: tx.Data(),
 		}
 
-		vmenv := core.NewEnv(statedb, s.eth.chainConfig, s.eth.BlockChain(), msg, block.Header())
+		vmenv := core.NewEnv(statedb, s.ed.chainConfig, s.ed.BlockChain(), msg, block.Header())
 		if idx == txIndex {
 			return msg, vmenv, nil
 		}
