@@ -147,23 +147,18 @@ type VmTest struct {
 }
 
 type RuleSet struct {
-	/*HomesteadBlock           *big.Int
+	HomesteadBlock           *big.Int
 	HomesteadGasRepriceBlock *big.Int
 	DiehardBlock             *big.Int
-	ExplosionBlock           *big.Int*/ // earthdollar
+	ExplosionBlock           *big.Int
 }
 
-/*func (r RuleSet) IsHomestead(n *big.Int) bool {
+func (r RuleSet) IsHomestead(n *big.Int) bool {
 	return n.Cmp(r.HomesteadBlock) >= 0
-<<<<<<< HEAD
-}*/ // earthdollar
-func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
-	/*if r.HomesteadGasRepriceBlock == nil || num == nil || num.Cmp(r.HomesteadGasRepriceBlock) < 0 {
-=======
 }
+
 func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
 	if r.HomesteadGasRepriceBlock == nil || num == nil || num.Cmp(r.HomesteadGasRepriceBlock) < 0 {
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 		return &vm.GasTable{
 			ExtcodeSize:     big.NewInt(20),
 			ExtcodeCopy:     big.NewInt(20),
@@ -186,20 +181,6 @@ func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
 			ExpByte:         big.NewInt(10),
 			CreateBySuicide: big.NewInt(25000),
 		}
-<<<<<<< HEAD
-	}*/
-
-	return &vm.GasTable{
-		ExtcodeSize:     big.NewInt(700),
-		ExtcodeCopy:     big.NewInt(700),
-		Balance:         big.NewInt(400),
-		SLoad:           big.NewInt(200),
-		Calls:           big.NewInt(700),
-		Suicide:         big.NewInt(5000),
-		ExpByte:         big.NewInt(50),
-		CreateBySuicide: big.NewInt(25000),
-	}
-=======
 	}
 
 	return &vm.GasTable{
@@ -212,7 +193,6 @@ func (r RuleSet) GasTable(num *big.Int) *vm.GasTable {
 		ExpByte:         big.NewInt(50),
 		CreateBySuicide: big.NewInt(25000),
 	}
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 }
 
 type Env struct {
@@ -229,7 +209,7 @@ type Env struct {
 
 	number     *big.Int
 	time       *big.Int
-        mint       *big.Int //earthdollar
+    mint       *big.Int //earthdollar
 	difficulty *big.Int
 	gasLimit   *big.Int
 
@@ -252,13 +232,6 @@ func NewEnvFromMap(ruleSet RuleSet, state *state.StateDB, envValues map[string]s
 	env.origin = common.HexToAddress(exeValues["caller"])
 	env.parent = common.HexToHash(envValues["previousHash"])
 	env.coinbase = common.HexToAddress(envValues["currentCoinbase"])
-<<<<<<< HEAD
-	env.number = common.Big(envValues["currentNumber"])
-	env.time = common.Big(envValues["currentTimestamp"])
-        env.mint = common.Big(envValues["currentMint"])
-	env.difficulty = common.Big(envValues["currentDifficulty"])
-	env.gasLimit = common.Big(envValues["currentGasLimit"])
-=======
 	env.number, _ = new(big.Int).SetString(envValues["currentNumber"], 0)
 	if env.number == nil {
 		panic("malformed current number")
@@ -266,6 +239,10 @@ func NewEnvFromMap(ruleSet RuleSet, state *state.StateDB, envValues map[string]s
 	env.time, _ = new(big.Int).SetString(envValues["currentTimestamp"], 0)
 	if env.time == nil {
 		panic("malformed current timestamp")
+	}
+	env.mint, _ = new(big.Int).SetString(envValues["currentMint"], 0)
+	if env.mint == nil {
+		panic("malformed current mint")
 	}
 	env.difficulty, _ = new(big.Int).SetString(envValues["currentDifficulty"], 0)
 	if env.difficulty == nil {
@@ -275,7 +252,6 @@ func NewEnvFromMap(ruleSet RuleSet, state *state.StateDB, envValues map[string]s
 	if env.gasLimit == nil {
 		panic("malformed current gas limit")
 	}
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	env.Gas = new(big.Int)
 
 	env.evm = vm.New(env)

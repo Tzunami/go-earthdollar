@@ -216,18 +216,11 @@ func RunVm(state *state.StateDB, env, exec map[string]string) ([]byte, vm.Logs, 
 
 	caller := state.GetOrNewStateObject(from)
 
-	vmenv := NewEnvFromMap(RuleSet{
-<<<<<<< HEAD
-		/*HomesteadBlock:           big.NewInt(1150000),
-		HomesteadGasRepriceBlock: big.NewInt(2500000),
-		DiehardBlock:             big.NewInt(3000000),
-		ExplosionBlock:           big.NewInt(5000000),*/
-=======
+	vmenv := NewEnvFromMap(RuleSet{ //earthdollar ERROR: should start @ 0
 		HomesteadBlock:           big.NewInt(1150000),
 		HomesteadGasRepriceBlock: big.NewInt(2500000),
 		DiehardBlock:             big.NewInt(3000000),
 		ExplosionBlock:           big.NewInt(5000000),
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 	}, state, env, exec)
 	vmenv.vmTest = true
 	vmenv.skipTransfer = true

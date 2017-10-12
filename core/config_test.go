@@ -563,7 +563,7 @@ func makeOKSufficientChainConfig(dump *GenesisDump, config *ChainConfig) *Suffic
 	whole.Identity = "testID"
 	whole.Network = 3
 	whole.Name = "testable"
-	whole.Consensus = "ethash"
+	whole.Consensus = "edhash"
 	whole.Genesis = dump
 	whole.ChainConfig = config
 	whole.Bootstrap = []string{

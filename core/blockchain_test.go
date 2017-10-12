@@ -62,7 +62,7 @@ func GenesisBlockForTesting(db eddb.Database, addr common.Address, balance *big.
 
 
 func theBlockChain(db eddb.Database, t *testing.T) *BlockChain {
-	pow, err := ethash.NewForTesting()
+	pow, err := edhash.NewForTesting()
 	if err != nil {
 		t.Fatal(err)
 	}

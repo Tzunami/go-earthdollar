@@ -369,7 +369,7 @@ The external chain configuration file specifies valid settings for the following
 | `name` | _Optional_. Human readable name, ie _Ethereum Classic Mainnet_, _Morden Testnet._ |
 | `state.startingNonce` | _Optional_. Initialize state db with a custom nonce. |
 | `network` | Determines Network ID to identify valid peers. |
-| `consensus` | _Optional_. Proof of work algorithm to use, either "ethash" or "ethast-test" (for development) |
+| `consensus` | _Optional_. Proof of work algorithm to use, either "edhash" or "ethast-test" (for development) |
 | `genesis` | Determines __genesis state__. If running the node for the first time, it will write the genesis block. If configuring an existing chain database with a different genesis block, it will overwrite it. |
 | `chainConfig` | Determines configuration for fork-based __protocol upgrades__, ie _EIP-150_, _EIP-155_, _EIP-160_, _ECIP-1010_, etc ;-). Subkeys are `forks` and `badHashes`. |
 | `bootstrap` | _Optional_. Determines __bootstrap nodes__ in [enode format](https://github.com.earthdollarproject/wiki/wiki/enode-url-format). |

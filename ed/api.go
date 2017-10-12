@@ -1788,13 +1788,9 @@ func (s *PublicBlockChainAPI) TraceCall(args CallArgs, blockNr rpc.BlockNumber) 
 	if msg.gas.Sign() == 0 {
 		msg.gas = big.NewInt(50000000)
 	}
-<<<<<<< HEAD:ed/api.go
-	if msg.gasPrice.Cmp(common.Big0) == 0 {
-		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Chief)
-=======
+
 	if msg.gasPrice.Sign() == 0 {
 		msg.gasPrice = new(big.Int).Mul(big.NewInt(50), common.Shannon)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/api.go
 	}
 
 	// Execute the call and return

@@ -54,7 +54,7 @@ Rolling builds for the master branch may be found at [builds.etcdevteam.com](bui
 - Newly configurable in external `chain.json`:
     - `"state": { "startingNonce": NUMBER }` - _optional_ (mainnet: 0, morden: 1048576) - "dirty" starting world state
     - `"network": NUMBER` - _required_ (mainnet: 1, morden: 2) - network id used to identify valid peers
-    - `"consensus": STRING` - _optional_ (default: "ethash", optional: "ethash-test") - specify smaller and faster pow algorithm, e.g. `--dev` mode sets "ethash-test"
+    - `"consensus": STRING` - _optional_ (default: "edhash", optional: "edhash-test") - specify smaller and faster pow algorithm, e.g. `--dev` mode sets "edhash-test"
     > See cmd/ged/config/*.json for updated examples.
 
 - Dev mode (`--dev`) made compatible with `--chain`

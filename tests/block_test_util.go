@@ -26,8 +26,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Tzunami/edhash"
-	"github.com/Tzunami/go-earthdollar/common"
+    "github.com/Tzunami/edhash"
+    "github.com/Tzunami/go-earthdollar/common"
 	"github.com/Tzunami/go-earthdollar/core"
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
@@ -176,11 +176,7 @@ func runBlockTest(homesteadBlock, gasPriceFork *big.Int, test *BlockTest) error 
 		core.DefaultConfigMainnet.ChainConfig.ForkByName("GasReprice").Block = gasPriceFork
 	}
 
-<<<<<<< HEAD
-	chain, err := core.NewBlockChain(db, core.DefaultConfig, edhash.NewShared(), evmux)
-=======
-	chain, err := core.NewBlockChain(db, core.DefaultConfigMainnet.ChainConfig, ethash.NewShared(), evmux)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
+	chain, err := core.NewBlockChain(db, core.DefaultConfigMainnet.ChainConfig, edhash.NewShared(), evmux)
 	if err != nil {
 		return err
 	}

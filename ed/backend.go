@@ -156,11 +156,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 
 	// Load up any custom genesis block if requested
 	if config.Genesis != nil {
-<<<<<<< HEAD:ed/backend.go
-		block, err := core.WriteGenesisBlock(chainDb, config.Genesis)
-=======
 		_, err := core.WriteGenesisBlock(chainDb, config.Genesis)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/backend.go
 		if err != nil {
 			return nil, err
 		}
@@ -209,25 +205,14 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	}
 	switch {
 	case config.PowTest:
-<<<<<<< HEAD:ed/backend.go
-		glog.V(logger.Info).Infof("edhash used in test mode")
+        glog.V(logger.Info).Infof("Consensus: edhash used in test mode")
 		ed.pow, err = edhash.NewForTesting()
-=======
-		glog.V(logger.Info).Infof("Consensus: ethash used in test mode")
-		eth.pow, err = ethash.NewForTesting()
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/backend.go
 		if err != nil {
 			return nil, err
 		}
 	case config.PowShared:
-<<<<<<< HEAD:ed/backend.go
-		glog.V(logger.Info).Infof("edhash used in shared mode")
+        glog.V(logger.Info).Infof("Consensus: edhash used in shared mode")
 		ed.pow = edhash.NewShared()
-=======
-		glog.V(logger.Info).Infof("Consensus: ethash used in shared mode")
-		eth.pow = ethash.NewShared()
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/backend.go
-
 	default:
 		ed.pow = edhash.New()
 	}
@@ -236,13 +221,6 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	// block is prenent in the database.
 	genesis := core.GetBlock(chainDb, core.GetCanonicalHash(chainDb, 0))
 	if genesis == nil {
-<<<<<<< HEAD:ed/backend.go
-		genesis, err = core.WriteGenesisBlock(chainDb, core.DefaultGenesis)
-		if err != nil {
-			return nil, err
-		}
-		glog.V(logger.Info).Infoln("WARNING: Wrote default earthdollar genesis block")
-=======
 		genesis, err = core.WriteGenesisBlock(chainDb, core.DefaultConfigMainnet.Genesis)
 		if err != nil {
 			return nil, err
@@ -250,14 +228,13 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 		glog.V(logger.Info).Infof("Successfully wrote default.earthdollar mainnet genesis block: %s", genesis.Hash().Hex())
 	}
 
-	// Log genesis block information.
+	// Log genesis block information. // earthdollar ERROR: replace d4e5 with actual ed hash.
 	if fmt.Sprintf("%x", genesis.Hash()) == "0cd786a2425d16f152c658316c423e6ce1181e15c3295826d7c9904cba9ce303" {
 		glog.V(logger.Info).Infof("Successfully established morden testnet genesis block: \x1b[36m%s\x1b[39m", genesis.Hash().Hex())
 	} else if fmt.Sprintf("%x", genesis.Hash()) == "d4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3" {
 		glog.V(logger.Info).Infof("Successfully established mainnet genesis block: \x1b[36m%s\x1b[39m", genesis.Hash().Hex())
 	} else {
 		glog.V(logger.Info).Infof("Successfully established custom genesis block: \x1b[36m%s\x1b[39m", genesis.Hash().Hex())
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/backend.go
 	}
 
 	if config.ChainConfig == nil {
@@ -281,16 +258,10 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, ed.blockchain, chainDb); err != nil {
 		return nil, err
 	}
-<<<<<<< HEAD:ed/backend.go
 	ed.miner = miner.New(ed, ed.chainConfig, ed.EventMux(), ed.pow)
-	ed.miner.SetGasPrice(config.GasPrice)
-=======
-	eth.miner = miner.New(eth, eth.chainConfig, eth.EventMux(), eth.pow)
-	if err = eth.miner.SetGasPrice(config.GasPrice); err != nil {
+	if err = ed.miner.SetGasPrice(config.GasPrice); err != nil {
 		return nil, err
 	}
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/backend.go
-
 	return ed, nil
 }
 
@@ -507,11 +478,7 @@ func (self *Earthdollar) StopAutoDAG() {
 		close(self.autodagquit)
 		self.autodagquit = nil
 	}
-<<<<<<< HEAD:ed/backend.go
 	glog.V(logger.Info).Infof("Automatic pregeneration of edhash DAG OFF (edhash dir: %s)", edhash.DefaultDir)
-=======
-	glog.V(logger.Info).Infof("Automatic pregeneration of ethash DAG: OFF (ethash dir: %s)", ethash.DefaultDir)
->>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3:eth/backend.go
 }
 
 // HTTPClient returns the light http client used for fetching offchain docs
