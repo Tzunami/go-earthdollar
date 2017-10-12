@@ -130,7 +130,7 @@ func (hc *HeaderChain) WriteHeader(header *types.Header) (status WriteStatus, er
 	var (
 		hash   = header.Hash()
 		number = header.Number.Uint64()
-        mint   = header.Mint.Uint64() //earthdollar
+        //mint   = header.Mint.Uint64() // earthdollar
 	)
 	// Calculate the total difficulty of the header
 	ptd := hc.GetTd(header.ParentHash)
@@ -161,15 +161,15 @@ func (hc *HeaderChain) WriteHeader(header *types.Header) (status WriteStatus, er
 			headHash   = header.ParentHash
 			headHeader = hc.GetHeader(headHash)
 			headNumber = headHeader.Number.Uint64()
-			headMint   = headHeader.Mint.Uint64()
+			//headMint   = headHeader.Mint.Uint64() // earthdollar
 		)
 		for GetCanonicalHash(hc.chainDb, headNumber) != headHash {
-			WriteCanonicalHash(hc.chainDb, headHash, headNumber, headMint)
+			WriteCanonicalHash(hc.chainDb, headHash, headNumber)
 
 			headHash   = headHeader.ParentHash
 			headHeader = hc.GetHeader(headHash)
 			headNumber = headHeader.Number.Uint64()
-			headMint   = headHeader.Mint.Uint64()
+			//headMint   = headHeader.Mint.Uint64() // earthdollar
 		}
 
 		// Extend the canonical chain with the new header
