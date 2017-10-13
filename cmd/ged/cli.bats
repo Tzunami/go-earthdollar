@@ -244,7 +244,7 @@ teardown() {
 
 # Ensure --testnet and --chain=morden/testnet set up respective subdirs with default 'morden'
 @test "--chain=testnet creates /morden subdir, activating testnet genesis" { # This is kind of weird, but it is expected.
-	run $GED_CMD --data-dir $DATA_DIR --chain=testnet --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --data-dir $DATA_DIR --chain=testnet --exec 'ed.getBlock(0).hash' console
 	[ "$status" -eq 0 ]
 
 	[[ "$output" == *"0x0cd786a2425d16f152c658316c423e6ce1181e15c3295826d7c9904cba9ce303"* ]]
@@ -253,7 +253,7 @@ teardown() {
 }
 
 @test "--testnet creates /morden subdir, activating testnet genesis" {
-	run $GED_CMD --data-dir $DATA_DIR --testnet --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --data-dir $DATA_DIR --testnet --exec 'ed.getBlock(0).hash' console
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"0x0cd786a2425d16f152c658316c423e6ce1181e15c3295826d7c9904cba9ce303"* ]]
 
@@ -261,7 +261,7 @@ teardown() {
 }
 
 @test "--chain=morden creates /morden subdir, activating testnet genesis" {
-	run $GED_CMD --data-dir $DATA_DIR --chain=morden --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --data-dir $DATA_DIR --chain=morden --exec 'ed.getBlock(0).hash' console
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"0x0cd786a2425d16f152c658316c423e6ce1181e15c3295826d7c9904cba9ce303"* ]]
 

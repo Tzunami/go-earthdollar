@@ -84,7 +84,7 @@ teardown() {
 
 	# Ensure JSON file dump is loadable as external config
 	sed -i.bak s/mainnet/kitty/ "$customnet"/chain.json
-	run $GED_CMD --datadir $DATA_DIR --chain kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --datadir $DATA_DIR --chain kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).hash' console
 	[ "$status" -eq 0 ]
 	echo "$output"
 	[[ "$output" == *"$default_mainnet_genesis_hash"* ]]
@@ -106,7 +106,7 @@ teardown() {
 
 	# Ensure JSON file dump is loadable as external config
 	sed -i.bak s/morden/kitty/ "$DATA_DIR"/privatenet.json
-	run $GED_CMD --datadir $DATA_DIR --chain "$DATA_DIR"/privatenet.json --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --datadir $DATA_DIR --chain "$DATA_DIR"/privatenet.json --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).hash' console
 	[ "$status" -eq 0 ]
 	echo "$output"
 	[[ "$output" == *"$testnet_genesis_hash"* ]]
@@ -136,7 +136,7 @@ teardown() {
 
 	# Ensure JSON file dump is loadable as external config
 	sed -i.bak s/morden/kitty/ "$customnet"/chain.json
-	run $GED_CMD --datadir $DATA_DIR --chain kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --datadir $DATA_DIR --chain kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).hash' console
 	[ "$status" -eq 0 ]
 	echo "$output"
 	[[ "$output" == *"$testnet_genesis_hash"* ]]
@@ -173,7 +173,7 @@ teardown() {
 	sed -e '0,/2/ s/2/666/' "$customnet"/chain.json > "$DATA_DIR"/net_id.json
 	mv "$DATA_DIR"/net_id.json "$customnet"/chain.json
 
-	run $GED_CMD --datadir $DATA_DIR --chain kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --datadir $DATA_DIR --chain kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).hash' console
 	[ "$status" -eq 0 ]
 	echo "$output"
 	[[ "$output" != *"$testnet_genesis_hash"* ]] # different genesis (stateRoot is diff)
@@ -192,7 +192,7 @@ teardown() {
 # - use datadir/subdir schema (/mainnet)
 # - configured nonce matches external nonce (soft check since 42 is default, too)
 @test "--chain=main | exit 0" {
-	run $GED_CMD --datadir $DATA_DIR --chain=main --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --datadir $DATA_DIR --chain=main --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).hash' console
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"$default_mainnet_genesis_hash"* ]]
@@ -211,7 +211,7 @@ teardown() {
 # - external chain config can determine chain configuration
 # - use datadir/subdir schema (/morden)
 @test "--chain morden | exit 0" {
-	run $GED_CMD --datadir $DATA_DIR --chain=morden --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --datadir $DATA_DIR --chain=morden --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).hash' console
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"0x0cd786a2425d16f152c658316c423e6ce1181e15c3295826d7c9904cba9ce303"* ]]
@@ -237,7 +237,7 @@ teardown() {
 	mkdir -p "$DATA_DIR"/customnet
 	cp $BATS_TEST_DIRNAME/../../cmd/ged/testdata/chain_config_dump-ok-custom.json $DATA_DIR/customnet/chain.json
 	sed -i.bak s/mainnet/customnet/ $DATA_DIR/customnet/chain.json
-	run $GED_CMD --datadir $DATA_DIR --chain=customnet  --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).hash' console
+	run $GED_CMD --datadir $DATA_DIR --chain=customnet  --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).hash' console
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"$customnet_genesis_hash"* ]]
@@ -278,7 +278,7 @@ teardown() {
 	mkdir -p $DATA_DIR/kitty
 	cp $BATS_TEST_DIRNAME/../../cmd/ged/testdata/chain_config_dump-invalid-comment.json $DATA_DIR/kitty/chain.json
 	sed -i.bak s/mainnet/kitty/ $DATA_DIR/kitty/chain.json
-	run $GED_CMD --datadir $DATA_DIR --chain=kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
+	run $GED_CMD --datadir $DATA_DIR --chain=kitty --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 	echo "$output"
 	[ "$status" -ne 0 ]
 }
@@ -290,7 +290,7 @@ teardown() {
 	mkdir -p $DATA_DIR/kitty
 	cp $BATS_TEST_DIRNAME/../../cmd/ged/testdata/chain_config_dump-invalid-coinbase.json $DATA_DIR/kitty/chain.json
 	sed -i.bak s/mainnet/kitty/ $DATA_DIR/kitty/chain.json
-	run $GED_CMD --datadir $DATA_DIR --chain kitty  --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'eth.getBlock(0).nonce' console
+	run $GED_CMD --datadir $DATA_DIR --chain kitty  --maxpeers 0 --nodiscover --nat none --ipcdisable --exec 'ed.getBlock(0).nonce' console
 	echo "$output"
 	[ "$status" -ne 0 ]
 }

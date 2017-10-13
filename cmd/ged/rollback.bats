@@ -20,7 +20,7 @@ teardown() {
 
 
 	# Check that 'latest' block is 42.
-	run $GED_CMD --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec="eth.getBlock('latest').number" console
+	run $GED_CMD --datadir $DATA_DIR --maxpeers 0 --nodiscover --nat none --ipcdisable --exec="ed.getBlock('latest').number" console
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[[ "$output" == *"42"* ]]

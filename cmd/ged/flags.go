@@ -113,8 +113,8 @@ var (
 		Name:  "auto-dag,autodag",
 		Usage: "Enable automatic DAG pregeneration",
 	}
-	EtherbaseFlag = cli.StringFlag{
-		Name:  "etherbase",
+	EarthbaseFlag = cli.StringFlag{
+		Name:  "earthbasr",
 		Usage: "Public address for block mining rewards (default = first account created)",
 		Value: "0",
 	}
@@ -147,7 +147,7 @@ var (
 	}
 	VModuleFlag = cli.GenericFlag{
 		Name:  "vmodule",
-		Usage: "Per-module verbosity: comma-separated list of <pattern>=<level> (e.g. eth/*=6,p2p=5)",
+		Usage: "Per-module verbosity: comma-separated list of <pattern>=<level> (e.g. ed/*=6,p2p=5)",
 		Value: glog.GetVModule(),
 	}
 	LogDirFlag = DirectoryFlag{
