@@ -26,7 +26,7 @@ import (
 	"github.com/Tzunami/go-earthdollar/core/state"
 	"github.com/Tzunami/go-earthdollar/core/types"
 	"github.com/Tzunami/go-earthdollar/crypto"
-	"github.com/Tzunami/go-earthdollar/eth/downloader"
+	"github.com/Tzunami/go-earthdollar/ed/downloader"
 	"github.com/Tzunami/go-earthdollar/eddb"
 	"github.com/Tzunami/go-earthdollar/p2p"
 )

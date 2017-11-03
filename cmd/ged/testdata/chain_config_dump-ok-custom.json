@@ -1,6 +1,6 @@
 {
   "id": "customnet",
-  "name": "My Custom Ednet",
+  "name": "My Custom Ethnet",
   "network": 4,
   "genesis": {
     "nonce": "0x0000000000000043",

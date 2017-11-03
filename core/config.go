@@ -53,11 +53,11 @@ var (
 
 // SufficientChainConfig holds necessary data for externalizing a given blockchain configuration.
 type SufficientChainConfig struct {
-	ID              string           `json:"id,omitempty"` // deprecated in favor of 'Identity', method decoding should id -> identity
+	ID              string           `json:"id,omitempty"` // deprecated in favor of 'Identity', med.d decoding should id -> identity
 	Identity        string           `json:"identity"`
 	Name            string           `json:"name,omitempty"`
 	State           *StateConfig     `json:"state"`   // don't omitempty for clarity of potential custom options
-	Network         int              `json:"network"` // eth.NetworkId (mainnet=1, morden=2)
+	Network         int              `json:"network"` // ed.NetworkId (mainnet=1, morden=2)
 	Consensus       string           `json:"consensus"`     // pow type (edhash OR edhash-test)
 	Genesis         *GenesisDump     `json:"genesis"`
 	ChainConfig     *ChainConfig     `json:"chainConfig"`
@@ -71,7 +71,7 @@ type StateConfig struct {
 }
 
 // GenesisDump is the ged JSON format.
-// https://github.com.earthdollarproject/wiki/wiki/Ethereum-Chain-Spec-Format#subformat-genesis
+// https://github.com.earthdollarproject/wiki/wiki/Earthdollar-Chain-Spec-Format#subformat-genesis
 type GenesisDump struct {
 	Nonce      prefixedHex `json:"nonce"`
 	Timestamp  prefixedHex `json:"timestamp"`
@@ -112,7 +112,7 @@ type ChainConfig struct {
 type Fork struct {
 	Name string `json:"name"`
 	// Block is the block number where the hard-fork commences on
-	// the Ethereum network.
+	// the Earthdollar network.
 	Block *big.Int `json:"block"`
 	// Used to improve sync for a known network split
 	RequiredHash common.Hash `json:"requiredHash"`
@@ -260,7 +260,7 @@ func (c *ChainConfig) GetChainID() *big.Int {
 	return n
 }
 
-// IsHomestead returns whether num is either equal to the homestead block or greater.
+// IsHomestead returns whed.r num is either equal to the homestead block or greater.
 func (c *ChainConfig) IsHomestead(num *big.Int) bool {
 	if c.ForkByName("Homestead").Block == nil || num == nil {
 		return false
@@ -268,7 +268,7 @@ func (c *ChainConfig) IsHomestead(num *big.Int) bool {
 	return num.Cmp(c.ForkByName("Homestead").Block) >= 0
 }
 
-// IsDiehard returns whether num is greater than or equal to the Diehard block, but less than explosion.
+// IsDiehard returns whed.r num is greater than or equal to the Diehard block, but less than explosion.
 func (c *ChainConfig) IsDiehard(num *big.Int) bool {
 	fork := c.ForkByName("Diehard")
 	if fork.Block == nil || num == nil {
@@ -277,7 +277,7 @@ func (c *ChainConfig) IsDiehard(num *big.Int) bool {
 	return num.Cmp(fork.Block) >= 0
 }
 
-// IsExplosion returns whether num is either equal to the explosion block or greater.
+// IsExplosion returns whed.r num is either equal to the explosion block or greater.
 func (c *ChainConfig) IsExplosion(num *big.Int) bool {
 	feat, fork, configured := c.GetFeature(num, "difficulty")
 

@@ -103,7 +103,7 @@ var (
 		"testnet": true,
 	}
 
-	devModeDataDirPath = filepath.Join(os.TempDir(), "/earthdollar_dev_mode")
+	devModeDataDirPath = filepath.Join(os.TempDir(), "/ed.reum_dev_mode")
 
 	cacheChainIdentity string
 	cacheChainConfig *core.SufficientChainConfig
@@ -264,7 +264,7 @@ func MakeIPCPath(ctx *cli.Context) string {
 
 // MakeNodeKey creates a node key from set command line flags, either loading it
 // from a file or as a specified hex value. If neither flags were provided, this
-// method returns nil and an emphemeral key is to be generated.
+// med.d returns nil and an emphemeral key is to be generated.
 func MakeNodeKey(ctx *cli.Context) *ecdsa.PrivateKey {
 	var (
 		hex  = ctx.GlobalString(aliasableName(NodeKeyHexFlag.Name, ctx))
@@ -349,7 +349,7 @@ func MakeWSRpcHost(ctx *cli.Context) string {
 }
 
 // MakeDatabaseHandles raises out the number of allowed file handles per process
-// for Ged and returns half of the allowance to assign to the database.
+// for Ged.and returns half of the allowance to assign to the database.
 func MakeDatabaseHandles() int {
 	if err := raiseFdLimit(2048); err != nil {
 		glog.V(logger.Warn).Info("Failed to raise file descriptor allowance: ", err)
@@ -408,22 +408,22 @@ func MakeAddress(accman *accounts.Manager, account string) (accounts.Account, er
 	return accman.AccountByIndex(index)
 }
 
-// MakeEarthbase retrieves the earthbasr either from the directly specified
+// MakeEtherbase retrieves the ed.rbase either from the directly specified
 // command line flags or from the keystore if CLI indexed.
-func MakeEarthbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
+func MakeEtherbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
 	accounts := accman.Accounts()
-	if !ctx.GlobalIsSet(aliasableName(EarthbaseFlag.Name, ctx)) && len(accounts) == 0 {
-		glog.V(logger.Warn).Infoln("WARNING: No earthbasr set and no accounts found as default")
+	if !ctx.GlobalIsSet(aliasableName(EtherbaseFlag.Name, ctx)) && len(accounts) == 0 {
+		glog.V(logger.Warn).Infoln("WARNING: No ed.rbase set and no accounts found as default")
 		return common.Address{}
 	}
-	earthbasr := ctx.GlobalString(aliasableName(EarthbaseFlag.Name, ctx))
-	if earthbasr == "" {
+	ed.rbase := ctx.GlobalString(aliasableName(EtherbaseFlag.Name, ctx))
+	if ed.rbase == "" {
 		return common.Address{}
 	}
-	// If the specified earthbasr is a valid address, return it
-	account, err := MakeAddress(accman, earthbasr)
+	// If the specified ed.rbase is a valid address, return it
+	account, err := MakeAddress(accman, ed.rbase)
 	if err != nil {
-		log.Fatalf("Option %q: %v", aliasableName(EarthbaseFlag.Name, ctx), err)
+		log.Fatalf("Option %q: %v", aliasableName(EtherbaseFlag.Name, ctx), err)
 	}
 	return account.Address
 }
@@ -448,7 +448,7 @@ func MakePasswordList(ctx *cli.Context) []string {
 
 // makeName makes the node name, which can be (in part) customized by the NodeNameFlag
 func makeNodeName(version string, ctx *cli.Context) string {
-	name := fmt.Sprintf("Ged/%s/%s/%s", version, runtime.GOOS, runtime.Version())
+	name := fmt.Sprintf("Ged.%s/%s/%s", version, runtime.GOOS, runtime.Version())
 	if identity := ctx.GlobalString(aliasableName(NodeNameFlag.Name, ctx)); len(identity) > 0 {
 		name += "/" + identity
 	}
@@ -541,7 +541,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 			glog.Fatalf("%v: failed to migrate existing Classic database: %v", ErrDirectoryStructure, migrationError)
 		}
 
-		// Move existing mainnet data to pertinent chain-named subdir scheme (ie earthdollar/mainnet).
+		// Move existing mainnet data to pertinent chain-named subdir scheme (ie ed.reum-classic/mainnet).
 		// This should only happen if the given (newly defined in this protocol) subdir doesn't exist,
 		// and the dirs&files (nodekey, dapp, keystore, chaindata, nodes) do exist,
 		if subdirMigrateErr := migrateToChainSubdirIfNecessary(ctx); subdirMigrateErr != nil {
@@ -588,7 +588,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	}
 
 	if ctx.GlobalBool(Unused1.Name) {
-		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged started with --%s flag, which is unused by Ged Classic and can be omitted", Unused1.Name))
+		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged.started with --%s flag, which is unused by Ged.Classic and can be omitted", Unused1.Name))
 	}
 
 	return stack
@@ -672,7 +672,7 @@ func mustMakeEdConf(ctx *cli.Context, sconf *core.SufficientChainConfig) *ed.Con
 		DatabaseHandles:         MakeDatabaseHandles(),
 		NetworkId:               sconf.Network,
 		AccountManager:          accman,
-		Earthbase:               MakeEarthbase(accman, ctx),
+		Etherbase:               MakeEtherbase(accman, ctx),
 		MinerThreads:            ctx.GlobalInt(aliasableName(MinerThreadsFlag.Name, ctx)),
 		NatSpec:                 ctx.GlobalBool(aliasableName(NatspecEnabledFlag.Name, ctx)),
 		DocRoot:                 ctx.GlobalString(aliasableName(DocRootFlag.Name, ctx)),
@@ -698,7 +698,7 @@ func mustMakeEdConf(ctx *cli.Context, sconf *core.SufficientChainConfig) *ed.Con
 	}
 
 	switch sconf.Consensus {
-	case "edhash-test":
+	case "ed.sh-test":
 		edConf.PowTest = true
 	}
 
@@ -728,7 +728,7 @@ func mustMakeSufficientChainConfig(ctx *cli.Context) *core.SufficientChainConfig
 	defer func() {
 		// Allow flags to override external config file.
 		if ctx.GlobalBool(aliasableName(DevModeFlag.Name, ctx)) {
-			config.Consensus = "edhash-test"
+			config.Consensus = "ed.sh-test"
 		}
 		if ctx.GlobalIsSet(aliasableName(BootnodesFlag.Name, ctx)) {
 			config.ParsedBootstrap = MakeBootstrapNodesFromContext(ctx)
@@ -753,7 +753,7 @@ func mustMakeSufficientChainConfig(ctx *cli.Context) *core.SufficientChainConfig
 		config.Identity = chainIdentity
 		config.Name = mustMakeChainConfigNameDefaulty(ctx)
 		config.Network = ed.NetworkId // 1, default mainnet
-		config.Consensus = "edhash"
+		config.Consensus = "ed.sh"
 		config.Genesis = core.DefaultConfigMainnet.Genesis
 		config.ChainConfig = MustMakeChainConfigFromDefaults(ctx).SortForks()
 		config.ParsedBootstrap = MakeBootstrapNodesFromContext(ctx)
@@ -773,7 +773,7 @@ func mustMakeSufficientChainConfig(ctx *cli.Context) *core.SufficientChainConfig
 		It looks like you haven't set up your custom chain yet...
 		Here's a possible workflow for that:
 
-		$ ged --chain morden dump-chain-config %v/chain.json
+		$ ged.--chain morden dump-chain-config %v/chain.json
 		$ sed -i.bak s/morden/%v/ %v/chain.json
 		$ vi %v/chain.json # <- make your customizations
 		`, core.ErrChainConfigNotFound, defaultChainConfigPath,
@@ -810,8 +810,8 @@ func logChainConfiguration(ctx *cli.Context, config *core.SufficientChainConfig)
 
 	glog.V(logger.Info).Info(glog.Separator("-"))
 
-	glog.V(logger.Info).Infof("Starting Ged Classic \x1b[32m%s\x1b[39m", ctx.App.Version)
-	glog.V(logger.Info).Infof("Ged is configured to use ETC blockchain: \x1b[32m%v\x1b[39m", config.Name)
+	glog.V(logger.Info).Infof("Starting Ged.Classic \x1b[32m%s\x1b[39m", ctx.App.Version)
+	glog.V(logger.Info).Infof("Ged.is configured to use ETC blockchain: \x1b[32m%v\x1b[39m", config.Name)
 	glog.V(logger.Info).Infof("Using chain database at: \x1b[32m%s\x1b[39m", MustMakeChainDataDir(ctx)+"/chaindata")
 
 	glog.V(logger.Info).Infof("%v blockchain upgrades associated with this configuration:", len(config.ChainConfig.Forks))
@@ -846,14 +846,14 @@ func MustMakeChainConfigFromDefaults(ctx *cli.Context) *core.ChainConfig {
 }
 
 // MakeChainDatabase open an LevelDB using the flags passed to the client and will hard crash if it fails.
-func MakeChainDatabase(ctx *cli.Context) eddb.Database {
+func MakeChainDatabase(ctx *cli.Context) ed.b.Database {
 	var (
 		datadir = MustMakeChainDataDir(ctx)
 		cache   = ctx.GlobalInt(aliasableName(CacheFlag.Name, ctx))
 		handles = MakeDatabaseHandles()
 	)
 
-	chainDb, err := eddb.NewLDBDatabase(filepath.Join(datadir, "chaindata"), cache, handles)
+	chainDb, err := ed.b.NewLDBDatabase(filepath.Join(datadir, "chaindata"), cache, handles)
 	if err != nil {
 		glog.Fatal("Could not open database: ", err)
 	}
@@ -861,14 +861,14 @@ func MakeChainDatabase(ctx *cli.Context) eddb.Database {
 }
 
 // MakeChain creates a chain manager from set command line flags.
-func MakeChain(ctx *cli.Context) (chain *core.BlockChain, chainDb eddb.Database) {
+func MakeChain(ctx *cli.Context) (chain *core.BlockChain, chainDb ed.b.Database) {
 	var err error
 	sconf := mustMakeSufficientChainConfig(ctx)
 	chainDb = MakeChainDatabase(ctx)
 
 	pow := pow.PoW(core.FakePow{})
 	if !ctx.GlobalBool(aliasableName(FakePoWFlag.Name, ctx)) {
-		pow = edhash.New()
+		pow = ed.sh.New()
 	} else {
 		glog.V(logger.Info).Info("Consensus: fake")
 	}

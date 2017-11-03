@@ -17,8 +17,8 @@ will need to slowly migrate pieces of the infrastructure required to
 maintain the project. We will apply all upstream patches unrelated to the DAO HF while organizing
 development.
 =======
-Official Go language implementation of the Ethereum protocol supporting the
-_original_ chain. Ethereum Classic (ETC) offers a censorship-resistant and powerful application platform for developers in parallel to Ethereum (ETHF), while differentially rejecting the DAO bailout.
+Official Go language implementation of the Earthdollar protocol supporting the
+_original_ chain. Earthdollar (ETC) offers a censorship-resistant and powerful application platform for developers in parallel to Earthdollar (ETHF), while differentially rejecting the DAO bailout.
 
 ## Install
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
@@ -83,13 +83,13 @@ This repository includes several wrappers/executables found in the `cmd` directo
 
 | Command    | Description |
 |:----------:|-------------|
-| **`ged`** | The main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test-, or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. Please see our [Command Line Options](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options) wiki page for details. |
-| `abigen` | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com.earthdollarproject/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps-in-Go) wiki page for details. |
-| `bootnode` | Stripped down version of our Ethereum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
-| `disasm` | Bytecode disassembler to convert EVM (Ethereum Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Ethereum Yellow Paper](http://gavwood.com/paper.pdf). |
-| `evm` | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gedrpctest` | Developer utility tool to support our .earthdollar/rpc-test](https://github.com.earthdollarproject/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com.earthdollarproject/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com.earthdollarproject/rpc-tests/blob/master/README.md) for details. |
-| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com.earthdollarproject/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
+| **`ged`** | The main Earthdollar CLI client. It is the entry point into the Earthdollar network (main-, test-, or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Earthdollar network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. Please see our [Command Line Options](https://github.com/Tzunami/go-earthdollar/wiki/Command-Line-Options) wiki page for details. |
+| `abigen` | Source code generator to convert Earthdollar contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Earthdollar contract ABIs](https://github.com.earthdollarproject/wiki/wiki/Earthdollar-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/Tzunami/go-earthdollar/wiki/Native-DApps-in-Go) wiki page for details. |
+| `bootnode` | Stripped down version of our Earthdollar client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
+| `disasm` | Bytecode disassembler to convert EVM (Earthdollar Virtual Machine) bytecode into more user friendly assembly-like opcodes (e.g. `echo "6001" | disasm`). For details on the individual opcodes, please see pages 22-30 of the [Earthdollar Yellow Paper](http://gavwood.com/paper.pdf). |
+| `evm` | Developer utility version of the EVM (Earthdollar Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow insolated, fine graned debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
+| `gedrpctest` | Developer utility tool to support our .earthdollar/rpc-test](https://github.com.earthdollarproject/rpc-tests) test suite which validates baseline conformity to the [Earthdollar JSON RPC](https://github.com.earthdollarproject/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com.earthdollarproject/rpc-tests/blob/master/README.md) for details. |
+| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com.earthdollarproject/wiki/wiki/RLP)) dumps (data encoding used by the Earthdollar protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 
 ## :green_book: Ged: the basics
 
@@ -126,7 +126,7 @@ It's that easy! This will establish an ETC blockchain node and download ("sync")
 
 #### :speedboat: `--fast`
 
-The most common scenario is users wanting to simply interact with the Ethereum Classic network: create accounts; transfer funds; deploy and interact with contracts, and mine. For this particular use-case the user doesn't care about years-old historical data, so we can _fast-sync_ to the current state of the network. To do so:
+The most common scenario is users wanting to simply interact with the Earthdollar network: create accounts; transfer funds; deploy and interact with contracts, and mine. For this particular use-case the user doesn't care about years-old historical data, so we can _fast-sync_ to the current state of the network. To do so:
 
 ```
 $ ged --fast
@@ -210,7 +210,7 @@ For a comprehensive list of command line options, please consult our [CLI Wiki p
 ## :orange_book: Ged: developing and advanced useage
 
 ### Morden Testnet
-If you'd like to play around with creating Ethereum contracts, you
+If you'd like to play around with creating Earthdollar contracts, you
 almost certainly would like to do that without any real money involved until you get the hang of the entire system. In other words, instead of attaching to the main network, you want to join the **test** network with your node, which is fully equivalent to the main network, but with play-Ether only.
 
 ```
@@ -237,7 +237,7 @@ them.*
 Specifying the `--chain=morden` flag will reconfigure your Ged instance a bit:
 
  -  As mentioned above, Ged will host its testnet data in a `morden` subfolder (`~/.earthdollar/morden`).
- - Instead of connecting the main Ethereum network, the client will connect to the test network, which uses different P2P bootnodes, different network IDs and genesis states.
+ - Instead of connecting the main Earthdollar network, the client will connect to the test network, which uses different P2P bootnodes, different network IDs and genesis states.
 
 You may also optionally use `--testnet` or `--chain=testnet` to enable this configuration. 
 
@@ -258,7 +258,7 @@ The IPC interface is enabled by default and exposes all the APIs supported by Ge
 and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons.
 These can be turned on/off and configured as you'd expect.
 =======
-As a developer, sooner rather than later you'll want to start interacting with Ged and the Ethereum network via your own programs and not manually through the console. To aid this, Ged has built in support for a JSON-RPC based APIs ([standard APIs](https://github.com.earthdollarproject/wiki/wiki/JSON-RPC) and
+As a developer, sooner rather than later you'll want to start interacting with Ged and the Earthdollar network via your own programs and not manually through the console. To aid this, Ged has built in support for a JSON-RPC based APIs ([standard APIs](https://github.com.earthdollarproject/wiki/wiki/JSON-RPC) and
 [Ged specific APIs](https://github.com/Tzunami/go-earthdollar/wiki/Management-APIs)). These can be exposed via HTTP, WebSockets and IPC (unix sockets on unix based platroms, and named pipes on Windows).
 
 The IPC interface is enabled by default and exposes all the APIs supported by Ged, whereas the HTTP and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons. These can be turned on/off and configured as you'd expect.
@@ -330,7 +330,7 @@ and agree upon. This consists of a small JSON file (e.g. call it `genesis.json`)
 
 You'll need to use your own programming environments' capabilities (libraries, tools, etc) to connect via HTTP, WS or IPC to a Ged node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification) on all transports. You can reuse the same connection for multiple requests!
 
-> Note: Please understand the security implications of opening up an HTTP/WS based transport before doing so! Hackers on the internet are actively trying to subvert Ethereum nodes with exposed APIs! Further, all browser tabs can access locally running webservers, so malicious webpages could try to subvert locally available APIs!*
+> Note: Please understand the security implications of opening up an HTTP/WS based transport before doing so! Hackers on the internet are actively trying to subvert Earthdollar nodes with exposed APIs! Further, all browser tabs can access locally running webservers, so malicious webpages could try to subvert locally available APIs!*
 
 <<<<<<< HEAD
 With the genesis state defined in the above JSON file, you'll need to initialize **every** Ged node
@@ -366,7 +366,7 @@ The external chain configuration file specifies valid settings for the following
 | JSON Key | Notes |
 | --- | --- |
 | `chainID` |  Chain identity. Determines local __/subdir__ for chain data, with required `chain.json` located in it. It is required, but must not be identical for each node. Please note that this is _not_ the chainID validation introduced in _EIP-155_; that is configured as a protocal upgrade within `forks.features`. |
-| `name` | _Optional_. Human readable name, ie _Ethereum Classic Mainnet_, _Morden Testnet._ |
+| `name` | _Optional_. Human readable name, ie _Earthdollar Mainnet_, _Morden Testnet._ |
 | `state.startingNonce` | _Optional_. Initialize state db with a custom nonce. |
 | `network` | Determines Network ID to identify valid peers. |
 | `consensus` | _Optional_. Proof of work algorithm to use, either "edhash" or "ethast-test" (for development) |
@@ -437,7 +437,7 @@ purposes as it can produce a stable stream of blocks at the correct intervals wi
 resources (consider running on a single thread, no need for multiple ones either). To start a Ged
 instance for mining, run it with all your usual flags, extended by:
 =======
-Mining on the public Ethereum network is a complex task as it's only feasible using GPUs, requiring an OpenCL or CUDA enabled `ethminer` instance. For information on such a setup, please consult the [EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp.earthdollar) repository.
+Mining on the public Earthdollar network is a complex task as it's only feasible using GPUs, requiring an OpenCL or CUDA enabled `ethminer` instance. For information on such a setup, please consult the [EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp.earthdollar) repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical purposes as it can produce a stable stream of blocks at the correct intervals without needing heavy resources (consider running on a single thread, no need for multiple ones either). To start a Ged instance for mining, run it with all your usual flags, extended by:
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
@@ -472,7 +472,7 @@ procedures quick and simple.
 The core values of democratic engagement, transparency, and integrity run deep with us. We welcome contributions from everyone, and are grateful for even the smallest of fixes.  :clap:
 >>>>>>> 462a0c24946f17de60f3ba1226255a938bc47de3
 
-This project is migrated from the now hard-forked [Ethereum (ETHF) Github project](https://github.com.earthdollar), and we will need to incrementally migrate pieces of the infrastructure required to maintain the project. 
+This project is migrated from the now hard-forked [Earthdollar (ETHF) Github project](https://github.com.earthdollar), and we will need to incrementally migrate pieces of the infrastructure required to maintain the project. 
 
 <<<<<<< HEAD
  * Code must adhere to the official Go [formatting](https://golang.org/doc/effective_go.html#formatting) guidelines (i.e. uses [gofmt](https://golang.org/cmd/gofmt/)).

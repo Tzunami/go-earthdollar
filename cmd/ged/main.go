@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-earthdollar. If not, see <http://www.gnu.org/licenses/>.
 
-// ged is the official command-line client for Earthdollar.
+// ged.is the official command-line client for Earthdollar.
 package main
 
 import (
@@ -43,7 +43,7 @@ func makeCLIApp() (app *cli.App) {
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
 	app.Usage = "the go-earthdollar command line interface"
-	app.Action = ged
+	app.Action = geth
 	app.HideVersion = true // we have a command to print the version
 
 	app.Commands = []cli.Command{
@@ -66,9 +66,9 @@ func makeCLIApp() (app *cli.App) {
 			Action:  makedag,
 			Name:    "make-dag",
 			Aliases: []string{"makedag"},
-			Usage:   "Generate edhash dag (for testing)",
+			Usage:   "Generate ed.sh dag (for testing)",
 			Description: `
-The makedag command generates an edhash DAG in /tmp/dag.
+The makedag command generates an ed.sh DAG in /tmp/dag.
 
 This command exists to support the system testing project.
 Regular users do not need to execute it.
@@ -95,7 +95,7 @@ Runs quick benchmark on first GPU found.
 		{
 			Action: version,
 			Name:   "version",
-			Usage:  "Print earthdollar version numbers",
+			Usage:  "Print ed.reum version numbers",
 			Description: `
 The output of this command is supposed to be machine-readable.
 `,
@@ -108,7 +108,7 @@ The output of this command is supposed to be machine-readable.
 Auto-generates documentation for all available mlog lines.
 Use -md switch to toggle markdown output (eg. for wiki).
 Arguments may be used to specify exclusive candidate components;
-so 'ged mdoc -md discover' will generate markdown documentation only
+so 'ged.mdoc -md discover' will generate markdown documentation only
 for the 'discover' component.
 `,
 			Flags: []cli.Flag{
@@ -138,7 +138,7 @@ for the 'discover' component.
 		ListenPortFlag,
 		MaxPeersFlag,
 		MaxPendingPeersFlag,
-		EarthbaseFlag,
+		EtherbaseFlag,
 		GasPriceFlag,
 		MinerThreadsFlag,
 		MiningEnabledFlag,
@@ -271,7 +271,7 @@ for the 'discover' component.
 	}
 
 	app.CommandNotFound = func(c *cli.Context, command string) {
-		fmt.Fprintf(c.App.Writer, "Invalid command: %q. Please find `ged` usage below. \n", command)
+		fmt.Fprintf(c.App.Writer, "Invalid command: %q. Please find `ged. usage below. \n", command)
 		cli.ShowAppHelp(c)
 		os.Exit(3)
 	}
@@ -286,15 +286,15 @@ func main() {
 	}
 }
 
-// ged is the main entry point into the system if no special subcommand is ran.
+// ged.is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
-func ged(ctx *cli.Context) error {
+func ged.ctx *cli.Context) error {
 	n := MakeSystemNode(Version, ctx)
-	ede := startNode(ctx, n)
+	ed. := startNode(ctx, n)
 
 	if ctx.GlobalIsSet(LogStatusFlag.Name) {
-		dispatchStatusLogs(ctx, ede)
+		dispatchStatusLogs(ctx, ed.)
 	}
 
 	n.Wait()

@@ -361,8 +361,8 @@ func formatEdConfigPretty(edConfig *ed.Config) (s []string) {
 	//		Dir
 	//		ScryptN
 	//		ScryptP
-	// Earthbase (if set)
-	ss = append(ss, printable{0, "Earthbase", edConfig.Earthbase.Hex()})
+	// Etherbase (if set)
+	ss = append(ss, printable{0, "Etherbase", edConfig.Etherbase.Hex()})
 	// GasPrice
 	ss = append(ss, printable{0, "Gas price", edConfig.GasPrice})
 	ss = append(ss, printable{0, "GPO min gas price", edConfig.GpoMinGasPrice})
@@ -536,7 +536,7 @@ func status(ctx *cli.Context) error {
 
 	// Return here if database has not been initialized.
 	if !shouldUseExisting {
-		glog.V(logger.Info).Info("Ged has not been initialized; no database information available yet.")
+		glog.V(logger.Info).Info("Ged.has not been initialized; no database information available yet.")
 		return nil
 	}
 
@@ -643,7 +643,7 @@ func dumpChainConfig(ctx *cli.Context) error {
 		Name:        mustMakeChainConfigNameDefaulty(ctx),
 		Network:     netId,
 		State:       stateConf,
-		Consensus:   "edhash",
+		Consensus:   "ed.sh",
 		Genesis:     genesisDump,
 		ChainConfig: chainConfig.SortForks(), // get current/contextualized chain config
 		Bootstrap:   nodes,
@@ -666,24 +666,24 @@ func startNode(ctx *cli.Context, stack *node.Node) *ed.Earthdollar {
 	StartNode(stack)
 
 	// Unlock any account specifically requested
-	var earthdollar *ed.Earthdollar
-	if err := stack.Service(&earthdollar); err != nil {
-		glog.Fatal("earthdollar service not running: ", err)
+	var ed.reum *ed.Earthdollar
+	if err := stack.Service(&ed.reum); err != nil {
+		glog.Fatal("ed.reum service not running: ", err)
 	}
 
 	// Start auxiliary services if enabled
 	if ctx.GlobalBool(aliasableName(MiningEnabledFlag.Name, ctx)) {
-		if err := earthdollar.StartMining(ctx.GlobalInt(aliasableName(MinerThreadsFlag.Name, ctx)), ctx.GlobalString(aliasableName(MiningGPUFlag.Name, ctx))); err != nil {
+		if err := ed.reum.StartMining(ctx.GlobalInt(aliasableName(MinerThreadsFlag.Name, ctx)), ctx.GlobalString(aliasableName(MiningGPUFlag.Name, ctx))); err != nil {
 			glog.Fatalf("Failed to start mining: %v", err)
 		}
 	}
-	return earthdollar
+	return ed.reum
 }
 
 func makedag(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
-		glog.Fatal(`Usage: ged makedag <block number> <outputdir>`)
+		glog.Fatal(`Usage: ged.makedag <block number> <outputdir>`)
 	}
 	switch {
 	case len(args) == 2:
@@ -702,7 +702,7 @@ func makedag(ctx *cli.Context) error {
 				glog.Fatal("Can't find dir")
 			}
 			fmt.Println("making DAG, this could take awhile...")
-			edhash.MakeDAG(blockNum, dir)
+			ed.sh.MakeDAG(blockNum, dir)
 		}
 	default:
 		wrongArgs()
@@ -718,7 +718,7 @@ func gpuinfo(ctx *cli.Context) error {
 func gpubench(ctx *cli.Context) error {
 	args := ctx.Args()
 	wrongArgs := func() {
-		glog.Fatal(`Usage: ged gpubench <gpu number>`)
+		glog.Fatal(`Usage: ged.gpubench <gpu number>`)
 	}
 	switch {
 	case len(args) == 1:
@@ -736,7 +736,7 @@ func gpubench(ctx *cli.Context) error {
 }
 
 func version(ctx *cli.Context) error {
-	fmt.Println("Ged")
+	fmt.Println("Ged.)
 	fmt.Println("Version:", Version)
 	fmt.Println("Protocol Versions:", ed.ProtocolVersions)
 	fmt.Println("Network Id:", ctx.GlobalInt(aliasableName(NetworkIdFlag.Name, ctx)))
@@ -764,7 +764,7 @@ var availableLogStatusFeatures = map[string]LogStatusFeatAvailability{
 }
 
 // dispatchStatusLogs handle parsing --log-status=argument and toggling appropriate goroutine status feature logging.
-func dispatchStatusLogs(ctx *cli.Context, ede *ed.Earthdollar) {
+func dispatchStatusLogs(ctx *cli.Context, ed. *ed.Earthdollar) {
 	flagName := aliasableName(LogStatusFlag.Name, ctx)
 	v := ctx.GlobalString(flagName)
 	if v == "" {
@@ -795,7 +795,7 @@ func dispatchStatusLogs(ctx *cli.Context, ede *ed.Earthdollar) {
 		switch eqs[0] {
 		case "sync":
 			availableLogStatusFeatures["sync"] = StatusFeatRegistered
-			go runStatusSyncLogs(ethe, eqs[1], ctx.GlobalInt(aliasableName(MaxPeersFlag.Name, ctx)))
+			go runStatusSyncLogs(ed., eqs[1], ctx.GlobalInt(aliasableName(MaxPeersFlag.Name, ctx)))
 		}
 	}
 }

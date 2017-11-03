@@ -55,9 +55,9 @@ var (
 	monitorCommand = cli.Command{
 		Action: monitor,
 		Name:   "monitor",
-		Usage:  `Ged Monitor: node metrics monitoring and visualization`,
+		Usage:  `Geth Monitor: node metrics monitoring and visualization`,
 		Description: `
-The Ged monitor is a tool to collect and visualize various internal metrics
+The Geth monitor is a tool to collect and visualize various internal metrics
 gathered by the node, supporting different chart types as well as the capacity
 to display multiple metrics simultaneously.
 `,
@@ -79,7 +79,7 @@ func monitor(ctx *cli.Context) error {
 	}
 	client, err := rpc.NewClient(endpoint)
 	if err != nil {
-		log.Fatal("attach to remote ged: ", err)
+		log.Fatal("attach to remote geth: ", err)
 	}
 	defer client.Close()
 
@@ -99,7 +99,7 @@ func monitor(ctx *cli.Context) error {
 			}
 			log.Fatalf("No metrics found matching that pattern. Available metrics: \n%s", listWithNewlines(list))
 		} else {
-			log.Fatal("No metrics collected by ged (--metrics).")
+			log.Fatal("No metrics collected by geth (--metrics).")
 		}
 	}
 	sort.Strings(monitored)
@@ -170,7 +170,7 @@ func listWithNewlines(availableMetrics []string) string {
 	return strings.Join(availableMetrics, "\n")
 }
 
-// retrieveMetrics contacts the attached ged node and retrieves the entire set
+// retrieveMetrics contacts the attached geth node and retrieves the entire set
 // of collected system metrics.
 func retrieveMetrics(client rpc.Client) (map[string]float64, error) {
 	req := map[string]interface{}{
@@ -207,7 +207,7 @@ func retrieveMetrics(client rpc.Client) (map[string]float64, error) {
 // or more canonical metric names.
 // 'patterns' are user-inputed arguments
 // eg.
-// $ ged monitor [--attach=api-endpoint] metric1 metric2 ... metricN
+// $ geth monitor [--attach=api-endpoint] metric1 metric2 ... metricN
 //
 // Where a metric may be: a REGEX to match available metrics paths/strings/names
 func resolveMetrics(metrics map[string]float64, patterns []string) []string {

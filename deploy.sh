@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-GETH_ARCHIVE_NAME="ged-classic-$TRAVIS_OS_NAME-$(janus version -format='TAG_OR_NIGHTLY')"
+GED_ARCHIVE_NAME="ged-classic-$TRAVIS_OS_NAME-$(janus version -format='TAG_OR_NIGHTLY')"
 zip "$GED_ARCHIVE_NAME.zip" ged
 tar -zcf "$GED_ARCHIVE_NAME.tar.gz" ged
 

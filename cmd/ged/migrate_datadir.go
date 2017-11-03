@@ -38,7 +38,7 @@ import (
 // a user should be able to override a specified data dir if they want.
 func migrateExistingDirToClassicNamingScheme(ctx *cli.Context) error {
 
-	edDataDirPath := common.DefaultUnclassicDataDir()
+	ethDataDirPath := common.DefaultUnclassicDataDir()
 	etcDataDirPath := common.DefaultDataDir()
 
 	// only if default <Earthdollar>/ datadir doesn't already exist
@@ -48,9 +48,9 @@ func migrateExistingDirToClassicNamingScheme(ctx *cli.Context) error {
 		return nil
 	}
 
-	edChainDBPath := filepath.Join(edDataDirPath, "chaindata")
+	ethChainDBPath := filepath.Join(ethDataDirPath, "chaindata")
 	if chainIsMorden(ctx) {
-		edChainDBPath = filepath.Join(edDataDirPath, "testnet", "chaindata")
+		ethChainDBPath = filepath.Join(ethDataDirPath, "testnet", "chaindata")
 	}
 
 	// only if EDdatadir chaindb path DOES already exist, so return nil if it doesn't;
@@ -59,17 +59,17 @@ func migrateExistingDirToClassicNamingScheme(ctx *cli.Context) error {
 	// it must be called before migrating to subdirectories
 	// NOTE: Since ED stores chaindata by default in Earthdollar/ged/..., this path
 	// will not exist if the existing data belongs to ED, so it works as a valid check for us as well.
-	if _, err := os.Stat(edChainDBPath); os.IsNotExist(err) {
+	if _, err := os.Stat(ethChainDBPath); os.IsNotExist(err) {
 		glog.V(logger.Debug).Infof(`No existing default chaindata dir found at: %v
 		  	Using default data directory at: %v`,
-			edChainDBPath, etcDataDirPath)
+			ethChainDBPath, etcDataDirPath)
 		return nil
 	}
 
 	foundCorrectLookingFiles := []string{}
 	requiredFiles := []string{"LOG", "LOCK", "CURRENT"}
 	for _, f := range requiredFiles {
-		p := filepath.Join(edChainDBPath, f)
+		p := filepath.Join(ethChainDBPath, f)
 		if _, err := os.Stat(p); os.IsNotExist(err) {
 			glog.V(logger.Debug).Infof(`No existing default file found at: %v
 		  	Using default data directory at: %v`,
@@ -84,7 +84,7 @@ func migrateExistingDirToClassicNamingScheme(ctx *cli.Context) error {
 	}
 
 	// check if there is existing etf blockchain data in unclassic default dir (ie /<home>/Earthdollar)
-	chainDB, err := eddb.NewLDBDatabase(edChainDBPath, 0, 0)
+	chainDB, err := eddb.NewLDBDatabase(ethChainDBPath, 0, 0)
 	if err != nil {
 		glog.V(logger.Error).Info(`Failed to check blockchain compatibility for existing Earthdollar chaindata database at: %v
 		 	Using default data directory at: %v`,
@@ -155,14 +155,14 @@ func migrateExistingDirToClassicNamingScheme(ctx *cli.Context) error {
 		glog.V(logger.Info).Infof(`Found existing data directory named 'Earthdollar' with default ETC chaindata.
 		  	Moving it from: %v, to: %v
 		  	To specify a different data directory use the '--datadir' flag.`,
-			edDataDirPath, etcDataDirPath)
-		return os.Rename(edDataDirPath, etcDataDirPath)
+			ethDataDirPath, etcDataDirPath)
+		return os.Rename(ethDataDirPath, etcDataDirPath)
 	}
 
 	glog.V(logger.Debug).Infof(`Existing default Earthdollar database at: %v isn't an Earthdollar default blockchain.
 	  	Will not migrate.
 	  	Using ETC chaindata database at: %v`,
-		edDataDirPath, etcDataDirPath)
+		ethDataDirPath, etcDataDirPath)
 	return nil
 }
 

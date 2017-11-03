@@ -20,8 +20,8 @@ func TestDefaultChainConfigurationVariablesExist(t *testing.T) {
 		t.Errorf("got: %v, want: %v", DefaultConfigMorden.Identity, "mainnet")
 	}
 
-	if DefaultConfigMainnet.Name != "Ethereum Classic Mainnet" {
-		t.Errorf("got: %v, want: %v", DefaultConfigMainnet.Name, "Ethereum Classic Mainnet")
+	if DefaultConfigMainnet.Name != "Earthdollar Mainnet" {
+		t.Errorf("got: %v, want: %v", DefaultConfigMainnet.Name, "Earthdollar Mainnet")
 	}
 	if DefaultConfigMorden.Name != "Morden Testnet" {
 		t.Errorf("got: %v, want: %v", DefaultConfigMorden.Name, "Morden Testnet")

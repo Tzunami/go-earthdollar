@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-: ${GED_CMD:=$GOPATH/bin/ged}
+: ${GED_CMD:=$GOPATH/bin/ged.
 
 setup() {
 	DATA_DIR=`mktemp -d`

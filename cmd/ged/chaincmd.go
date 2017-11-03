@@ -70,7 +70,7 @@ if already existing.
 		Usage:  `Dump a specific block from storage`,
 		Description: `
 The arguments are interpreted as block numbers or hashes.
-Use "earthdollar dump 0" to dump the genesis block.
+Use "ethereum dump 0" to dump the genesis block.
 `,
 	}
 	dumpChainConfigCommand = cli.Command{
@@ -202,21 +202,21 @@ func upgradeDB(ctx *cli.Context) error {
 }
 
 // Original use allows n hashes|ints as space-separated arguments, dumping entire state for each block n[x].
-// $ ged dump [hash|num] [hash|num] ... [hash|num]
-// $ ged dump 0x234234234234233 42 43 0xlksdf234r23r234223
+// $ geth dump [hash|num] [hash|num] ... [hash|num]
+// $ geth dump 0x234234234234233 42 43 0xlksdf234r23r234223
 //
 // Revised use allows n hashes|ints as comma-separated first argument and n addresses as comma-separated second argument,
 // dumping only state information for given addresses if they're present.
-// revised use: $ ged dump [hash|num],[hash|num],...,[hash|num] [address],[address],...,[address]
+// revised use: $ geth dump [hash|num],[hash|num],...,[hash|num] [address],[address],...,[address]
 //
 // Added unsorted/sorted dumping algorithms.
 // unsorted dump is used by default.
-// revised use: $ ged dump [sorted] [hash|num],[hash|num],...,[hash|num] [address],[address],...,[address]
+// revised use: $ geth dump [sorted] [hash|num],[hash|num],...,[hash|num] [address],[address],...,[address]
 
 func dump(ctx *cli.Context) error {
 
 	if ctx.NArg() == 0 {
-		return fmt.Errorf("%v: use: $ ged dump [blockHash|blockNum],[blockHash|blockNum] [[addressHex|addressPrefixedHex],[addressHex|addressPrefixedHex]]", ErrInvalidFlag)
+		return fmt.Errorf("%v: use: $ geth dump [blockHash|blockNum],[blockHash|blockNum] [[addressHex|addressPrefixedHex],[addressHex|addressPrefixedHex]]", ErrInvalidFlag)
 	}
 
 	firstArg := 0

@@ -27,7 +27,7 @@ Rolling builds for the master branch may be found at [builds.etcdevteam.com](bui
 
 #### Added
 - JSON-RPC: `debug_traceTransaction` method
-- JSON-RPC: `ed_chainId` method; returns configured Ethereum EIP-155 chain id for signing protected txs. For congruent behavior in Ethereum Foundation and Parity clients, please see https://github.com.earthdollar/EIPs/pull/695 and https://github.com/paritytech/parity/pull/6329.
+- JSON-RPC: `ed_chainId` method; returns configured Earthdollar EIP-155 chain id for signing protected txs. For congruent behavior in Earthdollar Foundation and Parity clients, please see https://github.com.earthdollar/EIPs/pull/695 and https://github.com/paritytech/parity/pull/6329.
 - P2P: improve peer discovery by allowing "good-will" for peers with unknown HF blocks
 - _Option_: `--log-status` - enable interval-based status logging, e.g. `--log-status="sync=10"`, where `sync` is the context (currently the only one implemented) and `10` is interval in seconds.
 
