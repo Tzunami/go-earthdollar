@@ -66,9 +66,9 @@ func makeCLIApp() (app *cli.App) {
 			Action:  makedag,
 			Name:    "make-dag",
 			Aliases: []string{"makedag"},
-			Usage:   "Generate ed.sh dag (for testing)",
+			Usage:   "Generate edhash dag (for testing)",
 			Description: `
-The makedag command generates an ed.sh DAG in /tmp/dag.
+The makedag command generates an edhash DAG in /tmp/dag.
 
 This command exists to support the system testing project.
 Regular users do not need to execute it.
@@ -95,7 +95,7 @@ Runs quick benchmark on first GPU found.
 		{
 			Action: version,
 			Name:   "version",
-			Usage:  "Print ed.reum version numbers",
+			Usage:  "Print earthdollar version numbers",
 			Description: `
 The output of this command is supposed to be machine-readable.
 `,
@@ -138,7 +138,7 @@ for the 'discover' component.
 		ListenPortFlag,
 		MaxPeersFlag,
 		MaxPendingPeersFlag,
-		EtherbaseFlag,
+		EarthbaseFlag,
 		GasPriceFlag,
 		MinerThreadsFlag,
 		MiningEnabledFlag,

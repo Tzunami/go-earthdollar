@@ -361,8 +361,8 @@ func formatEdConfigPretty(edConfig *ed.Config) (s []string) {
 	//		Dir
 	//		ScryptN
 	//		ScryptP
-	// Etherbase (if set)
-	ss = append(ss, printable{0, "Etherbase", edConfig.Etherbase.Hex()})
+	// Earthbase (if set)
+	ss = append(ss, printable{0, "Earthbase", edConfig.Earthbase.Hex()})
 	// GasPrice
 	ss = append(ss, printable{0, "Gas price", edConfig.GasPrice})
 	ss = append(ss, printable{0, "GPO min gas price", edConfig.GpoMinGasPrice})
@@ -643,7 +643,7 @@ func dumpChainConfig(ctx *cli.Context) error {
 		Name:        mustMakeChainConfigNameDefaulty(ctx),
 		Network:     netId,
 		State:       stateConf,
-		Consensus:   "ed.sh",
+		Consensus:   "edhash",
 		Genesis:     genesisDump,
 		ChainConfig: chainConfig.SortForks(), // get current/contextualized chain config
 		Bootstrap:   nodes,
@@ -666,18 +666,18 @@ func startNode(ctx *cli.Context, stack *node.Node) *ed.Earthdollar {
 	StartNode(stack)
 
 	// Unlock any account specifically requested
-	var ed.reum *ed.Earthdollar
-	if err := stack.Service(&ed.reum); err != nil {
-		glog.Fatal("ed.reum service not running: ", err)
+	var earthdollar *ed.Earthdollar
+	if err := stack.Service(&earthdollar); err != nil {
+		glog.Fatal("earthdollar service not running: ", err)
 	}
 
 	// Start auxiliary services if enabled
 	if ctx.GlobalBool(aliasableName(MiningEnabledFlag.Name, ctx)) {
-		if err := ed.reum.StartMining(ctx.GlobalInt(aliasableName(MinerThreadsFlag.Name, ctx)), ctx.GlobalString(aliasableName(MiningGPUFlag.Name, ctx))); err != nil {
+		if err := earthdollar.StartMining(ctx.GlobalInt(aliasableName(MinerThreadsFlag.Name, ctx)), ctx.GlobalString(aliasableName(MiningGPUFlag.Name, ctx))); err != nil {
 			glog.Fatalf("Failed to start mining: %v", err)
 		}
 	}
-	return ed.reum
+	return earthdollar
 }
 
 func makedag(ctx *cli.Context) error {
@@ -702,7 +702,7 @@ func makedag(ctx *cli.Context) error {
 				glog.Fatal("Can't find dir")
 			}
 			fmt.Println("making DAG, this could take awhile...")
-			ed.sh.MakeDAG(blockNum, dir)
+			edhash.MakeDAG(blockNum, dir)
 		}
 	default:
 		wrongArgs()
@@ -736,7 +736,7 @@ func gpubench(ctx *cli.Context) error {
 }
 
 func version(ctx *cli.Context) error {
-	fmt.Println("Ged.)
+	fmt.Println("Ged")
 	fmt.Println("Version:", Version)
 	fmt.Println("Protocol Versions:", ed.ProtocolVersions)
 	fmt.Println("Network Id:", ctx.GlobalInt(aliasableName(NetworkIdFlag.Name, ctx)))
@@ -764,7 +764,7 @@ var availableLogStatusFeatures = map[string]LogStatusFeatAvailability{
 }
 
 // dispatchStatusLogs handle parsing --log-status=argument and toggling appropriate goroutine status feature logging.
-func dispatchStatusLogs(ctx *cli.Context, ed. *ed.Earthdollar) {
+func dispatchStatusLogs(ctx *cli.Context, ede *ed.Earthdollar) {
 	flagName := aliasableName(LogStatusFlag.Name, ctx)
 	v := ctx.GlobalString(flagName)
 	if v == "" {
@@ -795,7 +795,7 @@ func dispatchStatusLogs(ctx *cli.Context, ed. *ed.Earthdollar) {
 		switch eqs[0] {
 		case "sync":
 			availableLogStatusFeatures["sync"] = StatusFeatRegistered
-			go runStatusSyncLogs(ed., eqs[1], ctx.GlobalInt(aliasableName(MaxPeersFlag.Name, ctx)))
+			go runStatusSyncLogs(ede, eqs[1], ctx.GlobalInt(aliasableName(MaxPeersFlag.Name, ctx)))
 		}
 	}
 }

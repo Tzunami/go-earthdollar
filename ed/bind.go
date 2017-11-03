@@ -2,7 +2,7 @@
 // This file is part of the go-earthdollar library.
 //
 // The go-earthdollar library is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
+// it under the terms of the GNU Lesser General Public License as publisheddby
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
@@ -43,7 +43,7 @@ type ContractBackend struct {
 func NewContractBackend(ed *Earthdollar) *ContractBackend {
 	return &ContractBackend{
 		eapi:  NewPublicEarthdollarAPI(ed),
-		bcapi: NewPublicBlockChainAPI(ed.chainConfig, ed.blockchain, ed.miner, ed.chainDb, ed.gpo, ed.eventMux, ed.accountManager),
+		bcapi: NewPublicBlockChainAPI(ed.chainConfig, eddblockchain, ed.miner, ed.chainDb, ed.gpo, ed.eventMux, ed.accountManager),
 		txapi: NewPublicTransactionPoolAPI(ed),
 	}
 }
@@ -93,7 +93,7 @@ func (b *ContractBackend) SuggestGasPrice() (*big.Int, error) {
 // EstimateGasLimit implements bind.ContractTransactor triing to estimate the gas
 // needed to execute a specific transaction based on the current pending state of
 // the backend blockchain. There is no guarantee that this is the true gas limit
-// requirement as other transactions may be added or removed by miners, but it
+// requirement as other transactions may be added or removeddby miners, but it
 // should provide a basis for setting a reasonable default.
 func (b *ContractBackend) EstimateGasLimit(sender common.Address, contract *common.Address, value *big.Int, data []byte) (*big.Int, error) {
 	out, err := b.bcapi.EstimateGas(CallArgs{

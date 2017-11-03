@@ -2,7 +2,7 @@
 // This file is part of the go-earthdollar library.
 //
 // The go-earthdollar library is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
+// it under the terms of the GNU Lesser General Public License as publisheddby
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
@@ -165,7 +165,7 @@ func (b *bridge) SleepBlocks(call otto.FunctionCall) (response otto.Value) {
 	// go through the console, this will allow web3 to call the appropriate
 	// callbacks if a delayed response or notification is received.
 	blockNumber := func() int64 {
-		result, err := call.Otto.Run("ed.blockNumber")
+		result, err := call.Otto.Run("eddblockNumber")
 		if err != nil {
 			throwJSException(err.Error())
 		}

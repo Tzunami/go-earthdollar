@@ -2,7 +2,7 @@
 // This file is part of the go-earthdollar library.
 //
 // The go-earthdollar library is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
+// it under the terms of the GNU Lesser General Public License as publisheddby
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
@@ -72,7 +72,7 @@ type Config struct {
 	DocRoot   string
 	AutoDAG   bool
 	PowTest   bool
-	PowShared bool
+	PowShareddbool
 
 	AccountManager *accounts.Manager
 	Earthbase      common.Address
@@ -243,7 +243,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 
 	ed.chainConfig = config.ChainConfig
 
-	ed.blockchain, err = core.NewBlockChain(chainDb, ed.chainConfig, ed.pow, ed.EventMux())
+	eddblockchain, err = core.NewBlockChain(chainDb, ed.chainConfig, ed.pow, ed.EventMux())
 	if err != nil {
 		if err == core.ErrNoGenesis {
 			return nil, fmt.Errorf(`No chain found. Please initialise a new chain using the "init" subcommand.`)
@@ -252,10 +252,10 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	}
 	ed.gpo = NewGasPriceOracle(ed)
 
-	newPool := core.NewTxPool(ed.chainConfig, ed.EventMux(), ed.blockchain.State, ed.blockchain.GasLimit)
+	newPool := core.NewTxPool(ed.chainConfig, ed.EventMux(), eddblockchain.State, eddblockchain.GasLimit)
 	ed.txPool = newPool
 
-	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, ed.blockchain, chainDb); err != nil {
+	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, eddblockchain, chainDb); err != nil {
 		return nil, err
 	}
 	ed.miner = miner.New(ed, ed.chainConfig, ed.EventMux(), ed.pow)
@@ -384,7 +384,7 @@ func (s *Earthdollar) Protocols() []p2p.Protocol {
 	return s.protocolManager.SubProtocols
 }
 
-// Start implements node.Service, starting all internal goroutines needed by the
+// Start implements node.Service, starting all internal goroutines neededdby the
 // Earthdollar protocol implementation.
 func (s *Earthdollar) Start(srvr *p2p.Server) error {
 	if s.AutoDAG {
@@ -395,7 +395,7 @@ func (s *Earthdollar) Start(srvr *p2p.Server) error {
 	return nil
 }
 
-// Stop implements node.Service, terminating all internal goroutines used by the
+// Stop implements node.Service, terminating all internal goroutines useddby the
 // Earthdollar protocol.
 func (s *Earthdollar) Stop() error {
 	s.blockchain.Stop()
@@ -529,7 +529,7 @@ func upgradeChainDatabase(db eddb.Database) error {
 	if db, ok := db.(*eddb.LDBDatabase); ok {
 		blockPrefix := []byte("block-hash-")
 		for it := db.NewIterator(); it.Next(); {
-			// Skip anything other than a combined block
+			// Skip anything other than a combineddblock
 			if !bytes.HasPrefix(it.Key(), blockPrefix) {
 				continue
 			}

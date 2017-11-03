@@ -2,7 +2,7 @@
 // This file is part of the go-earthdollar library.
 //
 // The go-earthdollar library is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
+// it under the terms of the GNU Lesser General Public License as publisheddby
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
@@ -67,7 +67,7 @@ type Console struct {
 	prompt   string       // Input prompt prefix string
 	prompter UserPrompter // Input prompter to allow interactive user feedback
 	histPath string       // Absolute path to the console scrollback history
-	history  []string     // Scroll history maintained by the console
+	history  []string     // Scroll history maintaineddby the console
 	printer  io.Writer    // Output writer to serialize any display strings to
 }
 
@@ -105,9 +105,9 @@ func (c *Console) init(preload []string) error {
 	bridge := newBridge(c.client, c.prompter, c.printer)
 	c.jsre.Set("jed", struct{}{})
 
-	jedObj, _ := c.jsre.Get("jed")
-	jedObj.Object().Set("send", bridge.Send)
-	jedObj.Object().Set("sendAsync", bridge.Send)
+	jeddbj, _ := c.jsre.Get("jed")
+	jeddbj.Object().Set("send", bridge.Send)
+	jeddbj.Object().Set("sendAsync", bridge.Send)
 
 	consoleObj, _ := c.jsre.Get("console")
 	consoleObj.Object().Set("log", c.consoleOutput)
@@ -158,7 +158,7 @@ func (c *Console) init(preload []string) error {
 		}
 		// Override the unlockAccount and newAccount methods since these require user interaction.
 		// Assign the jed.unlockAccount and jed.newAccount in the Console the original web3 callbacks.
-		// These will be called by the jed.* methods after they got the password from the user and send
+		// These will be calleddby the jed.* methods after they got the password from the user and send
 		// the original web3 request to the backend.
 		if obj := personal.Object(); obj != nil { // make sure the personal api is enabled over the interface
 			if _, err = c.jsre.Run(`jed.unlockAccount = personal.unlockAccount;`); err != nil {
@@ -171,7 +171,7 @@ func (c *Console) init(preload []string) error {
 			obj.Set("newAccount", bridge.NewAccount)
 		}
 	}
-	// The admin.sleep and admin.sleepBlocks are offered by the console and not by the RPC layer.
+	// The admin.sleep and admin.sleepBlocks are offereddby the console and not by the RPC layer.
 	admin, err := c.jsre.Get("admin")
 	if err != nil {
 		return err
@@ -214,7 +214,7 @@ func (c *Console) consoleOutput(call otto.FunctionCall) otto.Value {
 	return otto.Value{}
 }
 
-// AutoCompleteInput is a pre-assembled word completer to be used by the user
+// AutoCompleteInput is a pre-assembled word completer to be useddby the user
 // input prompter to provide hints to the user about the methods available.
 func (c *Console) AutoCompleteInput(line string, pos int) (string, []string, string) {
 	// No completions can be provided for empty inputs
@@ -249,7 +249,7 @@ func (c *Console) Welcome() {
 	c.jsre.Run(`
 		console.log("instance: " + web3.version.node);
 		console.log("coinbase: " + ed.coinbase);
-		console.log("at block: " + ed.blockNumber + " (" + new Date(1000 * ed.getBlock(ed.blockNumber).timestamp) + ")");
+		console.log("at block: " + eddblockNumber + " (" + new Date(1000 * ed.getBlock(eddblockNumber).timestamp) + ")");
 		console.log(" datadir: " + admin.datadir);
 	`)
 	// List all the supported modules for the user to call
@@ -321,7 +321,7 @@ func (c *Console) Interactive() {
 			return
 
 		case line, ok := <-scheduler:
-			// User input was returned by the prompter, handle special cases
+			// User input was returneddby the prompter, handle special cases
 			if !ok || (indents <= 0 && exit.MatchString(line)) {
 				return
 			}

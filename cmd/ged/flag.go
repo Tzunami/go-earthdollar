@@ -2,7 +2,7 @@
 // This file is part of go-earthdollar.
 //
 // go-earthdollar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU General Public License as publisheddby
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
@@ -103,7 +103,7 @@ var (
 		"testnet": true,
 	}
 
-	devModeDataDirPath = filepath.Join(os.TempDir(), "/ed.reum_dev_mode")
+	devModeDataDirPath = filepath.Join(os.TempDir(), "/earthdollar_dev_mode")
 
 	cacheChainIdentity string
 	cacheChainConfig *core.SufficientChainConfig
@@ -183,7 +183,7 @@ func mustMakeChainIdentity(ctx *cli.Context) (identity string) {
 				if e := copyChainConfigFileToChainDataDir(ctx, c.Identity, filepath.Clean(chainFlagVal)); e != nil {
 					glog.Fatalf("Could not copy chain configuration: %v", e)
 				}
-				// In edge case of using a config file for default configuration (decided by 'identity'),
+				// In edge case of using a config file for default configuration (decideddby 'identity'),
 				// set global context and override config file.
 				if chainIdentitiesMorden[c.Identity] || chainIdentitiesMain[c.Identity] {
 					if e := ctx.Set(aliasableName(ChainIdentityFlag.Name, ctx), c.Identity); e != nil {
@@ -320,7 +320,7 @@ func MakeNAT(ctx *cli.Context) nat.Interface {
 	return natif
 }
 
-// MakeRPCModules splits input separated by a comma and trims excessive white
+// MakeRPCModules splits input separateddby a comma and trims excessive white
 // space from the substrings.
 func MakeRPCModules(input string) []string {
 	result := strings.Split(input, ",")
@@ -408,27 +408,27 @@ func MakeAddress(accman *accounts.Manager, account string) (accounts.Account, er
 	return accman.AccountByIndex(index)
 }
 
-// MakeEtherbase retrieves the ed.rbase either from the directly specified
+// MakeEarthbase retrieves the earthbase either from the directly specified
 // command line flags or from the keystore if CLI indexed.
-func MakeEtherbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
+func MakeEarthbase(accman *accounts.Manager, ctx *cli.Context) common.Address {
 	accounts := accman.Accounts()
-	if !ctx.GlobalIsSet(aliasableName(EtherbaseFlag.Name, ctx)) && len(accounts) == 0 {
-		glog.V(logger.Warn).Infoln("WARNING: No ed.rbase set and no accounts found as default")
+	if !ctx.GlobalIsSet(aliasableName(EarthbaseFlag.Name, ctx)) && len(accounts) == 0 {
+		glog.V(logger.Warn).Infoln("WARNING: No earthbase set and no accounts found as default")
 		return common.Address{}
 	}
-	ed.rbase := ctx.GlobalString(aliasableName(EtherbaseFlag.Name, ctx))
-	if ed.rbase == "" {
+	earthbase := ctx.GlobalString(aliasableName(EarthbaseFlag.Name, ctx))
+	if earthbase == "" {
 		return common.Address{}
 	}
-	// If the specified ed.rbase is a valid address, return it
-	account, err := MakeAddress(accman, ed.rbase)
+	// If the specified earthbase is a valid address, return it
+	account, err := MakeAddress(accman, earthbase)
 	if err != nil {
-		log.Fatalf("Option %q: %v", aliasableName(EtherbaseFlag.Name, ctx), err)
+		log.Fatalf("Option %q: %v", aliasableName(EarthbaseFlag.Name, ctx), err)
 	}
 	return account.Address
 }
 
-// MakePasswordList reads password lines from the file specified by --password.
+// MakePasswordList reads password lines from the file specifieddby --password.
 func MakePasswordList(ctx *cli.Context) []string {
 	path := ctx.GlobalString(aliasableName(PasswordFileFlag.Name, ctx))
 	if path == "" {
@@ -446,7 +446,7 @@ func MakePasswordList(ctx *cli.Context) []string {
 	return lines
 }
 
-// makeName makes the node name, which can be (in part) customized by the NodeNameFlag
+// makeName makes the node name, which can be (in part) customizeddby the NodeNameFlag
 func makeNodeName(version string, ctx *cli.Context) string {
 	name := fmt.Sprintf("Ged.%s/%s/%s", version, runtime.GOOS, runtime.Version())
 	if identity := ctx.GlobalString(aliasableName(NodeNameFlag.Name, ctx)); len(identity) > 0 {
@@ -541,7 +541,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 			glog.Fatalf("%v: failed to migrate existing Classic database: %v", ErrDirectoryStructure, migrationError)
 		}
 
-		// Move existing mainnet data to pertinent chain-named subdir scheme (ie ed.reum-classic/mainnet).
+		// Move existing mainnet data to pertinent chain-named subdir scheme (ie earthdollar/mainnet).
 		// This should only happen if the given (newly defined in this protocol) subdir doesn't exist,
 		// and the dirs&files (nodekey, dapp, keystore, chaindata, nodes) do exist,
 		if subdirMigrateErr := migrateToChainSubdirIfNecessary(ctx); subdirMigrateErr != nil {
@@ -588,7 +588,7 @@ func MakeSystemNode(version string, ctx *cli.Context) *node.Node {
 	}
 
 	if ctx.GlobalBool(Unused1.Name) {
-		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged.started with --%s flag, which is unused by Ged.Classic and can be omitted", Unused1.Name))
+		glog.V(logger.Info).Infoln(fmt.Sprintf("Ged.started with --%s flag, which is unuseddby Ged.Classic and can be omitted", Unused1.Name))
 	}
 
 	return stack
@@ -672,7 +672,7 @@ func mustMakeEdConf(ctx *cli.Context, sconf *core.SufficientChainConfig) *ed.Con
 		DatabaseHandles:         MakeDatabaseHandles(),
 		NetworkId:               sconf.Network,
 		AccountManager:          accman,
-		Etherbase:               MakeEtherbase(accman, ctx),
+		Earthbase:               MakeEarthbase(accman, ctx),
 		MinerThreads:            ctx.GlobalInt(aliasableName(MinerThreadsFlag.Name, ctx)),
 		NatSpec:                 ctx.GlobalBool(aliasableName(NatspecEnabledFlag.Name, ctx)),
 		DocRoot:                 ctx.GlobalString(aliasableName(DocRootFlag.Name, ctx)),
@@ -698,7 +698,7 @@ func mustMakeEdConf(ctx *cli.Context, sconf *core.SufficientChainConfig) *ed.Con
 	}
 
 	switch sconf.Consensus {
-	case "ed.sh-test":
+	case "edhash-test":
 		edConf.PowTest = true
 	}
 
@@ -728,7 +728,7 @@ func mustMakeSufficientChainConfig(ctx *cli.Context) *core.SufficientChainConfig
 	defer func() {
 		// Allow flags to override external config file.
 		if ctx.GlobalBool(aliasableName(DevModeFlag.Name, ctx)) {
-			config.Consensus = "ed.sh-test"
+			config.Consensus = "edhash-test"
 		}
 		if ctx.GlobalIsSet(aliasableName(BootnodesFlag.Name, ctx)) {
 			config.ParsedBootstrap = MakeBootstrapNodesFromContext(ctx)
@@ -753,7 +753,7 @@ func mustMakeSufficientChainConfig(ctx *cli.Context) *core.SufficientChainConfig
 		config.Identity = chainIdentity
 		config.Name = mustMakeChainConfigNameDefaulty(ctx)
 		config.Network = ed.NetworkId // 1, default mainnet
-		config.Consensus = "ed.sh"
+		config.Consensus = "edhash"
 		config.Genesis = core.DefaultConfigMainnet.Genesis
 		config.ChainConfig = MustMakeChainConfigFromDefaults(ctx).SortForks()
 		config.ParsedBootstrap = MakeBootstrapNodesFromContext(ctx)
@@ -846,14 +846,14 @@ func MustMakeChainConfigFromDefaults(ctx *cli.Context) *core.ChainConfig {
 }
 
 // MakeChainDatabase open an LevelDB using the flags passed to the client and will hard crash if it fails.
-func MakeChainDatabase(ctx *cli.Context) ed.b.Database {
+func MakeChainDatabase(ctx *cli.Context) eddb.Database {
 	var (
 		datadir = MustMakeChainDataDir(ctx)
 		cache   = ctx.GlobalInt(aliasableName(CacheFlag.Name, ctx))
 		handles = MakeDatabaseHandles()
 	)
 
-	chainDb, err := ed.b.NewLDBDatabase(filepath.Join(datadir, "chaindata"), cache, handles)
+	chainDb, err := eddb.NewLDBDatabase(filepath.Join(datadir, "chaindata"), cache, handles)
 	if err != nil {
 		glog.Fatal("Could not open database: ", err)
 	}
@@ -861,14 +861,14 @@ func MakeChainDatabase(ctx *cli.Context) ed.b.Database {
 }
 
 // MakeChain creates a chain manager from set command line flags.
-func MakeChain(ctx *cli.Context) (chain *core.BlockChain, chainDb ed.b.Database) {
+func MakeChain(ctx *cli.Context) (chain *core.BlockChain, chainDb eddb.Database) {
 	var err error
 	sconf := mustMakeSufficientChainConfig(ctx)
 	chainDb = MakeChainDatabase(ctx)
 
 	pow := pow.PoW(core.FakePow{})
 	if !ctx.GlobalBool(aliasableName(FakePoWFlag.Name, ctx)) {
-		pow = ed.sh.New()
+		pow = edhash.New()
 	} else {
 		glog.V(logger.Info).Info("Consensus: fake")
 	}

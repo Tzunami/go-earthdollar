@@ -113,8 +113,8 @@ var (
 		Name:  "auto-dag,autodag",
 		Usage: "Enable automatic DAG pregeneration",
 	}
-	EtherbaseFlag = cli.StringFlag{
-		Name:  "etherbase",
+	EarthbaseFlag = cli.StringFlag{
+		Name:  "earthbase",
 		Usage: "Public address for block mining rewards (default = first account created)",
 		Value: "0",
 	}

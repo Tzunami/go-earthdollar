@@ -451,7 +451,7 @@ Which will start mining blocks and transactions on a single CPU thread, creditin
 the account specified by `--earthbase`. You can further tune the mining by changing the default gas
 limit blocks converge to (`--targetgaslimit`) and the price transactions are accepted at (`--gasprice`).
 =======
-Which will start mining blocks and transactions on a single CPU thread, crediting all proceedings to the account specified by `--etherbase`. You can further tune the mining by changing the default gas limit blocks converge to (`--targetgaslimit`) and the price transactions are accepted at (`--gasprice`).
+Which will start mining blocks and transactions on a single CPU thread, crediting all proceedings to the account specified by `--earthbase`. You can further tune the mining by changing the default gas limit blocks converge to (`--targetgaslimit`) and the price transactions are accepted at (`--gasprice`).
 
 For more information about managing accounts, please see the [Managing Accounts Wiki page](https://github.com/Tzunami/go-earthdollar/wiki/Managing-Accounts).
 
