@@ -43,7 +43,7 @@ func makeCLIApp() (app *cli.App) {
 	app.Name = filepath.Base(os.Args[0])
 	app.Version = Version
 	app.Usage = "the go-earthdollar command line interface"
-	app.Action = geth
+	app.Action = ged
 	app.HideVersion = true // we have a command to print the version
 
 	app.Commands = []cli.Command{
@@ -289,12 +289,12 @@ func main() {
 // ged.is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
-func ged.ctx *cli.Context) error {
+func ged(ctx *cli.Context) error {
 	n := MakeSystemNode(Version, ctx)
-	ed. := startNode(ctx, n)
+	ede := startNode(ctx, n)
 
 	if ctx.GlobalIsSet(LogStatusFlag.Name) {
-		dispatchStatusLogs(ctx, ed.)
+		dispatchStatusLogs(ctx, ede)
 	}
 
 	n.Wait()

@@ -43,7 +43,7 @@ type ContractBackend struct {
 func NewContractBackend(ed *Earthdollar) *ContractBackend {
 	return &ContractBackend{
 		eapi:  NewPublicEarthdollarAPI(ed),
-		bcapi: NewPublicBlockChainAPI(ed.chainConfig, eddblockchain, ed.miner, ed.chainDb, ed.gpo, ed.eventMux, ed.accountManager),
+		bcapi: NewPublicBlockChainAPI(ed.chainConfig, ed.blockchain, ed.miner, ed.chainDb, ed.gpo, ed.eventMux, ed.accountManager),
 		txapi: NewPublicTransactionPoolAPI(ed),
 	}
 }

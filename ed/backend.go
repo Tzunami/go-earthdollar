@@ -72,7 +72,7 @@ type Config struct {
 	DocRoot   string
 	AutoDAG   bool
 	PowTest   bool
-	PowShareddbool
+	PowShared bool
 
 	AccountManager *accounts.Manager
 	Earthbase      common.Address
@@ -243,7 +243,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 
 	ed.chainConfig = config.ChainConfig
 
-	eddblockchain, err = core.NewBlockChain(chainDb, ed.chainConfig, ed.pow, ed.EventMux())
+	ed.blockchain, err = core.NewBlockChain(chainDb, ed.chainConfig, ed.pow, ed.EventMux())
 	if err != nil {
 		if err == core.ErrNoGenesis {
 			return nil, fmt.Errorf(`No chain found. Please initialise a new chain using the "init" subcommand.`)
@@ -252,10 +252,10 @@ func New(ctx *node.ServiceContext, config *Config) (*Earthdollar, error) {
 	}
 	ed.gpo = NewGasPriceOracle(ed)
 
-	newPool := core.NewTxPool(ed.chainConfig, ed.EventMux(), eddblockchain.State, eddblockchain.GasLimit)
+	newPool := core.NewTxPool(ed.chainConfig, ed.EventMux(), ed.blockchain.State, ed.blockchain.GasLimit)
 	ed.txPool = newPool
 
-	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, eddblockchain, chainDb); err != nil {
+	if ed.protocolManager, err = NewProtocolManager(ed.chainConfig, config.FastSync, config.NetworkId, ed.eventMux, ed.txPool, ed.pow, ed.blockchain, chainDb); err != nil {
 		return nil, err
 	}
 	ed.miner = miner.New(ed, ed.chainConfig, ed.EventMux(), ed.pow)
