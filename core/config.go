@@ -442,7 +442,7 @@ func parseExternalChainConfig(f io.Reader) (*SufficientChainConfig, error) {
 	config.ParsedBootstrap = ParseBootstrapNodeStrings(config.Bootstrap)
 
 	if invalid, ok := config.IsValid(); !ok {
-		return nil, fmt.Errorf("Invalid chain configuration file. Please check the existence and integrity of keys and values for: %v", invalid)
+		return nil, fmt.Errorf("Invalid chain configuration file. Please check the existence and integrity of keys and values for: %v\nConfig:%v", invalid, config)
 	}
 
 	config.ChainConfig = config.ChainConfig.SortForks()
