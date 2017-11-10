@@ -44,9 +44,9 @@ Each parameter should be passed as JSON representation:
 - complex objects could be passed as JSON string.
 
 Examples:
-$ geth api eth getBlockByNumber 123 true
-$ geth eth getBlockByNumber '"latest"' true
-$ geth --chain morden api eth sendTransaction '{"from": "0x396599f365093186742c17aab158bf515e978bc7", "gas": "0x5208", "gasPrice": "0x02540be400", "to": "0xa02cee0fc1d3fb4dde86b79fe93e4140671fd949"}'
+$ ged api ed getBlockByNumber 123 true
+$ ged ed getBlockByNumber '"latest"' true
+$ ged --chain morden api ed sendTransaction '{"from": "0x396599f365093186742c17aab158bf515e978bc7", "gas": "0x5208", "gasPrice": "0x02540be400", "to": "0xa02cee0fc1d3fb4dde86b79fe93e4140671fd949"}'
 
 Output will be in JSON format.
 `,

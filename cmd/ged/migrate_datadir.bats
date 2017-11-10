@@ -68,7 +68,7 @@ setup() {
 		mv "$TMP_DIR/ged-$TEST_OS_HF-amd64-1.5.0-c3c58eb6/ged" "$CMD_DIR/gedf1.5"
 
 		# Install 3.3 of Earthdollar Ged
-		curl -L -o "$TMP_DIR/gedc3.3.zip" https://github.com/Tzunami/go-earthdollar/releases/download/v3.3.0/ged-classic-"$TEST_OS_C"-v3.3.0-1-gdd95f05.zip
+		curl -L -o "$TMP_DIR/gedc3.3.zip" https://github.com/Tzunami/go-earthdollar/releases/download/v3.3.0/ged-"$TEST_OS_C"-v3.3.0-1-gdd95f05.zip
 		unzip "$TMP_DIR/gedc3.3.zip" -d "$TMP_DIR"
 		mv "$TMP_DIR/ged" "$CMD_DIR/gedc3.3"
 

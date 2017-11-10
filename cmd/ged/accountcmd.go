@@ -41,14 +41,14 @@ var (
 			{
 				Action: importWallet,
 				Name:   "import",
-				Usage:  "import ethereum presale wallet",
+				Usage:  "importearthdollar presale wallet",
 			},
 		},
 		Description: `
 
     get wallet import /path/to/my/presale.wallet
 
-will prompt for your password and imports your ether presale account.
+will prompt for your password and imports your ed presale account.
 It can be used non-interactively with the --password option taking a
 passwordfile as argument containing the wallet password in plaintext.
 
@@ -76,7 +76,7 @@ Note that exporting your key in unencrypted format is NOT supported.
 
 Keys are stored under <DATADIR>/keystore.
 It is safe to transfer the entire directory or the individual keys therein
-between ethereum nodes by simply copying.
+betweenearthdollar nodes by simply copying.
 Make sure you backup your keys regularly.
 
 In order to use your account to send transactions, you need to unlock them using
@@ -100,7 +100,7 @@ And finally. DO NOT FORGET YOUR PASSWORD.
 				Usage:  "Create a new account",
 				Description: `
 
-    geth account new
+    ged account new
 
 Creates a new account. Prints the address.
 
@@ -110,7 +110,7 @@ You must remember this passphrase to unlock your account in the future.
 
 For non-interactive use the passphrase can be specified with the --password flag:
 
-    ethereum --password <passwordfile> account new
+   earthdollar --password <passwordfile> account new
 
 Note, this is meant to be used for testing only, it is a bad idea to save your
 password to file or expose in any other way.
@@ -122,7 +122,7 @@ password to file or expose in any other way.
 				Usage:  "Update an existing account",
 				Description: `
 
-    geth account update <address>
+    ged account update <address>
 
 Update an existing account.
 
@@ -134,7 +134,7 @@ format to the newest format or change the password for an account.
 
 For non-interactive use the passphrase can be specified with the --password flag:
 
-    geth --password <passwordfile> account update <address>
+    ged --password <passwordfile> account update <address>
 
 Since only one password can be given, only format update can be performed,
 changing your password is only possible interactively.
@@ -146,7 +146,7 @@ changing your password is only possible interactively.
 				Usage:  "Import a private key into a new account",
 				Description: `
 
-    geth account import <keyfile>
+    ged account import <keyfile>
 
 Imports an unencrypted private key from <keyfile> and creates a new account.
 Prints the address.
@@ -159,10 +159,10 @@ You must remember this passphrase to unlock your account in the future.
 
 For non-interactive use the passphrase can be specified with the -password flag:
 
-    geth --password <passwordfile> account import <keyfile>
+    ged --password <passwordfile> account import <keyfile>
 
 Note:
-As you can directly copy your encrypted accounts to another ethereum instance,
+As you can directly copy your encrypted accounts to anotherearthdollar instance,
 this import mechanism is not needed when you transfer an account between
 nodes.
 					`,
@@ -173,7 +173,7 @@ nodes.
 				Usage:  "Build persistent account index",
 				Description: `
 
-    geth --index-accounts account index
+    ged --index-accounts account index
 
 Create keystore directory index cache database (keystore/accounts.db). Relevant for use with large amounts of key files (>10,000).
 
@@ -192,7 +192,7 @@ It indexes all key files from keystore/* (non-recursively).
 func accountIndex(ctx *cli.Context) error {
 	n := aliasableName(AccountsIndexFlag.Name, ctx)
 	if !ctx.GlobalBool(n) {
-		log.Fatalf("Use: $ geth --%v account index\n (missing '%v' flag)", n, n)
+		log.Fatalf("Use: $ ged --%v account index\n (missing '%v' flag)", n, n)
 	}
 	am := MakeAccountManager(ctx)
 	errs := am.BuildIndexDB()

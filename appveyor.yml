@@ -24,7 +24,7 @@ install:
 build_script:
   - go test ./...
   - go build -ldflags "-X main.Version=%VERSION%" ./cmd/ged
-  - 7z a ged-classic-win64-%VERSION%.zip ged.exe
+  - 7z a ged-win64-%VERSION%.zip ged.exe
 artifacts:
   - path: '*.zip'
 <<<<<<< HEAD

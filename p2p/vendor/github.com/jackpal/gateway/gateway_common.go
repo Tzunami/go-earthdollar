@@ -61,7 +61,7 @@ func parseLinuxRoute(output []byte) (net.IP, error) {
 	// Linux route out format is always like this:
 	// Kernel IP routing table
 	// Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-	// 0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 eth0
+	// 0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 ed0
 	lines := strings.Split(string(output), "\n")
 	for _, line := range lines {
 		fields := strings.Fields(line)

@@ -163,7 +163,7 @@ func parseRequest(incomingMsg json.RawMessage) ([]rpcRequest, bool, RPCError) {
 				return nil, false, &invalidRequestError{"Unable to parse subscription request"}
 			}
 
-			// all subscriptions are made on the eth service
+			// all subscriptions are made on the ed service
 			reqs[0].service, reqs[0].method = "eth", subscribeMethod[0]
 			reqs[0].params = in.Payload
 			return reqs, false, nil
@@ -216,7 +216,7 @@ func parseBatchRequest(incomingMsg json.RawMessage) ([]rpcRequest, bool, RPCErro
 					return nil, false, &invalidRequestError{"Unable to parse subscription request"}
 				}
 
-				// all subscriptions are made on the eth service
+				// all subscriptions are made on the ed service
 				requests[i].service, requests[i].method = "eth", subscribeMethod[0]
 				requests[i].params = r.Payload
 				continue

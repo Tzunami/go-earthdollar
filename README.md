@@ -28,7 +28,7 @@ The simplest way to get started running a node is to visit our [Releases page](h
 
 CLI one-liner for Darwin:
 ```bash
-$ curl -L -o ~/Downloads/ged-classic-3.5.zip https://github.com/Tzunami/go-earthdollar/releases/download/v3.5.0/ged-classic-osx-v3.5.0.zip; unzip ~/Downloads/ged-classic-3.5.zip -d $HOME/bin/
+$ curl -L -o ~/Downloads/ged-3.5.zip https://github.com/Tzunami/go-earthdollar/releases/download/v3.5.0/ged-osx-v3.5.0.zip; unzip ~/Downloads/ged-3.5.zip -d $HOME/bin/
 
 <<<<<<< HEAD
 Building ged requires both a Go and a C compiler.
