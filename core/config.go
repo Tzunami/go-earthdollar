@@ -169,6 +169,7 @@ func (c *SufficientChainConfig) IsValid() (string, bool) {
 	}
 
 	if c := c.Consensus; c == "" || (c != "edhash" && c != "edhash-test") {
+		fmt.Println("----------- c.Consensus:%v",c)
 		return "consensus", false
 	}
 
