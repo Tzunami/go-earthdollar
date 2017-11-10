@@ -477,7 +477,7 @@ func ReadExternalChainConfigFromFile(incomingPath string) (*SufficientChainConfi
 	return config, nil
 }
 
-// ParseBootstrapNodeStrings is a helper function to parse stringified bs nodes, ie []"enode://e809c4a2fec7daed400e5e28564e23693b23b2cc5a019b612505631bbe7b9ccf709c1796d2a3d29ef2b045f210caf51e3c4f5b6d3587d43ad5d6397526fa6179@174.112.32.157:30303",...
+// ParseBootstrapNodeStrings is a helper function to parse stringified bs nodes, ie []"enode://e809c4a2fec7daed400e5e28564e23693b23b2cc5a019b612505631bbe7b9ccf709c1796d2a3d29ef2b045f210caf51e3c4f5b6d3587d43ad5d6397526fa6179@174.112.32.157:20203",...
 // to usable Nodes. It takes a slice of strings and returns a slice of Nodes.
 func ParseBootstrapNodeStrings(nodeStrings []string) []*discover.Node {
 	// Otherwise parse and use the CLI bootstrap nodes
