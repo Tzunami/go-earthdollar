@@ -5,7 +5,7 @@
     "network": 1,
     "consensus": "edhash",
     "genesis": {
-        "nonce": "0x0000000000000042",
+        "nonce": "0x000000000000002a",
         "timestamp": "",
         "parentHash": "",
         "extraData": "",
