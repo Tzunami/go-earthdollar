@@ -10,7 +10,7 @@
         "parentHash": "",
         "extraData": "",
         "gasLimit": "0x1388",
-        "difficulty": "0x0400000000",
+        "difficulty": "0x0040000000",
         "mixhash": "",
         "coinbase": "",
         "alloc": {
